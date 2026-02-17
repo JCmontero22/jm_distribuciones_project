@@ -1,0 +1,143 @@
+html {
+   box-sizing: border-box;
+    font-size: 62.5%;
+    min-height: 100%;
+    position: relative;
+}
+
+*, *:before, *:after{
+    box-sizing: inherit
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-size: 1.6rem;
+    height: 100%;
+    background-color: var(--color-fondo-principal) !important;
+}
+
+:root {
+    /* PALETA DE COLORES (Base: Zinc) 
+        Utilizada para fondos oscuros y elegantes.
+    */
+    --color-fondo-principal: #09090b; /* Zinc 950 - Fondo de pantalla */
+    --color-fondo-tarjeta:   #18181b; /* Zinc 900 - Paneles y tarjetas */
+    --color-borde:           #27272a; /* Zinc 800 - Bordes sutiles */
+    --color-input:           #09090b; /* Zinc 950 - Campos de texto */
+    
+    /* PALETA DE TEXTO 
+    */
+    --texto-principal:       #f4f4f5; /* Zinc 100 - Títulos y contenido */
+    --texto-secundario:      #a1a1aa; /* Zinc 400 - Subtítulos y etiquetas */
+    --texto-tenue:           #71717a; /* Zinc 500 - Detalles menos importantes */
+
+    /* COLOR DE ACENTO (El Dorado/Gold)
+        Clave para la identidad de marca de lujo.
+    */
+    --color-dorado:          #eab308; /* Yellow 500 - Botones y destacados */
+    --color-dorado-brillo:   #facc15; /* Yellow 400 - Hover y brillos */
+    --color-dorado-texto:    #000000; /* Texto sobre botones dorados */
+
+    /* COLORES FUNCIONALES 
+    */
+    --color-exito:           #22c55e; /* Green 500 - Ventas/Stock positivo */
+    --color-error:           #ef4444; /* Red 500 - Eliminar/Stock bajo */
+    --color-info:            #3b82f6; /* Blue 500 - Información */
+
+    /* FUENTES TIPOGRÁFICAS 
+    */
+    /* Usada para el logo "LUXEADMIN" y títulos grandes */
+    --fuente-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    
+    /* Usada para el cuerpo del texto, números y la interfaz general */
+    --fuente-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+
+/***********************************************************
+
+        ************ ESTILOS GENERALES (FRAMEWORK) **********
+
+************************************************************/
+
+img{
+    max-width: 100%;
+}
+
+
+/***********************************************************
+
+        ************ MENÚ **********
+
+************************************************************/
+
+.content-menu{
+    background-color: var(--color-fondo-tarjeta);
+    height: 100vh;
+}
+
+.content-marca__logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo{
+    width: 200px;
+}
+
+.menu-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.ul-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 90%;
+}
+
+.ul-list__item{
+    color: var(--texto-principal);
+    font-size: 2rem;
+    font-family: var(--fuente-sans);
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 10px;
+    border-color: var(--color-dorado-brillo);
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.ul-list__item a{
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+
+.ul-list__item:hover{
+    background-color: var(--color-borde);
+    color: var(--texto-principal);
+}
+
+.active{
+    background-color: var(--color-dorado);
+    color: var(--color-dorado-texto);
+}
+
+.active:hover{
+    background-color: var(--color-dorado-brillo);
+    color: var(--color-dorado-texto);
+}
