@@ -12,4 +12,8 @@
             <li class="ul-list__item" onclick="redirect('historial')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
         </ul>
     </section>
+
+    <section class="copyRith">
+        <p style="font-size: 1.3rem;">© 2026 Distribuciones JM-Devmente. Todos los derechos reservados.</p>
+    </section>
 </div>

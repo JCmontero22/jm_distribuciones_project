@@ -141,3 +141,13 @@ img{
     background-color: var(--color-dorado-brillo);
     color: var(--color-dorado-texto);
 }
+
+.copyRith{
+    position: absolute;
+    bottom: 0;
+    width: 15%;
+    text-align: center;
+    padding: 10px;
+    font-size: 1.4rem;
+    color: var(--texto-secundario);
+}
