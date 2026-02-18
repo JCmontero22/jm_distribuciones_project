@@ -68,7 +68,39 @@ img{
     max-width: 100%;
 }
 
+h1, h2, h3, h4, h5, h6, p, span, a, label{
+    font-family: var(--fuente-sans);
+    color: var(--texto-principal);
+}
 
+h1{
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+h2{
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+h3{
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+h4{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+button{
+    font-family: var(--fuente-sans) !important;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+}
+
+.btn-new-product{
+    background-color: var(--color-dorado);
+}
 /***********************************************************
 
         ************ MENÚ **********
@@ -78,6 +110,7 @@ img{
 .content-menu{
     background-color: var(--color-fondo-tarjeta);
     height: 100vh;
+    border-top-left-radius: 50px;
 }
 
 .content-marca__logo{
@@ -150,4 +183,66 @@ img{
     padding: 10px;
     font-size: 1.4rem;
     color: var(--texto-secundario);
+}
+
+/***********************************************************
+
+        ************ HOME **********
+
+************************************************************/
+.content-panel{
+    padding: 5rem 2rem;
+}
+
+/*************** CARD ***************/
+.card-information{
+    background-color: var(--color-fondo-tarjeta);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+}
+
+.icon{
+    padding: .5rem;
+    border-radius: 20%;
+}
+
+.icon-inversion{
+    color: var(--color-info);
+    background-color: #243252;
+}
+
+.icon-potencial{
+    color: var(--color-dorado);
+    background-color: #2d2719;
+}
+
+.icon-ganancia{
+    color: var(--color-exito);
+    background-color:#182922;
+}
+
+.icon-ventas {
+    color: #a855f7;
+    background-color:#261e31;
+}
+
+/***********************************************************
+
+        ************ INVENTARIO **********
+
+************************************************************/
+
+.card-inventory{
+    width: 90%;
+    height: 15rem;
+    margin: 20px auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: var(--color-fondo-tarjeta);
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 1fr;
 }

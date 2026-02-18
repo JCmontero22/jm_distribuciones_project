@@ -2,7 +2,7 @@
 
     $routes = [
         'home' => 'home.php',
-        'productos' => 'productos.php',
+        'inventario' => 'inventario.php',
         'historial' => 'historial.php',
     ];
 
