@@ -32,52 +32,7 @@
             <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
         </div>
     </div>
-
-    <div class="card-inventory">
-        <div class="card-inventory_img">
-            <img src="./assets/img/producto1.jpg" alt="Producto 1">
-        </div>
-
-        <div class="card-inventory_infoProducto">
-            <span class="card-inventory_category">Relojes</span>
-            <h3 class="card-inventory_name">Curren 1030</h3>
-            <p><span class="card-inventory_cost">$ 60.000</span> <span class="card-inventory_sale">$ 120.000</span></p>
-        </div>
-        
-        <div class="card-inventory_stock"></div>
-
-        <div class="card-inventory_op"></div>
-    </div>
-
-    <div class="card-inventory">
-        <div class="card-inventory_img">
-            <img src="./assets/img/producto1.jpg" alt="Producto 1">
-        </div>
-
-        <div class="card-inventory_infoProducto">
-            <span class="card-inventory_category">Relojes</span>
-            <h3 class="card-inventory_name">Curren 1030</h3>
-            <p><span class="card-inventory_cost">$ 60.000</span> <span class="card-inventory_sale">$ 120.000</span></p>
-        </div>
-        
-        <div class="card-inventory_stock"></div>
-
-        <div class="card-inventory_op"></div>
-    </div>
-
-    <div class="card-inventory">
-        <div class="card-inventory_img">
-            <img src="./assets/img/producto1.jpg" alt="Producto 1">
-        </div>
-
-        <div class="card-inventory_infoProducto">
-            <span class="card-inventory_category">Relojes</span>
-            <h3 class="card-inventory_name">Curren 1030</h3>
-            <p><span class="card-inventory_cost">$ 60.000</span> <span class="card-inventory_sale">$ 120.000</span></p>
-        </div>
-        
-        <div class="card-inventory_stock"></div>
-
-        <div class="card-inventory_op"></div>
-    </div>
 </section>
+
+
+<!--*************** MODAL REGISTRO DE PRODUCTOS ***************-->
