@@ -1,0 +1,229 @@
+[2026-02-26 01:44:17] ERROR: Error en el execute SQL
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/RegistroProductoModel.php(17): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/productoService.php(17): RegistroProductoModel->registoProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/RegistroProductoController.php(31): productoService->registrarProducto(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): RegistroProductoController->registrarProducto(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_distribuciones (nombre_producto, codigo_producto, id_categoria, id_marca, img_producto) VALUES (:nombre, :codigo, :categoria, :marca, :imagen)
+    [params] => Array
+        (
+            [:nombre] => 
+            [:codigo] => 
+            [:categoria] => 
+            [:marca] => 
+            [:imagen] => 
+        )
+
+)
+
+--------------------------------------------------------------------------------
+[2026-02-26 01:44:17] ERROR: Error interno en el Controlador de Registro de Producto
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 39
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/RegistroProductoModel.php(17): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/productoService.php(17): RegistroProductoModel->registoProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/RegistroProductoController.php(31): productoService->registrarProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): RegistroProductoController->registrarProducto(Array)
+#4 {main}
+Context:
+Array
+(
+    [nombreProducto] => Prueba
+    [codigoProducto] => 1030
+    [accion] => registrarProducto
+)
+
+--------------------------------------------------------------------------------
+[2026-02-26 01:51:08] ERROR: Error en el execute SQL
+Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`jm_distribuciones`.`productos_distribuciones`, CONSTRAINT `productos_distribuciones_estado_distribuciones_FK` FOREIGN KEY (`id_estado`) REFERENCES `estado_distribuciones` (`id_estado`))
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/RegistroProductoModel.php(17): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/productoService.php(17): RegistroProductoModel->registoProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/RegistroProductoController.php(31): productoService->registrarProducto(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): RegistroProductoController->registrarProducto(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_distribuciones (nombre_producto, codigo_producto, id_categoria, id_marca, img_producto) VALUES (:nombre, :codigo, :categoria, :marca, :imagen)
+    [params] => Array
+        (
+            [:nombre] => 
+            [:codigo] => 
+            [:categoria] => 
+            [:marca] => 
+            [:imagen] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-02-26 01:51:08] ERROR: Error interno en el Controlador de Registro de Producto
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 39
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/RegistroProductoModel.php(17): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/productoService.php(17): RegistroProductoModel->registoProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/RegistroProductoController.php(31): productoService->registrarProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): RegistroProductoController->registrarProducto(Array)
+#4 {main}
+Context:
+Array
+(
+    [nombreProducto] => Prueba
+    [codigoProducto] => 1030
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+

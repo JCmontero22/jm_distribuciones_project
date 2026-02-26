@@ -101,6 +101,63 @@ button{
 .btn-new-product{
     background-color: var(--color-dorado);
 }
+
+.modal-content{
+    background-color: var(--color-fondo-tarjeta);
+    padding: 1.5rem !important;
+    border-radius: 1rem !important;
+}
+
+input, select{
+    background-color: var(--color-input) !important;
+    color: var(--texto-principal) !important;
+    border: 1px solid var(--color-borde) !important;
+    font-size: 1.6rem !important;
+    border-radius: 10px !important;
+    padding: 1rem !important;
+}
+
+input:focus{
+    outline: none !important;
+    border-color: var(--color-dorado) !important;
+}
+
+select:focus{
+    outline: none !important;
+    border-color: var(--color-dorado) !important;
+}
+
+label{
+    color: var(--texto-secundario) !important; 
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+}
+
+.btnRegistro{
+    background-color: var(--color-dorado);
+    color: var(--color-dorado-texto);
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnRegistro:hover{
+    background-color: var(--color-dorado-brillo);
+    color: var(--color-dorado-texto);
+}
+
+div:where(.swal2-container) div:where(.swal2-popup){
+    
+    font-size: 1.6rem !important;
+}
+
+.swal2-title{
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+}
+
 /***********************************************************
 
         ************ MENÚ **********
@@ -245,4 +302,11 @@ button{
     background-color: var(--color-fondo-tarjeta);
     display: grid;
     grid-template-columns: 2fr 3fr 2fr 1fr;
+}
+
+.modal-cabecera{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
