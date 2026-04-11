@@ -4,6 +4,7 @@
         'home' => 'home.php',
         'inventario' => 'inventario.php',
         'historial' => 'historial.php',
+        'compras' => 'compras.php',
     ];
 
 

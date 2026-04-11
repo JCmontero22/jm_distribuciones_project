@@ -1,6 +1,6 @@
 <?php 
 
-    require_once('../services/CategoriaServices.php');
+    require_once('../services/CategoriaService.php');
     require_once('../core/response.php');
     require_once('../helper/utils.php');
     require_once('../core/Logger.php');
@@ -9,7 +9,7 @@
         
         private $servicio;
 
-        public function __construct(CategoriaServices $servicio) {
+        public function __construct(CategoriaService $servicio) {
             $this->servicio = $servicio;
         }
 

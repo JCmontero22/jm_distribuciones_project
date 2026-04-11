@@ -12,9 +12,9 @@
 </section>
 
 <section class="content-inventory">
-    <div class="card-inventory">
-        <div class="card-inventory_img">
-            <img src="./assets/img/producto1.jpg" alt="Producto 1">
+    <!-- <div class="card-inventory"> -->
+        <!-- <div class="card-inventory_img">
+            <img src="./assets/img/producto1.jpg" alt="Producto 1" id="imgProductos">
         </div>
 
         <div class="card-inventory_infoProducto">
@@ -31,8 +31,8 @@
         <div class="card-inventory_op">
             <button class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
             <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
 </section>
 
 
@@ -47,27 +47,29 @@
                     <h3 class="modal-title" id="staticBackdropLabel">Registrar Producto</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
+
                 <!--*************** REGISTRO PRODUCTO ***************-->
                 <div id="registroProducto">
                     <form action="" id="formRegistroProducto">
                         <!-- Nombre -->
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <div class="mb-4">
                                     <label for="nombreProducto" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ej: Reloj Curren 1030">
                                 </div>
                             </div>
-                        </div>
-                        <!-- Codigo - Categoria -->
-                        <div class="row">
+
                             <div class="col-md-4">
                                 <div class="mb-4">
                                     <label for="codigoProducto" class="form-label">Codigo Producto</label>
                                     <input type="text" class="form-control" id="codigoProducto" name="codigoProducto" placeholder="1030">
                                 </div>
                             </div>
+                        </div>
+                        <!-- Codigo - Categoria -->
+                        <div class="row">
+                            
                             <div class="col-md-4">
                                 <div class="mb-4">
                                     <label for="categoriaProducto" class="form-label">Categoria</label>
@@ -84,35 +86,67 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <!-- imagen -->
-                        <div class="row">
-                            <div class="col-md-12">
+
+                            <div class="col-md-4">
                                 <div class="mb-4">
-                                    <label for="imagenProducto" class="form-label">Imagen</label>
-                                    <input type="file" class="form-control" id="imagenProducto" name="imagenProducto" accept="image/*">
+                                    <label for="generoProducto" class="form-label">Género</label>
+                                    <select class="form-select" id="generoProducto" name="generoProducto">
+                                        <option value="" selected disabled>Seleccionar</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row d-flex justify-content-center mt-5">
-                            <div class="col-md-8">
-                                <button type="submit" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i> Registrar Producto</button>
+                        <!-- descripcion -->
+                        <div class="row">
+                            <div class="col-md-12"></div>
+                            <div class="mb-4">
+                                <label for="descripcionProducto" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcionProducto" name="descripcionProducto" rows="3" placeholder="Descripción del producto..."></textarea>
                             </div>
                         </div>
-                    </form>
-                    
                 </div>
 
-                <!--*************** REGISTRO DETALLE DE PRODUCTO ***************-->
-                <div id="registroDetalleProducto">
-                    <form action="" id="formRegistroDetalleProducto">
+                <!-- imagen -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-4">
+                            <label for="imagenProducto" class="form-label">Imagen</label>
+                            <input type="file" class="form-control" id="imagenProducto" name="imagenProducto" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row d-flex justify-content-center mt-5">
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i> Registrar Producto</button>
+                    </div>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="presentacionProducto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="presentacionProductoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">           
+            <div class="modal-body">
+                 <div class="modal-cabecera">
+                    <h3 class="modal-title" id="staticBackdropLabel">Registrar Presentacion</h3>
+                    <button type="button" style="color: white !important;" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!--*************** REGISTRO PRESENTACION DE PRODUCTO ***************-->
+                <div id="registroPresentacionProducto">
+                    <form action="" id="formRegistroPresentacionProducto">
                         <!-- Nombre -->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-4">
-                                    <label for="nombreProducto" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombreProducto" placeholder="Ej: Reloj Curren 1030">
+                                    <label for="nombrePresentacion" class="form-label">Nombre Presentacion</label>
+                                    <input type="text" class="form-control" id="nombrePresentacion" name="nombrePresentacion" placeholder="Ej: Curren 103 - rojo, 30ml">
                                 </div>
                             </div>
                         </div>
@@ -120,31 +154,17 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-4">
-                                    <label for="codigoProducto" class="form-label">Codigo Producto</label>
-                                    <input type="text" class="form-control" id="codigoProducto" placeholder="1030">
+                                    <label for="codigoPresentacion" class="form-label">Codigo Presentacion</label>
+                                    <input type="text" class="form-control" id="codigoPresentacion" name="codigoPresentacion" placeholder="1030">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-4">
-                                    <label for="categoriaProducto" class="form-label">Categoria</label>
-                                    <select class="form-select" id="categoriaProducto">
+                                    <label for="tipoProducto" class="form-label">Tipo Producto</label>
+                                    <select class="form-select" id="tipoProducto" name="tipoProducto">
                                         <option value="" selected disabled>Seleccionar</option>
-                                        <option value="relojes">Relojes</option>
-                                        <option value="celulares">Celulares</option>
-                                        <option value="audifonos">Audifonos</option>
-                                        <option value="laptops">Laptops</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-4">
-                                    <label for="marcaProducto" class="form-label">Marca</label>
-                                    <select class="form-select" id="marcaProducto">
-                                        <option value="" selected disabled>Seleccionar</option>
-                                        <option value="curren">Curren</option>
-                                        <option value="samsung">Samsung</option>
-                                        <option value="apple">Apple</option>
-                                        <option value="lenovo">Lenovo</option>
+                                        <option value="1">REVENTA</option>
+                                        <option value="2">PRODUCCION</option>
                                     </select>
                                 </div>
                             </div>
@@ -153,19 +173,19 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-4">
-                                    <label for="imagenProducto" class="form-label">Imagen</label>
-                                    <input type="file" class="form-control" id="imagenProducto" accept="image/*">
+                                    <label for="imagenPresentacion" class="form-label">Imagen presentacion</label>
+                                    <input type="file" class="form-control" id="imagenPresentacion" name="imagenPresentacion" accept="image/*">
                                 </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="row d-flex justify-content-center mt-5">
-                        <div class="col-md-8">
-                            <button type="button" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i> Registrar Detalle</button>
+
+                        <div class="row d-flex justify-content-center mt-5">
+                            <div class="col-md-8">
+                                <button type="submit" class="btn btn-primary w-100 btnRegistro" > <i class="fa-regular fa-floppy-disk"></i> Registrar Presentacion</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                
             </div>
         </div>
     </div>

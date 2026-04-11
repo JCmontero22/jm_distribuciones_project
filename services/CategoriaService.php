@@ -2,7 +2,7 @@
 
     require_once('../model/CategoriaModel.php');
     
-    class CategoriaServices{
+    class CategoriaService{
         
         private $modelo;
 

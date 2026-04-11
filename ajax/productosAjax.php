@@ -18,6 +18,17 @@
             $resultado = $productoController->registrarProducto($_POST);
             echo  json_encode($resultado);
         break;
+
+        case 'registrarDetalleProducto':
+        # code...
+        break;
+    
+        case 'listadoProductos':
+            $resultado = $productoController->listadoProductos();
+            echo json_encode($resultado);
+            break;
+
+        
         
         default:
         

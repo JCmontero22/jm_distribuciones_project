@@ -2,6 +2,10 @@ function init() {
     if ($("#formRegistroProducto").length) {
         ProductosModule.init();
     }
+
+    if ($("#moduleCompras").length) {
+        comprasModule.init();
+    }
 }
 
 

@@ -227,3 +227,1270 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, c.nombre_categoria, m.nombre_marca, p.img_producto 
+                        FROM productos_distribuciones p
+                        LEFT JOIN categoria_distribuciones c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_distribuciones m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca_distribuciones
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria_distribuciones
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria_distribuciones
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM categoria
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca_modelo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca_modelo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_modelo m ON p.id_marca = m.id_marca
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT * FROM marca_modelo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, g.nombre_genero, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero_producto g ON p.id_genero = g.id_genero
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => SELECT p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, c.nombre_categoria, m.nombre_marca, g.nombre_genero, p.img_principal_producto 
+                        FROM productos p
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero_producto g ON p.id_genero = g.id_genero
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => INSERT INTO presentacion_producto (
+                id_producto, 
+                nombre_presentacion, 
+                codigo_presentacion, 
+                id_tipo_producto, 
+                img_presentacion) 
+            VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :id_tipo_producto, :img_presentacion)
+    [params] => Array
+        (
+            [:id_producto] => 
+            [:nombre_presentacion] => 
+            [:codigo_presentacion] => 
+            [:id_tipo_producto] => 
+            [:img_presentacion] => prod_69c0d0101c8db3.11631778.webp
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => INSERT INTO presentacion_producto (
+                id_producto, 
+                nombre_presentacion, 
+                codigo_presentacion, 
+                id_tipo_producto, 
+                img_presentacion) 
+            VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :id_tipo_producto, :img_presentacion)
+    [params] => Array
+        (
+            [:id_producto] => 
+            [:nombre_presentacion] => Plateado azul Dama
+            [:codigo_presentacion] => 1
+            [:id_tipo_producto] => audifonos
+            [:img_presentacion] => prod_69c0d0fd97f918.88821715.webp
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => INSERT INTO presentacion_producto (
+                id_producto, 
+                nombre_presentacion, 
+                codigo_presentacion, 
+                id_tipo_producto, 
+                img_presentacion) 
+            VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :id_tipo_producto, :img_presentacion)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => Plateado azul Dama
+            [:codigo_presentacion] => 1
+            [:id_tipo_producto] => audifonos
+            [:img_presentacion] => prod_69c0d12743bf36.69347168.webp
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Context:
+Array
+(
+    [sql] => INSERT INTO presentacion_producto (
+                id_producto, 
+                nombre_presentacion, 
+                codigo_presentacion, 
+                id_tipo_producto, 
+                img_presentacion) 
+            VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :id_tipo_producto, :img_presentacion)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => Plateado azul Dama
+            [:codigo_presentacion] => 1
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_69c0d161a29b74.03801076.webp
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+

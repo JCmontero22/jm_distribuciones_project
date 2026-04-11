@@ -25,7 +25,7 @@
                     $data['imagen'] = $nombreImagen;
                 }
 
-                return $this->modelo->registoProducto($data);
+                return $this->modelo->registroProducto($data);
 
             } catch (\Exception $e) {
                 if ($nombreImagen !== null) {
@@ -34,6 +34,10 @@
 
                 throw $e;
             }
+        }
+
+        public function listadoProductos() : array {
+            return $this->modelo->productos();
         }
     }
     

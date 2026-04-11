@@ -6,7 +6,7 @@
     
         public function getCategorias() {
             
-            $query = "SELECT * FROM categoria_distribuciones";
+            $query = "SELECT * FROM categoria_producto";
             return $this->select($query);            
             
         }
