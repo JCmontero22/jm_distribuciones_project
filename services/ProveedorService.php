@@ -9,8 +9,13 @@
             $this->proveedorModel = $proveedorModel;
         }
 
-        public function obtenerProveedores() :array{
-            return $this->proveedorModel->proveedores();
+        public function obtenerProveedoresSelect() :array{
+            return $this->proveedorModel->obtenerProveedoresSelect();
         }
+
+        public function registrarProveedor($data) {
+            return $this->proveedorModel->registrarProveedor($data);
+        }
+        
     }
     

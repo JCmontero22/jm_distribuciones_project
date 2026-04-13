@@ -1,18 +1,81 @@
+var btn      = document.getElementById('btnHamburger');
+    var sidebar  = document.getElementById('sidebarCol');
+    var overlay  = document.getElementById('sidebarOverlay');
+    var isMobile = function () { return window.innerWidth < 768; };
+
 function init() {
-    if ($("#formRegistroProducto").length) {
+    if ($("#moduloInventario").length) {
         ProductosModule.init();
     }
 
     if ($("#moduleCompras").length) {
         comprasModule.init();
     }
+
+    if ($("#moduloProveedores").length) {
+        poveedoresModule.init();
+    }
+
+    menuHamburguer();
+    setActiveMenu();
 }
 
+/* Activar el menu  */
+function setActiveMenu() {
+    var path = (typeof currentPage !== 'undefined') ? currentPage : 'home';
+    document.querySelectorAll('.ul-list__item[onclick]').forEach(function (item) {
+        item.classList.remove('active');
+        var match = item.getAttribute('onclick').match(/redirect\(['"](.+)['"]\)/);
+        if (match && match[1] === path) {
+            item.classList.add('active');
+            var collapse = item.closest('#collapseExample');
+            if (collapse) {
+                collapse.classList.add('show');
+            }
+        }
+    });
+}
 
+/* Redirigir a una vista */
 function redirect(vista) {
     window.location.href = vista;
 }
 
-/***************  ***************/
+/* Menu hamburguesa */
+function menuHamburguer() {
+     btn.addEventListener('click', function () {
+        if (isMobile()) {
+            sidebar.classList.contains('mobile-open') ? closeMobile() : openMobile();
+        } else {
+            toggleDesktop();
+        }
+    });
+
+    overlay.addEventListener('click', closeMobile);
+
+    // Al redimensionar, limpiar estados cruzados
+    window.addEventListener('resize', function () {
+        if (!isMobile()) {
+            closeMobile();
+        }
+    });
+}
+
+/* Abrir menú en móvil */
+ function openMobile() {
+        sidebar.classList.add('mobile-open');
+        overlay.classList.add('active');
+        btn.classList.add('open');
+    }
+
+    function closeMobile() {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+        btn.classList.remove('open');
+    }
+
+    function toggleDesktop() {
+        sidebar.classList.toggle('collapsed');
+    }
 
 init();

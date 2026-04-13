@@ -162,6 +162,161 @@ div:where(.swal2-container) div:where(.swal2-popup){
     font-weight: 700 !important;
 }
 
+.contenedor-page{
+    padding: 5rem 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.dt-column-title{
+    font-weight: 700 !important;
+    color: var(--color-dorado) !important;
+}
+
+td{
+    color: var(--texto-principal) !important;
+}
+
+.dt-info{
+    color: var(--texto-secundario) !important;
+}
+
+.dt-paging-button{
+    background-color: var(--texto-secundario) !important;
+    color: var(--color-dorado-texto) !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 5px 10px !important;
+    margin: 0 2px !important;
+    transition: background-color 0.2s, color 0.2s;
+}
+/***********************************************************
+
+        ************ LAYOUT SIDEBAR **********
+
+************************************************************/
+
+.layout-wrapper {
+    display: flex;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+/* Sidebar */
+.sidebar-col {
+    width: 16.6667%; /* col-md-2 equivalente */
+    min-width: 220px;
+    flex-shrink: 0;
+    transition: width 0.3s ease, min-width 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-col.collapsed {
+    width: 0 !important;
+    min-width: 0 !important;
+    opacity: 0;
+}
+
+/* Área de contenido */
+.content-col {
+    flex: 1;
+    min-width: 0;
+    transition: all 0.3s ease;
+}
+
+/* Botón hamburguesa */
+.btn-hamburger {
+    position: fixed;
+    top: 1.5rem;
+    left:1.5rem;
+    z-index: 1050;
+    background-color: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: background-color 0.2s;
+}
+
+.btn-hamburger:hover {
+    background-color: var(--color-borde);
+}
+
+.btn-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--texto-principal);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animación X cuando está abierto en móvil */
+.btn-hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.btn-hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+.btn-hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Overlay móvil */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1040;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/****** RESPONSIVE ******/
+
+/* Móvil: sidebar oculto por defecto, overlay al abrir */
+@media (max-width: 767px) {
+    .sidebar-col {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 260px !important;
+        min-width: 260px !important;
+        z-index: 1045;
+        transform: translateX(-100%);
+        opacity: 1;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-col.mobile-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-col.collapsed {
+        width: 260px !important;
+        min-width: 260px !important;
+        opacity: 1;
+    }
+
+    .content-col {
+        width: 100%;
+    }
+
+    .copyRith {
+        width: 100%;
+    }
+}
+
 /***********************************************************
 
         ************ MENÚ **********
@@ -170,8 +325,9 @@ div:where(.swal2-container) div:where(.swal2-popup){
 
 .content-menu{
     background-color: var(--color-fondo-tarjeta);
-    height: 100vh;
-    border-top-left-radius: 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .content-marca__logo{
@@ -198,7 +354,7 @@ div:where(.swal2-container) div:where(.swal2-popup){
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 90%;
+    width: 95%;
 }
 
 .ul-list__item{
@@ -237,9 +393,8 @@ div:where(.swal2-container) div:where(.swal2-popup){
 }
 
 .copyRith{
-    position: absolute;
-    bottom: 0;
-    width: 15%;
+    margin-top: auto;
+    width: 100%;
     text-align: center;
     padding: 10px;
     font-size: 1.4rem;
@@ -252,7 +407,7 @@ div:where(.swal2-container) div:where(.swal2-popup){
 
 ************************************************************/
 .content-panel{
-    padding: 5rem 2rem;
+    padding: 8rem 2rem;
 }
 
 /*************** CARD ***************/
@@ -346,3 +501,4 @@ div:where(.swal2-container) div:where(.swal2-popup){
 .content-list-compras{
     margin-top: 5rem;
 }
+

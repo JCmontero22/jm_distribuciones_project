@@ -35,15 +35,30 @@
 <div class="modal fade" id="modalRegistroCompra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistroCompraLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modalRegistroCompraLabel">Registrar Nueva Compra</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
+                <div class="modal-cabecera">
+                    <h3 class="modal-title" id="modalRegistroCompraLabel">Registrar Nueva Compra</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form action="" id="registroDeCompra">
                     <div class="row">
-                        <div class="col-md-12">
-                            <select class="form-select" name="producto" id="selectProducto"></select>
+
+                        <div class="col-md-4">
+                            <select class="form-select" name="proveedor" id="selectProveedor"></select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="text" name="totalCompra" id="totalCompra" class="form-control" placeholder="Total Compra" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="text" name="numeroFactura" id="numeroFactura" class="form-control" placeholder="Número de Factura">
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center mt-5">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i>Siguiente</button>
                         </div>
                     </div>
                 </form>
@@ -51,3 +66,10 @@
         </div>
     </div>
 </div>
+
+
+<!-- 
+<div class="col-md-4">
+                            <select class="form-select" name="producto" id="selectProducto"></select>
+                        </div>
+ -->

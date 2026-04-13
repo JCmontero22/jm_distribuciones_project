@@ -31,11 +31,9 @@ const comprasModule = {
         $.ajax({
             url: "ajax/proveedorAjax.php",
             method: "GET",
-            data: { accion: "listadoProveedores" },
+            data: { accion: "listadoProveedoresSelect" },
             success(response) {
-                console.log(response);
-                
-                
+                const proveedores = JSON.parse(response);
                 let listado = '<option value="">Seleccione proveedor</option>';
                 proveedores.data.forEach(element => {
                     console.log(element.id_proveedor);
