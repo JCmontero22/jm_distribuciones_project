@@ -1,6 +1,7 @@
 <?php
 
     require_once'public/header.php';
+    
 ?>
 
     <!-- Botón hamburguesa -->
@@ -21,7 +22,10 @@
             <?php require_once'public/menu.php'; ?>
         </div>
         <div class="content-col" id="contentCol">
-            <?php require_once'core/router.php'; ?>
+            
+            <?php 
+                require_once'core/router.php'; 
+            ?>
             <script>var currentPage = '<?= htmlspecialchars($page) ?>';</script>
         </div>
     </div>

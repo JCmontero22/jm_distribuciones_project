@@ -2,7 +2,7 @@
 RewriteEngine On
 
 # Definir la base del proyecto (ajusta según tu carpeta)
-RewriteBase /PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project
+RewriteBase /PROYECTOS-JM/jm_distribuciones_project
 
 # Si no se indica nada en la URL, cargar index.php
 DirectoryIndex index.php

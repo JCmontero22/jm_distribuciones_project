@@ -1,0 +1,4 @@
+# Ignore .htaccess file
+.htaccess
+./config/config.php
+./config/configDB.php

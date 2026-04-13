@@ -1,5 +1,7 @@
 <?php
 
+    require_once'config/config.php';
+
     $routes = [
         'home' => 'home.php',
         'relojes' => 'inventory/relojes.php',
@@ -11,7 +13,7 @@
 
 
     $uri = strtok($_SERVER['REQUEST_URI'], '?');
-    $basePath = '/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project'; //Remplazar en producción
+    $basePath = BASE_PATH; 
     $uri = str_replace($basePath, '', $uri);
     $segments = explode('/', trim($uri, '/'));
     $page = $segments[0] ?? 'home';
