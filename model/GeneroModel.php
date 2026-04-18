@@ -1,9 +1,9 @@
 <?php
 
     require_once('../core/conexion.php');
-    require_once('../contracts/ICatalogModel.php');
+    
 
-    class GeneroModel extends conexion implements ICatalogModel {
+    class GeneroModel extends conexion {
     
         public function obtenerTodos() : array {
             $query = "SELECT * FROM genero";

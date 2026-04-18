@@ -12,7 +12,7 @@ const comprasModule = {
 
     listadoProdcutos(){
         $.ajax({
-            url: "ajax/productosAjax.php",
+            url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php",
             method: "GET",
             data: { accion: "listadoProductos" },
             success(response) {
@@ -29,7 +29,7 @@ const comprasModule = {
 
     listadoProveedores(){
         $.ajax({
-            url: "ajax/proveedorAjax.php",
+            url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
             method: "GET",
             data: { accion: "listadoProveedoresSelect" },
             success(response) {

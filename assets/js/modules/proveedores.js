@@ -26,7 +26,7 @@ const poveedoresModule = {
             if (result.isConfirmed) {
                 formData.append("accion", "registrarProveedor");
                 $.ajax({
-                    url: "ajax/proveedorAjax.php",
+                    url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
                     method: "POST",
                     data: formData,
                     processData: false,
@@ -52,7 +52,7 @@ const poveedoresModule = {
 
     cargarProveedores() {
         $.ajax({
-            url: "ajax/proveedorAjax.php",
+            url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
             method: "POST",
             data: { accion: "listadoProductosTable" },
             success(response) {

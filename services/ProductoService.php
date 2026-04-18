@@ -1,7 +1,5 @@
 <?php
 
-    require_once('../contracts/IStorageService.php');
-    require_once('../contracts/IProductoRepositorio.php');
     require_once('../Infrastructure/FileStorageService.php');
     require_once('../model/ProductosModel.php');
 
@@ -9,7 +7,7 @@
         private $modelo;
         private $storage;
 
-        public function __construct(IStorageService $storage, IProductoRepositorio $modelo) {
+        public function __construct(LocalFileStorage $storage, ProductosModel $modelo) {
             $this->modelo = $modelo;
             $this->storage = $storage;
         }

@@ -6,7 +6,7 @@ const RelojesAPI = {
     listarProductos(categoria = "Relojes") {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "ajax/productosAjax.php",
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php",
                 method: "GET",
                 data: { accion: "listadoRelojes", categoria: categoria },
                 success(response) {
@@ -24,7 +24,7 @@ const RelojesAPI = {
         return new Promise((resolve, reject) => {
             formData.append("accion", "registrarProducto");
             $.ajax({
-                url: "ajax/productosAjax.php",
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php",
                 method: "POST",
                 data: formData,
                 processData: false,
@@ -43,7 +43,7 @@ const RelojesAPI = {
     registrarPresentaciones(formData) {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "ajax/productosAjax.php",
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php",
                 method: "POST",
                 data: formData,
                 processData: false,
@@ -62,7 +62,7 @@ const RelojesAPI = {
     obtenerCategorias() {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "ajax/catalogoAjax.php",
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php",
                 method: "GET",
                 data: { accion: "listadoCategorias" },
                 success(response) {
@@ -79,7 +79,7 @@ const RelojesAPI = {
     obtenerMarcas() {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "ajax/catalogoAjax.php",
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php",
                 method: "GET",
                 data: { accion: "listadoMarcas" },
                 success(response) {
@@ -96,7 +96,7 @@ const RelojesAPI = {
     obtenerGeneros() {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "ajax/catalogoAjax.php",
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php",
                 method: "GET",
                 data: { accion: "listadoGeneros" },
                 success(response) {

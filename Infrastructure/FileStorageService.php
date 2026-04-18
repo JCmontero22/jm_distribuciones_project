@@ -1,8 +1,6 @@
 <?php
 
-    require_once('../contracts/IStorageService.php');
-
-    class LocalFileStorage implements IStorageService
+    class LocalFileStorage
     {
     private $directorioBase;
 

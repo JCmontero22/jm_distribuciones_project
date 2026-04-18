@@ -1,6 +1,5 @@
 <?php
 
-    require_once('../contracts/ICatalogModel.php');
     require_once('../model/MarcaModel.php');
     require_once('../model/GeneroModel.php');
     require_once('../model/CategoriaModel.php');
@@ -13,10 +12,10 @@
         private $presentacionModel;
 
         public function __construct(
-            ICatalogModel $marcaModel,
-            ICatalogModel $generoModel,
-            ICatalogModel $categoriaModel,
-            ICatalogModel $presentacionModel
+            MarcaModel $marcaModel,
+            GeneroModel $generoModel,
+            CategoriaModel $categoriaModel,
+            PresentacionProductoModel $presentacionModel
         ) {
             $this->marcaModel = $marcaModel;
             $this->generoModel = $generoModel;

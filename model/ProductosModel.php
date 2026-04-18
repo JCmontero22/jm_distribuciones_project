@@ -1,9 +1,8 @@
 <?php
 
     require_once('../core/conexion.php');
-    require_once('../contracts/IProductoRepositorio.php');
 
-    class ProductosModel extends conexion implements IProductoRepositorio
+    class ProductosModel extends conexion
     {
 
         public function existeProducto(string $codigo) : bool {
