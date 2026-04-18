@@ -4,8 +4,8 @@ var btn      = document.getElementById('btnHamburger');
     var isMobile = function () { return window.innerWidth < 768; };
 
 function init() {
-    if ($("#moduloInventario").length) {
-        ProductosModule.init();
+    if ($("#relojesModule").length) {
+        RelojesModule.init();
     }
 
     if ($("#moduleCompras").length) {

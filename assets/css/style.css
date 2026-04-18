@@ -204,7 +204,7 @@ td{
 
 /* Sidebar */
 .sidebar-col {
-    width: 16.6667%; /* col-md-2 equivalente */
+    width: 18%; /* col-md-2 equivalente */
     min-width: 220px;
     flex-shrink: 0;
     transition: width 0.3s ease, min-width 0.3s ease, opacity 0.3s ease;
@@ -354,7 +354,7 @@ td{
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    width: 95%;
+    width: 100%;
 }
 
 .ul-list__item{

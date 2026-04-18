@@ -1,28 +1,26 @@
-<?php 
+<?php
 
-    require_once('../services/ProductoService.php');
     require_once('../core/response.php');
     require_once('../helper/utils.php');
     require_once('../core/Logger.php');
-    
 
     class ProductoController
     {
         private $servicio;
-        
+
         public function __construct(ProductoService $servicio)
         {
             $this->servicio = $servicio;
         }
 
-        public function registrarProducto($request){
-            
+        public function registrar($request){
+
             try {
 
                 if (!utils::validateRequiredFields(['nombreProducto', 'codigoProducto', 'categoriaProducto', 'marcaProducto'], $request)) {
                     return response::error('Todos los campos son obligatorios');
-                }             
-                
+                }
+
                 $params = [
                     'nombre'    => utils::sanitizeInput($request['nombreProducto']),
                     'codigo'    => utils::sanitizeInput($request['codigoProducto']),
@@ -32,10 +30,10 @@
                     'descripcion' => utils::sanitizeInput($request['descripcionProducto'] ?? null),
                     'imagen'    => ""
                 ];
-                
+
                 $data = $this->servicio->registrarProducto($params, $_FILES);
                 return response::success($data, 'Producto registrado exitosamente');
-            
+
             } catch (\DomainException $e) {
                 return response::error($e->getMessage());
             } catch (\Exception $e) {
@@ -44,14 +42,21 @@
             }
         }
 
-        public function listadoProductos() {
+        public function listar($request) {
             try {
-                $data = $this->servicio->listadoProductos();
+                $categoria = $request['categoria'] ?? null;
+
+                if (!$categoria) {
+                    return response::error('Debe especificar la categoría');
+                }
+
+                $data = $this->servicio->obtenerProductos($categoria);
                 return response::success($data);
+
             } catch (\Exception $e) {
-                Logger::error("Error interno en el Controlador de Listado de Productos", $e);
+                Logger::error("Error interno en el Controlador de Listado de Productos", $e, $request);
                 return response::error('Error al obtener el listado de productos');
             }
         }
     }
-    
+

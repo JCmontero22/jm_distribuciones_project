@@ -1,8 +1,14 @@
-<?php 
-    
-    require_once('../core/conexion.php');
+<?php
 
-    class PresentacionProductoModel extends conexion{
+    require_once('../core/conexion.php');
+    require_once('../contracts/ICatalogModel.php');
+
+    class PresentacionProductoModel extends conexion implements ICatalogModel {
+
+        public function obtenerTodos() : array {
+            $query = "SELECT * FROM productos_presentaciones";
+            return $this->select($query);
+        }
 
         public function registroPresentacionProducto(array $data) {
             

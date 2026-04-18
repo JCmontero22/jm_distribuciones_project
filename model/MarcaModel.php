@@ -1,14 +1,13 @@
-<?php 
+<?php
 
     require_once('../core/conexion.php');
+    require_once('../contracts/ICatalogModel.php');
 
-    class MarcaModel extends conexion{
+    class MarcaModel extends conexion implements ICatalogModel {
     
-        public function getMarcas() {
-            
+        public function obtenerTodos() : array {
             $query = "SELECT * FROM marca_producto";
-            return $this->select($query);            
-            
+            return $this->select($query);
         }
         
     }

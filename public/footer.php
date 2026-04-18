@@ -9,7 +9,7 @@
 <script src="assets/js/core/alert.js"></script>
 
 <!-- modules -->
-<script src="assets/js/modules/inventario.js"></script>
+<script src="assets/js/modules/inventarioRelojes.js"></script>
 <script src="assets/js/modules/compras.js"></script>
 <script src="assets/js/modules/proveedores.js"></script>
 <script src="assets/js/main.js"></script>

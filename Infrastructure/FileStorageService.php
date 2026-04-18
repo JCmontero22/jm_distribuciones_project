@@ -1,9 +1,9 @@
 <?php
 
-    
+    require_once('../contracts/IStorageService.php');
 
-class LocalFileStorage 
-{
+    class LocalFileStorage implements IStorageService
+    {
     private $directorioBase;
 
     // Al construirlo, le decimos dónde va a guardar las cosas por defecto

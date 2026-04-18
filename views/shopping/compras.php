@@ -52,7 +52,43 @@
                         </div>
 
                         <div class="col-md-4">
-                            <input type="text" name="numeroFactura" id="numeroFactura" class="form-control" placeholder="Número de Factura">
+                            <input type="text" name="costoUnitario " id="numeroFactura" class="form-control" placeholder="Número de Factura">
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-center mt-5">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i>Siguiente</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ************************** MODAL DE REGISTRO DEL DETALLE DE COMPRA ********** -->
+<div class="modal fade" id="modalRegistroDetalleCompra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistroDetalleCompraLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-cabecera">
+                    <h3 class="modal-title" id="modalRegistroDetalleCompraLabel">Registrar Detalle de Compra</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" id="registroDeDetalleCompra">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <select class="form-select" name="producto" id="selectProducto"></select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="text" name="cantidad" id="cantidad" class="form-control" placeholder="Cantidad" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="text" name="costoUnitario" id="costoUnitario" class="form-control" placeholder="Costo Unitario" readonly>
                         </div>
                     </div>
 

@@ -9,8 +9,7 @@ class Logger
         self::ensureLogDirectoryExists();
 
         $log = sprintf(
-            PHP_EOL . PHP_EOL . PHP_EOL,
-            "[%s] ERROR: %s%s",
+            "[%s] ERROR: %s%s" . PHP_EOL . PHP_EOL . PHP_EOL,
             date('Y-m-d H:i:s'),
             $message,
             PHP_EOL
@@ -18,9 +17,8 @@ class Logger
 
         if ($exception !== null) {
             $log .= sprintf(
-                PHP_EOL . PHP_EOL,
-                "Mensaje: %s%sFile: %s%sLine: %s%sStack trace:%s%s%s",
-                $exception->getMessage(), // <-- ESTA ES LA PIEZA CLAVE
+                PHP_EOL . PHP_EOL . "Mensaje: %s%sFile: %s%sLine: %s%sStack trace:%s%s%s",
+                $exception->getMessage(),
                 PHP_EOL,
                 $exception->getFile(),
                 PHP_EOL,

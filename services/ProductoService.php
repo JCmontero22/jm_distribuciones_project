@@ -1,31 +1,33 @@
-<?php 
+<?php
 
-    require_once('../model/ProductoModel.php');
+    require_once('../contracts/IStorageService.php');
+    require_once('../contracts/IProductoRepositorio.php');
     require_once('../Infrastructure/FileStorageService.php');
+    require_once('../model/ProductosModel.php');
 
-    class productoService {
+    class ProductoService {
         private $modelo;
         private $storage;
 
-        public function __construct(LocalFileStorage $storage, ProductoModel $modelo) {
+        public function __construct(IStorageService $storage, IProductoRepositorio $modelo) {
             $this->modelo = $modelo;
             $this->storage = $storage;
         }
 
         public function registrarProducto(array $data, array $files) {
+            $nombreImagen = null;
 
             try {
                 if ($this->modelo->existeProducto($data['codigo'])) {
                     throw new DomainException('El producto ya existe');
                 }
 
-                
-                if (isset($files['imagenProducto']) && $files['imagenProducto']['error'] === UPLOAD_ERR_OK) {
-                    $nombreImagen = $this->storage->subirImagen($files['imagenProducto']);
+                if (isset($files['imagen']) && $files['imagen']['error'] === UPLOAD_ERR_OK) {
+                    $nombreImagen = $this->storage->subirImagen($files['imagen']);
                     $data['imagen'] = $nombreImagen;
                 }
 
-                return $this->modelo->registroProducto($data);
+                return $this->modelo->registrarProducto($data);
 
             } catch (\Exception $e) {
                 if ($nombreImagen !== null) {
@@ -36,8 +38,8 @@
             }
         }
 
-        public function listadoProductos() : array {
-            return $this->modelo->productos();
+        public function obtenerProductos(string $categoria) : array {
+            return $this->modelo->obtenerPorCategoria($categoria);
         }
     }
-    
+
