@@ -6,7 +6,7 @@
     class ProductosModel extends conexion implements IProductoRepositorio
     {
 
-        public function existeProducto($codigo){
+        public function existeProducto(string $codigo) : bool {
             $query = "SELECT COUNT(*) AS total  FROM productos WHERE codigo_producto = :codigo";
 
             $params = [':codigo' => $codigo];

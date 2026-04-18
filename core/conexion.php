@@ -1,6 +1,7 @@
-<?php 
+<?php
 
     require_once('../config/configDB.php');
+    require_once('../core/Logger.php');
     
     class conexion {
         protected $db;
