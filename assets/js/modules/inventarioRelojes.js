@@ -120,7 +120,7 @@ const RelojesView = {
         return `
             <div class="card-inventory">
                 <div class="card-inventory_img">
-                    <img src="assets/img/productos/${producto.img_presentacion}" alt="${producto.nombre_producto}" class="product-image">
+                    <img src="/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/assets/img/productos/${producto.img_presentacion}" alt="${producto.nombre_producto}" class="product-image">
                 </div>
                 <div class="card-inventory_infoProducto">
                     <h3 class="card-inventory_name">${producto.nombre_producto}</h3>

@@ -1,4 +1,4 @@
-const poveedoresModule = {
+const proveedoresModule = {
     modalProveedor: null,
     init() {
         this.modalProveedor = new bootstrap.Modal(document.getElementById('modalRegistroProveedor'));
@@ -10,7 +10,7 @@ const poveedoresModule = {
     },
 
     bindEvents() {
-        $("#registroDeProveedor").on("submit", this.registrarProveedor);
+        $("#registroDeProveedor").on("submit", (e) => this.registrarProveedor(e));
     },
 
     registrarProveedor(e) {
@@ -36,8 +36,8 @@ const poveedoresModule = {
 
                         if (res.success) {
                             Alerts.toasSuccess(res.message);
-                            poveedoresModule.cargarProveedores();
-                            poveedoresModule.limpiarFormulario();
+                            proveedoresModule.cargarProveedores();
+                            proveedoresModule.limpiarFormulario();
                         } else {
                             Alerts.error("Error al registrar proveedor", res.message);
                         }
@@ -53,12 +53,12 @@ const poveedoresModule = {
     cargarProveedores() {
         $.ajax({
             url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
-            method: "POST",
-            data: { accion: "listadoProductosTable" },
+            method: "GET",
+            data: { accion: "listadoProveedores" },
             success(response) {
                 const res = JSON.parse(response);
                 if (res.success) {
-                    poveedoresModule.renderizarTablaProveedores(res.data);
+                    proveedoresModule.renderizarTablaProveedores(res.data);
                 } else {
                     alert("Error al cargar los proveedores. Inténtalo de nuevo.");
                 }
@@ -107,7 +107,7 @@ const poveedoresModule = {
 
     limpiarFormulario() {
         $("#registroDeProveedor")[0].reset();
-        poveedoresModule.modalProveedor.hide();
+        proveedoresModule.modalProveedor.hide();
 
     }
 }

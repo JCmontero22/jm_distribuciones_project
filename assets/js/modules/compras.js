@@ -5,16 +5,16 @@ const comprasModule = {
 
     bindEvents(){
         $("#btnModalCompra").on("click", () => {
-            this.listadoProdcutos();
+            this.listadoProductos();
             this.listadoProveedores();
         });
     },
 
-    listadoProdcutos(){
+    listadoProductos(){
         $.ajax({
             url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php",
             method: "GET",
-            data: { accion: "listadoProductos" },
+            data: { accion: "listarProductos", categoria: "Relojes" },
             success(response) {
                 const productos = JSON.parse(response);
                 

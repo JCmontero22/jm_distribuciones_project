@@ -13,7 +13,7 @@ function init() {
     }
 
     if ($("#moduloProveedores").length) {
-        poveedoresModule.init();
+        proveedoresModule.init();
     }
 
     menuHamburguer();
