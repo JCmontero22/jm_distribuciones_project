@@ -1,76 +1,57 @@
-const proveedoresModule = {
-    modalProveedor: null,
-    init() {
-        this.modalProveedor = new bootstrap.Modal(document.getElementById('modalRegistroProveedor'));
-
-        this.bindEvents();
-        this.cargarProveedores();
-        this.limpiarFormulario();
-        
+/**
+ * CAPA API — Solo responsable de comunicarse con el servidor
+ * Los métodos aquí devuelven datos del servidor sin modificar
+ */
+const ProveedoresAPI = {
+    listarProveedores() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
+                method: "GET",
+                data: { accion: "listadoProveedores" },
+                success(response) {
+                    const datos = JSON.parse(response);
+                    resolve(datos.data || []);
+                },
+                error(error) {
+                    reject(error);
+                }
+            });
+        });
     },
 
-    bindEvents() {
-        $("#registroDeProveedor").on("submit", (e) => this.registrarProveedor(e));
-    },
+    registrarProveedor(formData) {
+        return new Promise((resolve, reject) => {
+            formData.append("accion", "registrarProveedor");
+            $.ajax({
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
+                method: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success(response) {
+                    const res = JSON.parse(response);
+                    resolve(res);
+                },
+                error(error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+};
 
-    registrarProveedor(e) {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        if (!formData.get("nombre") || !formData.get("contacto") || !formData.get("telefono")) {
-            Alerts.warning("Todos los campos son obligatorios", "Por favor, completa todos los campos antes de registrar el proveedor.");
-            return;
+/**
+ * CAPA VIEW — Solo responsable de renderizar HTML y manipular el DOM
+ * Recibe datos y los convierte en HTML, sin hacer lógica de negocio
+ */
+const ProveedoresView = {
+    renderizarTablaProveedores(proveedores) {
+        // Destruir tabla anterior si existe
+        if ($.fn.DataTable.isDataTable("#tablaProveedores")) {
+            $("#tablaProveedores").DataTable().destroy();
         }
 
-        Alerts.confirmation("Registrar este proveedor?", "¿Estás seguro de que deseas registrar este proveedor?").then((result) =>{
-            if (result.isConfirmed) {
-                formData.append("accion", "registrarProveedor");
-                $.ajax({
-                    url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
-                    method: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success(response) {
-                        const res = JSON.parse(response);
-
-                        if (res.success) {
-                            Alerts.toasSuccess(res.message);
-                            proveedoresModule.cargarProveedores();
-                            proveedoresModule.limpiarFormulario();
-                        } else {
-                            Alerts.error("Error al registrar proveedor", res.message);
-                        }
-                    },
-                    error() {
-                        alert("Error en la solicitud. Inténtalo de nuevo.");
-                    }
-                });
-            }
-        });
-    },
-
-    cargarProveedores() {
-        $.ajax({
-            url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
-            method: "GET",
-            data: { accion: "listadoProveedores" },
-            success(response) {
-                const res = JSON.parse(response);
-                if (res.success) {
-                    proveedoresModule.renderizarTablaProveedores(res.data);
-                } else {
-                    alert("Error al cargar los proveedores. Inténtalo de nuevo.");
-                }
-                
-            },
-            error() {
-                alert("Error al cargar los proveedores. Inténtalo de nuevo.");
-            }
-        });
-    },
-
-    renderizarTablaProveedores(proveedores) {
         $("#tablaProveedores").DataTable({
             data: proveedores,
             columns: [
@@ -78,8 +59,8 @@ const proveedoresModule = {
                 { data: "nombre_proveedor" },
                 { data: "contacto_proveedor" },
                 { data: "telefono_proveedor" }
-             ],
-             order: [[0, "desc"]],
+            ],
+            order: [[0, "desc"]],
             language: {
                 "processing": "Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",
@@ -100,14 +81,78 @@ const proveedoresModule = {
                     "sortAscending": ": Activar para ordenar la columna de manera ascendente",
                     "sortDescending": ": Activar para ordenar la columna de manera descendente"
                 }
-            },
-            destroy: true,
+            }
         });
     },
 
-    limpiarFormulario() {
-        $("#registroDeProveedor")[0].reset();
-        proveedoresModule.modalProveedor.hide();
-
+    limpiarFormulario(formId) {
+        $(formId)[0].reset();
     }
-}
+};
+
+/**
+ * MÓDULO PROVEEDORES — Coordina API y View, maneja estado y lógica de negocio
+ */
+const proveedoresModule = {
+    modalProveedor: null,
+
+    init() {
+        this.modalProveedor = new bootstrap.Modal(document.getElementById('modalRegistroProveedor'));
+
+        this.bindEvents();
+        this.cargarProveedores();
+    },
+
+    bindEvents() {
+        $("#registroDeProveedor").on("submit", (e) => this.registrarProveedor(e));
+
+        $('#modalRegistroProveedor').on('hidden.bs.modal', () => {
+            ProveedoresView.limpiarFormulario("#registroDeProveedor");
+        });
+    },
+
+    async cargarProveedores() {
+        try {
+            const proveedores = await ProveedoresAPI.listarProveedores();
+            ProveedoresView.renderizarTablaProveedores(proveedores);
+        } catch (error) {
+            console.error("Error al cargar proveedores:", error);
+            Alerts.error("Error", "No se pudieron cargar los proveedores");
+        }
+    },
+
+    async registrarProveedor(e) {
+        e.preventDefault();
+
+        // Validación
+        const formData = new FormData(e.target);
+        if (!formData.get("nombre") || !formData.get("contacto") || !formData.get("telefono")) {
+            Alerts.warning("Campos incompletos", "Por favor completa todos los campos");
+            return;
+        }
+
+        // Confirmación
+        const resultado = await Alerts.confirmation(
+            "Registrar este proveedor?",
+            "¿Estás seguro de que deseas registrar este proveedor?"
+        );
+
+        if (!resultado.isConfirmed) return;
+
+        try {
+            const respuesta = await ProveedoresAPI.registrarProveedor(new FormData(e.target));
+
+            if (respuesta.success) {
+                ProveedoresView.limpiarFormulario("#registroDeProveedor");
+                this.modalProveedor.hide();
+                await this.cargarProveedores();
+                Alerts.toasSuccess(respuesta.message);
+            } else {
+                Alerts.error("Error al registrar", respuesta.message);
+            }
+        } catch (error) {
+            Alerts.error("Error", "Error al registrar el proveedor");
+            console.error(error);
+        }
+    }
+};
