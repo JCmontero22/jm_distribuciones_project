@@ -58,16 +58,16 @@ class ServiceContainer {
         return self::$instances['catalogoService'];
     }
 
-    public static function getFormulaService(): FormulaService {
+    public static function getFormulaService(): FormulasService {
         if (!isset(self::$instances['formulaService'])) {
             require_once(__DIR__ . '/../model/FormulasModel.php');
-            require_once(__DIR__ . '/../services/FormulaService.php');
+            require_once(__DIR__ . '/../services/FormulasService.php');
             require_once(__DIR__ . '/../Infrastructure/FileStorageService.php');
             require_once(__DIR__ . '/../core/Logger.php');
 
             $modelo = new FormulasModel();
 
-            self::$instances['formulaService'] = new FormulaService($modelo);
+            self::$instances['formulaService'] = new FormulasService($modelo);
         }
         return self::$instances['formulaService'];
     }

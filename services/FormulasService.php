@@ -4,9 +4,9 @@
     require_once('../model/FormulasModel.php');
     require_once('../core/Logger.php');
 
-    class FormulaService {
+    class FormulasService {
         private FormulasModel $modelo;
-        
+
         public function __construct(FormulasModel $modelo) {
             $this->modelo = $modelo;
             
