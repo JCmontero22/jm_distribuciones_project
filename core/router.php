@@ -12,6 +12,7 @@
         'historial' => 'historial.php',
         'compras' => 'shopping/compras.php',
         'proveedores' => 'shopping/proveedores.php',
+        'formulas' => 'formulas.php',
         
     ];
 

@@ -28,4 +28,47 @@ class ServiceContainer {
         }
         return self::$instances['proveedorService'];
     }
+
+    public static function getCatalogoService(): CatalogoService {
+        if (!isset(self::$instances['catalogoService'])) {
+            require_once(__DIR__ . '/../model/MarcaModel.php');
+            require_once(__DIR__ . '/../model/GeneroModel.php');
+            require_once(__DIR__ . '/../model/CategoriaModel.php');
+            require_once(__DIR__ . '/../model/PresentacionProductoModel.php');
+            require_once(__DIR__ . '/../model/TiposProductosModel.php');
+            require_once(__DIR__ . '/../model/SedesModel.php');
+            require_once(__DIR__ . '/../services/CatalogoService.php');
+
+            $marcaModel = new MarcaModel();
+            $generoModel = new GeneroModel();
+            $categoriaModel = new CategoriaModel();
+            $presentacionModel = new PresentacionProductoModel();
+            $tiposProductoModel = new TiposProductosModel();
+            $sedesModel = new SedesModel();
+
+            self::$instances['catalogoService'] = new CatalogoService(
+                $marcaModel,
+                $generoModel,
+                $categoriaModel,
+                $presentacionModel,
+                $tiposProductoModel,
+                $sedesModel
+            );
+        }
+        return self::$instances['catalogoService'];
+    }
+
+    public static function getFormulaService(): FormulaService {
+        if (!isset(self::$instances['formulaService'])) {
+            require_once(__DIR__ . '/../model/FormulasModel.php');
+            require_once(__DIR__ . '/../services/FormulaService.php');
+            require_once(__DIR__ . '/../Infrastructure/FileStorageService.php');
+            require_once(__DIR__ . '/../core/Logger.php');
+
+            $modelo = new FormulasModel();
+
+            self::$instances['formulaService'] = new FormulaService($modelo);
+        }
+        return self::$instances['formulaService'];
+    }
 }

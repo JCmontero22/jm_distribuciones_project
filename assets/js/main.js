@@ -32,6 +32,10 @@ function init() {
         proveedoresModule.init();
     }
 
+    if ($("#formulasModule").length) {
+        formulasModule.init();
+    }
+
     menuHamburguer();
     setActiveMenu();
 }

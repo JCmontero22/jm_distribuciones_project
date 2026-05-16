@@ -26,6 +26,9 @@
                     <li class="ul-list__item" onclick="redirect('proveedores')"><a href="#"><i class="fa-solid fa-users"></i> Proveedores</a></li>
                 </ul>
             </div>
+
+            <li class="ul-list__item" onclick="redirect('formulas')"><a href="#"><i class="fa-solid fa-flask-vial"></i> Formulas</a></li>
+
             <li class="ul-list__item" onclick="redirect('historial')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
             
         </ul>

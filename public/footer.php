@@ -13,6 +13,7 @@
 <script src="assets/js/modules/compras.js"></script>
 <script src="assets/js/modules/proveedores.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/modules/inventarioFormulas.js"></script>
 
 <script>
 (function () {
