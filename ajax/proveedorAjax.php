@@ -1,13 +1,10 @@
-<?php 
-    require_once('../model/ProveedorModel.php');
-    require_once('../services/ProveedorService.php');
+<?php
+    require_once('../core/ServiceContainer.php');
     require_once('../controller/ProveedorController.php');
-    
 
     $accion = isset($_POST['accion']) ? $_POST['accion'] :  (isset($_GET['accion']) ? $_GET['accion'] : null);
 
-    $modelo = new ProveedorModel();
-    $servicio = new ProveedorService($modelo);
+    $servicio = ServiceContainer::getProveedorService();
     $proveedorController = new ProveedorController($servicio);
 
     switch ($accion) {

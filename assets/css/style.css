@@ -78,24 +78,29 @@ h1, h2, h3, h4, h5, h6, p, span, a, label{
 }
 
 h1{
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 700;
 }
 
 h2{
-    font-size: 3rem;
+    font-size: 3.8rem;
     font-weight: 700;
 }
 
 h3{
-    font-size: 2rem;
+    font-size: 2.8rem;
     font-weight: 700;
 }
 
 h4{
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
 }
+
+p, span, a{
+    font-size: 1.6rem;
+}
+
 button{
     font-family: var(--fuente-sans) !important;
     font-size: 1.6rem !important;
@@ -493,6 +498,36 @@ td{
     transition: transform 0.3s ease;
 }
 
+.card-inventory_infoProducto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 6rem;
+    gap: 3px;
+}
+
+.card-inventory_op{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.content-buscador-inventory{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.card-inventory_description{
+    border: solid 1px var(--color-borde);
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: var(--color-input);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.4rem;
+}
 /***********************************************************
 
         ************ COMPRAS **********

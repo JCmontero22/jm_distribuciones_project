@@ -10,7 +10,7 @@
             return $this->select($query);
         }
 
-        public function registrarProveedor($data){
+        public function registrarProveedor(array $data): mixed {
             $query = "INSERT INTO proveedor (nombre_proveedor, contacto_proveedor, telefono_proveedor) VALUES (:nombre, :contacto, :telefono)";
             $params = [
                 ':nombre' => $data['nombre'],

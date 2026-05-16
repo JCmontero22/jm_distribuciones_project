@@ -59,4 +59,24 @@
                 return response::error('Error al obtener catálogos completos');
             }
         }
+
+        public function obtenerTiposProductos() {
+            try {
+                $data = $this->servicio->obtenerTiposProductos();
+                return response::success($data);
+            } catch (\Exception $e) {
+                Logger::error("Error al obtener tipos de productos", $e);
+                return response::error('Error al obtener tipos de productos');
+            }
+        }
+
+        public function obtenerSedes() {
+            try {
+                $data = $this->servicio->obtenerSedes();
+                return response::success($data);
+            } catch (\Exception $e) {
+                Logger::error("Error al obtener sedes", $e);
+                return response::error('Error al obtener sedes');
+            }
+        }
     }

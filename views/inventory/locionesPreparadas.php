@@ -1,4 +1,4 @@
-<section class="content-panel" id="locionesPreparadasModule">
+<section class="content-panel" id="locionesPreparadasModule" data-inventory-config='{"categoria":"Lociones","contenedorSelector":".content-inventory-lociones-preparadas","cantidadId":"#cantidad-lociones-preparadas","accionListar":"listadoLociones","tieneSedes":true}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Lociones Preparadas</h1>
@@ -239,14 +239,3 @@
         </div>
     </div>
 </div>
-
-<script>
-const LocionesModule = crearModuloInventario({
-    categoria: "Lociones",
-    contenedorSelector: ".content-inventory-lociones-preparadas",
-    cantidadId: "#cantidad-lociones-preparadas",
-    accionListar: "listadoLociones",
-    tieneSedes: true
-});
-window.LocionesModule = LocionesModule;
-</script>

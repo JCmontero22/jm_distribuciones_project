@@ -6,13 +6,13 @@
     require_once('../helper/utils.php');
     
     class ProveedorController {
-        private $proveedorService;
+        private ProveedorService $proveedorService;
 
         public function __construct(ProveedorService $proveedorService) {
             $this->proveedorService = $proveedorService;
         }
 
-        public function obtenerProveedoresSelect(){
+        public function obtenerProveedoresSelect(): array {
             try {
                 $data = $this->proveedorService->obtenerProveedoresSelect();
                 return response::success($data);
@@ -22,7 +22,7 @@
             }
         }
 
-        public function obtenerProveedoresTabla() {
+        public function obtenerProveedoresTabla(): array {
             try {
                 $respuesta = $this->proveedorService->obtenerProveedoresSelect(); // Reutilizamos el mismo método
                 $data = [];
@@ -41,7 +41,7 @@
             }
         }
 
-        public function registrarProveedor($data) {
+        public function registrarProveedor(array $data): array {
             try {
                 if (!utils::validateRequiredFields(['nombre', 'contacto', 'telefono'], $data)) {
                     return response::error('Todos los campos son obligatorios');

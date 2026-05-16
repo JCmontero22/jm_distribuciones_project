@@ -29,7 +29,7 @@
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute($params);
 
-                if (stripos(trim($sql), 'insert') === 0) {
+                if (stripos(trim($sql), 'INSERT') === 0) {
                     return $this->db->lastInsertId();
                 }
 

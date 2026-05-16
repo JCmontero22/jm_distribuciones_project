@@ -1777,3 +1777,1696 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-05-15 21:59:43] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'img_principal_producto' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(31): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(28): ProductosModel->registrarProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(34): ProductoService->registrarProducto(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(22): ProductoController->registrar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos (nombre_producto, codigo_producto, id_categoria, id_marca, descripcion_producto, id_genero,
+            img_principal_producto) VALUES (:nombre, :codigo, :categoria, :marca, :descripcion, :genero, :imagen)
+    [params] => Array
+        (
+            [:nombre] => CURREN 8321
+            [:codigo] => 8321
+            [:categoria] => 1
+            [:marca] => 1
+            [:descripcion] => PRUEBA REGISTRO DE PRODUCTO
+            [:genero] => 1
+            [:imagen] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 21:59:43] ERROR: Error interno en el Controlador de Registro de Producto
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(31): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(28): ProductosModel->registrarProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(34): ProductoService->registrarProducto(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(22): ProductoController->registrar(Array)
+#4 {main}
+Context:
+Array
+(
+    [nombreProducto] => CURREN 8321
+    [codigoProducto] => 8321
+    [categoriaProducto] => 1
+    [marcaProducto] => 1
+    [generoProducto] => 1
+    [descripcionProducto] => PRUEBA REGISTRO DE PRODUCTO
+    [accion] => registrarProducto
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 22:39:19] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'stock_actual,
+                unidad_medida_productos_presentacion,
+         ...' at line 9
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(46): ProductosModel->registrarPresentaciones(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(51): ProductoService->registrarPresentaciones(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->registrarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 
+            [:nombre_presentacion] => CUERREN 8321
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 60000
+            [:precio_venta_presentacion] => 130000
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => Array
+                (
+                )
+
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 22:39:19] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(46): ProductosModel->registrarPresentaciones(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(51): ProductoService->registrarPresentaciones(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->registrarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => CUERREN 8321
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 60000
+            [precioVentaPresentacion] => 130000
+            [tipoProducto] => 1
+            [imgPresentacion] => Array
+                (
+                )
+
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 
+            [idProducto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 22:41:32] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'stock_actual,
+                unidad_medida_productos_presentacion,
+         ...' at line 9
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(46): ProductosModel->registrarPresentaciones(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(51): ProductoService->registrarPresentaciones(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->registrarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 
+            [:nombre_presentacion] => CURREN 8321
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 60000
+            [:precio_venta_presentacion] => 130000
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => Array
+                (
+                )
+
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 22:41:32] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(46): ProductosModel->registrarPresentaciones(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(51): ProductoService->registrarPresentaciones(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->registrarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => CURREN 8321
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 60000
+            [precioVentaPresentacion] => 130000
+            [tipoProducto] => 1
+            [imgPresentacion] => Array
+                (
+                )
+
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 
+            [idProducto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 22:57:01] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: '' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(56): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 
+            [:nombre_presentacion] => CURREN 8321
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 60000
+            [:precio_venta_presentacion] => 130000
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => 
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 22:57:01] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(56): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => CURREN 8321
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 60000
+            [precioVentaPresentacion] => 130000
+            [tipoProducto] => 1
+            [imgPresentacion] => Array
+                (
+                )
+
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 
+            [idProducto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:04:50] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'false' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(62): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 
+            [:nombre_presentacion] => CURREN 8321
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 60000
+            [:precio_venta_presentacion] => 130000
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a078a72a23824.59282462.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => false
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:04:50] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(66): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(62): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => CURREN 8321
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 60000
+            [precioVentaPresentacion] => 130000
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => false
+            [idProducto] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:19:36] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'true' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(66): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 5
+            [:nombre_presentacion] => qwe
+            [:codigo_presentacion] => 123
+            [:precio_compra_presentacion] => 12
+            [:precio_venta_presentacion] => 12
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a078de8859184.10746887.jpeg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => true
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:19:36] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(66): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => qwe
+            [codigoPresentacion] => 123
+            [precioCompraPresentacion] => 12
+            [precioVentaPresentacion] => 12
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => true
+            [idProducto] => 5
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:23:36] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'true' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 6
+            [:nombre_presentacion] => asdasd
+            [:codigo_presentacion] => 123
+            [:precio_compra_presentacion] => 123213
+            [:precio_venta_presentacion] => 123123
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a078ed8887d73.10844570.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => true
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:23:36] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => asdasd
+            [codigoPresentacion] => 123
+            [precioCompraPresentacion] => 123213
+            [precioVentaPresentacion] => 123123
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => true
+            [idProducto] => 6
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:24:38] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'true' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 6
+            [:nombre_presentacion] => asdasd
+            [:codigo_presentacion] => 123
+            [:precio_compra_presentacion] => 123213
+            [:precio_venta_presentacion] => 123123
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a078f16dd0a02.73938680.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => true
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:24:38] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => asdasd
+            [codigoPresentacion] => 123
+            [precioCompraPresentacion] => 123213
+            [precioVentaPresentacion] => 123123
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => true
+            [idProducto] => 6
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:27:16] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'true' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(31): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 12312
+            [:codigo_presentacion] => 123123
+            [:precio_compra_presentacion] => 123123
+            [:precio_venta_presentacion] => 123123
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a078fb4843280.30941416.jpeg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => true
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:27:16] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(31): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 12312
+            [codigoPresentacion] => 123123
+            [precioCompraPresentacion] => 123123
+            [precioVentaPresentacion] => 123123
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => true
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:28:39] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'true' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(31): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 12312
+            [:codigo_presentacion] => 123123
+            [:precio_compra_presentacion] => 123123
+            [:precio_venta_presentacion] => 123123
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a079007c6b424.41236046.jpeg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => true
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:28:39] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(31): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 12312
+            [codigoPresentacion] => 123123
+            [precioCompraPresentacion] => 123123
+            [precioVentaPresentacion] => 123123
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => true
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:29:09] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'true' for column `jm_distribuciones`.`productos_presentaciones`.`es_preparado_presentacion_producto` at row 1
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(31): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 12312
+            [:codigo_presentacion] => 123123
+            [:precio_compra_presentacion] => 123123
+            [:precio_venta_presentacion] => 123123
+            [:id_tipo_producto] => 1
+            [:img_presentacion] => prod_6a0790259b6d80.15826185.jpeg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => true
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-15 23:29:09] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(71): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(75): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(52): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(31): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 12312
+            [codigoPresentacion] => 123123
+            [precioCompraPresentacion] => 123123
+            [precioVentaPresentacion] => 123123
+            [tipoProducto] => 1
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => true
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:15] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'st.stock_actual' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT \n       ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(94): conexion->select('SELECT \n       ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT 
+                            p.id_producto, 
+                            p.nombre_producto, 
+                            p.codigo_producto, 
+                            p.descripcion_producto, 
+                            c.nombre_categoria, 
+                            m.nombre_marca, 
+                            g.nombre_genero, 
+                            pp.img_presentacion, 
+                            st.stock_actual, 
+                            pp.precio_venta_presentacion, 
+                            pp.precio_compra_presentacion
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        WHERE p.id_categoria = (SELECT id_categoria FROM categoria_producto WHERE nombre_categoria = :categoria)
+                        GROUP BY p.id_producto
+                        ORDER BY p.nombre_producto ASC
+    [params] => Array
+        (
+            [:categoria] => Relojes
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:15] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(94): conexion->select('SELECT \n       ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoRelojes
+    [categoria] => Relojes
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:43] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.stock' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT \n       ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT 
+                            p.id_producto, 
+                            p.nombre_producto, 
+                            p.codigo_producto, 
+                            p.descripcion_producto, 
+                            c.nombre_categoria, 
+                            m.nombre_marca, 
+                            g.nombre_genero, 
+                            pp.img_presentacion, 
+                            st.stock_actual, 
+                            pp.precio_venta_presentacion, 
+                            pp.precio_compra_presentacion
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        LEFT JOIN stock st ON pp.id_presentacion = st.id_presentacion
+                        WHERE p.id_categoria = (SELECT id_categoria FROM categoria_producto WHERE nombre_categoria = :categoria)
+                        GROUP BY p.id_producto
+                        ORDER BY p.nombre_producto ASC
+    [params] => Array
+        (
+            [:categoria] => Relojes
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:43] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoRelojes
+    [categoria] => Relojes
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:52] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.stock' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT \n       ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT 
+                            p.id_producto, 
+                            p.nombre_producto, 
+                            p.codigo_producto, 
+                            p.descripcion_producto, 
+                            c.nombre_categoria, 
+                            m.nombre_marca, 
+                            g.nombre_genero, 
+                            pp.img_presentacion, 
+                            st.stock_actual, 
+                            pp.precio_venta_presentacion, 
+                            pp.precio_compra_presentacion
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        LEFT JOIN stock st ON pp.id_presentacion = st.id_presentacion
+                        WHERE p.id_categoria = (SELECT id_categoria FROM categoria_producto WHERE nombre_categoria = :categoria)
+                        GROUP BY p.id_producto
+                        ORDER BY p.nombre_producto ASC
+    [params] => Array
+        (
+            [:categoria] => Relojes
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:52] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoRelojes
+    [categoria] => Relojes
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:58] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.stock' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT \n       ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT 
+                            p.id_producto, 
+                            p.nombre_producto, 
+                            p.codigo_producto, 
+                            p.descripcion_producto, 
+                            c.nombre_categoria, 
+                            m.nombre_marca, 
+                            g.nombre_genero, 
+                            pp.img_presentacion, 
+                            st.stock_actual, 
+                            pp.precio_venta_presentacion, 
+                            pp.precio_compra_presentacion
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        LEFT JOIN stock st ON pp.id_presentacion = st.id_presentacion
+                        WHERE p.id_categoria = (SELECT id_categoria FROM categoria_producto WHERE nombre_categoria = :categoria)
+                        GROUP BY p.id_producto
+                        ORDER BY p.nombre_producto ASC
+    [params] => Array
+        (
+            [:categoria] => Relojes
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:07:58] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoRelojes
+    [categoria] => Relojes
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:08:10] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.stock' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT \n       ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT 
+                            p.id_producto, 
+                            p.nombre_producto, 
+                            p.codigo_producto, 
+                            p.descripcion_producto, 
+                            c.nombre_categoria, 
+                            m.nombre_marca, 
+                            g.nombre_genero, 
+                            pp.img_presentacion, 
+                            st.stock_actual, 
+                            pp.precio_venta_presentacion, 
+                            pp.precio_compra_presentacion
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        LEFT JOIN stock st ON pp.id_presentacion = st.id_presentacion
+                        WHERE p.id_categoria = (SELECT id_categoria FROM categoria_producto WHERE nombre_categoria = :categoria)
+                        GROUP BY p.id_producto
+                        ORDER BY p.nombre_producto ASC
+    [params] => Array
+        (
+            [:categoria] => Relojes
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 04:08:10] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(95): conexion->select('SELECT \n       ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Relojes')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Relojes')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(30): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoRelojes
+    [categoria] => Relojes
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:15:55] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'stock_actual' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 250G
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 50000
+            [:precio_venta_presentacion] => 70000
+            [:id_tipo_producto] => 3
+            [:img_presentacion] => prod_6a07e16b3d7617.63949931.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 0
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:15:55] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 250G
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 50000
+            [precioVentaPresentacion] => 70000
+            [tipoProducto] => 3
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 0
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:16:47] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'stock_actual' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 250G
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 50000
+            [:precio_venta_presentacion] => 70000
+            [:id_tipo_producto] => 3
+            [:img_presentacion] => prod_6a07e19fa1b6b6.71380466.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 0
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:16:47] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 250G
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 50000
+            [precioVentaPresentacion] => 70000
+            [tipoProducto] => 3
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 0
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:19:47] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'stock_actual' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 250G
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 50000
+            [:precio_venta_presentacion] => 70000
+            [:id_tipo_producto] => 3
+            [:img_presentacion] => prod_6a07e2531dc913.78317037.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 0
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:19:47] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 250G
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 50000
+            [precioVentaPresentacion] => 70000
+            [tipoProducto] => 3
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 0
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:20:42] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'stock_actual' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                id_producto,
+                nombre_presentacion,
+                codigo_presentacion,
+                precio_compra_presentacion,
+                precio_venta_presentacion,
+                id_tipo_producto,
+                img_presentacion,
+                stock_actual,
+                unidad_medida_productos_presentacion,
+                es_preparado_presentacion_producto
+            ) VALUES (:id_producto, :nombre_presentacion, :codigo_presentacion, :precio_compra_presentacion, :precio_venta_presentacion, :id_tipo_producto, :img_presentacion, :stock_actual, :unidad_medida_productos_presentacion, :es_preparado_presentacion_producto)
+    [params] => Array
+        (
+            [:id_producto] => 7
+            [:nombre_presentacion] => 250G
+            [:codigo_presentacion] => 1
+            [:precio_compra_presentacion] => 50000
+            [:precio_venta_presentacion] => 70000
+            [:id_tipo_producto] => 3
+            [:img_presentacion] => prod_6a07e28a1fa9e9.70783206.jpg
+            [:stock_actual] => 0
+            [:unidad_medida_productos_presentacion] => 
+            [:es_preparado_presentacion_producto] => 0
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 05:20:42] ERROR: Error interno en el Controlador de Registro de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(67): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(67): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(53): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(24): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [0] => Array
+        (
+            [nombrePresentacion] => 250G
+            [codigoPresentacion] => 1
+            [precioCompraPresentacion] => 50000
+            [precioVentaPresentacion] => 70000
+            [tipoProducto] => 3
+            [stockActual] => 0
+            [esPreparadoPresentacionProducto] => 0
+            [idProducto] => 7
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+

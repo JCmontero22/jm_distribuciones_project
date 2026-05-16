@@ -1,4 +1,4 @@
-<section class="content-panel" id="insumosModule">
+<section class="content-panel" id="insumosModule" data-inventory-config='{"categoria":"Insumos","contenedorSelector":".content-inventory-insumos","cantidadId":"#cantidad-insumos","accionListar":"listarProductos","tieneSedes":false}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Insumos</h1>
@@ -236,14 +236,3 @@
         </div>
     </div>
 </div>
-
-<script>
-const InsumosModule = crearModuloInventario({
-    categoria: "Insumos",
-    contenedorSelector: ".content-inventory-insumos",
-    cantidadId: "#cantidad-insumos",
-    accionListar: "listarProductos",
-    tieneSedes: false
-});
-window.InsumosModule = InsumosModule;
-</script>

@@ -4,9 +4,25 @@ var btn      = document.getElementById('btnHamburger');
     var isMobile = function () { return window.innerWidth < 768; };
 
 function init() {
-    if ($("#relojesModule").length) {
-        RelojesModule.init();
-    }
+    // Detectar y crear módulos de inventario genéricos
+    const inventoryModules = {
+        relojesModule: "RelojesModule",
+        esenciasModule: "EsenciasModule",
+        insumosModule: "InsumosModule",
+        locionesPreparadasModule: "LocionesModule"
+    };
+
+    Object.entries(inventoryModules).forEach(([elementId, moduleName]) => {
+        const $element = $(`#${elementId}`);
+        if ($element.length) {
+            const configStr = $element.data("inventory-config");
+            if (configStr) {
+                const config = typeof configStr === 'string' ? JSON.parse(configStr) : configStr;
+                window[moduleName] = crearModuloInventario(config);
+                window[moduleName].init();
+            }
+        }
+    });
 
     if ($("#moduleCompras").length) {
         comprasModule.init();
@@ -14,18 +30,6 @@ function init() {
 
     if ($("#moduloProveedores").length) {
         proveedoresModule.init();
-    }
-
-    if ($("#locionesPreparadasModule").length) {
-        LocionesModule.init();
-    }
-
-    if ($("#esenciasModule").length) {
-        EsenciasModule.init();
-    }
-
-    if ($("#insumosModule").length) {
-        InsumosModule.init();
     }
 
     menuHamburguer();

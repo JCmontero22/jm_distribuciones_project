@@ -2,6 +2,8 @@
 
     require_once('../services/CatalogoService.php');
     require_once('../controller/CatalogoController.php');
+    require_once('../model/TiposProductosModel.php');
+    require_once('../model/SedesModel.php');
 
     $accion = isset($_POST['accion']) ? $_POST['accion'] :  (isset($_GET['accion']) ? $_GET['accion'] : null);
 
@@ -10,9 +12,11 @@
     $generoModel = new GeneroModel();
     $categoriaModel = new CategoriaModel();
     $presentacionModel = new PresentacionProductoModel();
+    $tiposProductoModel = new TiposProductosModel();
+    $sedesModel = new SedesModel();
 
     // Crear servicio y controlador
-    $servicio = new CatalogoService($marcaModel, $generoModel, $categoriaModel, $presentacionModel);
+    $servicio = new CatalogoService($marcaModel, $generoModel, $categoriaModel, $presentacionModel, $tiposProductoModel, $sedesModel);
     $catalogoController = new CatalogoController($servicio);
 
     switch ($accion) {
@@ -38,6 +42,16 @@
 
         case 'obtenerCatalogosCompletos':
             $resultado = $catalogoController->obtenerCatalogosCompletos();
+            echo json_encode($resultado);
+            break;
+
+        case 'listadoTiposProductos':
+            $resultado = $catalogoController->obtenerTiposProductos();
+            echo json_encode($resultado);
+            break;
+
+        case 'listadoSedes':
+            $resultado = $catalogoController->obtenerSedes();
             echo json_encode($resultado);
             break;
 
