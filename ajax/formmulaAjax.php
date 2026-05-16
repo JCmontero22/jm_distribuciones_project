@@ -1,12 +1,12 @@
 <?php
 
     require_once('../core/ServiceContainer.php');
-    require_once('../controller/FormulaController.php');
+    require_once('../controller/FormulasController.php');
 
     $accion = isset($_POST['accion']) ? $_POST['accion'] :  (isset($_GET['accion']) ? $_GET['accion'] : null);
 
     $servicio = ServiceContainer::getFormulaService();
-    $formulaController = new FormulaController($servicio);
+    $formulaController = new FormulasController($servicio);
 
     // Pasar la categoría en la request
     $request = array_merge($_GET, $_POST);
