@@ -5,7 +5,7 @@
     require_once('../core/Logger.php');
     require_once('../services/FormulasService.php');
 
-    class FormulaController
+    class FormulasController
     {
         private FormulaService $servicio;
 
