@@ -1,12 +1,12 @@
-<section class="content-panel" id="relojesModule">
+<section class="content-panel" id="insumosModule">
     <div class="row">
         <div class="col-md-8">
-            <h1>Inventario Relojes</h1>
-            <p>(Cantidad de relojes: <span id="cantidad-relojes"></span>)</p>
+            <h1>Inventario Insumos</h1>
+            <p>(Cantidad de insumos: <span id="cantidad-insumos">0</span>)</p>
         </div>
 
         <div class="col-md-4 d-flex justify-content-end align-items-start">
-            <button type="button" class="btn btn-new-product" data-bs-toggle="modal" data-bs-target="#modalRegistroProducto"><i class="fa-solid fa-plus"></i> Nuevo Reloj</button>
+            <button type="button" class="btn btn-new-product" data-bs-toggle="modal" data-bs-target="#modalRegistroProducto"><i class="fa-solid fa-plus"></i> Nuevo Insumo</button>
             <!-- <button type="button" class="btn btn-new-product" style="margin-left: 1rem;" data-bs-toggle="modal" data-bs-target="#modalRegistroPresentacion"><i class="fa-solid fa-plus"></i> Nueva Presentacion</button> -->
         </div>
     </div>
@@ -21,7 +21,7 @@
         </div>
     </div>    
     
-    <div class="content-inventory"></div>
+    <div class="content-inventory-insumos"></div>
     <!-- <div class="card-inventory"> -->
         <!-- <div class="card-inventory_img">
             <img src="./assets/img/producto1.jpg" alt="Producto 1" id="imgProductos">
@@ -52,7 +52,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="modal-cabecera">
-                    <h3 class="modal-title" id="staticBackdropLabel">Registrar Producto</h3>
+                    <h3 class="modal-title" id="staticBackdropLabel">Registrar Insumo</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -62,12 +62,12 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <label for="nombreProducto" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ej: Reloj Curren 1030">
+                                <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ej: Insumo x">
                                 
                             </div>
 
                             <div class="col-md-4">
-                                <label for="codigoProducto" class="form-label">Codigo Producto</label>
+                                <label for="codigoProducto" class="form-label">Codigo Insumo</label>
                                 <input type="text" class="form-control" id="codigoProducto" name="codigoProducto" placeholder="1030">
                             </div>
                         </div>
@@ -154,20 +154,14 @@
                         </div>
 
                         <div class="row mt-4">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label for="precioVentaPresentacion" class="form-label">Precio venta presentacion</label>
                                 <input type="text" class="form-control" id="precioVentaPresentacion" name="precioVentaPresentacion" placeholder="30.000" data-format-miles>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label for="tipoProducto" class="form-label">Tipo Producto</label>
                                     <select class="form-select" id="tipoProducto" name="tipoProducto">
-                                        <option value="" selected disabled>Seleccionar</option>
-                                    </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="sedeProducto" class="form-label">Sede</label>
-                                    <select class="form-select" id="sedeProducto" name="sedeProducto">
-                                        <option value="" selected disabled>Seleccionar</option>
+                                        <option value="" selected disabled>Seleccionar</option>                                        
                                     </select>
                             </div>
 
@@ -175,8 +169,8 @@
                                 <label for="unidad" class="form-label">Unidad</label>
                                     <select class="form-select" id="unidad" name="unidad">
                                         <option value="" selected disabled>Seleccionar</option>
-                                        <option value="true">Unidad</option>
-                                        <option value="false">Gramo</option>
+                                        <option value="unidad">Unidad</option>
+                                        <option value="gramo">Gramo</option>
                                     </select>
                             </div>
 
@@ -188,7 +182,6 @@
                                         <option value="0">NO</option>
                                     </select>
                             </div>
-                           
                         </div>
 
                         <div class="row mt-4">
@@ -245,12 +238,12 @@
 </div>
 
 <script>
-const RelojesModule = crearModuloInventario({
-    categoria: "Relojes",
-    contenedorSelector: ".content-inventory",
-    cantidadId: "#cantidad-relojes",
+const InsumosModule = crearModuloInventario({
+    categoria: "Insumos",
+    contenedorSelector: ".content-inventory-insumos",
+    cantidadId: "#cantidad-insumos",
     accionListar: "listarProductos",
-    tieneSedes: true
+    tieneSedes: false
 });
-window.RelojesModule = RelojesModule;
+window.InsumosModule = InsumosModule;
 </script>

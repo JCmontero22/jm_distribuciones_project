@@ -16,6 +16,18 @@ function init() {
         proveedoresModule.init();
     }
 
+    if ($("#locionesPreparadasModule").length) {
+        LocionesModule.init();
+    }
+
+    if ($("#esenciasModule").length) {
+        EsenciasModule.init();
+    }
+
+    if ($("#insumosModule").length) {
+        InsumosModule.init();
+    }
+
     menuHamburguer();
     setActiveMenu();
 }
