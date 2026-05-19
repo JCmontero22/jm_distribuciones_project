@@ -7,9 +7,9 @@
 
     class FormulasController
     {
-        private FormulaService $servicio;
+        private FormulasService $servicio;
 
-        public function __construct(FormulaService $servicio)
+        public function __construct(FormulasService $servicio)
         {
             $this->servicio = $servicio;
         }
@@ -17,27 +17,17 @@
         public function registrar(array $request): array {
             try {
                 $nombre = $request['nombreFormula'] ?? null;
-                $idPresentacionFinal = $request['idPresentacionFinal'] ?? null;
-                $insumosJson = $request['insumos'] ?? null;
+                $cantidadEsencia = $request['cantidadEsencia'] ?? null;
+                $insumo = $request['insumo'] ?? null;
 
-                if (!utils::validateRequiredFields(['nombreFormula', 'idPresentacionFinal', 'insumos'], $request)) {
+                if (!utils::validateRequiredFields(['nombreFormula', 'cantidadEsencia', 'insumo'], $request)) {
                     return response::error('Todos los campos son obligatorios');
                 }
 
-                $insumos = json_decode($insumosJson, true);
-                if (!is_array($insumos) || empty($insumos)) {
-                    return response::error('Debe agregar al menos un insumo');
-                }
-
                 $data = [
-                    'nombre' => utils::sanitizeInput($nombre),
-                    'id_presentacion_final' => (int)$idPresentacionFinal,
-                    'insumos' => array_map(function($insumo) {
-                        return [
-                            'id_presentacion_insumo' => (int)$insumo['id_presentacion_insumo'],
-                            'cantidad_requerida' => (float)$insumo['cantidad_requerida']
-                        ];
-                    }, $insumos)
+                    'nombre_formula' => utils::sanitizeInput($nombre),
+                    'cantidad_esencia' => utils::sanitizeInput($cantidadEsencia),       
+                    'id_presentacion_insumo' => utils::sanitizeInput($insumo),
                 ];
 
                 $result = $this->servicio->registrarFormulas($data);
@@ -88,12 +78,7 @@
 
         public function listar(array $request): array {
             try {
-                $categoria = $request['categoria'] ?? null;
-
-                if (!$categoria) {
-                    return response::error('Debe especificar la categoría');
-                }
-
+                
                 $data = $this->servicio->obtenerFormulas();
                 return response::success($data);
 

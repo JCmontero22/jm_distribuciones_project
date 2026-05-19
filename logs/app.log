@@ -3470,3 +3470,1157 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-05-16 08:04:42] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion' at line 5
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(42): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in :categoria
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Insumos, Esencias
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:04:42] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion' at line 5
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(42): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in :categoria
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Lociones
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:04:42] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(42): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarInsumos
+    [categoria] => Insumos, Esencias
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:04:42] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(42): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarPresentaciones
+    [categoria] => Lociones
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:05:01] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion' at line 5
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in :categoria
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Lociones
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:05:01] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion' at line 5
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in :categoria
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Insumos, Esencias
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:05:01] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarInsumos
+    [categoria] => Insumos, Esencias
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:05:01] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarPresentaciones
+    [categoria] => Lociones
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:13] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Lociones' in 'where clause'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in (Lociones)
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Lociones
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:13] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarPresentaciones
+    [categoria] => Lociones
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:13] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Insumos' in 'where clause'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in (Insumos, Esencias)
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Insumos, Esencias
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:13] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarInsumos
+    [categoria] => Insumos, Esencias
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:50] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[HY093]: Invalid parameter number
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 47
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(47): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in (':categoria')
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Lociones
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:50] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[HY093]: Invalid parameter number
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 47
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(47): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
+                      FROM productos_presentaciones pp
+                      JOIN productos p ON p.id_producto = pp.id_producto
+                      JOIN categoria_producto cp ON cp.id_categoria = p.id_categoria
+                      WHERE cp.nombre_categoria in (':categoria')
+                      ORDER BY p.nombre_producto, pp.nombre_presentacion
+    [params] => Array
+        (
+            [:categoria] => Insumos, Esencias
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:50] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Lociones')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Lociones')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(28): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarPresentaciones
+    [categoria] => Lociones
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 08:06:50] ERROR: Error interno en el Controlador de Listado de Presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(43): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(42): FormulasModel->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(62): FormulasService->obtenerPresentacionesPorCategoria('Insumos, Esenci...')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(34): FormulasController->listarPresentaciones(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarInsumos
+    [categoria] => Insumos, Esencias
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 16:57:34] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO for...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(30): conexion->execute('INSERT INTO for...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(61): FormulasModel->registrarFormula(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(33): FormulasService->registrarFormulas(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(17): FormulasController->registrar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO formulas (
+                nombre_formula,
+                cantidad_esencia,
+                id_presentacion_insumo
+            ) VALUES (:nombre, :cantidad_esencia, :id_presentacion_insumo)
+    [params] => Array
+        (
+            [:nombre] => 30ml - Normal
+            [:cantidad_esencia] => 15
+            [:id_presentacion_insumo] => 9
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 16:57:34] ERROR: Error interno en el Controlador de Registro de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(30): conexion->execute('INSERT INTO for...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(61): FormulasModel->registrarFormula(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(33): FormulasService->registrarFormulas(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(17): FormulasController->registrar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => registrarFormula
+    [nombreFormula] => 30ml - Normal
+    [cantidadEsencia] => 15
+    [insumo] => 9
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:02:10] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(54): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            pp.nombre_presentacion AS presentacion_final,
+                            GROUP_CONCAT(CONCAT(pp2.nombre_presentacion, ' (', f.cantidad_requerida, ')') SEPARATOR ', ') AS insumos_utilizados
+                        FROM formulas f
+                        LEFT JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_final
+                        LEFT JOIN productos_presentaciones pp2 ON pp2.id_presentacion = f.id_presentacion_insumo
+                        GROUP BY f.nombre_formula, pp.nombre_presentacion
+                        ORDER BY f.nombre_formula ASC
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:02:10] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(54): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:03:09] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(54): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formulas f
+                        LEFT JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_final
+                        LEFT JOIN productos_presentaciones pp2 ON pp2.id_presentacion = f.id_presentacion_insumo
+                        GROUP BY f.nombre_formula, pp.nombre_presentacion
+                        ORDER BY f.nombre_formula ASC
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:03:09] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(54): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:03:21] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas_presentaciones' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(53): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formulas_presentaciones f
+                        LEFT JOIN productos_presentaciones pp2 ON pp2.id_presentacion = f.id_presentacion_insumo
+                        GROUP BY f.nombre_formula, pp.nombre_presentacion
+                        ORDER BY f.nombre_formula ASC
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:03:21] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(53): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:03:37] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas_presentaciones' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formulas_presentaciones f
+                        LEFT JOIN productos_presentaciones pp2 ON pp2.id_presentacion = f.id_presentacion_insumo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:03:37] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:04:02] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas_presentaciones' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formulas_presentaciones f
+                        LEFT JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_insumo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:04:02] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:04:08] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas_presentaciones' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formulas_presentaciones f
+                        LEFT JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_insumo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:04:08] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:04:22] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.formulas_presentaciones' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formulas_presentaciones f
+                        INNER JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_insumo
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 17:04:22] ERROR: Error interno en el Controlador de Listado de Fórmulas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/FormulasModel.php(52): conexion->select('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/FormulasService.php(38): FormulasModel->obtenerFormulas()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/FormulasController.php(82): FormulasService->obtenerFormulas()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/formmulaAjax.php(22): FormulasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarFormulas
+    [categoria] => 
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 18:12:30] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM productos p
+                        LEFT JOIN productos_presentaciones p...' at line 14
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(94): conexion->select('SELECT\n        ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Insumos')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Insumos')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            p.id_producto,
+                            p.nombre_producto,
+                            p.codigo_producto,
+                            p.descripcion_producto,
+                            c.nombre_categoria,
+                            m.nombre_marca,
+                            g.nombre_genero,
+                            pp.img_presentacion,
+                            st.stock_actual,
+                            pp.precio_venta_presentacion,
+                            pp.precio_compra_presentacion,
+                            pp.nombre_presentacion,
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        LEFT JOIN inventario_sedes st ON pp.id_presentacion = st.id_presentacion
+                        WHERE c.nombre_categoria = :categoria
+    [params] => Array
+        (
+            [:categoria] => Insumos
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 18:12:30] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(94): conexion->select('SELECT\n        ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Insumos')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Insumos')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarProductos
+    [categoria] => Insumos
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 18:12:38] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM productos p
+                        LEFT JOIN productos_presentaciones p...' at line 14
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(94): conexion->select('SELECT\n        ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Insumos')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Insumos')
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                            p.id_producto,
+                            p.nombre_producto,
+                            p.codigo_producto,
+                            p.descripcion_producto,
+                            c.nombre_categoria,
+                            m.nombre_marca,
+                            g.nombre_genero,
+                            pp.img_presentacion,
+                            st.stock_actual,
+                            pp.precio_venta_presentacion,
+                            pp.precio_compra_presentacion,
+                            pp.nombre_presentacion,
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        LEFT JOIN genero g ON p.id_genero = g.id_genero
+                        LEFT JOIN inventario_sedes st ON pp.id_presentacion = st.id_presentacion
+                        WHERE c.nombre_categoria = :categoria
+    [params] => Array
+        (
+            [:categoria] => Insumos
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-05-16 18:12:38] ERROR: Error interno en el Controlador de Listado de Productos
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(94): conexion->select('SELECT\n        ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(82): ProductosModel->obtenerProductos('Insumos')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(72): ProductoService->obtenerProductos('Insumos')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(28): ProductoController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarProductos
+    [categoria] => Insumos
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+

@@ -16,23 +16,22 @@
         }
 
         public function registrarFormula(array $data): mixed {
-            $query = "INSERT INTO formulas (
+            $query = "INSERT INTO formula_presentacion (
                 nombre_formula,
-                id_presentacion_final,
-                id_presentacion_insumo,
-                cantidad_requerida
-            ) VALUES (:nombre, :id_presentacion_final, :id_presentacion_insumo, :cantidad_requerida)";
+                cantidad_esencia,
+                id_presentacion_insumo
+            ) VALUES (:nombre, :cantidad_esencia, :id_presentacion_insumo)";
 
             $params = [
-                ':nombre' => $data['nombre'],
-                ':id_presentacion_final' => $data['id_presentacion_final'],
+                ':nombre' => $data['nombre_formula'],
+                ':cantidad_esencia' => $data['cantidad_esencia'],
                 ':id_presentacion_insumo' => $data['id_presentacion_insumo'],
-                ':cantidad_requerida' => $data['cantidad_requerida'],
             ];
             return $this->execute($query, $params);
         }
 
         public function obtenerPresentacionesPorCategoria(string $categoria): array {
+
             $query = "SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
                       FROM productos_presentaciones pp
                       JOIN productos p ON p.id_producto = pp.id_producto
@@ -44,14 +43,13 @@
 
         public function obtenerFormulas(): array {
             $query = "SELECT
+                            f.id_formula,
                             f.nombre_formula,
-                            pp.nombre_presentacion AS presentacion_final,
-                            GROUP_CONCAT(CONCAT(pp2.nombre_presentacion, ' (', f.cantidad_requerida, ')') SEPARATOR ', ') AS insumos_utilizados
-                        FROM formulas f
-                        LEFT JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_final
-                        LEFT JOIN productos_presentaciones pp2 ON pp2.id_presentacion = f.id_presentacion_insumo
-                        GROUP BY f.nombre_formula, pp.nombre_presentacion
-                        ORDER BY f.nombre_formula ASC";
+                            f.cantidad_esencia,
+                            pp.nombre_presentacion
+                        FROM formula_presentacion f
+                        INNER JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_insumo";
+                        
             return $this->select($query);
         }
     }

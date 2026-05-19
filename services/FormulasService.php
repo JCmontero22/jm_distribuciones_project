@@ -43,24 +43,23 @@
         }
 
         public function registrarFormulas(array $data): array {
-            $nombre = $data['nombre'] ?? null;
-            $idPresentacionFinal = $data['id_presentacion_final'] ?? null;
-            $insumos = $data['insumos'] ?? [];
+            $nombre = $data['nombre_formula'] ?? null;
+            $cantidadEsencia = $data['cantidad_esencia'] ?? null;
+            $insumo = $data['id_presentacion_insumo'] ?? null;
 
-            if (!$nombre || !$idPresentacionFinal || empty($insumos)) {
+             if (!$nombre || !$cantidadEsencia || !$insumo) {
                 throw new DomainException('Datos de fórmula incompletos');
-            }
+            }           
 
-            $insertados = [];
-            foreach ($insumos as $insumo) {
-                $params = [
-                    'nombre' => $nombre,
-                    'id_presentacion_final' => $idPresentacionFinal,
-                    'id_presentacion_insumo' => $insumo['id_presentacion_insumo'],
-                    'cantidad_requerida' => $insumo['cantidad_requerida'],
-                ];
-                $insertados[] = $this->modelo->registrarFormula($params);
-            }
+            
+            
+            $params = [
+                'nombre_formula' => $nombre,
+                'id_presentacion_insumo' => $insumo,
+                'cantidad_esencia' => $cantidadEsencia,
+            ];
+            $insertados[] = $this->modelo->registrarFormula($params);
+            
 
             return [
                 'nombre_formula' => $nombre,

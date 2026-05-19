@@ -152,12 +152,12 @@ function crearModuloInventario(config) {
             });
         },
 
-        obtenerSedes() {
+        obtenerFormulas() {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: `${BASE_URL}/ajax/catalogoAjax.php`,
+                    url: `${BASE_URL}/ajax/formmulaAjax.php`,
                     method: "GET",
-                    data: { accion: "listadoSedes" },
+                    data: { accion: "listarFormulas" },
                     success(response) {
                         const datos = JSON.parse(response);
                         resolve(datos.data || []);
@@ -167,7 +167,8 @@ function crearModuloInventario(config) {
                     }
                 });
             });
-        }
+        },
+
     };
 
     /**
@@ -175,20 +176,23 @@ function crearModuloInventario(config) {
      */
     const View = {
         renderizarTarjetaProducto(producto) {
+            const precioCompra = producto.precio_compra_presentacion ? `$ ${Module.separaMiles(producto.precio_compra_presentacion)}` : '-';
+            const precioVenta = producto.precio_venta_presentacion ? `$ ${Module.separaMiles(producto.precio_venta_presentacion)}` : '-';
+
             return `
                 <div class="card-inventory">
                     <div class="card-inventory_img">
                         <img src="${BASE_URL}/assets/img/productos/${producto.img_presentacion}" alt="${producto.nombre_producto}" class="product-image">
                     </div>
                     <div class="card-inventory_infoProducto">
-                        <h3 class="card-inventory_name">${producto.nombre_producto}</h3>
+                        <h3 class="card-inventory_name">${producto.nombre_producto} - ${producto.nombre_presentacion}</h3>
                         <p>
                             <span>Valor de compra:</span>
-                            <span class="card-inventory_cost">$ ${Module.separaMiles(producto.precio_compra_presentacion)}</span>
+                            <span class="card-inventory_cost">${precioCompra}</span>
                         </p>
                         <p>
                             <span>Valor de venta:</span>
-                            <span class="card-inventory_sale">$ ${Module.separaMiles(producto.precio_venta_presentacion)}</span>
+                            <span class="card-inventory_sale">${precioVenta}</span>
                         </p>
 
                         <p class="card-inventory_description">
@@ -225,17 +229,30 @@ function crearModuloInventario(config) {
         },
 
         renderizarFilaPresentacion(presentacion) {
+            let preciosHtml = '';
+            if (presentacion.precioCompraPresentacion || presentacion.precioVentaPresentacion) {
+                preciosHtml = `
+                    <td>$${presentacion.precioCompraPresentacion ? presentacion.precioCompraPresentacion.toLocaleString('es-CO') : '-'}</td>
+                    <td>$${presentacion.precioVentaPresentacion ? presentacion.precioVentaPresentacion.toLocaleString('es-CO') : '-'}</td>
+                `;
+            }
+
+            let formulaHtml = '';
+            if (config.tieneFormula && presentacion.idFormula) {
+                formulaHtml = `<td>${presentacion.nombreFormula || '-'}</td>`;
+            }
+
             return `
                 <tr>
                     <td>${presentacion.nombrePresentacion}</td>
                     <td>${presentacion.codigoPresentacion}</td>
-                    <td>$${presentacion.precioCompraPresentacion.toLocaleString('es-CO')}</td>
-                    <td>$${presentacion.precioVentaPresentacion.toLocaleString('es-CO')}</td>
+                    ${preciosHtml}
                     <td>
                         <span class="badge ${presentacion.tipoProducto === '1' ? 'bg-info' : 'bg-warning'}">
                             ${presentacion.tipoProducto === '1' ? 'REVENTA' : 'PRODUCCIÓN'}
                         </span>
                     </td>
+                    ${formulaHtml}
                     <td>
                         ${presentacion.imagenPresentacion ? '<i class="fa-solid fa-check text-success"></i>' : '<i class="fa-solid fa-times text-danger"></i>'}
                     </td>
@@ -252,6 +269,25 @@ function crearModuloInventario(config) {
             let tabla = $("#tablaPresentaciones");
 
             if (tabla.length === 0) {
+                let encabezados = `
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>Precio Compra</th>
+                    <th>Precio Venta</th>
+                    <th>Tipo</th>
+                `;
+
+                if (config.tieneFormula) {
+                    encabezados += `<th>Fórmula</th>`;
+                }
+
+                encabezados += `
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                `;
+
+                const colspan = config.tieneFormula ? 8 : 7;
+
                 $("#formRegistroPresentacionProducto").after(`
                     <div class="row mt-4">
                         <div class="col-md-12">
@@ -260,13 +296,7 @@ function crearModuloInventario(config) {
                                 <table class="table table-striped table-sm">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Código</th>
-                                            <th>Precio Compra</th>
-                                            <th>Precio Venta</th>
-                                            <th>Tipo</th>
-                                            <th>Imagen</th>
-                                            <th>Acciones</th>
+                                            ${encabezados}
                                         </tr>
                                     </thead>
                                     <tbody id="tablaPresentaciones"></tbody>
@@ -279,7 +309,8 @@ function crearModuloInventario(config) {
             }
 
             if (presentaciones.length === 0) {
-                tabla.html('<tr><td colspan="7" class="text-center text-muted">No hay presentaciones agregadas</td></tr>');
+                const colspan = config.tieneFormula ? 8 : 7;
+                tabla.html(`<tr><td colspan="${colspan}" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
                 return;
             }
 
@@ -368,6 +399,26 @@ function crearModuloInventario(config) {
                     this.cargarMasProductos();
                 }
             });
+
+            $("#nombreProducto").on("input", (e) => {
+                const nombre = e.target.value.trim();
+                if (nombre) {
+                    const codigoGenerado = this.generarCodigoProducto(nombre);
+                    $("#codigoProducto").val(codigoGenerado);
+                } else {
+                    $("#codigoProducto").val("");
+                }
+            });
+
+            $("#nombrePresentacion").on("input", (e) => {
+                const nombre = e.target.value.trim();
+                if (nombre) {
+                    const codigoGenerado = this.generarCodigoPresentacion(nombre);
+                    $("#codigoPresentacion").val(codigoGenerado);
+                } else {
+                    $("#codigoPresentacion").val("");
+                }
+            });
         },
 
         formatearMiles(e) {
@@ -392,9 +443,9 @@ function crearModuloInventario(config) {
                     this.cargarMarcas(),
                     this.cargarGeneros(),
                     this.cargarTiposProductos(),
+                    this.cargarFormulas()
                 ];
-                if (config.tieneSedes) promises.push(this.cargarSedes());
-
+                
                 await Promise.all(promises);
             } catch (error) {
                 Alerts.error("Error", "No se pudieron cargar los datos");
@@ -464,12 +515,12 @@ function crearModuloInventario(config) {
             }
         },
 
-        async cargarSedes() {
+        async cargarFormulas() {
             try {
-                const sedes = await API.obtenerSedes();
-                View.poblarSelect("#sedeProducto", sedes, 'id_sede', 'nombre_sede');
+                const formulas = await API.obtenerFormulas();
+                View.poblarSelect("#formula", formulas, 'id_formula', 'nombre_formula');
             } catch (error) {
-                console.error("Error al cargar sedes:", error);
+                console.error("Error al cargar fórmulas:", error);
             }
         },
 
@@ -506,19 +557,24 @@ function crearModuloInventario(config) {
         agregarPresentacionAlAcumulador() {
             const nombre = $("#nombrePresentacion").val();
             const codigo = $("#codigoPresentacion").val();
-            const $precioCompra = $("#precioCompraPresentacion");
-            const $precioVenta = $("#precioVentaPresentacion");
+            const $precioCompra = $("#precioCompraPresentacion") ?? 0;
+            const $precioVenta = $("#precioVentaPresentacion") ?? 0;
             const tipo = $("#tipoProducto").val();
             const imagen = $("#imagenPresentacion")[0].files[0];
-            const stockActual = $("#stockActualPresentacion").val();
             const unidadMedida = $("#unidadMedidaPresentacion").val();
             const esPreparado = $("#preparada").val();
+            const idFormula = config.tieneFormula ? $("#formula").val() : null;
 
-            const precioCompraLimpio = this.obtenerValorLimpio($precioCompra);
-            const precioVentaLimpio = this.obtenerValorLimpio($precioVenta);
+            const precioCompraLimpio = $precioCompra.val() ? this.obtenerValorLimpio($precioCompra) : null;
+            const precioVentaLimpio = $precioVenta.val() ? this.obtenerValorLimpio($precioVenta) : null;
 
-            if (!nombre || !codigo || !precioCompraLimpio || !precioVentaLimpio || !tipo) {
-                Alerts.error("Campos incompletos", "Por favor completa todos los campos requeridos");
+            if (!nombre || !codigo || !tipo) {
+                Alerts.error("Campos incompletos", "Por favor completa los campos: nombre, código y tipo");
+                return;
+            }
+
+            if (config.tieneFormula && !idFormula) {
+                Alerts.error("Campos incompletos", "Por favor selecciona una fórmula");
                 return;
             }
 
@@ -526,14 +582,15 @@ function crearModuloInventario(config) {
                 id: Date.now(),
                 nombrePresentacion: nombre,
                 codigoPresentacion: codigo,
-                precioCompraPresentacion: parseInt(precioCompraLimpio),
-                precioVentaPresentacion: parseInt(precioVentaLimpio),
+                precioCompraPresentacion: precioCompraLimpio ? parseInt(precioCompraLimpio) : null,
+                precioVentaPresentacion: precioVentaLimpio ? parseInt(precioVentaLimpio) : null,
                 tipoProducto: tipo,
                 imagenPresentacion: imagen,
                 idProducto: this.idRegistro,
-                stockActual: parseInt(stockActual) || 0,
                 unidadMedidaProductosPresentacion: unidadMedida,
-                esPreparadoPresentacionProducto: esPreparado
+                esPreparadoPresentacionProducto: esPreparado,
+                idFormula: idFormula || null,
+                nombreFormula: idFormula ? $(`#formula option[value="${idFormula}"]`).text() : null
             };
 
             this.presentacionesAcumuladas.push(presentacion);
@@ -588,7 +645,8 @@ function crearModuloInventario(config) {
                         stockActual: p.stockActual,
                         unidadMedidaProductosPresentacion: p.unidadMedidaProductosPresentacion,
                         esPreparadoPresentacionProducto: p.esPreparadoPresentacionProducto,
-                        idProducto: p.idProducto
+                        idProducto: p.idProducto,
+                        idFormula: p.idFormula || null
                     };
                 });
 
@@ -651,7 +709,24 @@ function crearModuloInventario(config) {
         },
 
         separaMiles(numero) {
+            if (numero === null || numero === undefined || numero === "") {
+                return "0";
+            }
             return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        },
+
+        generarCodigoProducto(nombre) {
+            const timestamp = Date.now().toString().slice(-5); // últimos 5 dígitos
+            const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const nombreLimpio = nombre.replace(/\s+/g, '').toUpperCase().slice(0, 5); // primeros 5 caracteres
+            return `${nombreLimpio}-${timestamp}-${randomNum}`;
+        },
+
+        generarCodigoPresentacion(nombre) {
+            const timestamp = Date.now().toString().slice(-5); // últimos 5 dígitos
+            const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const nombreLimpio = nombre.replace(/\s+/g, '').toUpperCase().slice(0, 5); // primeros 5 caracteres
+            return `${nombreLimpio}-${timestamp}-${randomNum}`;
         }
     };
 

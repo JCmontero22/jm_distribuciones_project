@@ -44,7 +44,7 @@
         }
 
         public function registrarPresentaciones(array $presentaciones, array $files = []): array {
-            
+
             if (empty($presentaciones)) {
                 throw new DomainException('No se han proporcionado presentaciones para registrar');
             }

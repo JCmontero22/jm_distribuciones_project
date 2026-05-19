@@ -148,53 +148,45 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label for="precioCompraPresentacion" class="form-label">Precio compra presentacion</label>
+                                <label for="precioCompraPresentacion" class="form-label">Precio compra (Opcional)</label>
                                 <input type="text" class="form-control" id="precioCompraPresentacion" name="precioCompraPresentacion" placeholder="10.000" data-format-miles>
                             </div>
                         </div>
 
                         <div class="row mt-4">
-                            <div class="col-md-2">
-                                <label for="precioVentaPresentacion" class="form-label">Precio venta presentacion</label>
+                            <div class="col-md-4">
+                                <label for="precioVentaPresentacion" class="form-label">Precio venta (Opcional)</label>
                                 <input type="text" class="form-control" id="precioVentaPresentacion" name="precioVentaPresentacion" placeholder="30.000" data-format-miles>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label for="tipoProducto" class="form-label">Tipo Producto</label>
                                     <select class="form-select" id="tipoProducto" name="tipoProducto">
                                         <option value="" selected disabled>Seleccionar</option>
                                     </select>
                             </div>
-                            <div class="col-md-2">
-                                <label for="sedeProducto" class="form-label">Sede</label>
-                                    <select class="form-select" id="sedeProducto" name="sedeProducto">
-                                        <option value="" selected disabled>Seleccionar</option>
-                                    </select>
-                            </div>
 
-                            <div class="col-md-3">
-                                <label for="unidad" class="form-label">Unidad</label>
-                                    <select class="form-select" id="unidad" name="unidad">
+                            <div class="col-md-4">
+                                <label for="unidadMedidaPresentacion" class="form-label">Unidad</label>
+                                    <select class="form-select" id="unidadMedidaPresentacion" name="unidadMedidaPresentacion">
                                         <option value="" selected disabled>Seleccionar</option>
                                         <option value="true">Unidad</option>
                                         <option value="false">Gramo</option>
                                     </select>
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="preparada" class="form-label">Preparada</label>
-                                    <select class="form-select" id="preparada" name="preparada">
-                                        <option value="" selected disabled>Seleccionar</option>
-                                        <option value="1">SI</option>
-                                        <option value="0">NO</option>
-                                    </select>
-                            </div>
-                           
-                        </div>
-
-                        <div class="row mt-4">
-                            <div class="col-md-12">
-                                <label for="imagenPresentacion" class="form-label">Imagen presentacion</label>
-                                <input type="file" class="form-control" id="imagenPresentacion" name="imagenPresentacion" accept="image/*">
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <label for="preparada" class="form-label">Preparada</label>
+                                        <select class="form-select" id="preparada" name="preparada">
+                                            <option value="" selected disabled>Seleccionar</option>
+                                            <option value="1">SI</option>
+                                            <option value="0">NO</option>
+                                        </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="imagenPresentacion" class="form-label">Imagen presentacion</label>
+                                    <input type="file" class="form-control" id="imagenPresentacion" name="imagenPresentacion" accept="image/*">
+                                </div>
                             </div>
                         </div>
 

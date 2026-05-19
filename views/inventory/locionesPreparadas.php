@@ -1,4 +1,4 @@
-<section class="content-panel" id="locionesPreparadasModule" data-inventory-config='{"categoria":"Lociones","contenedorSelector":".content-inventory-lociones-preparadas","cantidadId":"#cantidad-lociones-preparadas","accionListar":"listadoLociones","tieneSedes":true}'>
+<section class="content-panel" id="locionesPreparadasModule" data-inventory-config='{"categoria":"Lociones Preparadas","contenedorSelector":".content-inventory-lociones-preparadas","cantidadId":"#cantidad-lociones-preparadas","accionListar":"listarProductos","tieneSedes":true,"tieneFormula":true}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Lociones Preparadas</h1>
@@ -62,7 +62,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <label for="nombreProducto" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ej: Reloj Curren 1030">
+                                <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ej: 212 Men">
                                 
                             </div>
 
@@ -139,7 +139,7 @@
                         <div class="row">
                             <div class="col-md-4 mb-4">
                                 <label for="nombrePresentacion" class="form-label">Nombre Presentacion</label>
-                                <input type="text" class="form-control" id="nombrePresentacion" name="nombrePresentacion" placeholder="Ej: Curren 103 - rojo, 30ml">
+                                <input type="text" class="form-control" id="nombrePresentacion" name="nombrePresentacion" placeholder="Ej: 212 Men 300ml">
                             </div>
 
                             <div class="col-md-4">
@@ -148,17 +148,6 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label for="precioCompraPresentacion" class="form-label">Precio compra presentacion</label>
-                                <input type="text" class="form-control" id="precioCompraPresentacion" name="precioCompraPresentacion" placeholder="10.000" data-format-miles>
-                            </div>
-                        </div>
-
-                        <div class="row mt-4">
-                            <div class="col-md-3">
-                                <label for="precioVentaPresentacion" class="form-label">Precio venta presentacion</label>
-                                <input type="text" class="form-control" id="precioVentaPresentacion" name="precioVentaPresentacion" placeholder="30.000" data-format-miles>
-                            </div>
-                            <div class="col-md-3">
                                 <label for="tipoProducto" class="form-label">Tipo Producto</label>
                                     <select class="form-select" id="tipoProducto" name="tipoProducto">
                                         <option value="" selected disabled>Seleccionar</option>
@@ -166,17 +155,32 @@
                                         <option value="2">PRODUCCION</option>
                                     </select>
                             </div>
+                        </div>
 
-                            <div class="col-md-3">
-                                <label for="unidad" class="form-label">Unidad</label>
-                                    <select class="form-select" id="unidad" name="unidad">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <label for="precioCompraPresentacion" class="form-label">Precio compra (Opcional)</label>
+                                <input type="text" class="form-control" id="precioCompraPresentacion" name="precioCompraPresentacion" placeholder="10.000" data-format-miles>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="precioVentaPresentacion" class="form-label">Precio venta (Opcional)</label>
+                                <input type="text" class="form-control" id="precioVentaPresentacion" name="precioVentaPresentacion" placeholder="30.000" data-format-miles>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <label for="unidadMedidaPresentacion" class="form-label">Unidad</label>
+                                    <select class="form-select" id="unidadMedidaPresentacion" name="unidadMedidaPresentacion">
                                         <option value="" selected disabled>Seleccionar</option>
                                         <option value="true">Unidad</option>
                                         <option value="false">Gramo</option>
                                     </select>
                             </div>
+                        </div>
 
-                            <div class="col-md-3">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
                                 <label for="preparada" class="form-label">Preparada</label>
                                     <select class="form-select" id="preparada" name="preparada">
                                         <option value="" selected disabled>Seleccionar</option>
@@ -184,11 +188,14 @@
                                         <option value="0">NO</option>
                                     </select>
                             </div>
-                           
-                        </div>
+                            <div class="col-md-4">
+                                <label for="formula" class="form-label">Formula</label>
+                                    <select class="form-select" id="formula" name="formula">
+                                        <option value="" selected disabled>Seleccionar</option>
+                                    </select>
+                            </div>
 
-                        <div class="row mt-4">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label for="imagenPresentacion" class="form-label">Imagen presentacion</label>
                                 <input type="file" class="form-control" id="imagenPresentacion" name="imagenPresentacion" accept="image/*">
                             </div>
@@ -214,13 +221,14 @@
                                                 <th>Precio Compra</th>
                                                 <th>Precio Venta</th>
                                                 <th>Tipo</th>
+                                                <th>Fórmula</th>
                                                 <th>Imagen</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tablaPresentaciones">
                                             <tr>
-                                                <td colspan="7" class="text-center text-muted">No hay presentaciones agregadas</td>
+                                                <td colspan="8" class="text-center text-muted">No hay presentaciones agregadas</td>
                                             </tr>
                                         </tbody>
                                     </table>
