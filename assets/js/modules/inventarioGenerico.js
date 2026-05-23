@@ -176,8 +176,8 @@ function crearModuloInventario(config) {
      */
     const View = {
         renderizarTarjetaProducto(producto) {
-            const precioCompra = producto.precio_compra_presentacion ? `$ ${Module.separaMiles(producto.precio_compra_presentacion)}` : '-';
-            const precioVenta = producto.precio_venta_presentacion ? `$ ${Module.separaMiles(producto.precio_venta_presentacion)}` : '-';
+            const precioCompra = producto.precio_compra_presentacion ? `$ ${FormatUtils.separaMiles(producto.precio_compra_presentacion)}` : '-';
+            const precioVenta = producto.precio_venta_presentacion ? `$ ${FormatUtils.separaMiles(producto.precio_venta_presentacion)}` : '-';
 
             return `
                 <div class="card-inventory">
@@ -380,7 +380,7 @@ function crearModuloInventario(config) {
                 View.limpiarFormulario("#formRegistroProducto");
             });
 
-            $("[data-format-miles]").on("input", (e) => this.formatearMiles(e));
+            $("[data-format-miles]").on("input", (e) => FormatUtils.formatearMiles(e));
 
             $("#buscar").on("input", (e) => {
                 const query = e.target.value.trim();
@@ -421,19 +421,6 @@ function crearModuloInventario(config) {
             });
         },
 
-        formatearMiles(e) {
-            const $input = $(e.target);
-            let valor = $input.val().replace(/\D/g, "");
-
-            if (valor) {
-                $input.data("valor-limpio", valor);
-                $input.val(this.separaMiles(valor));
-            }
-        },
-
-        obtenerValorLimpio($input) {
-            return $input.data("valor-limpio") || $input.val().replace(/\D/g, "");
-        },
 
         async cargarDatos() {
             try {
@@ -565,8 +552,8 @@ function crearModuloInventario(config) {
             const esPreparado = $("#preparada").val();
             const idFormula = config.tieneFormula ? $("#formula").val() : null;
 
-            const precioCompraLimpio = $precioCompra.val() ? this.obtenerValorLimpio($precioCompra) : null;
-            const precioVentaLimpio = $precioVenta.val() ? this.obtenerValorLimpio($precioVenta) : null;
+            const precioCompraLimpio = $precioCompra.val() ? FormatUtils.obtenerValorLimpio($precioCompra) : null;
+            const precioVentaLimpio = $precioVenta.val() ? FormatUtils.obtenerValorLimpio($precioVenta) : null;
 
             if (!nombre || !codigo || !tipo) {
                 Alerts.error("Campos incompletos", "Por favor completa los campos: nombre, código y tipo");
@@ -706,13 +693,6 @@ function crearModuloInventario(config) {
                 tabla.html('<tr><td colspan="7" class="text-center text-muted">No hay presentaciones agregadas</td></tr>');
             }
             View.limpiarFormulario("#formRegistroPresentacionProducto");
-        },
-
-        separaMiles(numero) {
-            if (numero === null || numero === undefined || numero === "") {
-                return "0";
-            }
-            return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
 
         generarCodigoProducto(nombre) {

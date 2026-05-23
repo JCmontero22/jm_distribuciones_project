@@ -6,6 +6,8 @@
 
         <div class="col-md-2">
             <button type="button" class="btn btn-new-product" id="btnModalCompra" data-bs-toggle="modal" data-bs-target="#modalRegistroCompra"><i class="fa-solid fa-plus"></i> Nueva Compra</button>
+            <br>
+            <button type="button" class="btn btn-new-product" id="btnModalDetalleCompra" data-bs-toggle="modal" data-bs-target="#modalRegistroDetalleCompra"><i class="fa-solid fa-plus"></i> Nuevo detalle</button>
         </div>
     </div>
 </section>
@@ -44,15 +46,15 @@
                     <div class="row">
 
                         <div class="col-md-4">
-                            <select class="form-select" name="proveedor" id="selectProveedor"></select>
+                            <select class="form-select" name="idProveedor" id="selectProveedor"></select>
                         </div>
 
                         <div class="col-md-4">
-                            <input type="text" name="totalCompra" id="totalCompra" class="form-control" placeholder="Total Compra" readonly>
+                            <input type="text" name="totalCompra" id="totalCompra" class="form-control" placeholder="Total Compra" data-format-miles>
                         </div>
 
                         <div class="col-md-4">
-                            <input type="text" name="costoUnitario " id="numeroFactura" class="form-control" placeholder="Número de Factura">
+                            <input type="text" name="numeroFacturaCompra" id="numeroFacturaCompra" class="form-control" placeholder="Número de Factura">
                         </div>
                     </div>
 
@@ -69,35 +71,67 @@
 
 <!-- ************************** MODAL DE REGISTRO DEL DETALLE DE COMPRA ********** -->
 <div class="modal fade" id="modalRegistroDetalleCompra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistroDetalleCompraLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="modal-cabecera">
                     <h3 class="modal-title" id="modalRegistroDetalleCompraLabel">Registrar Detalle de Compra</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="" id="registroDeDetalleCompra">
+                <form action="" id="formDetalleCompra">
                     <div class="row">
-
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <select class="form-select" name="producto" id="selectProducto"></select>
                         </div>
 
-                        <div class="col-md-4">
-                            <input type="text" name="cantidad" id="cantidad" class="form-control" placeholder="Cantidad" readonly>
+                        <div class="col-md-2">
+                            <input type="text" name="cantidad" id="cantidad" class="form-control" placeholder="Cantidad">
                         </div>
 
-                        <div class="col-md-4">
-                            <input type="text" name="costoUnitario" id="costoUnitario" class="form-control" placeholder="Costo Unitario" readonly>
+                        <div class="col-md-2">
+                            <input type="text" name="costoUnitario" id="costoUnitario" class="form-control" placeholder="Costo Unitario" data-format-miles>
+                        </div>
+
+                        <div class="col-md-2">
+                            <input type="text" name="subtotal" id="subtotal" class="form-control" placeholder="Subtotal" readonly>
                         </div>
                     </div>
 
-                    <div class="row d-flex justify-content-center mt-5">
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i>Siguiente</button>
+                    <div class="row d-flex justify-content-center mt-3">
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success w-100" id="btnAgregarDetalle">
+                                <i class="fa-solid fa-plus"></i> Agregar
+                            </button>
                         </div>
                     </div>
                 </form>
+
+                <!-- Tabla de detalles agregados -->
+                <div id="detallesAcumuladosContainer" style="display: none; margin-top: 30px;">
+                    <h5>Detalles de compra agregados</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Subtotal</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaDetalles"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="row d-flex justify-content-center mt-4">
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary w-100" id="btnRegistrarDetalles">
+                                <i class="fa-regular fa-floppy-disk"></i> Registrar Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
