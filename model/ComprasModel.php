@@ -24,14 +24,7 @@
 
         public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
 
-            $query = "INSERT INTO detalle_compra (
-                id_compra,
-                id_presentacion,
-                id_sede,
-                cantidad_detalle_compra,
-                costo_unitario_detalle_compra,
-                subtotal_detalle_compra
-            ) VALUES (:id_compra, :id_presentacion, :id_sede, :cantidad, :costo_unitario, :subtotal)";
+            $query = "INSERT INTO `detalle_compra` (`id_compra`, `id_presentacion`, `id_sede`, `cantidad_detalle_compra`, `costo_unitario_detalle_compra`, `subtotal_detalle_compra`) VALUES (:id_compra, :id_presentacion, :id_sede, :cantidad, :costo_unitario, :subtotal)";
 
             foreach ($detalle as $item) {
                 $params = [
