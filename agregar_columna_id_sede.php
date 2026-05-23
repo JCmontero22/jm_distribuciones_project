@@ -11,7 +11,7 @@ ini_set('display_errors', 1);
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$database = 'distribuciones_jm';
+$database = 'jm_distribuciones';
 
 try {
     echo "<h1>🔧 Agregar columna id_sede a detalle_compra</h1>\n";

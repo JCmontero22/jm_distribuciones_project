@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$database = 'distribuciones_jm';
+$database = 'jm_distribuciones';
 
 echo "<h1>🔍 Prueba de INSERT Directo</h1>\n";
 echo "<hr>\n";
