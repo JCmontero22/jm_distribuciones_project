@@ -24,8 +24,6 @@
 
         public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
 
-            $this->db->beginTransaction();
-
             $query = "INSERT INTO detalle_compra (
                 id_compra,
                 id_presentacion,
@@ -49,7 +47,6 @@
                 $this->recalculo($item);
             }
 
-            $this->db->commit();
             return true;
         }
 
