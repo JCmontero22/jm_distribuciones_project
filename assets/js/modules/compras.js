@@ -54,6 +54,23 @@ const ComprasAPI = {
                 },
             });
         });
+    },
+
+    obtenerSedes() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/sedeAjax.php",
+                method: "GET",
+                data: { accion: "listadoSedes" },
+                success(response) {
+                    const datos = JSON.parse(response);
+                    resolve(datos.data || []);
+                },
+                error(error) {
+                    reject(error);
+                },
+            });
+        });
     }
 };
 
@@ -124,6 +141,7 @@ const comprasModule = {
             await Promise.all([
                 this.cargarProductos(),
                 this.cargarProveedores(),
+                this.cargarSedes(),
             ]);
         } catch (error) {
             Alerts.error("Error", "No se pudieron cargar los datos");
@@ -149,15 +167,29 @@ const comprasModule = {
         }
     },
 
+    async cargarSedes() {
+        try {
+            const sedes = await ComprasAPI.obtenerSedes();
+            let listado = '<option value="">Seleccione sede</option>';
+            sedes.forEach((sede) => {
+                listado += `<option value="${sede.id_sede}">${sede.nombre_sede}</option>`;
+            });
+            $("#selectSede").html(listado);
+        } catch (error) {
+            console.error("Error al cargar sedes:", error);
+        }
+    },
+
     agregarDetalleAlAcumulador() {
+        const idSede = $("#selectSede").val();
+        const nombreSede = $("#selectSede option:selected").text();
         const idProducto = $("#selectProducto").val();
         const nombreProducto = $("#selectProducto option:selected").text();
         const cantidad = $("#cantidad").val();
         const costoUnitario = $("#costoUnitario").val();
-        const subtotalFormato = $("#subtotal").val();
 
-        if (!idProducto || !cantidad || !costoUnitario) {
-            Alerts.error("Campos incompletos", "Por favor completa producto, cantidad y costo unitario");
+        if (!idSede || !idProducto || !cantidad || !costoUnitario) {
+            Alerts.error("Campos incompletos", "Por favor completa: sede, producto, cantidad y costo unitario");
             return;
         }
 
@@ -166,6 +198,8 @@ const comprasModule = {
 
         const detalle = {
             id: Date.now(),
+            idSede: idSede,
+            nombreSede: nombreSede,
             idProducto: idProducto,
             nombreProducto: nombreProducto,
             cantidad: parseInt(cantidad),
@@ -191,6 +225,7 @@ const comprasModule = {
         container.show();
         tabla.html(this.detallesAcumulados.map(d => `
             <tr>
+                <td>${d.nombreSede}</td>
                 <td>${d.nombreProducto}</td>
                 <td>${d.cantidad}</td>
                 <td>$ ${FormatUtils.separaMiles(d.costoUnitario)}</td>

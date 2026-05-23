@@ -80,6 +80,10 @@
                 </div>
                 <form action="" id="formDetalleCompra">
                     <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-select" name="sede" id="selectSede"></select>
+                        </div>
+
                         <div class="col-md-6">
                             <select class="form-select" name="producto" id="selectProducto"></select>
                         </div>
@@ -88,18 +92,19 @@
                             <input type="text" name="cantidad" id="cantidad" class="form-control" placeholder="Cantidad">
                         </div>
 
-                        <div class="col-md-2">
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-3">
                             <input type="text" name="costoUnitario" id="costoUnitario" class="form-control" placeholder="Costo Unitario" data-format-miles>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <input type="text" name="subtotal" id="subtotal" class="form-control" placeholder="Subtotal" readonly>
                         </div>
-                    </div>
 
-                    <div class="row d-flex justify-content-center mt-3">
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-success w-100" id="btnAgregarDetalle">
+                        <div class="col-md-3 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary btnRegistro w-100" id="btnAgregarDetalle">
                                 <i class="fa-solid fa-plus"></i> Agregar
                             </button>
                         </div>
@@ -110,9 +115,10 @@
                 <div id="detallesAcumuladosContainer" style="display: none; margin-top: 30px;">
                     <h5>Detalles de compra agregados</h5>
                     <div class="table-responsive">
-                        <table class="table table-striped table-sm">
+                        <table class="table table-striped table-hover table-sm">
                             <thead class="table-dark">
                                 <tr>
+                                    <th>Sede</th>
                                     <th>Producto</th>
                                     <th>Cantidad</th>
                                     <th>Precio Unitario</th>
@@ -126,7 +132,7 @@
 
                     <div class="row d-flex justify-content-center mt-4">
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary w-100" id="btnRegistrarDetalles">
+                            <button type="button" class="btn btn-primary btnRegistro w-100" id="btnRegistrarDetalles">
                                 <i class="fa-regular fa-floppy-disk"></i> Registrar Detalles
                             </button>
                         </div>
