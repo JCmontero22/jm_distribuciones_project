@@ -24,19 +24,31 @@
 
         public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
 
-            $query = "INSERT INTO `detalle_compra` (`id_compra`, `id_presentacion`, `id_sede`, `cantidad_detalle_compra`, `costo_unitario_detalle_compra`, `subtotal_detalle_compra`) VALUES (:id_compra, :id_presentacion, :id_sede, :cantidad, :costo_unitario, :subtotal)";
+            $queryInsert = "INSERT INTO `detalle_compra` (`id_compra`, `id_presentacion`, `cantidad_detalle_compra`, `costo_unitario_detalle_compra`, `subtotal_detalle_compra`) VALUES (:id_compra, :id_presentacion, :cantidad, :costo_unitario, :subtotal)";
+
+            $queryUpdate = "UPDATE `detalle_compra` SET `id_sede` = :id_sede WHERE `id_detalle_compra` = :id_detalle_compra";
 
             foreach ($detalle as $item) {
-                $params = [
+                $paramsInsert = [
                     ':id_compra' => $idCompra,
                     ':id_presentacion' => $item['idProductoPresentacion'],
-                    ':id_sede' => $item['idSede'],
                     ':cantidad' => $item['cantidad'],
                     ':costo_unitario' => $item['precioCompra'],
                     ':subtotal' => $item['subTotal']
                 ];
 
-                $this->execute($query, $params);
+                $this->execute($queryInsert, $paramsInsert);
+
+                // Obtener el ID del registro insertado
+                $lastId = $this->db->lastInsertId();
+
+                // Actualizar con id_sede
+                $paramsUpdate = [
+                    ':id_sede' => $item['idSede'],
+                    ':id_detalle_compra' => $lastId
+                ];
+                $this->execute($queryUpdate, $paramsUpdate);
+
                 $this->recalculo($item);
             }
 
