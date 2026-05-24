@@ -24,31 +24,26 @@
 
         public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
 
-            $queryInsert = "INSERT INTO `detalle_compra` (`id_compra`, `id_presentacion`, `cantidad_detalle_compra`, `costo_unitario_detalle_compra`, `subtotal_detalle_compra`) VALUES (:id_compra, :id_presentacion, :cantidad, :costo_unitario, :subtotal)";
-
-            $queryUpdate = "UPDATE `detalle_compra` SET `id_sede` = :id_sede WHERE `id_detalle_compra` = :id_detalle_compra";
+            $query = "INSERT INTO detalle_compra (
+                id_compra,
+                id_presentacion,
+                id_sede,
+                cantidad_detalle_compra,
+                costo_unitario_detalle_compra,
+                subtotal_detalle_compra
+            ) VALUES (:id_compra, :id_presentacion, :id_sede, :cantidad, :costo_unitario, :subtotal)";
 
             foreach ($detalle as $item) {
-                $paramsInsert = [
+                $params = [
                     ':id_compra' => $idCompra,
                     ':id_presentacion' => $item['idProductoPresentacion'],
+                    ':id_sede' => $item['idSede'],
                     ':cantidad' => $item['cantidad'],
                     ':costo_unitario' => $item['precioCompra'],
                     ':subtotal' => $item['subTotal']
                 ];
 
-                $this->execute($queryInsert, $paramsInsert);
-
-                // Obtener el ID del registro insertado
-                $lastId = $this->db->lastInsertId();
-
-                // Actualizar con id_sede
-                $paramsUpdate = [
-                    ':id_sede' => $item['idSede'],
-                    ':id_detalle_compra' => $lastId
-                ];
-                $this->execute($queryUpdate, $paramsUpdate);
-
+                $this->execute($query, $params);
                 $this->recalculo($item);
             }
 
@@ -73,20 +68,23 @@
         private function recalculoEsencia(array $data, array $dataPresentacion, int $idSede): void {
             $dataStockEsencia = $this->dataStockEsencia($data['idProductoPresentacion'], $idSede);
 
+            // Cantidad total de gramos = cantidad_comprada × tamaño_presentacion
+            $cantidadGramos = $data['cantidad'] * ($dataPresentacion['cantidad_gramos_presentacion'] ?? 1);
+
             // Calcular costo por gramo
-            $costoPorGramo = $data['precioCompra'] / $data['cantidad'];
+            $costoPorGramo = $data['precioCompra'] / $cantidadGramos;
 
             // Crear o actualizar inventario en GRAMOS
             if (!$dataStockEsencia) {
                 $registroStockEsencia = [
                     'id_presentacion' => $data['idProductoPresentacion'],
                     'id_sede' => $idSede,
-                    'cantidad_gramos' => $data['cantidad'],
+                    'cantidad_gramos' => $cantidadGramos,
                     'costo_por_gramo' => $costoPorGramo
                 ];
                 $this->registrarStockEsencia($registroStockEsencia);
             } else {
-                $nuevoStock = $dataStockEsencia['cantidad_gramos'] + $data['cantidad'];
+                $nuevoStock = $dataStockEsencia['cantidad_gramos'] + $cantidadGramos;
                 $this->actualizarStockEsencia(
                     $data['idProductoPresentacion'],
                     $idSede,
@@ -153,22 +151,23 @@
                         productos_presentaciones.id_presentacion,
                         productos_presentaciones.nombre_presentacion,
                         productos_presentaciones.precio_compra_presentacion,
+                        productos_presentaciones.cantidad_gramos_presentacion,
                         productos_presentaciones.unidad_medida_productos_presentacion,
                         productos_presentaciones.es_preparado_presentacion_producto,
                         productos_presentaciones.id_formula,
                         tipo_producto.id_tipo_producto,
-                        tipo_producto.nombre_tipo_producto,
-                        categorias.id_categoria AS id_categoria_producto,
-                        categorias.nombre_categoria,
-                        marcas.id_marca,
-                        marcas.nombre_marca,
-                        inventario_sede.id_sede
+                        tipo_producto.descripcion_tipo_producto,
+                        categoria_producto.id_categoria AS id_categoria_producto,
+                        categoria_producto.nombre_categoria,
+                        marca_producto.id_marca,
+                        marca_producto.nombre_marca,
+                        inventario_sedes.id_sede
                     FROM productos
                     INNER JOIN productos_presentaciones ON productos.id_producto = productos_presentaciones.id_producto
                     INNER JOIN tipo_producto ON productos_presentaciones.id_tipo_producto = tipo_producto.id_tipo_producto
-                    INNER JOIN categorias ON productos.id_categoria = categorias.id_categoria
-                    INNER JOIN marcas ON productos.id_marca = marcas.id_marca
-                    LEFT JOIN inventario_sede ON productos_presentaciones.id_presentacion = inventario_sede.id_presentacion
+                    INNER JOIN categoria_producto ON productos.id_categoria = categoria_producto.id_categoria
+                    INNER JOIN marca_producto ON productos.id_marca = marca_producto.id_marca
+                    LEFT JOIN inventario_sedes ON productos_presentaciones.id_presentacion = inventario_sedes.id_presentacion
                     WHERE productos_presentaciones.id_presentacion = :id_presentacion
                     LIMIT 1";
             $params = [':id_presentacion' => $idProductoPresentacion];
@@ -177,7 +176,7 @@
         }
 
         private function dataStockSede(int $idPresentacion, int $idSede) {
-            $query = "SELECT * FROM inventario_sede
+            $query = "SELECT * FROM inventario_sedes
                       WHERE id_presentacion = :id_presentacion
                       AND id_sede = :id_sede";
             $params = [
@@ -189,7 +188,7 @@
         }
 
         private function registrarStockSede(array $data) {
-            $query = "INSERT INTO inventario_sede (
+            $query = "INSERT INTO inventario_sedes (
                 id_sede,
                 stock_sede,
                 id_presentacion
@@ -205,7 +204,7 @@
         }
 
         private function actualizarStockSede(int $idPresentacion, int $idSede, int $nuevoStock) {
-            $query = "UPDATE inventario_sede SET stock_sede = :nuevo_stock WHERE id_sede = :id_sede AND id_presentacion = :id_presentacion";
+            $query = "UPDATE inventario_sedes SET stock_sede = :nuevo_stock WHERE id_sede = :id_sede AND id_presentacion = :id_presentacion";
             $params = [
                 ':nuevo_stock' => $nuevoStock,
                 ':id_sede' => $idSede,

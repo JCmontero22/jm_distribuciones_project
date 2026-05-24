@@ -246,6 +246,7 @@ function crearModuloInventario(config) {
                 <tr>
                     <td>${presentacion.nombrePresentacion}</td>
                     <td>${presentacion.codigoPresentacion}</td>
+                    <td>${presentacion.cantidadGramosPresentacion ? presentacion.cantidadGramosPresentacion + 'g' : '-'}</td>
                     ${preciosHtml}
                     <td>
                         <span class="badge ${presentacion.tipoProducto === '1' ? 'bg-info' : 'bg-warning'}">
@@ -272,6 +273,7 @@ function crearModuloInventario(config) {
                 let encabezados = `
                     <th>Nombre</th>
                     <th>Código</th>
+                    <th>Tamaño (g)</th>
                     <th>Precio Compra</th>
                     <th>Precio Venta</th>
                     <th>Tipo</th>
@@ -286,7 +288,7 @@ function crearModuloInventario(config) {
                     <th>Acciones</th>
                 `;
 
-                const colspan = config.tieneFormula ? 8 : 7;
+                const colspan = config.tieneFormula ? 9 : 8;
 
                 $("#formRegistroPresentacionProducto").after(`
                     <div class="row mt-4">
@@ -309,7 +311,7 @@ function crearModuloInventario(config) {
             }
 
             if (presentaciones.length === 0) {
-                const colspan = config.tieneFormula ? 8 : 7;
+                const colspan = config.tieneFormula ? 9 : 8;
                 tabla.html(`<tr><td colspan="${colspan}" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
                 return;
             }
@@ -550,6 +552,7 @@ function crearModuloInventario(config) {
             const imagen = $("#imagenPresentacion")[0].files[0];
             const unidadMedida = $("#unidadMedidaPresentacion").val();
             const esPreparado = $("#preparada").val();
+            const cantidadGramosPresentacion = $("#cantidadGramosPresentacion").val(); // Nuevo: tamaño en gramos
             const idFormula = config.tieneFormula ? $("#formula").val() : null;
 
             const precioCompraLimpio = $precioCompra.val() ? FormatUtils.obtenerValorLimpio($precioCompra) : null;
@@ -575,6 +578,7 @@ function crearModuloInventario(config) {
                 imagenPresentacion: imagen,
                 idProducto: this.idRegistro,
                 unidadMedidaProductosPresentacion: unidadMedida,
+                cantidadGramosPresentacion: cantidadGramosPresentacion ? parseInt(cantidadGramosPresentacion) : null,
                 esPreparadoPresentacionProducto: esPreparado,
                 idFormula: idFormula || null,
                 nombreFormula: idFormula ? $(`#formula option[value="${idFormula}"]`).text() : null
@@ -631,6 +635,7 @@ function crearModuloInventario(config) {
                         tipoProducto: p.tipoProducto,
                         stockActual: p.stockActual,
                         unidadMedidaProductosPresentacion: p.unidadMedidaProductosPresentacion,
+                        cantidadGramosPresentacion: p.cantidadGramosPresentacion,
                         esPreparadoPresentacionProducto: p.esPreparadoPresentacionProducto,
                         idProducto: p.idProducto,
                         idFormula: p.idFormula || null
@@ -690,7 +695,8 @@ function crearModuloInventario(config) {
             this.presentacionesAcumuladas = [];
             const tabla = $("#tablaPresentaciones");
             if (tabla.length > 0) {
-                tabla.html('<tr><td colspan="7" class="text-center text-muted">No hay presentaciones agregadas</td></tr>');
+                const colspan = config.tieneFormula ? 9 : 8;
+                tabla.html(`<tr><td colspan="${colspan}" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
             }
             View.limpiarFormulario("#formRegistroPresentacionProducto");
         },
