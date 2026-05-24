@@ -76,17 +76,20 @@
                             c.nombre_categoria,
                             m.nombre_marca,
                             g.nombre_genero,
+                            pp.id_presentacion,
                             pp.img_presentacion,
-                            st.stock_actual,
                             pp.precio_venta_presentacion,
                             pp.precio_compra_presentacion,
-                            pp.nombre_presentacion
+                            pp.nombre_presentacion,
+                            pp.unidad_medida_productos_presentacion,
+                            COALESCE(ie.cantidad_gramos, 0) AS cantidad_gramos,
+                            COALESCE(ie.costo_por_gramo, 0) AS costo_por_gramo
                         FROM productos p
                         LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
                         LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
                         LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
                         LEFT JOIN genero g ON p.id_genero = g.id_genero
-                        LEFT JOIN inventario_sedes st ON pp.id_presentacion = st.id_presentacion
+                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion
                         WHERE c.nombre_categoria = :categoria";
 
             $params = [':categoria' => $nombreCategoria];
@@ -94,6 +97,22 @@
             return $this->select($query, $params);
         }
 
+        public function obtenerProductosCompra() : array {
+            $query = "SELECT
+                            p.id_producto,
+                            p.nombre_producto,
+                            pp.id_presentacion,
+                            pp.nombre_presentacion,
+                            pp.img_presentacion,
+                            pp.precio_compra_presentacion,
+                            ct.nombre_categoria
+                        FROM productos p
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        LEFT JOIN categoria_producto ct ON p.id_categoria = ct.id_categoria
+                        WHERE p.id_categoria IN (1, 3, 4, 5)";
+
+            return $this->select($query);
+        }
 
     }
     

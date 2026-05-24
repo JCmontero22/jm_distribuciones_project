@@ -1,4 +1,4 @@
-<section class="content-panel" id="relojesModule" data-inventory-config='{"categoria":"Relojes","contenedorSelector":".content-inventory","cantidadId":"#cantidad-relojes","accionListar":"listarProductos","tieneSedes":true}'>
+<section class="content-panel" id="relojesModule" data-inventory-config='{"categoria":"Relojes","contenedorSelector":".content-inventory","cantidadId":"#cantidad-relojes","accionListar":"listarProductos","tieneSedes":true, "idModalPresentacion":"#modalRegistroPresentacion"}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Relojes</h1>

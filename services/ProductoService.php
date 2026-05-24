@@ -81,5 +81,9 @@
         public function obtenerProductos(string $categoria): array {
             return $this->modelo->obtenerProductos($categoria);
         }
+
+        public function productosCompra(): array {
+            return $this->modelo->obtenerProductosCompra();
+        }
     }
 

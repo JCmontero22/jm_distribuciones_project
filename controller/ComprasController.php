@@ -14,6 +14,16 @@
             $this->servicio = $servicio;
         }
 
+        public function listar(): array {
+            try {
+                $compras = $this->servicio->obtenerCompras();
+                return response::success($compras, 'Compras obtenidas exitosamente');
+            } catch (\Exception $e) {
+                Logger::error("Error al listar compras", $e, []);
+                return response::error('Error al obtener compras');
+            }
+        }
+
         public function registrar(array $request): array {
             try {
 

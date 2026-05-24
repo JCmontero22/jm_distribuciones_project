@@ -5,7 +5,23 @@
 
 
     class ComprasModel extends conexion {
-    
+
+        public function obtenerCompras(): array {
+            $query = "SELECT
+                        c.id_compras,
+                        c.numero_factura_compra,
+                        c.total_compra,
+                        COUNT(dc.id_detalle_compra) as cantidad_detalles,
+                        GROUP_CONCAT(DISTINCT pp.nombre_presentacion SEPARATOR ', ') as presentaciones
+                    FROM compras c
+                    LEFT JOIN detalle_compra dc ON c.id_compras = dc.id_compra
+                    LEFT JOIN productos_presentaciones pp ON dc.id_presentacion = pp.id_presentacion
+                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra
+                    ORDER BY c.id_compras DESC";
+
+            return $this->select($query, []);
+        }
+
         public function registrarCompra(array $data): mixed {
             $query = "INSERT INTO compras (
                 id_proveedor,
@@ -54,10 +70,15 @@
             $dataProductoPresentacion = $this->dataProductoPresentacion($data['idProductoPresentacion']);
             $idSede = $data['idSede'];
 
+            error_log("[ComprasModel::recalculo] Presentación: " . $dataProductoPresentacion['nombre_presentacion'] .
+                      " | Unidad: " . $dataProductoPresentacion['unidad_medida_productos_presentacion']);
+
             // Diferenciar por tipo de unidad de medida
             if ($dataProductoPresentacion['unidad_medida_productos_presentacion'] === 'gramo') {
+                error_log("[ComprasModel::recalculo] ES ESENCIA - Llamando recalculoEsencia");
                 $this->recalculoEsencia($data, $dataProductoPresentacion, $idSede);
             } else {
+                error_log("[ComprasModel::recalculo] NO ES ESENCIA - Llamando recalculoProductoRegular");
                 $this->recalculoProductoRegular($data, $dataProductoPresentacion, $idSede);
             }
         }
@@ -66,10 +87,27 @@
          * Flujo para ESENCIAS: registra en gramos en inventario_esencias y recalcula fórmulas
          */
         private function recalculoEsencia(array $data, array $dataPresentacion, int $idSede): void {
+            error_log("[ComprasModel::recalculoEsencia] Iniciando recalculoEsencia");
+            error_log("  - Presentación: " . $dataPresentacion['nombre_presentacion']);
+            error_log("  - Cantidad comprada: " . $data['cantidad']);
+            error_log("  - Precio compra: " . $data['precioCompra']);
+            error_log("  - Sede: " . $idSede);
+
             $dataStockEsencia = $this->dataStockEsencia($data['idProductoPresentacion'], $idSede);
 
+            // Obtener tamaño de presentación: usar campo o extraer del nombre
+            $tamanioPresentacion = $dataPresentacion['cantidad_gramos_presentacion'];
+            error_log("  - cantidad_gramos_presentacion (BD): " . ($tamanioPresentacion ?? 'NULL'));
+
+            if (!$tamanioPresentacion) {
+                // Fallback: extraer gramos del nombre de presentación (ej: "212 MEN - 125G" -> 125)
+                $tamanioPresentacion = $this->extraerGramosDelNombre($dataPresentacion['nombre_presentacion']) ?? 1;
+                error_log("  - cantidad_gramos_presentacion (PARSED): " . $tamanioPresentacion);
+            }
+
             // Cantidad total de gramos = cantidad_comprada × tamaño_presentacion
-            $cantidadGramos = $data['cantidad'] * ($dataPresentacion['cantidad_gramos_presentacion'] ?? 1);
+            $cantidadGramos = $data['cantidad'] * $tamanioPresentacion;
+            error_log("  - Total gramos a registrar: " . $cantidadGramos);
 
             // Calcular costo por gramo
             $costoPorGramo = $data['precioCompra'] / $cantidadGramos;
@@ -98,7 +136,11 @@
             $this->actualizarValorCompra($data['idProductoPresentacion'], $nuevoPrecioCompra);
 
             // DISPARA RECÁLCULO DE TODAS LAS FÓRMULAS QUE USAN ESTA ESENCIA
-            $this->dispararRecalculoFórmulas($data['idProductoPresentacion']);
+            // Obtener id_producto de la presentación comprada
+            $dataPresentacion = $this->dataProductoPresentacion($data['idProductoPresentacion']);
+            if ($dataPresentacion) {
+                $this->dispararRecalculoFórmulas($dataPresentacion['id_producto'], $idSede);
+            }
         }
 
         /**
@@ -132,10 +174,10 @@
         /**
          * Dispara el recálculo de costos de producción de fórmulas
          */
-        private function dispararRecalculoFórmulas(int $idPresentacionEsencia): void {
+        private function dispararRecalculoFórmulas(int $idProductoEsencia, int $idSede): void {
             try {
                 $calculator = new FormulaCalculatorService();
-                $calculator->recalcularCostoProduccionPorEsencia($idPresentacionEsencia);
+                $calculator->recalcularCostoProduccionPorEsencia($idProductoEsencia, $idSede);
             } catch (Exception $e) {
                 // Log error pero no detiene el registro de compra
                 error_log("Error al recalcular fórmulas: " . $e->getMessage());
@@ -235,6 +277,12 @@
         }
 
         private function registrarStockEsencia(array $data) {
+            error_log("[ComprasModel::registrarStockEsencia] Insertando nuevo stock de esencia");
+            error_log("  - ID Presentación: " . $data['id_presentacion']);
+            error_log("  - ID Sede: " . $data['id_sede']);
+            error_log("  - Cantidad Gramos: " . $data['cantidad_gramos']);
+            error_log("  - Costo por Gramo: " . $data['costo_por_gramo']);
+
             $query = "INSERT INTO inventario_esencias (
                 id_presentacion,
                 id_sede,
@@ -250,10 +298,18 @@
                 ':costo_por_gramo' => $data['costo_por_gramo']
             ];
 
-            return $this->execute($query, $params);
+            $result = $this->execute($query, $params);
+            error_log("[ComprasModel::registrarStockEsencia] Resultado: " . ($result ? "OK" : "FAIL"));
+            return $result;
         }
 
         private function actualizarStockEsencia(int $idPresentacion, int $idSede, float $nuevosGramos, float $costoPorGramo) {
+            error_log("[ComprasModel::actualizarStockEsencia] Actualizando stock de esencia");
+            error_log("  - ID Presentación: " . $idPresentacion);
+            error_log("  - ID Sede: " . $idSede);
+            error_log("  - Nuevos Gramos: " . $nuevosGramos);
+            error_log("  - Costo por Gramo: " . $costoPorGramo);
+
             $query = "UPDATE inventario_esencias
                       SET cantidad_gramos = :cantidad_gramos,
                           costo_por_gramo = :costo_por_gramo,
@@ -266,7 +322,29 @@
                 ':id_presentacion' => $idPresentacion,
                 ':id_sede' => $idSede
             ];
-            return $this->execute($query, $params);
+
+            $result = $this->execute($query, $params);
+            error_log("[ComprasModel::actualizarStockEsencia] Resultado: " . ($result ? "OK" : "FAIL"));
+            return $result;
+        }
+
+        private function extraerGramosDelNombre(?string $nombrePresentacion): ?int {
+            if (!$nombrePresentacion) {
+                return null;
+            }
+
+            // Intenta extraer: "125G", "125g", "125 gramos", etc.
+            if (preg_match('/(\d+)\s*[gG](?:ramos)?/', $nombrePresentacion, $matches)) {
+                return (int)$matches[1];
+            }
+
+            // Fallback: si el nombre es solo números, asumir que son gramos
+            // Ej: "250" se interpreta como "250 gramos"
+            if (preg_match('/^(\d+)$/', $nombrePresentacion, $matches)) {
+                return (int)$matches[1];
+            }
+
+            return null;
         }
 
     }

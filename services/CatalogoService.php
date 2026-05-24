@@ -3,7 +3,7 @@
     require_once('../model/MarcaModel.php');
     require_once('../model/GeneroModel.php');
     require_once('../model/CategoriaModel.php');
-    require_once('../model/PresentacionProductoModel.php');
+    // require_once('../model/PresentacionProductoModel.php');
     require_once('../model/TiposProductosModel.php');
     require_once('../model/SedesModel.php');
 
@@ -19,14 +19,14 @@
             MarcaModel $marcaModel,
             GeneroModel $generoModel,
             CategoriaModel $categoriaModel,
-            PresentacionProductoModel $presentacionModel,
+            /* PresentacionProductoModel $presentacionModel, */
             TiposProductosModel $tiposProductoModel,
             SedesModel $sedesModel
         ) {
             $this->marcaModel = $marcaModel;
             $this->generoModel = $generoModel;
             $this->categoriaModel = $categoriaModel;
-            $this->presentacionModel = $presentacionModel;
+            /* $this->presentacionModel = $presentacionModel; */
             $this->tiposProductoModel = $tiposProductoModel;
             $this->sedesModel = $sedesModel;
         }

@@ -1,4 +1,4 @@
-<section class="content-panel" id="locionesPreparadasModule" data-inventory-config='{"categoria":"Lociones Preparadas","contenedorSelector":".content-inventory-lociones-preparadas","cantidadId":"#cantidad-lociones-preparadas","accionListar":"listarProductos","tieneSedes":true,"tieneFormula":true}'>
+<section class="content-panel" id="locionesPreparadasModule" data-inventory-config='{"categoria":"Lociones Preparadas","contenedorSelector":".content-inventory-lociones-preparadas","cantidadId":"#cantidad-lociones-preparadas","accionListar":"listarProductos","tieneSedes":true,"tieneFormula":true, "idModalPresentacion":"#modalRegistroPresentacion"}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Lociones Preparadas</h1>

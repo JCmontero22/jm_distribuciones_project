@@ -1,4 +1,4 @@
-<section class="content-panel" id="esenciasModule" data-inventory-config='{"categoria":"Esencias","contenedorSelector":".content-inventory-esencias","cantidadId":"#cantidad-esencias","accionListar":"listarProductos","tieneSedes":false}'>
+<section class="content-panel" id="esenciasModule" data-inventory-config='{"categoria":"Esencias","contenedorSelector":".content-inventory-esencias","cantidadId":"#cantidad-esencias","accionListar":"listarProductos","tieneSedes":false, "idModalPresentacion":"#modalRegistroPresentacion"}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Esencias</h1>

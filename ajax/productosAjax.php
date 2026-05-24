@@ -28,6 +28,11 @@
             $resultado = $productoController->listar($request);
             echo json_encode($resultado);
             break;
+        
+        case 'productosCompra':
+            $resultado = $productoController->listarProductosCompra($request);
+            echo json_encode($resultado);
+            break;
 
         default:
             echo json_encode(['error' => 'Acción no válida']);

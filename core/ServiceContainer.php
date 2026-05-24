@@ -42,7 +42,7 @@ class ServiceContainer {
             $marcaModel = new MarcaModel();
             $generoModel = new GeneroModel();
             $categoriaModel = new CategoriaModel();
-            $presentacionModel = new PresentacionProductoModel();
+            
             $tiposProductoModel = new TiposProductosModel();
             $sedesModel = new SedesModel();
 
@@ -70,5 +70,29 @@ class ServiceContainer {
             self::$instances['formulaService'] = new FormulasService($modelo);
         }
         return self::$instances['formulaService'];
+    }
+
+    public static function getComprasService(): ComprasService {
+        if (!isset(self::$instances['comprasService'])) {
+            require_once(__DIR__ . '/../model/ComprasModel.php');
+            require_once(__DIR__ . '/../services/ComprasService.php');
+
+            $modelo = new ComprasModel();
+
+            self::$instances['comprasService'] = new ComprasService($modelo);
+        }
+        return self::$instances['comprasService'];
+    }
+
+    public static function getCapacidadService(): CapacidadProduccionService {
+        if (!isset(self::$instances['capacidadService'])) {
+            require_once(__DIR__ . '/../model/CapacidadProduccionModel.php');
+            require_once(__DIR__ . '/../services/CapacidadProduccionService.php');
+
+            $modelo = new CapacidadProduccionModel();
+
+            self::$instances['capacidadService'] = new CapacidadProduccionService($modelo);
+        }
+        return self::$instances['capacidadService'];
     }
 }

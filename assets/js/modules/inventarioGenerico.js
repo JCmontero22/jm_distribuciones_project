@@ -203,7 +203,7 @@ function crearModuloInventario(config) {
                         <p class="stock-label">Stock: ${producto.stock_actual || 0}</p>
                     </div>
                     <div class="card-inventory_op">
-                        <button class="btn btn-success btn-add-presentacion" data-id="${producto.id_producto}" type="button">
+                        <button class="btn btn-success btn-add-presentacion" data-id="${producto.id_producto}" type="button" data-bs-toggle="modal" data-bs-target="${config.idModalPresentacion}">
                             <i class="fa-solid fa-file-circle-plus"></i>
                         </button>
                         <button class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -544,6 +544,8 @@ function crearModuloInventario(config) {
         },
 
         agregarPresentacionAlAcumulador() {
+            console.log(this.idProducto);
+            
             const nombre = $("#nombrePresentacion").val();
             const codigo = $("#codigoPresentacion").val();
             const $precioCompra = $("#precioCompraPresentacion") ?? 0;
@@ -552,11 +554,15 @@ function crearModuloInventario(config) {
             const imagen = $("#imagenPresentacion")[0].files[0];
             const unidadMedida = $("#unidadMedidaPresentacion").val();
             const esPreparado = $("#preparada").val();
-            const cantidadGramosPresentacion = $("#cantidadGramosPresentacion").val(); // Nuevo: tamaño en gramos
             const idFormula = config.tieneFormula ? $("#formula").val() : null;
+
+            this.idRegistro = this.idRegistro || this.idProducto;
 
             const precioCompraLimpio = $precioCompra.val() ? FormatUtils.obtenerValorLimpio($precioCompra) : null;
             const precioVentaLimpio = $precioVenta.val() ? FormatUtils.obtenerValorLimpio($precioVenta) : null;
+
+            // Extrae cantidad de gramos del nombre de la presentación (ej: "212 MEN - 125G" -> 125)
+            const cantidadGramosPresentacion = TextParserUtils.extraerCantidadGramos(nombre);
 
             if (!nombre || !codigo || !tipo) {
                 Alerts.error("Campos incompletos", "Por favor completa los campos: nombre, código y tipo");
@@ -578,7 +584,7 @@ function crearModuloInventario(config) {
                 imagenPresentacion: imagen,
                 idProducto: this.idRegistro,
                 unidadMedidaProductosPresentacion: unidadMedida,
-                cantidadGramosPresentacion: cantidadGramosPresentacion ? parseInt(cantidadGramosPresentacion) : null,
+                cantidadGramosPresentacion: cantidadGramosPresentacion,
                 esPreparadoPresentacionProducto: esPreparado,
                 idFormula: idFormula || null,
                 nombreFormula: idFormula ? $(`#formula option[value="${idFormula}"]`).text() : null

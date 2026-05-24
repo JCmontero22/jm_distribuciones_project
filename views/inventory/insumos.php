@@ -1,4 +1,4 @@
-<section class="content-panel" id="insumosModule" data-inventory-config='{"categoria":"Insumos","contenedorSelector":".content-inventory-insumos","cantidadId":"#cantidad-insumos","accionListar":"listarProductos","tieneSedes":false}'>
+<section class="content-panel" id="insumosModule" data-inventory-config='{"categoria":"Insumos","contenedorSelector":".content-inventory-insumos","cantidadId":"#cantidad-insumos","accionListar":"listarProductos","tieneSedes":false, "idModalPresentacion":"#modalRegistroPresentacion"}'>
     <div class="row">
         <div class="col-md-8">
             <h1>Inventario Insumos</h1>

@@ -1,7 +1,7 @@
 <?php
 
-    require_once('../config/configDB.php');
-    require_once('../core/Logger.php');
+    require_once(__DIR__ . '/../config/configDB.php');
+    require_once(__DIR__ . '/Logger.php');
     
     class conexion {
         protected $db;

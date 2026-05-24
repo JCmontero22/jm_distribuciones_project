@@ -1,6 +1,6 @@
 <?php
 
-    require_once('../core/conexion.php');
+    require_once(__DIR__ . '/../core/conexion.php');
     
 
     class SedesModel extends conexion {

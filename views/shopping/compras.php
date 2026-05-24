@@ -7,7 +7,6 @@
         <div class="col-md-2">
             <button type="button" class="btn btn-new-product" id="btnModalCompra" data-bs-toggle="modal" data-bs-target="#modalRegistroCompra"><i class="fa-solid fa-plus"></i> Nueva Compra</button>
             <br>
-            <button type="button" class="btn btn-new-product" id="btnModalDetalleCompra" data-bs-toggle="modal" data-bs-target="#modalRegistroDetalleCompra"><i class="fa-solid fa-plus"></i> Nuevo detalle</button>
         </div>
     </div>
 </section>
@@ -32,6 +31,26 @@
     </div>
 </section>
 
+<!-- ================ REPORTE DE CAPACIDAD DE PRODUCCIÓN ================== -->
+<section class="content-panel mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>📊 Capacidad de Producción</h2>
+            <p class="text-muted">Cantidad de lociones que puedes producir basado en los gramos de esencia disponibles</p>
+        </div>
+    </div>
+
+    <div id="reporteCapacidadContainer" style="display: none;">
+        <div class="row mt-4" id="reporteCapacidad">
+            <!-- Se llenarán las tarjetas de esencias dinámicamente -->
+        </div>
+    </div>
+
+    <div id="sinReporteMessage" class="alert alert-info mt-4">
+        <i class="fa-solid fa-info-circle"></i> No hay esencias con stock disponible. Registra una compra de esencia para ver el reporte de capacidad.
+    </div>
+</section>
+
 
 <!-- ************* MODAL DE REGISTRO DE COMPRAS ********** -->
 <div class="modal fade" id="modalRegistroCompra" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistroCompraLabel" aria-hidden="true">
@@ -46,7 +65,9 @@
                     <div class="row">
 
                         <div class="col-md-4">
-                            <select class="form-select" name="idProveedor" id="selectProveedor"></select>
+                            <select class="form-select" name="idProveedor" id="selectProveedor">
+                                <option value="">Seleccione proveedor</option>
+                            </select>
                         </div>
 
                         <div class="col-md-4">
@@ -81,11 +102,14 @@
                 <form action="" id="formDetalleCompra">
                     <div class="row">
                         <div class="col-md-4">
-                            <select class="form-select" name="sede" id="selectSede"></select>
+                            <select class="form-select" name="sede" id="selectSede">
+                                <option value="">Seleccione sede</option>
+                            </select>
                         </div>
 
                         <div class="col-md-6">
-                            <select class="form-select" name="producto" id="selectProducto"></select>
+                            <select class="form-select" name="producto" id="selectProducto">
+                            </select>
                         </div>
 
                         <div class="col-md-2">

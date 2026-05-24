@@ -1,9 +1,9 @@
 <?php
-
-    require_once('../services/CatalogoService.php');
-    require_once('../controller/CatalogoController.php');
-    require_once('../model/TiposProductosModel.php');
-    require_once('../model/SedesModel.php');
+    
+    require_once(__DIR__ . '/../services/CatalogoService.php');
+    require_once(__DIR__ . '/../controller/CatalogoController.php');
+    require_once(__DIR__ . '/../model/TiposProductosModel.php');
+    require_once(__DIR__ . '/../model/SedesModel.php');
 
     $accion = isset($_POST['accion']) ? $_POST['accion'] :  (isset($_GET['accion']) ? $_GET['accion'] : null);
 
@@ -11,12 +11,12 @@
     $marcaModel = new MarcaModel();
     $generoModel = new GeneroModel();
     $categoriaModel = new CategoriaModel();
-    $presentacionModel = new PresentacionProductoModel();
+    /* $presentacionModel = new PresentacionProductoModel(); */
     $tiposProductoModel = new TiposProductosModel();
     $sedesModel = new SedesModel();
 
     // Crear servicio y controlador
-    $servicio = new CatalogoService($marcaModel, $generoModel, $categoriaModel, $presentacionModel, $tiposProductoModel, $sedesModel);
+    $servicio = new CatalogoService($marcaModel, $generoModel, $categoriaModel, /* $presentacionModel, */ $tiposProductoModel, $sedesModel);
     $catalogoController = new CatalogoController($servicio);
 
     switch ($accion) {

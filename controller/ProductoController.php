@@ -77,5 +77,16 @@
                 return response::error('Error al obtener el listado de productos');
             }
         }
+
+        public function listarProductosCompra(array $request): array {
+            try {
+                $data = $this->servicio->productosCompra();
+                return response::success($data, 'Productos para compra obtenidos exitosamente');
+
+            } catch (\Exception $e) {
+                Logger::error("Error interno en el Controlador de Listado de Productos para Compra", $e, $request);
+                return response::error('Error al obtener el listado de productos para compra');
+            }
+        }
     }
 
