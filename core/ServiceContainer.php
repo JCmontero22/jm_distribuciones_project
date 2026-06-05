@@ -34,25 +34,29 @@ class ServiceContainer {
             require_once(__DIR__ . '/../model/MarcaModel.php');
             require_once(__DIR__ . '/../model/GeneroModel.php');
             require_once(__DIR__ . '/../model/CategoriaModel.php');
-            require_once(__DIR__ . '/../model/PresentacionProductoModel.php');
             require_once(__DIR__ . '/../model/TiposProductosModel.php');
             require_once(__DIR__ . '/../model/SedesModel.php');
             require_once(__DIR__ . '/../services/CatalogoService.php');
+            require_once(__DIR__ . '/../model/InsumoFormulasModel.php');
+            require_once(__DIR__ . '/../Infrastructure/FileStorageService.php');
 
             $marcaModel = new MarcaModel();
             $generoModel = new GeneroModel();
             $categoriaModel = new CategoriaModel();
-            
             $tiposProductoModel = new TiposProductosModel();
             $sedesModel = new SedesModel();
+            $insumosFormulasModel = new InsumoFormulasModel();
+            $storage = new LocalFileStorage(__DIR__ . '/../assets/img/marcas/');
 
             self::$instances['catalogoService'] = new CatalogoService(
                 $marcaModel,
                 $generoModel,
                 $categoriaModel,
-                $presentacionModel,
                 $tiposProductoModel,
-                $sedesModel
+                $sedesModel,
+                $insumosFormulasModel,
+                $storage
+                
             );
         }
         return self::$instances['catalogoService'];
@@ -84,15 +88,4 @@ class ServiceContainer {
         return self::$instances['comprasService'];
     }
 
-    public static function getCapacidadService(): CapacidadProduccionService {
-        if (!isset(self::$instances['capacidadService'])) {
-            require_once(__DIR__ . '/../model/CapacidadProduccionModel.php');
-            require_once(__DIR__ . '/../services/CapacidadProduccionService.php');
-
-            $modelo = new CapacidadProduccionModel();
-
-            self::$instances['capacidadService'] = new CapacidadProduccionService($modelo);
-        }
-        return self::$instances['capacidadService'];
-    }
 }

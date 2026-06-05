@@ -7,7 +7,6 @@
 
         <div class="col-md-4 d-flex justify-content-end align-items-start">
             <button type="button" class="btn btn-new-product" data-bs-toggle="modal" data-bs-target="#modalRegistroProducto"><i class="fa-solid fa-plus"></i> Nuevo Reloj</button>
-            <!-- <button type="button" class="btn btn-new-product" style="margin-left: 1rem;" data-bs-toggle="modal" data-bs-target="#modalRegistroPresentacion"><i class="fa-solid fa-plus"></i> Nueva Presentacion</button> -->
         </div>
     </div>
 </section>
@@ -20,29 +19,7 @@
             </div>
         </div>
     </div>    
-    
     <div class="content-inventory"></div>
-    <!-- <div class="card-inventory"> -->
-        <!-- <div class="card-inventory_img">
-            <img src="./assets/img/producto1.jpg" alt="Producto 1" id="imgProductos">
-        </div>
-
-        <div class="card-inventory_infoProducto">
-            <span class="card-inventory_category">Relojes</span>
-            <h3 class="card-inventory_name">Curren 1030</h3>
-            <p><span class="card-inventory_cost">$ 60.000</span> <span class="card-inventory_sale">$ 120.000</span></p>
-        </div>
-
-        <div class="card-inventory_stock">
-            <span class="stock-label">Stock:</span>
-            <span class="stock-value">15</span>
-        </div>
-
-        <div class="card-inventory_op">
-            <button class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-            <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Eliminar</button>
-        </div> -->
-    <!-- </div> -->
 </section>
 
 
@@ -58,6 +35,7 @@
 
                 <div id="registroProducto">
                     <form action="" id="formRegistroProducto">
+                        <input type="hidden" id="idProductoEditar" name="idProductoEditar">
                         <!-- Nombre -->
                         <div class="row">
                             <div class="col-md-8">
@@ -73,28 +51,20 @@
                         </div>
                         <!-- Codigo - Categoria -->
                         <div class="row mt-4">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="categoriaProducto" class="form-label">Categoria</label>
                                 <select class="form-select" id="categoriaProducto" name="categoriaProducto">
                                     <option value="" selected disabled>Seleccionar</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="marcaProducto" class="form-label">Marca</label>
                                 <select class="form-select" id="marcaProducto" name="marcaProducto">
                                     <option value="" selected disabled>Seleccionar</option>
                                 </select>
                             </div>
-
-                            <div class="col-md-4">
-                                <label for="generoProducto" class="form-label">Género</label>
-                                <select class="form-select" id="generoProducto" name="generoProducto">
-                                    <option value="" selected disabled>Seleccionar</option>
-                                </select>
-                            </div>
                         </div>
-
                         <!-- descripcion -->
                         <div class="row mt-4">
                             <div class="col-md-12">
@@ -103,14 +73,7 @@
                             </div>
                         </div>
 
-                        <!-- imagen -->
-                        <!-- <div class="row mt-4">
-                            <div class="col-md-12">
-                                <label for="imagenProducto" class="form-label">Imagen</label>
-                                <input type="file" class="form-control" id="imagenProducto" name="imagenProducto" accept="image/*">
-                            </div>
-                        </div> -->
-
+                        <!-- Botón Agregar -->
                         <div class="row d-flex justify-content-center mt-5">
                             <div class="col-md-8">
                                 <button type="submit" class="btn btn-primary w-100 btnRegistro"> <i class="fa-regular fa-floppy-disk"></i> Registrar Producto</button>
@@ -131,6 +94,26 @@
                  <div class="modal-cabecera">
                     <h3 class="modal-title" id="staticBackdropLabel">Registrar Presentacion</h3>
                     <button type="button" style="color: white !important;" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Presentaciones ya registradas -->
+                <div id="seccionPresentacionesExistentes" style="display:none;" class="mb-3">
+                    <div class="accordion" id="accordionExistentes">
+                        <div class="accordion-item" style="background:#2a2a2e;border:1px solid #3f3f46;">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExistentes" style="background:#2a2a2e;color:#f4f4f5;">
+                                    <i class="fa-solid fa-layer-group me-2"></i> Presentaciones ya registradas
+                                </button>
+                            </h2>
+                            <div id="collapseExistentes" class="accordion-collapse collapse">
+                                <div class="accordion-body p-0">
+                                    <table class="table table-sm table-dark mb-0">
+                                        <thead><tr><th>Nombre</th><th>Código</th><th class="text-center">P. Compra</th><th class="text-center">Stock</th><th></th></tr></thead>
+                                        <tbody id="tablaExistentesBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!--*************** REGISTRO PRESENTACION DE PRODUCTO ***************-->
                 <div id="registroPresentacionProducto">
@@ -169,25 +152,31 @@
                                 <label for="unidadMedidaPresentacion" class="form-label">Unidad</label>
                                     <select class="form-select" id="unidadMedidaPresentacion" name="unidadMedidaPresentacion">
                                         <option value="" selected disabled>Seleccionar</option>
-                                        <option value="true">Unidad</option>
+                                        <option value="unidad">Unidad</option>
                                         <option value="false">Gramo</option>
                                     </select>
                             </div>
 
-                            <div class="row mt-4">
-                                <div class="col-md-6">
-                                    <label for="preparada" class="form-label">Preparada</label>
-                                        <select class="form-select" id="preparada" name="preparada">
-                                            <option value="" selected disabled>Seleccionar</option>
-                                            <option value="1">SI</option>
-                                            <option value="0">NO</option>
-                                        </select>
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <label for="generoPresentacion" class="form-label">Género</label>
+                                    <select class="form-select" id="generoPresentacion" name="generoPresentacion">
+                                        <option value="" selected disabled>Seleccionar</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <label for="imagenPresentacion" class="form-label">Imagen presentacion</label>
                                     <input type="file" class="form-control" id="imagenPresentacion" name="imagenPresentacion" accept="image/*">
                                 </div>
                             </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-2 form-check">
+                                    <label for="favoritoPresentacion" class="form-check-label" style="margin-left: 5px;">Favorito</label>
+                                    <input type="checkbox" name="favoritoPresentacion" id="favoritoPresentacion" class="form-check-input">
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- Botón Agregar -->
@@ -210,7 +199,7 @@
                                                 <th>Precio Compra</th>
                                                 <th>Precio Venta</th>
                                                 <th>Tipo</th>
-                                                <th>Imagen</th>
+                                                
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>

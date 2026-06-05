@@ -1,14 +1,6 @@
-/**
- * MÓDULO FORMULAS — Gestión de fórmulas de producción
- * Permite registrar recetas que indican qué insumos y cantidades se usan para producir lociones
- */
-
 const formulasModule = (function() {
     const BASE_URL = "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project";
 
-    /**
-     * CAPA API — Comunicación con el servidor
-     */
     const API = {
         listarFormulas() {
             return new Promise((resolve, reject) => {
@@ -20,9 +12,7 @@ const formulasModule = (function() {
                         const datos = JSON.parse(response);
                         resolve(datos.data || []);
                     },
-                    error(error) {
-                        reject(error);
-                    }
+                    error: reject
                 });
             });
         },
@@ -34,12 +24,23 @@ const formulasModule = (function() {
                     method: "GET",
                     data: { accion: "listarInsumos" },
                     success(response) {
-                        const datos = JSON.parse(response);
-                        resolve(datos.data || []);
+                        resolve(JSON.parse(response));
                     },
-                    error(error) {
-                        reject(error);
-                    }
+                    error: reject
+                });
+            });
+        },
+
+        listarConcentraciones() {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/formmulaAjax.php`,
+                    method: "GET",
+                    data: { accion: "listarConcentraciones" },
+                    success(response) {
+                        resolve(JSON.parse(response));
+                    },
+                    error: reject
                 });
             });
         },
@@ -51,88 +52,59 @@ const formulasModule = (function() {
                     method: "POST",
                     data: data,
                     success(response) {
-                        const res = JSON.parse(response);
-                        console.log(res);
-                        
-                        resolve(res);
+                        resolve(JSON.parse(response));
                     },
-                    error(error) {
-                        reject(error);
-                    }
+                    error: reject
                 });
             });
         }
     };
 
-    /**
-     * CAPA VIEW — Renderización del HTML
-     */
+    /*************** VIEWS ***************/
+
     const View = {
-        poblarSelect(selectId, items, valueKey, textKey) {
+        poblarSelect(selectId, items, valueKey, textFn) {
             const select = $(selectId);
             select.find('option:not(:first)').remove();
             items.forEach(item => {
-                let text;
-                if (textKey) {
-                    text = item[textKey];
-                } else {
-                    // Construir: Producto - Presentación
-                    text = `${item.nombre_producto} / ${item.nombre_presentacion}`;
-                }
-                select.append(new Option(text, item[valueKey]));
+                select.append(new Option(textFn(item)));
             });
         },
 
-        renderizarFilaInsumo(insumo, index) {
-            return `
-                <tr>
-                    <td>${insumo.nombre}</td>
-                    <td>${insumo.cantidad_requerida} ml</td>
-                    <td>
-                        <button class="btn btn-sm btn-danger btn-eliminar-insumo" data-index="${index}">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-        },
-
         renderizarFilaFormula(formula) {
+            const frasco        = formula.nombre_insumo  || '—';
+            const tamaño        = formula.tamanio_insumo || '';
+            const concentracion = formula.nombre_concentracion || '—';
             return `
                 <tr>
                     <td>${formula.id_formula}</td>
                     <td>${formula.nombre_formula}</td>
-                    <td>${formula.cantidad_esencia}G</td>
-                    <td>${formula.nombre_presentacion}</td>
+                    <td>${formula.cantidad_esencia} g</td>
+                    <td>${frasco}</td>
+                    <td>${concentracion}</td>
+                    
                 </tr>
             `;
         },
 
         mostrarFormulas(formulas) {
             const tbody = $("#formulasTableBody");
-            if (formulas.length === 0) {
-                tbody.html('<tr><td colspan="4" class="text-center text-muted">No hay fórmulas registradas</td></tr>');
+            if (!formulas.length) {
+                tbody.html('<tr><td colspan="5" class="text-center text-muted">No hay fórmulas registradas</td></tr>');
                 return;
             }
-            tbody.html(formulas.map(formula => this.renderizarFilaFormula(formula)).join(''));
+            tbody.html(formulas.map(f => this.renderizarFilaFormula(f)).join(''));
             $("#cantidad-formulas").text(formulas.length);
         },
 
         limpiarFormulario() {
             $("#formularioRegistroFormula")[0].reset();
-            $("#nombreFormula").val('');
-            $("#cantidadEsencia").val('');
             $("#insumo").prop('selectedIndex', 0);
-            $("#cantidadInsumo").val('');
+            $("#concentracion").prop('selectedIndex', 0);
         }
     };
 
-    /**
-     * MÓDULO PRINCIPAL — Lógica y coordinación
-     */
     const Module = {
-        insumosAcumulados: [],
-
         init() {
             this.bindEvents();
             this.cargarDatos();
@@ -144,65 +116,56 @@ const formulasModule = (function() {
 
         async cargarDatos() {
             try {
-                const [presentaciones, insumos, formulas] = await Promise.all([
-                    this.listarInsumos(),
-                    this.listarFormulas()
-                ]);
-            } catch (error) {
-                Alerts.error("Error", "No se pudieron cargar los datos");
-                console.error("Error al cargar datos:", error);
-            }
-        },
-
-        async listarInsumos() {
-            try {
                 const insumos = await API.listarInsumos();
-                View.poblarSelect("#insumo", insumos, "id_presentacion", null);
-            } catch (error) {
-                Alerts.error("Error", "No se pudieron cargar los insumos");
-                console.error("Error al listar insumos:", error);
-                return [];
-            }
-        },
+                View.poblarSelect("#insumo", insumos, "id_insumo_formula",
+                    item => `${item.nombre_insumo}`
+                );
+            } catch (e) { console.error("Error al cargar insumos:", e); }
 
-        async listarFormulas() {
+            try {
+                const concentraciones = await API.listarConcentraciones();
+                console.log("Concentraciones recibidas:", concentraciones);
+                View.poblarSelect("#concentracion", concentraciones, "id_tipo_concentracion",
+                    item => item.nombre_concentracion
+                );
+            } catch (e) { console.error("Error al cargar concentraciones:", e); }
+
             try {
                 const formulas = await API.listarFormulas();
                 View.mostrarFormulas(formulas);
-            } catch (error) {
-                Alerts.error("Error", "No se pudieron cargar las fórmulas");
-                console.error("Error al listar fórmulas:", error);
-                return [];
-            }
+            } catch (e) { console.error("Error al cargar fórmulas:", e); }
         },
 
-        
         async registrarFormula(e) {
             e.preventDefault();
 
-            const nombreFormula = $("#nombreFormula").val().trim();
+            const nombreFormula   = $("#nombreFormula").val().trim();
             const cantidadEsencia = $("#cantidadEsencia").val();
-            const insumo = $("#insumo").val();
+            const insumo          = $("#insumo").val();
+            const concentracion   = $("#concentracion").val();
 
-            if (!nombreFormula || !cantidadEsencia || !insumo) {
-                Alerts.error("Campos incompletos", "Nombre, cantidad de esencia e insumo son obligatorios");
+            if (!nombreFormula || !cantidadEsencia || !insumo || !concentracion) {
+                Alerts.error("Campos incompletos", "Todos los campos son obligatorios");
                 return;
             }
 
-           
+            const insumoText       = $("#insumo option:selected").text();
+            const concentracionText= $("#concentracion option:selected").text();
+
             const resultado = await Alerts.confirmation(
-                "Registrar fórmula?",
-                `¿Registrar la fórmula "${nombreFormula}" con ${cantidadEsencia} de esencia y ${$("#insumo option:selected").text()} insumo?`
+                "¿Registrar fórmula?",
+                `"${nombreFormula}" — ${cantidadEsencia}g · ${insumoText} · ${concentracionText}`
             );
 
             if (!resultado.isConfirmed) return;
 
             try {
                 const data = {
-                    accion: "registrarFormula",
-                    nombreFormula: nombreFormula,
-                    cantidadEsencia: cantidadEsencia,
-                    insumo: insumo,
+                    accion:           "registrarFormula",
+                    nombreFormula:    nombreFormula,
+                    cantidadEsencia:  cantidadEsencia,
+                    insumo:           insumo,
+                    concentracion:    concentracion,
                 };
 
                 const respuesta = await API.registrarFormula(data);

@@ -14,6 +14,8 @@
 <script src="assets/js/modules/compras.js"></script>
 <script src="assets/js/modules/proveedores.js"></script>
 <script src="assets/js/modules/inventarioFormulas.js"></script>
+<script src="assets/js/modules/informeProduccion.js"></script>
+<script src="assets/js/modules/marcas.js"></script>
 <script src="assets/js/main.js"></script>
 
 <script>

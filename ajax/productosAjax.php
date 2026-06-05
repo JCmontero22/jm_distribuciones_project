@@ -19,7 +19,10 @@
             break;
 
         case 'registrarPresentaciones':
+            
             $presentaciones = isset($_POST['presentaciones']) ? json_decode($_POST['presentaciones'], true) : [];
+
+            /* var_dump($presentaciones); */
             $resultado = $productoController->registrarPresentaciones($presentaciones, $_FILES);
             echo json_encode($resultado);
             break;
@@ -31,6 +34,36 @@
         
         case 'productosCompra':
             $resultado = $productoController->listarProductosCompra($request);
+            echo json_encode($resultado);
+            break;
+
+        case 'listarEsencias':
+            $resultado = $productoController->listarEsencias();
+            echo json_encode($resultado);
+            break;
+
+        case 'listarPresentacionesPorProducto':
+            $resultado = $productoController->listarPresentacionesPorProducto($request);
+            echo json_encode($resultado);
+            break;
+
+        case 'obtenerProducto':
+            $resultado = $productoController->obtenerProducto($request);
+            echo json_encode($resultado);
+            break;
+
+        case 'editarProducto':
+            $resultado = $productoController->editar($_POST);
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarProducto':
+            $resultado = $productoController->eliminar($request);
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarPresentacion':
+            $resultado = $productoController->eliminarPresentacion($request);
             echo json_encode($resultado);
             break;
 

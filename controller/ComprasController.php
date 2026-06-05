@@ -26,8 +26,7 @@
 
         public function registrar(array $request): array {
             try {
-
-                if (!utils::validateRequiredFields(['idProveedor', 'totalCompra', 'numeroFacturaCompra'], $request)) {
+                if (!utils::validateRequiredFields(['idProveedor', 'totalCompra', 'numeroFacturaCompra', 'detalles'], $request)) {
                     return response::error('Todos los campos son obligatorios');
                 }
 
@@ -37,8 +36,13 @@
                     'numeroFacturaCompra' => utils::sanitizeInput($request['numeroFacturaCompra'])
                 ];
 
-                $data = $this->servicio->registrarCompra($params);
-                return response::success($data, 'Compra registrada exitosamente');
+                $detalles = json_decode($request['detalles'], true);
+                if (!is_array($detalles) || empty($detalles)) {
+                    return response::error('Detalles inválidos');
+                }
+
+                $data = $this->servicio->registrarCompraConDetalles($params, $detalles);
+                return response::success($data, 'Compra y detalles registrados exitosamente');
 
             } catch (\DomainException $e) {
                 return response::error($e->getMessage());
@@ -48,40 +52,55 @@
             }
         }
 
-        public function registrarDetalles(array $request): array {
+        public function detalle(array $request): array {
             try {
-                if (!utils::validateRequiredFields(['idCompra', 'detalles'], $request)) {
-                    return response::error('Campos obligatorios: idCompra, detalles');
+                $idCompra = (int)($request['idCompra'] ?? 0);
+                if (!$idCompra) return response::error('ID de compra requerido');
+                $compra = $this->servicio->obtenerCompraPorId($idCompra);
+                $detalles = $this->servicio->obtenerDetalleCompra($idCompra);
+                return response::success(['compra' => $compra, 'detalles' => $detalles], 'Detalle obtenido');
+            } catch (\Exception $e) {
+                Logger::error("Error al obtener detalle de compra", $e, $request);
+                return response::error('Error al obtener detalle');
+            }
+        }
+
+        public function actualizar(array $request): array {
+            try {
+                $idCompra = (int)($request['idCompra'] ?? 0);
+                if (!$idCompra) return response::error('ID de compra requerido');
+                if (!utils::validateRequiredFields(['idProveedor', 'totalCompra', 'numeroFacturaCompra', 'detalles'], $request)) {
+                    return response::error('Todos los campos son obligatorios');
                 }
-
-                $idCompra = utils::sanitizeInput($request['idCompra']);
+                $params = [
+                    'idProveedor' => utils::sanitizeInput($request['idProveedor']),
+                    'totalCompra' => utils::sanitizeInput($request['totalCompra']),
+                    'numeroFacturaCompra' => utils::sanitizeInput($request['numeroFacturaCompra'])
+                ];
                 $detalles = json_decode($request['detalles'], true);
-
                 if (!is_array($detalles) || empty($detalles)) {
                     return response::error('Detalles inválidos');
                 }
-
-                // Normalizar nombres de campos en detalles
-                $detallesNormalizados = [];
-                foreach ($detalles as $detalle) {
-                    $detallesNormalizados[] = [
-                        'idSede' => (int) $detalle['idSede'],
-                        'idProductoPresentacion' => $detalle['idProducto'],
-                        'cantidad' => (int) $detalle['cantidad'],
-                        'precioCompra' => (float) $detalle['costoUnitario'],
-                        'subTotal' => (float) $detalle['subTotal']
-                    ];
-                }
-
-                $this->servicio->registrarDetalleCompra($idCompra, $detallesNormalizados);
-                return response::success([], 'Detalles registrados exitosamente');
-
-            } catch (\DomainException $e) {
-                return response::error($e->getMessage());
+                $data = $this->servicio->actualizarCompraConDetalles($idCompra, $params, $detalles);
+                return response::success($data, 'Compra actualizada exitosamente');
             } catch (\Exception $e) {
-                Logger::error("Error interno en el Controlador de Detalles de Compra", $e, $request);
-                return response::error('Error al registrar los detalles');
+                Logger::error("Error al actualizar compra", $e, $request);
+                return response::error('Error al actualizar la compra');
             }
         }
+
+        public function eliminar(array $request): array {
+            try {
+                $idCompra = (int)($request['idCompra'] ?? 0);
+                if (!$idCompra) return response::error('ID de compra requerido');
+                $this->servicio->eliminarCompra($idCompra);
+                return response::success(null, 'Compra eliminada exitosamente');
+            } catch (\Exception $e) {
+                Logger::error("Error al eliminar compra", $e, $request);
+                return response::error('Error al eliminar la compra');
+            }
+        }
+
+        // registrarDetalles eliminado: ahora todo se procesa en registrar()
     }
     

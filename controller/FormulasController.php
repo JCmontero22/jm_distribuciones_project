@@ -16,18 +16,20 @@
 
         public function registrar(array $request): array {
             try {
-                $nombre = $request['nombreFormula'] ?? null;
+                $nombre          = $request['nombreFormula'] ?? null;
                 $cantidadEsencia = $request['cantidadEsencia'] ?? null;
-                $insumo = $request['insumo'] ?? null;
+                $insumo          = $request['insumo'] ?? null;
+                $concentracion   = $request['concentracion'] ?? null;
 
-                if (!utils::validateRequiredFields(['nombreFormula', 'cantidadEsencia', 'insumo'], $request)) {
+                if (!utils::validateRequiredFields(['nombreFormula', 'cantidadEsencia', 'insumo', 'concentracion'], $request)) {
                     return response::error('Todos los campos son obligatorios');
                 }
 
                 $data = [
-                    'nombre_formula' => utils::sanitizeInput($nombre),
-                    'cantidad_esencia' => utils::sanitizeInput($cantidadEsencia),       
-                    'id_presentacion_insumo' => utils::sanitizeInput($insumo),
+                    'nombre_formula'        => utils::sanitizeInput($nombre),
+                    'cantidad_esencia'      => utils::sanitizeInput($cantidadEsencia),
+                    'id_insumo_formula'     => utils::sanitizeInput($insumo),
+                    'id_tipo_concentracion' => utils::sanitizeInput($concentracion),
                 ];
 
                 $result = $this->servicio->registrarFormulas($data);

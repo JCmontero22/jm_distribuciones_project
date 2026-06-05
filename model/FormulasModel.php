@@ -6,32 +6,44 @@
     {
 
         public function existeFormula(string $nombre) : bool {
-            $query = "SELECT COUNT(*) AS total  FROM formulas WHERE nombre_formula = :nombre";
-
-            $params = [':nombre' => $nombre];
-
-            $result = $this->select($query, $params);
-
+            $query = "SELECT COUNT(*) AS total FROM formulas WHERE nombre_formula = :nombre";
+            $result = $this->select($query, [':nombre' => $nombre]);
             return !empty($result) && $result[0]['total'] > 0;
         }
 
         public function registrarFormula(array $data): mixed {
-            $query = "INSERT INTO formula_presentacion (
+            $query = "INSERT INTO formulas (
                 nombre_formula,
                 cantidad_esencia,
-                id_presentacion_insumo
-            ) VALUES (:nombre, :cantidad_esencia, :id_presentacion_insumo)";
+                id_insumo_formula,
+                id_tipo_concentracion
+            ) VALUES (:nombre, :cantidad_esencia, :id_insumo_formula, :id_tipo_concentracion)";
 
             $params = [
-                ':nombre' => $data['nombre_formula'],
-                ':cantidad_esencia' => $data['cantidad_esencia'],
-                ':id_presentacion_insumo' => $data['id_presentacion_insumo'],
+                ':nombre'                => $data['nombre_formula'],
+                ':cantidad_esencia'      => $data['cantidad_esencia'],
+                ':id_insumo_formula'     => $data['id_insumo_formula'],
+                ':id_tipo_concentracion' => $data['id_tipo_concentracion'],
             ];
             return $this->execute($query, $params);
         }
 
-        public function obtenerPresentacionesPorCategoria(string $categoria): array {
+        public function obtenerFormulas(): array {
+            $query = "SELECT
+                            f.id_fomulas AS id_formula,
+                            f.nombre_formula,
+                            f.cantidad_esencia,
+                            inf.nombre_insumo,
+                            inf.tamanio_insumo,
+                            tc.nombre_concentracion
+                        FROM formulas f
+                        LEFT JOIN insumo_formulas inf ON inf.id_insumo_formula = f.id_insumo_formula
+                        LEFT JOIN tipo_concentracion tc ON tc.id_tipo_concentracion = f.id_tipo_concentracion";
 
+            return $this->select($query);
+        }
+
+        public function obtenerPresentacionesPorCategoria(string $categoria): array {
             $query = "SELECT pp.id_presentacion, pp.nombre_presentacion, p.nombre_producto
                       FROM productos_presentaciones pp
                       JOIN productos p ON p.id_producto = pp.id_producto
@@ -40,17 +52,4 @@
                       ORDER BY p.nombre_producto, pp.nombre_presentacion";
             return $this->select($query, [':categoria' => $categoria]);
         }
-
-        public function obtenerFormulas(): array {
-            $query = "SELECT
-                            f.id_formula,
-                            f.nombre_formula,
-                            f.cantidad_esencia,
-                            pp.nombre_presentacion
-                        FROM formula_presentacion f
-                        INNER JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_insumo";
-                        
-            return $this->select($query);
-        }
     }
-    

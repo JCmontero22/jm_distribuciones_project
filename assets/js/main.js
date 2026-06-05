@@ -9,7 +9,8 @@ function init() {
         relojesModule: "RelojesModule",
         esenciasModule: "EsenciasModule",
         insumosModule: "InsumosModule",
-        locionesPreparadasModule: "LocionesModule"
+        locionesPreparadasModule: "LocionesModule",
+        locionesAAAModule: "locionesAAAModule",
     };
 
     Object.entries(inventoryModules).forEach(([elementId, moduleName]) => {
@@ -34,6 +35,14 @@ function init() {
 
     if ($("#formulasModule").length) {
         formulasModule.init();
+    }
+
+    if ($("#informeProduccionModule").length) {
+        InformeProduccionModule.init();
+    }
+
+    if ($("#marcasModule").length) {
+        marcasModule.init();
     }
 
     menuHamburguer();

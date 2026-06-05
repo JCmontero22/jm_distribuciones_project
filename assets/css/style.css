@@ -178,6 +178,16 @@ div:where(.swal2-container) div:where(.swal2-popup){
     color: var(--color-dorado) !important;
 }
 
+.custom-table thead .dt-column-title {
+    color: var(--color-dorado-texto) !important;
+}
+
+.custom-table thead th,
+.custom-table thead th .dt-column-title,
+.custom-table tbody td {
+    text-align: center !important;
+}
+
 td{
     color: var(--texto-principal) !important;
 }
@@ -195,6 +205,52 @@ td{
     margin: 0 2px !important;
     transition: background-color 0.2s, color 0.2s;
 }
+
+.custom-table thead th {
+    background: var(--color-dorado);
+}
+
+.custom-table thead .dt-column-title{
+    color: var(--color-dorado-texto) !important;
+}
+
+.custom-table .table-dark{
+    color: var(--color-dorado-texto) !important;
+}
+
+.bg-primary{
+    background-color: var(--color-dorado) !important;
+    color: var(--color-dorado-texto) !important;
+}
+/* ================= ACORDEÓN INFORME PRODUCCIÓN ================= */
+.accordion-item {
+  background: var(--color-fondo-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: 10px !important;
+  color: var(--texto-principal);
+}
+
+.accordion-button {
+    background: var(--color-fondo-tarjeta);
+    color: var(--texto-principal);
+    font-weight: 700;
+    border-radius: 10px !important;
+    border: none;
+    box-shadow: none;
+    transition: background 0.2s;
+}
+
+.accordion-button:not(.collapsed) {
+  /* background: var(--color-dorado);
+  color: var(--color-dorado-texto); */
+    background: var(--color-fondo-tarjeta);
+    color: var(--texto-principal);
+}
+
+.accordion-button:focus {
+  box-shadow: 0 0 0 2px var(--color-dorado-brillo);
+}
+
 /***********************************************************
 
         ************ LAYOUT SIDEBAR **********
@@ -522,12 +578,19 @@ td{
     border: solid 1px var(--color-borde);
     padding: 1rem;
     border-radius: 10px;
-    background-color: var(--color-input);
+    background-color: var(--color-fondo-tarjeta);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 1.4rem;
 }
+
+.stock-label{
+    font-weight: 700;
+    color: var(--texto-secundario);
+    font-size: 2rem;
+}
+
 /***********************************************************
 
         ************ COMPRAS **********
@@ -536,4 +599,6 @@ td{
 .content-list-compras{
     margin-top: 5rem;
 }
+
+
 

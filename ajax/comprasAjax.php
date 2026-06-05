@@ -10,17 +10,28 @@
 
     switch ($accion) {
         case 'registrarCompra':
+            // Espera: idProveedor, totalCompra, numeroFacturaCompra, detalles (JSON)
             $resultado = $comprasController->registrar($_POST);
-            echo json_encode($resultado);
-            break;
-
-        case 'registrarDetallesCompra':
-            $resultado = $comprasController->registrarDetalles($_POST);
             echo json_encode($resultado);
             break;
 
         case 'listarCompras':
             $resultado = $comprasController->listar();
+            echo json_encode($resultado);
+            break;
+
+        case 'detalleCompra':
+            $resultado = $comprasController->detalle($_GET);
+            echo json_encode($resultado);
+            break;
+
+        case 'actualizarCompra':
+            $resultado = $comprasController->actualizar($_POST);
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarCompra':
+            $resultado = $comprasController->eliminar($_POST);
             echo json_encode($resultado);
             break;
 

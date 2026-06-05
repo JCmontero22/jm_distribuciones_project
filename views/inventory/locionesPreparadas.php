@@ -58,6 +58,7 @@
 
                 <div id="registroProducto">
                     <form action="" id="formRegistroProducto">
+                        <input type="hidden" id="idProductoEditar" name="idProductoEditar">
                         <!-- Nombre -->
                         <div class="row">
                             <div class="col-md-8">
@@ -73,23 +74,16 @@
                         </div>
                         <!-- Codigo - Categoria -->
                         <div class="row mt-4">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="categoriaProducto" class="form-label">Categoria</label>
                                 <select class="form-select" id="categoriaProducto" name="categoriaProducto">
                                     <option value="" selected disabled>Seleccionar</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="marcaProducto" class="form-label">Marca</label>
                                 <select class="form-select" id="marcaProducto" name="marcaProducto">
-                                    <option value="" selected disabled>Seleccionar</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="generoProducto" class="form-label">Género</label>
-                                <select class="form-select" id="generoProducto" name="generoProducto">
                                     <option value="" selected disabled>Seleccionar</option>
                                 </select>
                             </div>
@@ -131,6 +125,26 @@
                  <div class="modal-cabecera">
                     <h3 class="modal-title" id="staticBackdropLabel">Registrar Presentacion</h3>
                     <button type="button" style="color: white !important;" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Presentaciones ya registradas -->
+                <div id="seccionPresentacionesExistentes" style="display:none;" class="mb-3">
+                    <div class="accordion" id="accordionExistentes">
+                        <div class="accordion-item" style="background:#2a2a2e;border:1px solid #3f3f46;">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExistentes" style="background:#2a2a2e;color:#f4f4f5;">
+                                    <i class="fa-solid fa-layer-group me-2"></i> Presentaciones ya registradas
+                                </button>
+                            </h2>
+                            <div id="collapseExistentes" class="accordion-collapse collapse">
+                                <div class="accordion-body p-0">
+                                    <table class="table table-sm table-dark mb-0">
+                                        <thead><tr><th>Nombre</th><th>Código</th><th class="text-center">P. Compra</th><th class="text-center">Stock</th><th></th></tr></thead>
+                                        <tbody id="tablaExistentesBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!--*************** REGISTRO PRESENTACION DE PRODUCTO ***************-->
                 <div id="registroPresentacionProducto">
@@ -181,12 +195,10 @@
 
                         <div class="row mt-4">
                             <div class="col-md-4">
-                                <label for="preparada" class="form-label">Preparada</label>
-                                    <select class="form-select" id="preparada" name="preparada">
-                                        <option value="" selected disabled>Seleccionar</option>
-                                        <option value="1">SI</option>
-                                        <option value="0">NO</option>
-                                    </select>
+                                <label for="generoPresentacion" class="form-label">Género</label>
+                                <select class="form-select" id="generoPresentacion" name="generoPresentacion">
+                                    <option value="" selected disabled>Seleccionar</option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="formula" class="form-label">Formula</label>
@@ -222,13 +234,12 @@
                                                 <th>Precio Venta</th>
                                                 <th>Tipo</th>
                                                 <th>Fórmula</th>
-                                                <th>Imagen</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tablaPresentaciones">
                                             <tr>
-                                                <td colspan="8" class="text-center text-muted">No hay presentaciones agregadas</td>
+                                                <td colspan="7" class="text-center text-muted">No hay presentaciones agregadas</td>
                                             </tr>
                                         </tbody>
                                     </table>

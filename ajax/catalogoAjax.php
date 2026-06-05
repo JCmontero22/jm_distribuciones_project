@@ -1,22 +1,14 @@
 <?php
     
-    require_once(__DIR__ . '/../services/CatalogoService.php');
+    require_once(__DIR__ . '/../core/ServiceContainer.php');
     require_once(__DIR__ . '/../controller/CatalogoController.php');
-    require_once(__DIR__ . '/../model/TiposProductosModel.php');
-    require_once(__DIR__ . '/../model/SedesModel.php');
-
+    
     $accion = isset($_POST['accion']) ? $_POST['accion'] :  (isset($_GET['accion']) ? $_GET['accion'] : null);
 
     // Instanciar modelos
-    $marcaModel = new MarcaModel();
-    $generoModel = new GeneroModel();
-    $categoriaModel = new CategoriaModel();
-    /* $presentacionModel = new PresentacionProductoModel(); */
-    $tiposProductoModel = new TiposProductosModel();
-    $sedesModel = new SedesModel();
+    $servicio = ServiceContainer::getCatalogoService();
 
     // Crear servicio y controlador
-    $servicio = new CatalogoService($marcaModel, $generoModel, $categoriaModel, /* $presentacionModel, */ $tiposProductoModel, $sedesModel);
     $catalogoController = new CatalogoController($servicio);
 
     switch ($accion) {
@@ -52,6 +44,11 @@
 
         case 'listadoSedes':
             $resultado = $catalogoController->obtenerSedes();
+            echo json_encode($resultado);
+            break;
+
+        case 'registroMarca':
+            $resultado = $catalogoController->registrarMarca($_POST['nombreMarca'] ?? '', $_FILES);
             echo json_encode($resultado);
             break;
 

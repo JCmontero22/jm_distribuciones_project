@@ -1,7 +1,6 @@
 <?php
 
     require_once('../core/conexion.php');
-    require_once('../services/FormulaCalculatorService.php');
 
 
     class ComprasModel extends conexion {
@@ -11,12 +10,15 @@
                         c.id_compras,
                         c.numero_factura_compra,
                         c.total_compra,
+                        c.fecha_compra,
                         COUNT(dc.id_detalle_compra) as cantidad_detalles,
+                        p.nombre_proveedor,
                         GROUP_CONCAT(DISTINCT pp.nombre_presentacion SEPARATOR ', ') as presentaciones
                     FROM compras c
                     LEFT JOIN detalle_compra dc ON c.id_compras = dc.id_compra
                     LEFT JOIN productos_presentaciones pp ON dc.id_presentacion = pp.id_presentacion
-                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra
+                    LEFT JOIN proveedor p ON c.id_proveedor = p.id_proveedor
+                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra, c.fecha_compra, p.nombre_proveedor
                     ORDER BY c.id_compras DESC";
 
             return $this->select($query, []);
@@ -38,16 +40,19 @@
             return $this->execute($query, $params);
         }   
 
+        /**
+         * Registra los detalles de la compra (array de detalles)
+         */
         public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
-
             $query = "INSERT INTO detalle_compra (
                 id_compra,
                 id_presentacion,
                 id_sede,
                 cantidad_detalle_compra,
                 costo_unitario_detalle_compra,
-                subtotal_detalle_compra
-            ) VALUES (:id_compra, :id_presentacion, :id_sede, :cantidad, :costo_unitario, :subtotal)";
+                subtotal_detalle_compra,
+                id_estado
+            ) VALUES (:id_compra, :id_presentacion, :id_sede, :cantidad, :costo_unitario, :subtotal, 1)";
 
             foreach ($detalle as $item) {
                 $params = [
@@ -62,7 +67,6 @@
                 $this->execute($query, $params);
                 $this->recalculo($item);
             }
-
             return true;
         }
 
@@ -134,13 +138,6 @@
             // Actualizar precio de presentación (para referencia)
             $nuevoPrecioCompra = $data['precioCompra'];
             $this->actualizarValorCompra($data['idProductoPresentacion'], $nuevoPrecioCompra);
-
-            // DISPARA RECÁLCULO DE TODAS LAS FÓRMULAS QUE USAN ESTA ESENCIA
-            // Obtener id_producto de la presentación comprada
-            $dataPresentacion = $this->dataProductoPresentacion($data['idProductoPresentacion']);
-            if ($dataPresentacion) {
-                $this->dispararRecalculoFórmulas($dataPresentacion['id_producto'], $idSede);
-            }
         }
 
         /**
@@ -171,20 +168,6 @@
             $this->actualizarValorCompra($data['idProductoPresentacion'], $nuevoPrecioCompra);
         }
 
-        /**
-         * Dispara el recálculo de costos de producción de fórmulas
-         */
-        private function dispararRecalculoFórmulas(int $idProductoEsencia, int $idSede): void {
-            try {
-                $calculator = new FormulaCalculatorService();
-                $calculator->recalcularCostoProduccionPorEsencia($idProductoEsencia, $idSede);
-            } catch (Exception $e) {
-                // Log error pero no detiene el registro de compra
-                error_log("Error al recalcular fórmulas: " . $e->getMessage());
-            }
-        }
-
-
         private function dataProductoPresentacion(int $idProductoPresentacion) {
             $query = "SELECT
                         productos.id_producto,
@@ -193,10 +176,7 @@
                         productos_presentaciones.id_presentacion,
                         productos_presentaciones.nombre_presentacion,
                         productos_presentaciones.precio_compra_presentacion,
-                        productos_presentaciones.cantidad_gramos_presentacion,
                         productos_presentaciones.unidad_medida_productos_presentacion,
-                        productos_presentaciones.es_preparado_presentacion_producto,
-                        productos_presentaciones.id_formula,
                         tipo_producto.id_tipo_producto,
                         tipo_producto.descripcion_tipo_producto,
                         categoria_producto.id_categoria AS id_categoria_producto,
@@ -326,6 +306,65 @@
             $result = $this->execute($query, $params);
             error_log("[ComprasModel::actualizarStockEsencia] Resultado: " . ($result ? "OK" : "FAIL"));
             return $result;
+        }
+
+        public function obtenerDetalleCompra(int $idCompra): array {
+            $query = "SELECT
+                        dc.id_detalle_compra,
+                        dc.id_compra,
+                        dc.id_presentacion,
+                        dc.id_sede,
+                        dc.cantidad_detalle_compra,
+                        dc.costo_unitario_detalle_compra,
+                        dc.subtotal_detalle_compra,
+                        pp.nombre_presentacion,
+                        p.nombre_producto,
+                        cp.nombre_categoria,
+                        s.nombre_sede
+                    FROM detalle_compra dc
+                    LEFT JOIN productos_presentaciones pp ON dc.id_presentacion = pp.id_presentacion
+                    LEFT JOIN productos p ON pp.id_producto = p.id_producto
+                    LEFT JOIN categoria_producto cp ON p.id_categoria = cp.id_categoria
+                    LEFT JOIN sedes s ON dc.id_sede = s.id_sede
+                    WHERE dc.id_compra = :id_compra";
+            $params = [':id_compra' => $idCompra];
+            return $this->select($query, $params);
+        }
+
+        public function obtenerCompraPorId(int $idCompra): ?array {
+            $query = "SELECT c.*, p.nombre_proveedor
+                      FROM compras c
+                      LEFT JOIN proveedor p ON c.id_proveedor = p.id_proveedor
+                      WHERE c.id_compras = :id_compras";
+            $params = [':id_compras' => $idCompra];
+            $result = $this->select($query, $params);
+            return !empty($result) ? $result[0] : null;
+        }
+
+        public function actualizarCompra(int $idCompra, array $data): mixed {
+            $query = "UPDATE compras SET
+                        id_proveedor = :id_proveedor,
+                        numero_factura_compra = :numero_factura_compra,
+                        total_compra = :total_compra
+                      WHERE id_compras = :id_compras";
+            $params = [
+                ':id_proveedor' => $data['idProveedor'],
+                ':numero_factura_compra' => $data['numeroFacturaCompra'],
+                ':total_compra' => $data['totalCompra'],
+                ':id_compras' => $idCompra
+            ];
+            return $this->execute($query, $params);
+        }
+
+        public function eliminarDetallesCompra(int $idCompra): mixed {
+            $query = "DELETE FROM detalle_compra WHERE id_compra = :id_compra";
+            return $this->execute($query, [':id_compra' => $idCompra]);
+        }
+
+        public function eliminarCompra(int $idCompra): mixed {
+            $this->eliminarDetallesCompra($idCompra);
+            $query = "DELETE FROM compras WHERE id_compras = :id_compras";
+            return $this->execute($query, [':id_compras' => $idCompra]);
         }
 
         private function extraerGramosDelNombre(?string $nombrePresentacion): ?int {

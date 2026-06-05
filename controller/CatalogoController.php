@@ -79,4 +79,24 @@
                 return response::error('Error al obtener sedes');
             }
         }
+
+        public function obtenerInsumosFormulas() {
+            try {
+                $data = $this->servicio->obtenerInsumosFormulas();
+                return response::success($data);
+            } catch (\Exception $e) {
+                Logger::error("Error al obtener insumos para fórmulas", $e);
+                return response::error('Error al obtener insumos para fórmulas');
+            }
+        }
+
+        public function registrarMarca(string $data, array $files) {
+            try {
+                $resultado = $this->servicio->registrarMarca($data, $files);
+                return response::success($resultado, 'Marca registrada exitosamente');
+            } catch (\Exception $e) {
+                Logger::error("Error al registrar marca", $e);
+                return response::error('Error al registrar marca: ' . $e->getMessage());
+            }
+        }
     }

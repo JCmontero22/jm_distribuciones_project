@@ -10,9 +10,9 @@
     </div>
 </section>
 
-<section class="content-list-proveedores contenedor-page">
+<section class="content-list-proveedores contenedor-page container">
     <div class="table-responsive">
-        <table class="table table-striped table-hover" id="tablaProveedores">
+        <table class="table table-striped table-bordered table-hover custom-table table-dark" id="tablaProveedores">
             <thead class="text-center">
                 <tr>
                     <th>ID</th>

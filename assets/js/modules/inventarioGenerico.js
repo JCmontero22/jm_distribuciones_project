@@ -169,6 +169,75 @@ function crearModuloInventario(config) {
             });
         },
 
+        obtenerPresentacionesPorProducto(idProducto) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/productosAjax.php`,
+                    method: "GET",
+                    data: { accion: "listarPresentacionesPorProducto", idProducto },
+                    success(response) {
+                        const datos = JSON.parse(response);
+                        resolve(datos.data || []);
+                    },
+                    error(error) { reject(error); }
+                });
+            });
+        },
+
+        obtenerProducto(idProducto) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/productosAjax.php`,
+                    method: "GET",
+                    data: { accion: "obtenerProducto", idProducto },
+                    success(response) {
+                        const datos = JSON.parse(response);
+                        resolve(datos.data || {});
+                    },
+                    error(error) { reject(error); }
+                });
+            });
+        },
+
+        editarProducto(formData) {
+            return new Promise((resolve, reject) => {
+                formData.append("accion", "editarProducto");
+                $.ajax({
+                    url: `${BASE_URL}/ajax/productosAjax.php`,
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success(response) { resolve(JSON.parse(response)); },
+                    error(error) { reject(error); }
+                });
+            });
+        },
+
+        eliminarProducto(idProducto) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/productosAjax.php`,
+                    method: "POST",
+                    data: { accion: "eliminarProducto", idProducto },
+                    success(response) { resolve(JSON.parse(response)); },
+                    error(error) { reject(error); }
+                });
+            });
+        },
+
+        eliminarPresentacion(idPresentacion) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/productosAjax.php`,
+                    method: "POST",
+                    data: { accion: "eliminarPresentacion", idPresentacion },
+                    success(response) { resolve(JSON.parse(response)); },
+                    error(error) { reject(error); }
+                });
+            });
+        },
+
     };
 
     /**
@@ -176,6 +245,50 @@ function crearModuloInventario(config) {
      */
     const View = {
         renderizarTarjetaProducto(producto) {
+            if (config.esEsencia) {
+                const gramos = parseFloat(producto.cantidad_gramos || 0);
+                const costoPorGramo = parseFloat(producto.costo_por_gramo || 0);
+                return `
+                    <div class="card-inventory">
+                        <div class="card-inventory_img">
+                            <img src="${BASE_URL}/assets/img/productos/${producto.logo_producto}" alt="${producto.nombre_producto}" class="product-image">
+                        </div>
+                        <div class="card-inventory_infoProducto">
+                            <h3 class="card-inventory_name">${producto.nombre_producto}</h3>
+                            <p>
+                                <span>Costo por gramo:</span>
+                                <span class="card-inventory_cost">${costoPorGramo > 0 ? '$ ' + FormatUtils.separaMiles(costoPorGramo.toFixed(0)) : '-'}</span>
+                            </p>
+                            <p class="card-inventory_description">
+                                ${producto.descripcion_producto || ''}
+                            </p>
+                        </div>
+                        <div class="card-inventory_stock">
+                            <p class="stock-label">Disponible: ${FormatUtils.separaMiles(gramos.toFixed(0))} g</p>
+                        </div>
+                        <div class="card-inventory_op">
+                            <button class="btn btn-info btn-ver-presentaciones" data-id="${producto.id_producto}" data-nombre="${producto.nombre_producto}" title="Ver presentaciones">
+                                <i class="fa-solid fa-list"></i>
+                            </button>
+                            <button class="btn btn-success btn-add-presentacion" data-id="${producto.id_producto}" type="button" data-bs-toggle="modal" data-bs-target="${config.idModalPresentacion}">
+                                <i class="fa-solid fa-file-circle-plus"></i>
+                            </button>
+                            <button class="btn btn-warning "
+                                data-id="${producto.id_producto}"
+                                title="Editar producto">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button class="btn btn-danger btn-eliminar-producto"
+                                data-id="${producto.id_producto}"
+                                data-nombre="${producto.nombre_producto}"
+                                title="Eliminar producto">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
             const precioCompra = producto.precio_compra_presentacion ? `$ ${FormatUtils.separaMiles(producto.precio_compra_presentacion)}` : '-';
             const precioVenta = producto.precio_venta_presentacion ? `$ ${FormatUtils.separaMiles(producto.precio_venta_presentacion)}` : '-';
 
@@ -194,20 +307,31 @@ function crearModuloInventario(config) {
                             <span>Valor de venta:</span>
                             <span class="card-inventory_sale">${precioVenta}</span>
                         </p>
-
                         <p class="card-inventory_description">
                             ${producto.descripcion_producto}
                         </p>
                     </div>
                     <div class="card-inventory_stock">
-                        <p class="stock-label">Stock: ${producto.stock_actual || 0}</p>
+                        <p class="stock-label">Stock: ${producto.stock_total || 0}</p>
                     </div>
                     <div class="card-inventory_op">
+                        <button class="btn btn-info btn-ver-presentaciones" data-id="${producto.id_producto}" data-nombre="${producto.nombre_producto}" title="Ver presentaciones">
+                            <i class="fa-solid fa-list"></i>
+                        </button>
                         <button class="btn btn-success btn-add-presentacion" data-id="${producto.id_producto}" type="button" data-bs-toggle="modal" data-bs-target="${config.idModalPresentacion}">
                             <i class="fa-solid fa-file-circle-plus"></i>
                         </button>
-                        <button class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-warning "
+                            data-id="${producto.id_producto}"
+                            title="Editar producto">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button class="btn btn-danger btn-eliminar-presentacion-card"
+                            data-id="${producto.id_presentacion}"
+                            data-nombre="${producto.nombre_presentacion}"
+                            title="Eliminar presentación">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             `;
@@ -223,47 +347,66 @@ function crearModuloInventario(config) {
 
         poblarSelect(selectId, items, valueKey, textKey) {
             const select = $(selectId);
+            const placeholder = select.find('option:first').clone();
+
+            select.empty();
+
+            if (placeholder.length && placeholder.is('[disabled]')) {
+                select.append(placeholder);
+            }
+
             items.forEach(item => {
                 select.append(new Option(item[textKey], item[valueKey]));
             });
         },
 
-        renderizarFilaPresentacion(presentacion) {
-            let preciosHtml = '';
-            if (presentacion.precioCompraPresentacion || presentacion.precioVentaPresentacion) {
-                preciosHtml = `
-                    <td>$${presentacion.precioCompraPresentacion ? presentacion.precioCompraPresentacion.toLocaleString('es-CO') : '-'}</td>
-                    <td>$${presentacion.precioVentaPresentacion ? presentacion.precioVentaPresentacion.toLocaleString('es-CO') : '-'}</td>
-                `;
-            }
+        obtenerColumnasPresentaciones() {
+            const tabla = $("#tablaPresentaciones").closest("table");
+            if (!tabla.length) return [];
 
-            let formulaHtml = '';
-            if (config.tieneFormula && presentacion.idFormula) {
-                formulaHtml = `<td>${presentacion.nombreFormula || '-'}</td>`;
-            }
+            return tabla.find("thead th").map((_, th) => {
+                return $(th).text().trim().toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .replace(/\s+/g, "");
+            }).get();
+        },
 
-            return `
-                <tr>
-                    <td>${presentacion.nombrePresentacion}</td>
-                    <td>${presentacion.codigoPresentacion}</td>
-                    <td>${presentacion.cantidadGramosPresentacion ? presentacion.cantidadGramosPresentacion + 'g' : '-'}</td>
-                    ${preciosHtml}
-                    <td>
-                        <span class="badge ${presentacion.tipoProducto === '1' ? 'bg-info' : 'bg-warning'}">
-                            ${presentacion.tipoProducto === '1' ? 'REVENTA' : 'PRODUCCIÓN'}
-                        </span>
-                    </td>
-                    ${formulaHtml}
-                    <td>
-                        ${presentacion.imagenPresentacion ? '<i class="fa-solid fa-check text-success"></i>' : '<i class="fa-solid fa-times text-danger"></i>'}
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-danger btn-eliminar-presentacion" data-id="${presentacion.id}">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
+        obtenerColspanPresentaciones() {
+            const columnas = this.obtenerColumnasPresentaciones();
+            if (columnas.length > 0) return columnas.length;
+            return config.tieneFormula ? 7 : 6;
+        },
+
+        renderizarFilaPresentacion(presentacion, columnas = []) {
+            const tipoBadge = `<span class="badge ${presentacion.tipoProducto === '1' ? 'bg-info' : 'bg-warning'}">${presentacion.tipoProducto === '1' ? 'REVENTA' : 'PRODUCCIÓN'}</span>`;
+            const accionesHtml = `
+                <button class="btn btn-sm btn-danger btn-eliminar-presentacion" data-id="${presentacion.id}">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             `;
+
+            const celdasPorColumna = {
+                nombre: presentacion.nombrePresentacion || '-',
+                codigo: presentacion.codigoPresentacion || '-',
+                tamano: presentacion.cantidadGramosPresentacion ? `${presentacion.cantidadGramosPresentacion}g` : '-',
+                preciocompra: `$${presentacion.precioCompraPresentacion ? presentacion.precioCompraPresentacion.toLocaleString('es-CO') : '-'}`,
+                precioventa: `$${presentacion.precioVentaPresentacion ? presentacion.precioVentaPresentacion.toLocaleString('es-CO') : '-'}`,
+                tipo: tipoBadge,
+                formula: presentacion.nombreFormula || '-',
+                acciones: accionesHtml
+            };
+
+            const columnasRender = columnas.length
+                ? columnas
+                : ["nombre", "codigo", "preciocompra", "precioventa", "tipo", "acciones"];
+
+            const tds = columnasRender.map(col => {
+                const valor = celdasPorColumna[col] ?? '-';
+                return `<td>${valor}</td>`;
+            }).join('');
+
+            return `<tr>${tds}</tr>`;
         },
 
         mostrarPresentacionesEnTabla(presentaciones) {
@@ -284,11 +427,11 @@ function crearModuloInventario(config) {
                 }
 
                 encabezados += `
-                    <th>Imagen</th>
+                    
                     <th>Acciones</th>
                 `;
 
-                const colspan = config.tieneFormula ? 9 : 8;
+                const colspan = config.tieneFormula ? 8 : 7;
 
                 $("#formRegistroPresentacionProducto").after(`
                     <div class="row mt-4">
@@ -311,12 +454,13 @@ function crearModuloInventario(config) {
             }
 
             if (presentaciones.length === 0) {
-                const colspan = config.tieneFormula ? 9 : 8;
+                const colspan = this.obtenerColspanPresentaciones();
                 tabla.html(`<tr><td colspan="${colspan}" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
                 return;
             }
 
-            tabla.html(presentaciones.map(p => this.renderizarFilaPresentacion(p)).join(''));
+            const columnasTabla = this.obtenerColumnasPresentaciones();
+            tabla.html(presentaciones.map(p => this.renderizarFilaPresentacion(p, columnasTabla)).join(''));
         },
 
         limpiarFormulario(formId) {
@@ -360,7 +504,14 @@ function crearModuloInventario(config) {
         },
 
         bindEvents() {
-            $("#formRegistroProducto").on("submit", (e) => this.registrarProducto(e));
+            $("#formRegistroProducto").on("submit", (e) => {
+                const idEditar = $("#idProductoEditar").val();
+                if (idEditar) {
+                    this.submitEditarProducto(e);
+                } else {
+                    this.registrarProducto(e);
+                }
+            });
             $("#formRegistroPresentacionProducto").on("submit", (e) => this.registrarTodasPresentaciones(e));
 
             $(document).on("click", "#btnAgregarStock", () => {
@@ -370,16 +521,50 @@ function crearModuloInventario(config) {
             $(document).on("click", ".btn-add-presentacion", (e) => {
                 const id = $(e.currentTarget).data("id");
                 this.idProducto = id;
+                this.cargarPresentacionesExistentesEnModal(id);
                 this.modalPresentacion.show();
+            });
+
+            $(document).on("click", ".btn-ver-presentaciones", (e) => {
+                const id = $(e.currentTarget).data("id");
+                const nombre = $(e.currentTarget).data("nombre");
+                this.verPresentaciones(id, nombre);
+            });
+
+            $(document).on("click", ".btn-editar-producto", (e) => {
+                const id = $(e.currentTarget).data("id");
+                this.abrirModalEdicion(id);
+            });
+
+            $(document).on("click", ".btn-eliminar-producto", (e) => {
+                const id = $(e.currentTarget).data("id");
+                const nombre = $(e.currentTarget).data("nombre");
+                this.confirmarEliminarProducto(id, nombre);
+            });
+
+            $(document).on("click", ".btn-eliminar-presentacion-card", (e) => {
+                const id = $(e.currentTarget).data("id");
+                const nombre = $(e.currentTarget).data("nombre");
+                this.confirmarEliminarPresentacion(id, nombre);
+            });
+
+            $('#modalRegistroPresentacion').on('show.bs.modal', () => {
+                this.cargarGeneros();
             });
 
             $('#modalRegistroPresentacion').on('hidden.bs.modal', () => {
                 View.limpiarFormulario("#formRegistroPresentacionProducto");
+                this.limpiarAcumulador();
                 this.idRegistro = null;
+                $("#seccionPresentacionesExistentes").hide();
+                $("#tablaExistentesBody").empty();
             });
 
             $('#modalRegistroProducto').on('hidden.bs.modal', () => {
                 View.limpiarFormulario("#formRegistroProducto");
+                $("#idProductoEditar").val("");
+                $("#staticBackdropLabel").text("Registrar Producto");
+                $("#formRegistroProducto .btnRegistro").html('<i class="fa-regular fa-floppy-disk"></i> Registrar Producto');
             });
 
             $("[data-format-miles]").on("input", (e) => FormatUtils.formatearMiles(e));
@@ -391,7 +576,7 @@ function crearModuloInventario(config) {
 
             $(document).on("click", ".btn-eliminar-presentacion", (e) => {
                 const id = $(e.currentTarget).data("id");
-                this.eliminarPresentacion(id);
+                this.eliminarPresentacionAcumulada(id);
             });
 
             $(window).on('scroll', () => {
@@ -489,9 +674,9 @@ function crearModuloInventario(config) {
         async cargarGeneros() {
             try {
                 const generos = await API.obtenerGeneros();
-                View.poblarSelect("#generoProducto", generos, 'id_genero', 'nombre_genero');
+                View.poblarSelect("#generoPresentacion", generos, 'id_genero', 'nombre_genero');
             } catch (error) {
-                console.error("Error al cargar géneros:", error);
+                console.error("❌ Error al cargar géneros:", error);
             }
         },
 
@@ -553,8 +738,8 @@ function crearModuloInventario(config) {
             const tipo = $("#tipoProducto").val();
             const imagen = $("#imagenPresentacion")[0].files[0];
             const unidadMedida = $("#unidadMedidaPresentacion").val();
-            const esPreparado = $("#preparada").val();
-            const idFormula = config.tieneFormula ? $("#formula").val() : null;
+            const idGenero = $("#generoPresentacion").val();
+            const favoritoPresentacion = $("#favoritoPresentacion").is(":checked") ? 1 : 0;
 
             this.idRegistro = this.idRegistro || this.idProducto;
 
@@ -585,9 +770,9 @@ function crearModuloInventario(config) {
                 idProducto: this.idRegistro,
                 unidadMedidaProductosPresentacion: unidadMedida,
                 cantidadGramosPresentacion: cantidadGramosPresentacion,
-                esPreparadoPresentacionProducto: esPreparado,
-                idFormula: idFormula || null,
-                nombreFormula: idFormula ? $(`#formula option[value="${idFormula}"]`).text() : null
+                idGenero: idGenero || null,
+                favoritoPresentacion: favoritoPresentacion
+                
             };
 
             this.presentacionesAcumuladas.push(presentacion);
@@ -596,7 +781,7 @@ function crearModuloInventario(config) {
             Alerts.toasSuccess("Presentación agregada correctamente");
         },
 
-        eliminarPresentacion(id) {
+        eliminarPresentacionAcumulada(id) {
             this.presentacionesAcumuladas = this.presentacionesAcumuladas.filter(p => p.id !== id);
             View.mostrarPresentacionesEnTabla(this.presentacionesAcumuladas);
             Alerts.toasSuccess("Presentación eliminada");
@@ -642,9 +827,9 @@ function crearModuloInventario(config) {
                         stockActual: p.stockActual,
                         unidadMedidaProductosPresentacion: p.unidadMedidaProductosPresentacion,
                         cantidadGramosPresentacion: p.cantidadGramosPresentacion,
-                        esPreparadoPresentacionProducto: p.esPreparadoPresentacionProducto,
+                        idGenero: p.idGenero || null,
                         idProducto: p.idProducto,
-                        idFormula: p.idFormula || null
+                        favoritoPresentacion: p.favoritoPresentacion
                     };
                 });
 
@@ -659,6 +844,9 @@ function crearModuloInventario(config) {
                         imagenesAgregadas++;
                     }
                 });
+
+                console.log(formData);
+                
 
                 const respuesta = await API.registrarPresentaciones(formData);
 
@@ -687,9 +875,14 @@ function crearModuloInventario(config) {
                     this.cargarMasProductos();
                     return;
                 }
+
+                console.log(this.todosLosProductos);
+                
+
                 const resultados = this.todosLosProductos.filter(p =>
                     p.nombre_producto.toLowerCase().includes(query.toLowerCase()) ||
-                    p.codigo_producto.toLowerCase().includes(query.toLowerCase())
+                    p.codigo_producto.toLowerCase().includes(query.toLowerCase()) || 
+                    p.nombre_presentacion.toLowerCase().includes(query.toLowerCase())
                 );
                 View.mostrarInventario(resultados);
             } catch (error) {
@@ -701,10 +894,238 @@ function crearModuloInventario(config) {
             this.presentacionesAcumuladas = [];
             const tabla = $("#tablaPresentaciones");
             if (tabla.length > 0) {
-                const colspan = config.tieneFormula ? 9 : 8;
+                const colspan = View.obtenerColspanPresentaciones();
                 tabla.html(`<tr><td colspan="${colspan}" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
             }
             View.limpiarFormulario("#formRegistroPresentacionProducto");
+        },
+
+        async verPresentaciones(idProducto, nombreProducto) {
+            try {
+                const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto);
+
+                let filas;
+                if (config.esEsencia) {
+                    filas = presentaciones.length === 0
+                        ? `<tr><td colspan="6" class="text-center text-muted py-3">Sin presentaciones registradas</td></tr>`
+                        : presentaciones.map(p => `
+                            <tr>
+                                <td>${p.nombre_presentacion}</td>
+                                <td>${p.codigo_presentacion}</td>
+                                <td class="text-center">${p.cantidad_gramos_presentacion ? p.cantidad_gramos_presentacion + ' g' : '-'}</td>
+                                <td class="text-center fw-bold ${parseFloat(p.stock_gramos) > 0 ? 'text-success' : 'text-danger'}">
+                                    ${FormatUtils.separaMiles(parseFloat(p.stock_gramos).toFixed(0))} g
+                                </td>
+                                <td class="text-center">${parseFloat(p.costo_por_gramo) > 0 ? '$ ' + FormatUtils.separaMiles(parseFloat(p.costo_por_gramo).toFixed(0)) : '-'}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-danger btn-del-pres-modal" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                } else {
+                    filas = presentaciones.length === 0
+                        ? `<tr><td colspan="5" class="text-center text-muted py-3">Sin presentaciones registradas</td></tr>`
+                        : presentaciones.map(p => `
+                            <tr>
+                                <td>${p.nombre_presentacion}</td>
+                                <td>${p.codigo_presentacion}</td>
+                                <td class="text-center">${p.precio_compra_presentacion ? '$ ' + FormatUtils.separaMiles(p.precio_compra_presentacion) : '-'}</td>
+                                <td class="text-center fw-bold ${parseInt(p.stock_total) > 0 ? 'text-success' : 'text-danger'}">
+                                    ${p.stock_total || 0}
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-danger btn-del-pres-modal" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                }
+
+                const encabezados = config.esEsencia
+                    ? `<th>Presentación</th><th>Código</th><th class="text-center">Tamaño</th><th class="text-center">Stock</th><th class="text-center">Costo/g</th><th></th>`
+                    : `<th>Presentación</th><th>Código</th><th class="text-center">P. Compra</th><th class="text-center">Stock</th><th></th>`;
+
+                const html = `
+                    <div class="table-responsive">
+                        <table class="table table-sm table-dark mb-0" id="tablaPresentacionesModal">
+                            <thead><tr>${encabezados}</tr></thead>
+                            <tbody>${filas}</tbody>
+                        </table>
+                    </div>
+                `;
+
+                const swalRef = Swal.fire({
+                    title: `<span style="font-size:1rem;color:#eab308"><i class="fa-solid fa-list"></i></span> ${nombreProducto}`,
+                    html,
+                    width: 700,
+                    background: '#1c1c1e',
+                    color: '#f4f4f5',
+                    confirmButtonText: 'Cerrar',
+                    confirmButtonColor: '#3f3f46',
+                    showClass: { popup: 'animate__animated animate__fadeIn' },
+                    didOpen: () => {
+                        document.querySelectorAll('.btn-del-pres-modal').forEach(btn => {
+                            btn.addEventListener('click', async (ev) => {
+                                const id = ev.currentTarget.dataset.id;
+                                const nombre = ev.currentTarget.dataset.nombre;
+                                Swal.close();
+                                await this.confirmarEliminarPresentacion(id, nombre, () => this.verPresentaciones(idProducto, nombreProducto));
+                            });
+                        });
+                    }
+                });
+
+                await swalRef;
+            } catch (error) {
+                console.error("Error al cargar presentaciones:", error);
+                Alerts.error("Error", "No se pudieron cargar las presentaciones");
+            }
+        },
+
+        async abrirModalEdicion(idProducto) {
+            try {
+                const producto = await API.obtenerProducto(idProducto);
+                if (!producto || !producto.id_producto) {
+                    Alerts.error("Error", "No se pudo cargar el producto");
+                    return;
+                }
+
+                $("#idProductoEditar").val(producto.id_producto);
+                $("#nombreProducto").val(producto.nombre_producto);
+                $("#codigoProducto").val(producto.codigo_producto);
+                $("#categoriaProducto").val(producto.id_categoria);
+                $("#marcaProducto").val(producto.id_marca);
+                $("#descripcionProducto").val(producto.descripcion_producto);
+
+                $("#staticBackdropLabel").text("Editar Producto");
+                $("#formRegistroProducto .btnRegistro").html('<i class="fa-regular fa-floppy-disk"></i> Actualizar Producto');
+
+                this.modalProducto.show();
+            } catch (error) {
+                console.error("Error al cargar producto:", error);
+                Alerts.error("Error", "No se pudo cargar el producto");
+            }
+        },
+
+        async submitEditarProducto(e) {
+            e.preventDefault();
+            const resultado = await Alerts.confirmation("¿Actualizar producto?", "Se guardarán los cambios realizados");
+            if (!resultado.isConfirmed) return;
+
+            try {
+                const formData = new FormData(e.target);
+                const respuesta = await API.editarProducto(formData);
+
+                if (respuesta.success) {
+                    this.modalProducto.hide();
+                    await this.cargarProductos();
+                    Alerts.toasSuccess(respuesta.message);
+                } else {
+                    Alerts.error("Error al actualizar", respuesta.message);
+                }
+            } catch (error) {
+                Alerts.error("Error", "Error al actualizar el producto");
+                console.error(error);
+            }
+        },
+
+        async confirmarEliminarProducto(idProducto, nombre) {
+            const resultado = await Alerts.confirmation(
+                "¿Eliminar producto?",
+                `Se eliminará "${nombre}" y todas sus presentaciones. Esta acción no se puede deshacer.`
+            );
+            if (!resultado.isConfirmed) return;
+
+            try {
+                const respuesta = await API.eliminarProducto(idProducto);
+                if (respuesta.success) {
+                    await this.cargarProductos();
+                    Alerts.toasSuccess(respuesta.message);
+                } else {
+                    Alerts.error("Error al eliminar", respuesta.message);
+                }
+            } catch (error) {
+                Alerts.error("Error", "Error al eliminar el producto");
+                console.error(error);
+            }
+        },
+
+        async confirmarEliminarPresentacion(idPresentacion, nombre, callback = null) {
+            const resultado = await Alerts.confirmation(
+                "¿Eliminar presentación?",
+                `Se eliminará la presentación "${nombre}".`
+            );
+            if (!resultado.isConfirmed) return;
+
+            try {
+                const respuesta = await API.eliminarPresentacion(idPresentacion);
+                if (respuesta.success) {
+                    if (callback) {
+                        callback();
+                    } else {
+                        await this.cargarProductos();
+                    }
+                    Alerts.toasSuccess(respuesta.message);
+                } else {
+                    Alerts.error("Error al eliminar", respuesta.message);
+                }
+            } catch (error) {
+                Alerts.error("Error", "Error al eliminar la presentación");
+                console.error(error);
+            }
+        },
+
+        async cargarPresentacionesExistentesEnModal(idProducto) {
+            try {
+                const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto);
+                const seccion = $("#seccionPresentacionesExistentes");
+                const tbody = $("#tablaExistentesBody");
+
+                if (!seccion.length) return;
+
+                if (presentaciones.length === 0) {
+                    seccion.hide();
+                    return;
+                }
+
+                const filas = presentaciones.map(p => {
+                    const stock = config.esEsencia
+                        ? `${FormatUtils.separaMiles(parseFloat(p.stock_gramos).toFixed(0))} g`
+                        : `${p.stock_total || 0}`;
+                    const precio = p.precio_compra_presentacion
+                        ? `$ ${FormatUtils.separaMiles(p.precio_compra_presentacion)}`
+                        : '-';
+                    return `
+                        <tr>
+                            <td>${p.nombre_presentacion}</td>
+                            <td>${p.codigo_presentacion}</td>
+                            <td class="text-center">${precio}</td>
+                            <td class="text-center">${stock}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-sm btn-danger btn-del-existente" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.html(filas);
+                seccion.show();
+
+                $(document).off("click", ".btn-del-existente").on("click", ".btn-del-existente", async (e) => {
+                    const id = $(e.currentTarget).data("id");
+                    const nombre = $(e.currentTarget).data("nombre");
+                    await this.confirmarEliminarPresentacion(id, nombre, () => {
+                        this.cargarPresentacionesExistentesEnModal(idProducto);
+                    });
+                });
+            } catch (error) {
+                console.error("Error al cargar presentaciones existentes:", error);
+            }
         },
 
         generarCodigoProducto(nombre) {

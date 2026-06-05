@@ -6,13 +6,16 @@
         'home' => 'home.php',
         'relojes' => 'inventory/relojes.php',
         'lociones' => 'inventory/lociones.php',
+        'locionesAAA' => 'inventory/locionesAAA.php',
         'locionesPreparadas' => 'inventory/locionesPreparadas.php',
         'esencias' => 'inventory/esencias.php',
         'insumos' => 'inventory/insumos.php',
         'historial' => 'historial.php',
         'compras' => 'shopping/compras.php',
         'proveedores' => 'shopping/proveedores.php',
-        'formulas' => 'formulas.php',
+        'formulas' => 'production/formulas.php',
+        'informeProduccion' => 'production/informeProduccion.php',
+        'marcas' => 'production/marcas.php',
         
     ];
 

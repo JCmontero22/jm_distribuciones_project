@@ -27,9 +27,7 @@
                     'codigo'    => utils::sanitizeInput($request['codigoProducto']),
                     'categoria' => $request['categoriaProducto'] ?? null,
                     'marca'     => $request['marcaProducto'] ?? null,
-                    'genero'    => $request['generoProducto'] ?? null,
                     'descripcion' => utils::sanitizeInput($request['descripcionProducto'] ?? null),
-                    'imagen'    => ""
                 ];
 
                 $data = $this->servicio->registrarProducto($params, $_FILES);
@@ -86,6 +84,89 @@
             } catch (\Exception $e) {
                 Logger::error("Error interno en el Controlador de Listado de Productos para Compra", $e, $request);
                 return response::error('Error al obtener el listado de productos para compra');
+            }
+        }
+
+        public function listarEsencias(): array {
+            try {
+                $data = $this->servicio->obtenerEsencias();
+                return response::success($data, 'Esencias obtenidas exitosamente');
+
+            } catch (\Exception $e) {
+                Logger::error("Error interno en el Controlador de Listado de Esencias", $e, []);
+                return response::error('Error al obtener el listado de esencias');
+            }
+        }
+
+        public function listarPresentacionesPorProducto(array $request): array {
+            try {
+                $idProducto = (int)($request['idProducto'] ?? 0);
+                if (!$idProducto) return response::error('ID de producto requerido');
+                $data = $this->servicio->obtenerPresentacionesPorProducto($idProducto);
+                return response::success($data, 'Presentaciones obtenidas exitosamente');
+
+            } catch (\Exception $e) {
+                Logger::error("Error al listar presentaciones por producto", $e, $request);
+                return response::error('Error al obtener las presentaciones');
+            }
+        }
+
+        public function obtenerProducto(array $request): array {
+            try {
+                $id = (int)($request['idProducto'] ?? 0);
+                if (!$id) return response::error('ID de producto requerido');
+                $data = $this->servicio->obtenerProductoPorId($id);
+                return response::success($data);
+            } catch (\Exception $e) {
+                Logger::error("Error al obtener producto", $e, $request);
+                return response::error('Error al obtener el producto');
+            }
+        }
+
+        public function editar(array $request): array {
+            try {
+                $id = (int)($request['idProductoEditar'] ?? 0);
+                if (!$id) return response::error('ID de producto requerido');
+                if (!utils::validateRequiredFields(['nombreProducto', 'codigoProducto', 'categoriaProducto', 'marcaProducto'], $request)) {
+                    return response::error('Todos los campos son obligatorios');
+                }
+                $data = [
+                    'nombre'      => $request['nombreProducto'],
+                    'codigo'      => $request['codigoProducto'],
+                    'categoria'   => $request['categoriaProducto'],
+                    'marca'       => $request['marcaProducto'],
+                    'descripcion' => $request['descripcionProducto'] ?? '',
+                    'favoritoProducto' => isset($request['favoritoProducto']) ? 1 : 0
+                ];
+                $this->servicio->editarProducto($id, $data);
+                return response::success([], 'Producto actualizado exitosamente');
+            } catch (\Exception $e) {
+                Logger::error("Error al editar producto", $e, $request);
+                return response::error('Error al editar el producto');
+            }
+        }
+
+        public function eliminar(array $request): array {
+            try {
+                $id = (int)($request['idProducto'] ?? 0);
+                if (!$id) return response::error('ID de producto requerido');
+                $this->servicio->eliminarProducto($id);
+                return response::success([], 'Producto eliminado exitosamente');
+            } catch (\Exception $e) {
+                Logger::error("Error al eliminar producto", $e, $request);
+                return response::error('Error al eliminar el producto');
+            }
+        }
+
+        public function eliminarPresentacion(array $request): array {
+            try {
+                $id = (int)($request['idPresentacion'] ?? 0);
+                if (!$id) return response::error('ID de presentación requerido');
+                $this->servicio->eliminarPresentacion($id);
+                return response::success([], 'Presentación eliminada exitosamente');
+            } catch (\Exception $e) {
+                Logger::error("Error al eliminar presentación", $e, $request);
+                return response::error('Error al eliminar la presentación');
             }
         }
     }

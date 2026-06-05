@@ -12,7 +12,7 @@
             <div id="inventory" class="collapse">
                 <ul class="ul-list">
                     <li class="ul-list__item" onclick="redirect('relojes')"><a href="#"><i class="fa-solid fa-stopwatch-20"></i> Relojes</a></li>
-                    <li class="ul-list__item" onclick="redirect('locionesPreparadas')"><a href="#"><i class="fa-solid fa-vial"></i> Lociones Preparadas</a></li>
+                    <!-- <li class="ul-list__item" onclick="redirect('locionesPreparadas')"><a href="#"><i class="fa-solid fa-vial"></i> Lociones Preparadas</a></li> -->
                     <li class="ul-list__item" onclick="redirect('esencias')"><a href="#"><i class="fa-solid fa-bottle-water"></i> Esencias</a></li>
                     <li class="ul-list__item" onclick="redirect('insumos')"><a href="#"><i class="fa-solid fa-toolbox"></i> Insumos</a></li>
                     <li class="ul-list__item" onclick="redirect('locionesAAA')"><a href="#"><i class="fa-solid fa-spray-can-sparkles"></i> Lociones AAA</a></li>
@@ -27,7 +27,16 @@
                 </ul>
             </div>
 
-            <li class="ul-list__item" onclick="redirect('formulas')"><a href="#"><i class="fa-solid fa-flask-vial"></i> Formulas</a></li>
+            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#produccion" aria-expanded="false" aria-controls="produccion"><i class="fa-solid fa-pump-soap"></i> Produccion</a></li>
+            <div id="produccion" class="collapse">
+                <ul class="ul-list">
+                    <li class="ul-list__item" onclick="redirect('informeProduccion')"><a href="#"><i class="fa-solid fa-cash-register"></i> Informe Prodcucion</a></li>
+                    <li class="ul-list__item" onclick="redirect('formulas')"><a href="#"><i class="fa-solid fa-flask-vial"></i> Formulas</a></li>
+                    <li class="ul-list__item" onclick="redirect('marcas')"><a href="#"><i class="fa-solid fa-cubes"></i> Marcas</a></li>
+                </ul>
+            </div>
+
+            
 
             <li class="ul-list__item" onclick="redirect('historial')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
             

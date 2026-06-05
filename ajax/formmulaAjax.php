@@ -7,6 +7,7 @@
 
     $servicio = ServiceContainer::getFormulaService();
     $formulaController = new FormulasController($servicio);
+    $catalogoService = ServiceContainer::getCatalogoService();
 
     // Pasar la categoría en la request
     $request = array_merge($_GET, $_POST);
@@ -30,8 +31,12 @@
             break;
 
         case 'listarInsumos':
-            $request['categoria'] = 'Insumos';
-            $resultado = $formulaController->listarPresentaciones($request);
+            $resultado = $catalogoService->obtenerInsumosFormulas();
+            echo json_encode($resultado);
+            break;
+
+        case 'listarConcentraciones':
+            $resultado = $catalogoService->obtenerTiposConcentracion();
             echo json_encode($resultado);
             break;
 

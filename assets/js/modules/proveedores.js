@@ -8,9 +8,11 @@ const ProveedoresAPI = {
             $.ajax({
                 url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
                 method: "GET",
-                data: { accion: "listadoProveedores" },
+                data: { accion: "listadoProveedoresSelect" },
                 success(response) {
                     const datos = JSON.parse(response);
+                    console.log(datos);
+                    
                     resolve(datos.data || []);
                 },
                 error(error) {
