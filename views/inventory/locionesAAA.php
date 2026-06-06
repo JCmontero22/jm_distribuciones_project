@@ -209,6 +209,20 @@
                             </div>
                         </div>
 
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <label for="descripcionPresentacion" class="form-label">Descripción (Opcional)</label>
+                                <textarea class="form-control" id="descripcionPresentacion" name="descripcionPresentacion" rows="2" placeholder="Descripción de la presentación..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-2 form-check">
+                                <label for="favoritoPresentacion" class="form-check-label" style="margin-left: 5px;">Favorito</label>
+                                <input type="checkbox" name="favoritoPresentacion" id="favoritoPresentacion" class="form-check-input">
+                            </div>
+                        </div>
+
                         <!-- Botón Agregar -->
                         <div class="row">
                             <div class="col-md-12 mt-4 d-flex justify-content-end">

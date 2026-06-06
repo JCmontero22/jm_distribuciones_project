@@ -321,7 +321,7 @@ function crearModuloInventario(config) {
                         <button class="btn btn-success btn-add-presentacion" data-id="${producto.id_producto}" type="button" data-bs-toggle="modal" data-bs-target="${config.idModalPresentacion}">
                             <i class="fa-solid fa-file-circle-plus"></i>
                         </button>
-                        <button class="btn btn-warning "
+                        <button class="btn btn-warning btn-editar-producto"
                             data-id="${producto.id_producto}"
                             title="Editar producto">
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -381,8 +381,11 @@ function crearModuloInventario(config) {
         renderizarFilaPresentacion(presentacion, columnas = []) {
             const tipoBadge = `<span class="badge ${presentacion.tipoProducto === '1' ? 'bg-info' : 'bg-warning'}">${presentacion.tipoProducto === '1' ? 'REVENTA' : 'PRODUCCIÓN'}</span>`;
             const accionesHtml = `
-                <button class="btn btn-sm btn-danger btn-eliminar-presentacion" data-id="${presentacion.id}">
-                    <i class="fa-solid fa-trash"></i>
+                <button class="btn btn-sm btn-warning btn-editar-presentacion me-2" data-id="${presentacion.id}" title="Editar">
+                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-danger btn-eliminar-presentacion" data-id="${presentacion.id}" title="Eliminar">
+                    <i class="fa-solid fa-trash"></i> Eliminar
                 </button>
             `;
 
@@ -410,43 +413,24 @@ function crearModuloInventario(config) {
         },
 
         mostrarPresentacionesEnTabla(presentaciones) {
+            console.log('📊 mostrarPresentacionesEnTabla ejecutándose', presentaciones.length);
             let tabla = $("#tablaPresentaciones");
+            const self = this;
 
             if (tabla.length === 0) {
-                let encabezados = `
-                    <th>Nombre</th>
-                    <th>Código</th>
-                    <th>Tamaño (g)</th>
-                    <th>Precio Compra</th>
-                    <th>Precio Venta</th>
-                    <th>Tipo</th>
-                `;
-
-                if (config.tieneFormula) {
-                    encabezados += `<th>Fórmula</th>`;
-                }
-
-                encabezados += `
-                    
-                    <th>Acciones</th>
-                `;
-
-                const colspan = config.tieneFormula ? 8 : 7;
+                console.log('📋 Creando tabla de presentaciones');
+                let encabezados = `<th>Nombre</th><th>Código</th><th>Precio Compra</th><th>Precio Venta</th><th>Tipo</th><th>Acciones</th>`;
 
                 $("#formRegistroPresentacionProducto").after(`
                     <div class="row mt-4">
                         <div class="col-md-12">
                             <h5>Presentaciones agregadas</h5>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-sm">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            ${encabezados}
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tablaPresentaciones"></tbody>
-                                </table>
-                            </div>
+                            <table class="table table-striped table-sm">
+                                <thead class="table-dark">
+                                    <tr>${encabezados}</tr>
+                                </thead>
+                                <tbody id="tablaPresentaciones"></tbody>
+                            </table>
                         </div>
                     </div>
                 `);
@@ -454,13 +438,28 @@ function crearModuloInventario(config) {
             }
 
             if (presentaciones.length === 0) {
-                const colspan = this.obtenerColspanPresentaciones();
-                tabla.html(`<tr><td colspan="${colspan}" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
+                console.log('✅ Sin presentaciones');
+                tabla.html(`<tr><td colspan="6" class="text-center text-muted">No hay presentaciones agregadas</td></tr>`);
                 return;
             }
 
-            const columnasTabla = this.obtenerColumnasPresentaciones();
-            tabla.html(presentaciones.map(p => this.renderizarFilaPresentacion(p, columnasTabla)).join(''));
+            console.log('🎨 Renderizando', presentaciones.length, 'presentaciones');
+            const html = presentaciones.map((p, idx) => `
+                <tr>
+                    <td>${p.nombrePresentacion}</td>
+                    <td>${p.codigoPresentacion}</td>
+                    <td>${p.precioCompraPresentacion || '-'}</td>
+                    <td>${p.precioVentaPresentacion || '-'}</td>
+                    <td>${p.tipoProducto || '-'}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-warning me-2" onclick="editarPres(${idx})">Editar</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="eliminarPres(${idx})">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            tabla.html(html);
+            console.log('✅ Tabla actualizada');
         },
 
         limpiarFormulario(formId) {
@@ -485,6 +484,8 @@ function crearModuloInventario(config) {
         idRegistro: null,
         idProducto: null,
         presentacionesAcumuladas: [],
+        presentacionEditandoId: null,
+        presentacionExistenteEditando: null,
         modalProducto: null,
         modalPresentacion: null,
         todosLosProductos: [],
@@ -495,6 +496,10 @@ function crearModuloInventario(config) {
         init() {
             this.modalProducto = new bootstrap.Modal(document.getElementById('modalRegistroProducto'));
             this.modalPresentacion = new bootstrap.Modal(document.getElementById('modalRegistroPresentacion'));
+
+            // Establecer como módulo activo para funciones globales
+            moduloActivo = this;
+            console.log('✅ Módulo inicializado:', config.categoria);
 
             View.limpiarFormulario("#formRegistroProducto");
             View.limpiarFormulario("#formRegistroPresentacionProducto");
@@ -514,8 +519,11 @@ function crearModuloInventario(config) {
             });
             $("#formRegistroPresentacionProducto").on("submit", (e) => this.registrarTodasPresentaciones(e));
 
-            $(document).on("click", "#btnAgregarStock", () => {
-                this.agregarPresentacionAlAcumulador();
+            const self = this;
+            $(document).on("click", "#btnAgregarStock", function(e) {
+                e.preventDefault();
+                console.log('🔘 Click en Agregar - ejecutando');
+                self.agregarPresentacionAlAcumulador();
             });
 
             $(document).on("click", ".btn-add-presentacion", (e) => {
@@ -554,6 +562,7 @@ function crearModuloInventario(config) {
 
             $('#modalRegistroPresentacion').on('hidden.bs.modal', () => {
                 View.limpiarFormulario("#formRegistroPresentacionProducto");
+                this.cancelarEdicionPresentacion();
                 this.limpiarAcumulador();
                 this.idRegistro = null;
                 $("#seccionPresentacionesExistentes").hide();
@@ -577,6 +586,14 @@ function crearModuloInventario(config) {
             $(document).on("click", ".btn-eliminar-presentacion", (e) => {
                 const id = $(e.currentTarget).data("id");
                 this.eliminarPresentacionAcumulada(id);
+            });
+
+            $(document).on("click", ".btn-editar-presentacion", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const id = $(e.currentTarget).data("id");
+                console.log('🖊️ Editando presentación:', id);
+                this.editarPresentacionAcumulada(id);
             });
 
             $(window).on('scroll', () => {
@@ -729,9 +746,10 @@ function crearModuloInventario(config) {
         },
 
         agregarPresentacionAlAcumulador() {
-            console.log(this.idProducto);
-            
+            console.log('➕ AGREGANDO PRESENTACIÓN');
+
             const nombre = $("#nombrePresentacion").val();
+            console.log('📝 Nombre:', nombre);
             const codigo = $("#codigoPresentacion").val();
             const $precioCompra = $("#precioCompraPresentacion") ?? 0;
             const $precioVenta = $("#precioVentaPresentacion") ?? 0;
@@ -740,6 +758,7 @@ function crearModuloInventario(config) {
             const unidadMedida = $("#unidadMedidaPresentacion").val();
             const idGenero = $("#generoPresentacion").val();
             const favoritoPresentacion = $("#favoritoPresentacion").is(":checked") ? 1 : 0;
+            const descripcion = $("#descripcionPresentacion").val();
 
             this.idRegistro = this.idRegistro || this.idProducto;
 
@@ -760,7 +779,9 @@ function crearModuloInventario(config) {
             }
 
             const presentacion = {
-                id: Date.now(),
+                id: this.presentacionEditandoId || Date.now(),
+                isExistente: this.presentacionExistenteEditando ? true : false,
+                idPresentacionExistente: this.presentacionExistenteEditando || null,
                 nombrePresentacion: nombre,
                 codigoPresentacion: codigo,
                 precioCompraPresentacion: precioCompraLimpio ? parseInt(precioCompraLimpio) : null,
@@ -771,20 +792,108 @@ function crearModuloInventario(config) {
                 unidadMedidaProductosPresentacion: unidadMedida,
                 cantidadGramosPresentacion: cantidadGramosPresentacion,
                 idGenero: idGenero || null,
-                favoritoPresentacion: favoritoPresentacion
-                
+                favoritoPresentacion: favoritoPresentacion,
+                descripcionPresentacion: descripcion
             };
 
-            this.presentacionesAcumuladas.push(presentacion);
+            if (this.presentacionEditandoId) {
+                // Modo edición: actualizar presentación (nueva o existente)
+                const indice = this.presentacionesAcumuladas.findIndex(p => p.id === this.presentacionEditandoId);
+                if (indice !== -1) {
+                    this.presentacionesAcumuladas[indice] = presentacion;
+                    Alerts.toasSuccess("Presentación actualizada correctamente");
+                } else {
+                    this.presentacionesAcumuladas.push(presentacion);
+                    Alerts.toasSuccess("Presentación agregada correctamente");
+                }
+                this.cancelarEdicionPresentacion();
+            } else {
+                // Modo agregar: insertar nueva presentación
+                this.presentacionesAcumuladas.push(presentacion);
+                Alerts.toasSuccess("Presentación agregada correctamente");
+            }
+
             View.mostrarPresentacionesEnTabla(this.presentacionesAcumuladas);
             View.limpiarFormulario("#formRegistroPresentacionProducto");
-            Alerts.toasSuccess("Presentación agregada correctamente");
         },
 
         eliminarPresentacionAcumulada(id) {
             this.presentacionesAcumuladas = this.presentacionesAcumuladas.filter(p => p.id !== id);
             View.mostrarPresentacionesEnTabla(this.presentacionesAcumuladas);
+            if (this.presentacionEditandoId === id) {
+                this.cancelarEdicionPresentacion();
+            }
             Alerts.toasSuccess("Presentación eliminada");
+        },
+
+        editarPresentacionAcumulada(id) {
+            const presentacion = this.presentacionesAcumuladas.find(p => p.id === id);
+            if (!presentacion) return;
+
+            // Cargar datos en el formulario
+            $("#nombrePresentacion").val(presentacion.nombrePresentacion);
+            $("#codigoPresentacion").val(presentacion.codigoPresentacion);
+            $("#precioCompraPresentacion").val(presentacion.precioCompraPresentacion || '');
+            $("#precioVentaPresentacion").val(presentacion.precioVentaPresentacion || '');
+            $("#tipoProducto").val(presentacion.tipoProducto);
+            $("#unidadMedidaPresentacion").val(presentacion.unidadMedidaProductosPresentacion || '');
+            $("#generoPresentacion").val(presentacion.idGenero || '');
+            $("#descripcionPresentacion").val(presentacion.descripcionPresentacion || '');
+            if (presentacion.favoritoPresentacion) {
+                $("#favoritoPresentacion").prop('checked', true);
+            }
+
+            // Cambiar botón a modo edición
+            this.presentacionEditandoId = id;
+            const $btnAgregar = $("#btnAgregarStock");
+            $btnAgregar.html('<i class="fa-solid fa-pen-to-square"></i> Guardar Cambios');
+            $btnAgregar.addClass('btn-info').removeClass('btn-primary');
+
+            // Scroll al formulario
+            document.getElementById('formRegistroPresentacionProducto').scrollIntoView({ behavior: 'smooth' });
+        },
+
+        cancelarEdicionPresentacion() {
+            this.presentacionEditandoId = null;
+            this.presentacionExistenteEditando = null;
+            const $btnAgregar = $("#btnAgregarStock");
+            $btnAgregar.html('<i class="fa-solid fa-plus"></i> Agregar');
+            $btnAgregar.removeClass('btn-info').addClass('btn-primary');
+            View.limpiarFormulario("#formRegistroPresentacionProducto");
+        },
+
+        editarPresentacionExistente(presentacion) {
+            // Guardar ID de presentación existente
+            this.presentacionExistenteEditando = presentacion.id_presentacion;
+            this.presentacionEditandoId = presentacion.id_presentacion;
+            this.idRegistro = presentacion.id_producto || this.idRegistro || this.idProducto;
+
+            // Cargar datos en el formulario
+            $("#nombrePresentacion").val(presentacion.nombre_presentacion || '');
+            $("#codigoPresentacion").val(presentacion.codigo_presentacion || '');
+            $("#precioCompraPresentacion").val(presentacion.precio_compra_presentacion || '');
+            $("#precioVentaPresentacion").val(presentacion.precio_venta_presentacion || '');
+            $("#tipoProducto").val(presentacion.id_tipo_producto || '');
+            $("#unidadMedidaPresentacion").val(presentacion.unidad_medida_presentacion || '');
+            $("#generoPresentacion").val(presentacion.id_genero || '');
+            $("#descripcionPresentacion").val(presentacion.descripcion_presentacion || '');
+            if (presentacion.favorito_presentacion) {
+                $("#favoritoPresentacion").prop('checked', true);
+            }
+
+            // Cambiar botón a modo edición
+            const $btnAgregar = $("#btnAgregarStock");
+            $btnAgregar.html('<i class="fa-solid fa-pen-to-square"></i> Guardar Cambios');
+            $btnAgregar.addClass('btn-info').removeClass('btn-primary');
+
+            $("#staticBackdropLabel").text("Editar Presentación");
+
+            if (this.modalPresentacion) {
+                this.modalPresentacion.show();
+            }
+
+            // Scroll al formulario
+            document.getElementById('formRegistroPresentacionProducto').scrollIntoView({ behavior: 'smooth' });
         },
 
         async registrarTodasPresentaciones(e) {
@@ -819,6 +928,8 @@ function crearModuloInventario(config) {
                     }
 
                     return {
+                        idPresentacionExistente: p.idPresentacionExistente || null,
+                        isExistente: p.isExistente || false,
                         nombrePresentacion: p.nombrePresentacion,
                         codigoPresentacion: p.codigoPresentacion,
                         precioCompraPresentacion: p.precioCompraPresentacion,
@@ -829,7 +940,8 @@ function crearModuloInventario(config) {
                         cantidadGramosPresentacion: p.cantidadGramosPresentacion,
                         idGenero: p.idGenero || null,
                         idProducto: p.idProducto,
-                        favoritoPresentacion: p.favoritoPresentacion
+                        favoritoPresentacion: p.favoritoPresentacion,
+                        descripcionPresentacion: p.descripcionPresentacion || null
                     };
                 });
 
@@ -846,7 +958,7 @@ function crearModuloInventario(config) {
                 });
 
                 console.log(formData);
-                
+
 
                 const respuesta = await API.registrarPresentaciones(formData);
 
@@ -936,6 +1048,9 @@ function crearModuloInventario(config) {
                                     ${p.stock_total || 0}
                                 </td>
                                 <td class="text-center">
+                                    <button class="btn btn-sm btn-warning btn-edit-pres-modal me-2" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
                                     <button class="btn btn-sm btn-danger btn-del-pres-modal" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
@@ -967,6 +1082,17 @@ function crearModuloInventario(config) {
                     confirmButtonColor: '#3f3f46',
                     showClass: { popup: 'animate__animated animate__fadeIn' },
                     didOpen: () => {
+                        document.querySelectorAll('.btn-edit-pres-modal').forEach(btn => {
+                            btn.addEventListener('click', async (ev) => {
+                                const idPresentacion = ev.currentTarget.dataset.id;
+                                const presentacion = presentaciones.find(p => p.id_presentacion == idPresentacion);
+                                if (presentacion) {
+                                    Swal.close();
+                                    this.editarPresentacionExistente(presentacion);
+                                }
+                            });
+                        });
+
                         document.querySelectorAll('.btn-del-pres-modal').forEach(btn => {
                             btn.addEventListener('click', async (ev) => {
                                 const id = ev.currentTarget.dataset.id;
@@ -1080,6 +1206,9 @@ function crearModuloInventario(config) {
 
         async cargarPresentacionesExistentesEnModal(idProducto) {
             try {
+                this.idProducto = idProducto;
+                this.idRegistro = this.idRegistro || idProducto;
+
                 const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto);
                 const seccion = $("#seccionPresentacionesExistentes");
                 const tbody = $("#tablaExistentesBody");
@@ -1105,7 +1234,10 @@ function crearModuloInventario(config) {
                             <td class="text-center">${precio}</td>
                             <td class="text-center">${stock}</td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-sm btn-danger btn-del-existente" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
+                                <button type="button" class="btn btn-sm btn-warning btn-edit-existente me-2" data-id="${p.id_presentacion}" title="Editar">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger btn-del-existente" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}" title="Eliminar">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
@@ -1115,6 +1247,16 @@ function crearModuloInventario(config) {
 
                 tbody.html(filas);
                 seccion.show();
+
+                // Listener para editar presentación existente
+                $(document).off("click", ".btn-edit-existente").on("click", ".btn-edit-existente", async (e) => {
+                    const idPresentacion = $(e.currentTarget).data("id");
+                    const presentacion = presentaciones.find(p => p.id_presentacion == idPresentacion);
+                    if (presentacion) {
+                        Swal.close();
+                        this.editarPresentacionExistente(presentacion);
+                    }
+                });
 
                 $(document).off("click", ".btn-del-existente").on("click", ".btn-del-existente", async (e) => {
                     const id = $(e.currentTarget).data("id");
@@ -1144,4 +1286,27 @@ function crearModuloInventario(config) {
     };
 
     return Module;
+}
+
+// Funciones globales para editar/eliminar presentaciones
+let moduloActivo = null;
+
+function editarPres(idx) {
+    console.log('🔧 Editando presentación índice:', idx);
+    if (moduloActivo && moduloActivo.editarPresentacionAcumulada) {
+        const presentacion = moduloActivo.presentacionesAcumuladas[idx];
+        if (presentacion) {
+            moduloActivo.editarPresentacionAcumulada(presentacion.id);
+        }
+    }
+}
+
+function eliminarPres(idx) {
+    console.log('🗑️ Eliminando presentación índice:', idx);
+    if (moduloActivo && moduloActivo.eliminarPresentacionAcumulada) {
+        const presentacion = moduloActivo.presentacionesAcumuladas[idx];
+        if (presentacion) {
+            moduloActivo.eliminarPresentacionAcumulada(presentacion.id);
+        }
+    }
 }

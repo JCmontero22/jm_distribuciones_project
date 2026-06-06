@@ -63,8 +63,14 @@
                         $presentacion['imgPresentacion'] = null;
                     }
 
-                    // Guardar la presentación en la BD
-                    $resultado = $this->modelo->registroPresentacionProducto($presentacion);
+                    // Verificar si es una presentación existente o nueva
+                    if (!empty($presentacion['isExistente']) && !empty($presentacion['idPresentacionExistente'])) {
+                        // Actualizar presentación existente
+                        $resultado = $this->modelo->actualizarPresentacionProducto($presentacion);
+                    } else {
+                        // Registrar nueva presentación
+                        $resultado = $this->modelo->registroPresentacionProducto($presentacion);
+                    }
                     $resultados[] = $resultado;
 
                 } catch (\Exception $e) {

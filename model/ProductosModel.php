@@ -39,28 +39,30 @@
         public function registroPresentacionProducto(array $presentacion): mixed {
 
             $query = "INSERT INTO productos_presentaciones (
-                            id_producto, 
-                            nombre_presentacion, 
-                            codigo_presentacion, 
-                            precio_compra_presentacion, 
-                            precio_venta_presentacion, 
-                            id_tipo_producto, 
-                            img_presentacion, 
-                            unidad_medida_productos_presentacion, 
+                            id_producto,
+                            nombre_presentacion,
+                            codigo_presentacion,
+                            precio_compra_presentacion,
+                            precio_venta_presentacion,
+                            id_tipo_producto,
+                            img_presentacion,
+                            unidad_medida_productos_presentacion,
                             id_genero,
-                            favorito_presentacion
-                        ) 
+                            favorito_presentacion,
+                            descripcion_presentacion
+                        )
                         VALUES (
-                            :id_producto, 
-                            :nombre_presentacion, 
-                            :codigo_presentacion, 
-                            :precio_compra_presentacion, 
-                            :precio_venta_presentacion, 
-                            :id_tipo_producto, 
-                            :img_presentacion, 
-                            :unidad_medida_productos_presentacion, 
+                            :id_producto,
+                            :nombre_presentacion,
+                            :codigo_presentacion,
+                            :precio_compra_presentacion,
+                            :precio_venta_presentacion,
+                            :id_tipo_producto,
+                            :img_presentacion,
+                            :unidad_medida_productos_presentacion,
                             :id_genero,
-                            :favoritoPresentacion
+                            :favoritoPresentacion,
+                            :descripcionPresentacion
                         )";
 
             $params = [
@@ -73,8 +75,47 @@
                 ':img_presentacion' => $presentacion['imgPresentacion'] ?? null,
                 ':unidad_medida_productos_presentacion' => $presentacion['unidadMedidaProductosPresentacion'],
                 ':id_genero' => $presentacion['idGenero'] ?? null,
-                ':favoritoPresentacion' => $presentacion['favoritoPresentacion'] ?? 0
+                ':favoritoPresentacion' => $presentacion['favoritoPresentacion'] ?? 0,
+                ':descripcionPresentacion' => $presentacion['descripcionPresentacion'] ?? null
             ];
+
+            return $this->execute($query, $params);
+        }
+
+        public function actualizarPresentacionProducto(array $presentacion): mixed {
+            $query = "UPDATE productos_presentaciones SET
+                        nombre_presentacion = :nombre_presentacion,
+                        codigo_presentacion = :codigo_presentacion,
+                        precio_compra_presentacion = :precio_compra_presentacion,
+                        precio_venta_presentacion = :precio_venta_presentacion,
+                        id_tipo_producto = :id_tipo_producto,
+                        unidad_medida_productos_presentacion = :unidad_medida_productos_presentacion,
+                        id_genero = :id_genero,
+                        favorito_presentacion = :favoritoPresentacion,
+                        descripcion_presentacion = :descripcionPresentacion";
+
+            if (!empty($presentacion['imgPresentacion'])) {
+                $query .= ", img_presentacion = :img_presentacion";
+            }
+
+            $query .= " WHERE id_presentacion = :idPresentacionExistente";
+
+            $params = [
+                ':nombre_presentacion' => $presentacion['nombrePresentacion'],
+                ':codigo_presentacion' => $presentacion['codigoPresentacion'],
+                ':precio_compra_presentacion' => $presentacion['precioCompraPresentacion'],
+                ':precio_venta_presentacion' => $presentacion['precioVentaPresentacion'],
+                ':id_tipo_producto' => $presentacion['tipoProducto'],
+                ':unidad_medida_productos_presentacion' => $presentacion['unidadMedidaProductosPresentacion'],
+                ':id_genero' => $presentacion['idGenero'] ?? null,
+                ':favoritoPresentacion' => $presentacion['favoritoPresentacion'] ?? 0,
+                ':descripcionPresentacion' => $presentacion['descripcionPresentacion'] ?? null,
+                ':idPresentacionExistente' => $presentacion['idPresentacionExistente']
+            ];
+
+            if (!empty($presentacion['imgPresentacion'])) {
+                $params[':img_presentacion'] = $presentacion['imgPresentacion'];
+            }
 
             return $this->execute($query, $params);
         }
@@ -117,12 +158,12 @@
 
         public function obtenerPresentacionesPorProducto(int $idProducto): array {
             $query = "SELECT
+                            pp.id_producto,
                             pp.id_presentacion,
                             pp.nombre_presentacion,
                             pp.codigo_presentacion,
                             pp.precio_compra_presentacion,
                             pp.precio_venta_presentacion,
-                            pp.cantidad_gramos_presentacion,
                             pp.img_presentacion,
                             COALESCE(ie.cantidad_gramos, 0) AS stock_gramos,
                             COALESCE(ie.costo_por_gramo, 0) AS costo_por_gramo,
@@ -149,7 +190,7 @@
                         codigo_producto = :codigo,
                         id_categoria    = :categoria,
                         id_marca        = :marca,
-                        descripcion_producto = :descripcion,
+                                                descripcion_producto = :descripcion
                       WHERE id_producto = :id";
             $params = [
                 ':nombre'      => $data['nombre'],
