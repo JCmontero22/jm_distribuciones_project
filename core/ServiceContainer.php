@@ -1,16 +1,22 @@
 <?php
 
+/**
+ * ServiceContainer - Factory de servicios
+ * Centraliza la creación de instancias usando inyección de dependencias
+ *
+ * IMPORTANTE: Todos los servicios se instancian aquí una sola vez (Singleton)
+ */
 class ServiceContainer {
     private static array $instances = [];
 
     public static function getProductoService(): ProductoService {
         if (!isset(self::$instances['productoService'])) {
-            require_once(__DIR__ . '/../model/ProductosModel.php');
-            require_once(__DIR__ . '/../services/ProductoService.php');
-            require_once(__DIR__ . '/../Infrastructure/FileStorageService.php');
+            require_once(DIR_MODEL . 'ProductosModel.php');
+            require_once(DIR_SERVICE . 'ProductoService.php');
+            require_once(DIR_INFRASTRUCTURE . 'FileStorageService.php');
 
             $modelo = new ProductosModel();
-            $storage = new LocalFileStorage(__DIR__ . '/../assets/img/productos/');
+            $storage = new LocalFileStorage(UPLOAD_PRODUCTS);
 
             self::$instances['productoService'] = new ProductoService($storage, $modelo);
         }
@@ -19,8 +25,8 @@ class ServiceContainer {
 
     public static function getProveedorService(): ProveedorService {
         if (!isset(self::$instances['proveedorService'])) {
-            require_once(__DIR__ . '/../model/ProveedorModel.php');
-            require_once(__DIR__ . '/../services/ProveedorService.php');
+            require_once(DIR_MODEL . 'ProveedorModel.php');
+            require_once(DIR_SERVICE . 'ProveedorService.php');
 
             $modelo = new ProveedorModel();
 
@@ -31,14 +37,14 @@ class ServiceContainer {
 
     public static function getCatalogoService(): CatalogoService {
         if (!isset(self::$instances['catalogoService'])) {
-            require_once(__DIR__ . '/../model/MarcaModel.php');
-            require_once(__DIR__ . '/../model/GeneroModel.php');
-            require_once(__DIR__ . '/../model/CategoriaModel.php');
-            require_once(__DIR__ . '/../model/TiposProductosModel.php');
-            require_once(__DIR__ . '/../model/SedesModel.php');
-            require_once(__DIR__ . '/../services/CatalogoService.php');
-            require_once(__DIR__ . '/../model/InsumoFormulasModel.php');
-            require_once(__DIR__ . '/../Infrastructure/FileStorageService.php');
+            require_once(DIR_MODEL . 'MarcaModel.php');
+            require_once(DIR_MODEL . 'GeneroModel.php');
+            require_once(DIR_MODEL . 'CategoriaModel.php');
+            require_once(DIR_MODEL . 'TiposProductosModel.php');
+            require_once(DIR_MODEL . 'SedesModel.php');
+            require_once(DIR_MODEL . 'InsumoFormulasModel.php');
+            require_once(DIR_SERVICE . 'CatalogoService.php');
+            require_once(DIR_INFRASTRUCTURE . 'FileStorageService.php');
 
             $marcaModel = new MarcaModel();
             $generoModel = new GeneroModel();
@@ -46,7 +52,7 @@ class ServiceContainer {
             $tiposProductoModel = new TiposProductosModel();
             $sedesModel = new SedesModel();
             $insumosFormulasModel = new InsumoFormulasModel();
-            $storage = new LocalFileStorage(__DIR__ . '/../assets/img/marcas/');
+            $storage = new LocalFileStorage(UPLOAD_PRODUCTS);
 
             self::$instances['catalogoService'] = new CatalogoService(
                 $marcaModel,
@@ -56,7 +62,6 @@ class ServiceContainer {
                 $sedesModel,
                 $insumosFormulasModel,
                 $storage
-                
             );
         }
         return self::$instances['catalogoService'];
@@ -64,10 +69,9 @@ class ServiceContainer {
 
     public static function getFormulaService(): FormulasService {
         if (!isset(self::$instances['formulaService'])) {
-            require_once(__DIR__ . '/../model/FormulasModel.php');
-            require_once(__DIR__ . '/../services/FormulasService.php');
-            require_once(__DIR__ . '/../Infrastructure/FileStorageService.php');
-            require_once(__DIR__ . '/../core/Logger.php');
+            require_once(DIR_MODEL . 'FormulasModel.php');
+            require_once(DIR_SERVICE . 'FormulasService.php');
+            require_once(DIR_INFRASTRUCTURE . 'FileStorageService.php');
 
             $modelo = new FormulasModel();
 
@@ -78,8 +82,8 @@ class ServiceContainer {
 
     public static function getComprasService(): ComprasService {
         if (!isset(self::$instances['comprasService'])) {
-            require_once(__DIR__ . '/../model/ComprasModel.php');
-            require_once(__DIR__ . '/../services/ComprasService.php');
+            require_once(DIR_MODEL . 'ComprasModel.php');
+            require_once(DIR_SERVICE . 'ComprasService.php');
 
             $modelo = new ComprasModel();
 
@@ -88,4 +92,18 @@ class ServiceContainer {
         return self::$instances['comprasService'];
     }
 
+    public static function getPromocionesService(): PromocionesService {
+        if (!isset(self::$instances['promocionesService'])) {
+            require_once(DIR_MODEL . 'PromocionesModel.php');
+            require_once(DIR_SERVICE . 'PromocionesService.php');
+            require_once(DIR_INFRASTRUCTURE . 'FileStorageService.php');
+
+            $modelo = new PromocionesModel();
+            $storage = new LocalFileStorage(UPLOAD_BANNERS);
+
+            self::$instances['promocionesService'] = new PromocionesService($modelo, $storage);
+        }
+        return self::$instances['promocionesService'];
+    }
 }
+

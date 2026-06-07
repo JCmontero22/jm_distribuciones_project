@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="content-inventory-marcas table-responsive">
-                <table class="table table-striped table-hover table-dark table-bordered table-sm custom-table">
+                <table id="tablaMarcas" class="table table-striped table-hover table-dark table-bordered table-sm custom-table">
                     <thead>
                         <tr class="text-center">
                             <th>ID</th>

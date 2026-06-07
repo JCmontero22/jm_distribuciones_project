@@ -1,4 +1,5 @@
 <?php
+require_once('../config/config.php');
 
     require_once('../core/ServiceContainer.php');
     require_once('../controller/FormulasController.php');

@@ -1,4 +1,5 @@
 <?php
+require_once('../config/config.php');
     
     require_once(__DIR__ . '/../core/ServiceContainer.php');
     require_once(__DIR__ . '/../controller/CatalogoController.php');

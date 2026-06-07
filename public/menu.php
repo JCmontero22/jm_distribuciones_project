@@ -36,6 +36,14 @@
                 </ul>
             </div>
 
+            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#promocion" aria-expanded="false" aria-controls="promocion"><i class="fa-solid fa-hand-holding-dollar"></i> Promociones</a></li>
+            <div id="promocion" class="collapse">
+                <ul class="ul-list">
+                    <li class="ul-list__item" onclick="redirect('bannerPromociones')"><a href="#"><i class="fa-regular fa-file-image"></i> Banner Promociones</a></li>
+                    <li class="ul-list__item" onclick="redirect('promocionesProductos')"><a href="#"><i class="fa-solid fa-cart-arrow-down"></i> Promociones Productos</a></li>
+                </ul>
+            </div>
+
             
 
             <li class="ul-list__item" onclick="redirect('historial')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>

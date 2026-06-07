@@ -3,156 +3,52 @@
  * Los métodos aquí devuelven datos del servidor sin modificar
  */
 const ComprasAPI = {
-    obtenerProductosCompra() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php",
-                method: "GET",
-                data: { accion: "productosCompra" },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || []);
-                },
-                error(error) {
-                    reject(error);
-                },
-            });
-        });
+    comprasClient: new SimpleAPI(CONFIG.AJAX.COMPRAS),
+    productosClient: new SimpleAPI(CONFIG.AJAX.PRODUCTOS),
+    proveedoresClient: new SimpleAPI(CONFIG.AJAX.PROVEEDORES),
+    catalogoClient: new SimpleAPI(CONFIG.AJAX.CATALOGO),
+
+    async obtenerProductosCompra() {
+        const response = await this.productosClient.get({ accion: "productosCompra" });
+        return response.data || [];
     },
 
-    obtenerProveedores() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php",
-                method: "GET",
-                data: { accion: "listadoProveedoresSelect" },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || []);
-                },
-                error(error) {
-                    reject(error);
-                },
-            });
-        });
+    async obtenerProveedores() {
+        const response = await this.proveedoresClient.get({ accion: "listadoProveedoresSelect" });
+        return response.data || [];
     },
 
-    obtenerCategorias() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php",
-                method: "GET",
-                data: { accion: "listadoCategorias" },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || []);
-                },
-                error(error) {
-                    reject(error);
-                },
-            });
-        });
+    async obtenerCategorias() {
+        const response = await this.catalogoClient.get({ accion: "listadoCategorias" });
+        return response.data || [];
     },
 
-    registrarCompra(formData) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php",
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos);
-                },
-                error(error) {
-                    reject(error);
-                },
-            });
-        });
+    async registrarCompra(formData) {
+        return await this.comprasClient.post(formData);
     },
 
-    obtenerSedes() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php",
-                method: "GET",
-                data: { accion: "listadoSedes" },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || []);
-                },
-                error(error) {
-                    reject(error);
-                },
-            });
-        });
+    async obtenerSedes() {
+        const response = await this.catalogoClient.get({ accion: "listadoSedes" });
+        return response.data || [];
     },
 
-    obtenerCompras() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php",
-                method: "GET",
-                data: { accion: "listarCompras" },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || []);
-                },
-                error(error) {
-                    reject(error);
-                },
-            });
-        });
+    async obtenerCompras() {
+        const response = await this.comprasClient.get({ accion: "listarCompras" });
+        return response.data || [];
     },
 
-    obtenerDetalleCompra(idCompra) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php",
-                method: "GET",
-                data: { accion: "detalleCompra", idCompra },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || {});
-                },
-                error(error) { reject(error); },
-            });
-        });
+    async obtenerDetalleCompra(idCompra) {
+        const response = await this.comprasClient.get({ accion: "detalleCompra", idCompra });
+        return response.data || {};
     },
 
-    actualizarCompra(formData) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php",
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos);
-                },
-                error(error) { reject(error); },
-            });
-        });
+    async actualizarCompra(formData) {
+        return await this.comprasClient.post(formData);
     },
 
-    eliminarCompra(idCompra) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php",
-                method: "POST",
-                data: { accion: "eliminarCompra", idCompra },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos);
-                },
-                error(error) { reject(error); },
-            });
-        });
-    },
+    async eliminarCompra(idCompra) {
+        return await this.comprasClient.post({ accion: "eliminarCompra", idCompra });
+    }
 };
 
 /**
@@ -246,11 +142,7 @@ const ComprasView = {
     },
 
     renderizarCompras(compras) {
-        if ($.fn.DataTable.isDataTable("#tablaCompras")) {
-            $("#tablaCompras").DataTable().destroy();
-        }
-
-        $("#tablaCompras").DataTable({
+        AppUI.initDataTable("#tablaCompras", {
             data: compras || [],
             columns: [
                 { data: "id_compras" },
@@ -283,23 +175,7 @@ const ComprasView = {
                     }
                 }
             ],
-            order: [[0, "desc"]],
-            language: {
-                processing: "Procesando...",
-                lengthMenu: "Mostrar _MENU_ registros",
-                zeroRecords: "No se encontraron compras",
-                emptyTable: "No hay compras registradas",
-                info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-                infoFiltered: "(filtrado de un total de _MAX_ registros)",
-                search: "Buscar:",
-                paginate: {
-                    first: "Primero",
-                    last: "Último",
-                    next: "Siguiente",
-                    previous: "Anterior"
-                }
-            }
+            order: [[0, "desc"]]
         });
     }
 };
@@ -314,9 +190,9 @@ const comprasModule = {
     init() {
         this.bindEvents();
         this.cargarCompras();
-        this.modalCompra = new bootstrap.Modal(document.getElementById("modalRegistroCompra"));
-        this.modalDetalle = new bootstrap.Modal(document.getElementById("modalDetalleCompra"));
-        this.modalEditar = new bootstrap.Modal(document.getElementById("modalEditarCompra"));
+        this.modalCompra = AppUI.createModal("modalRegistroCompra");
+        this.modalDetalle = AppUI.createModal("modalDetalleCompra");
+        this.modalEditar = AppUI.createModal("modalEditarCompra");
     },
     bindEvents() {
         $("#btnModalCompra").on("click", () => {
@@ -699,3 +575,5 @@ const comprasModule = {
         }
     },
 };
+
+window.comprasModule = comprasModule;

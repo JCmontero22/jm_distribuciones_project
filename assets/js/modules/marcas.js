@@ -1,127 +1,88 @@
-/* 
-    CAPA API - Solo respomsable de comunicarse con el servidor.
- */
+const MarcasAPI = {
+    client: new SimpleAPI(CONFIG.AJAX.CATALOGO),
 
-const BASE_URL = "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project";
-const marcasAPI = {
-
-    registrarMarcaAPI(formData){
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: `${BASE_URL}/ajax/catalogoAjax.php`,
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos);
-                },
-                error(error) {
-                    reject(error);
-                }
-            })
-        });
+    async listar() {
+        const response = await this.client.get({ accion: "listadoMarcas" });
+        return response.data || [];
     },
 
-    obtenerMarcas(){
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: `${BASE_URL}/ajax/catalogoAjax.php`,
-                method: "GET",
-                data: { accion: "listadoMarcas" },
-                success(response) {
-                    const datos = JSON.parse(response);
-                    resolve(datos.data || []);
-                },
-                error(error) {
-                    reject(error);
-                }
-            });
-        });
+    async registrar(formData) {
+        formData.set("accion", "registroMarca");
+        return await this.client.post(formData);
     }
 };
-
-
-/* 
-    CAPA VIEW - Solo responsable de renderizar HTML y manipular el DOM
- */
 
 const MarcasView = {
-    mostrarMarcas(marcas) {
-        console.log(marcas);
-        
-        const $container = $("#marcasTableBody");
-        $container.empty();
-
-        if (marcas.length === 0) {
-            $container.append("<p>No hay marcas registradas.</p>");
-            return;
-        }
-
-        marcas.forEach(marca => {
-            const marcaHTML = `
-                <tr>
-                    <td>${marca.id_marca}</td>
-                    <td>${marca.nombre_marca}</td>
-                    <td><img src="${BASE_URL}/assets/img/marcas/${marca.img_marca}" alt="${marca.nombre_marca}" width="100"></td>
-                </tr>
-            `;
-            $container.append(marcaHTML);
+    renderTabla(marcas) {
+        AppUI.initDataTable("#tablaMarcas", {
+            data: marcas || [],
+            columns: [
+                { data: "id_marca" },
+                { data: "nombre_marca" },
+                {
+                    data: "img_marca",
+                    render: (img, _type, row) => img
+                        ? `<img src="${CONFIG.BASE_URL}assets/img/marcas/${img}" alt="${row.nombre_marca}" width="100">`
+                        : "-"
+                }
+            ],
+            order: [[0, "desc"]]
         });
     }
 };
 
-/* 
-    MODULO DE MARCAS - Coordina API y views, maneja estados y logica del negocio 
- */
-
 const marcasModule = {
-    init(){
+    init() {
         this.bindEvents();
         this.cargarMarcas();
     },
 
-    bindEvents(){
+    bindEvents() {
         $("#formularioRegistroMarca").on("submit", (e) => this.registrarMarca(e));
     },
 
-    async registrarMarca(e){
+    async registrarMarca(e) {
         e.preventDefault();
 
         const formData = new FormData(e.target);
-        const nombreMarca = (formData.get('nombreMarca') || '').toString().trim();
-        const imagenMarca = formData.get('imagenMarca');
+        const nombreMarca = (formData.get("nombreMarca") || "").toString().trim();
+        const imagenMarca = formData.get("imagenMarca");
 
         if (!nombreMarca || !(imagenMarca instanceof File) || imagenMarca.size === 0) {
-            Alerts.error("Por favor, complete el formulario.");
+            Alerts.error("Campos incompletos", "Por favor completa todos los campos");
             return;
         }
 
-        formData.set('accion', 'registroMarca');
+        const confirmation = await Alerts.confirmation(
+            "Registrar marca?",
+            "Se registrara una nueva marca"
+        );
+        if (!confirmation.isConfirmed) return;
 
         try {
-            const response = await marcasAPI.registrarMarcaAPI(formData);
+            const response = await MarcasAPI.registrar(formData);
             if (response.success) {
-                Alerts.success('Marca registrada', response.message || 'La marca se registró correctamente.');
-                e.target.reset();
+                AppUI.resetForm("#formularioRegistroMarca");
+                Alerts.toasSuccess(response.message || "Marca registrada");
+                await this.cargarMarcas();
             } else {
-                Alerts.error('Error', response.message || 'No se pudo registrar la marca.');
+                Alerts.error("Error", response.message || "No se pudo registrar la marca");
             }
         } catch (error) {
-            console.error('Error al registrar marca:', error);
-            Alerts.error('Error', 'No se pudo registrar la marca.');
+            Logger.error("Error al registrar marca", error);
+            Alerts.error("Error", "No se pudo registrar la marca");
         }
-
     },
 
     async cargarMarcas() {
         try {
-            const marcas = await marcasAPI.obtenerMarcas();
-            MarcasView.mostrarMarcas(marcas);
+            const marcas = await MarcasAPI.listar();
+            MarcasView.renderTabla(marcas);
         } catch (error) {
-            console.error('Error al cargar marcas:', error);
-            Alerts.error('Error', 'No se pudieron cargar las marcas.');
+            Logger.error("Error al cargar marcas", error);
+            Alerts.error("Error", "No se pudieron cargar las marcas");
         }
     }
-}
+};
+
+window.marcasModule = marcasModule;

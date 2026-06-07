@@ -9526,3 +9526,605 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-06-07 01:24:21] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.banner_promocion' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO ban...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/PromocionesModel.php(25): conexion->execute('INSERT INTO ban...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/PromocionesService.php(13): PromocionesModel->registrarBannerPromocion(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/PrmocionesController.php(25): PromocionesService->registroBanner(Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(24): PromocionesController->registrarBannerPromocion(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO banner_promocion (
+                            nombre_banner_promocion, 
+                            img_banner_promocion, 
+                            fecha_inicio, 
+                            fecha_fin
+                        )VALUES (
+                            :nombreBanner, 
+                            :imgBanner, 
+                            :fechaInicio, 
+                            :fechaFin
+                        )
+    [params] => Array
+        (
+            [:nombreBanner] => Madre
+            [:imgBanner] => 
+            [:fechaInicio] => 2026-06-06
+            [:fechaFin] => 2026-06-17
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 01:24:21] ERROR: Error interno en el Controlador de Registro de Banner de Promociones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/PromocionesModel.php(25): conexion->execute('INSERT INTO ban...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/PromocionesService.php(13): PromocionesModel->registrarBannerPromocion(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/PrmocionesController.php(25): PromocionesService->registroBanner(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(24): PromocionesController->registrarBannerPromocion(Array)
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 01:31:25] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.banner_promocion' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO ban...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/PromocionesModel.php(25): conexion->execute('INSERT INTO ban...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/PromocionesService.php(25): PromocionesModel->registrarBannerPromocion(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/PrmocionesController.php(25): PromocionesService->registroBanner(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(24): PromocionesController->registrarBannerPromocion(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO banner_promocion (
+                            nombre_banner_promocion, 
+                            img_banner_promocion, 
+                            fecha_inicio, 
+                            fecha_fin
+                        )VALUES (
+                            :nombreBanner, 
+                            :imgBanner, 
+                            :fechaInicio, 
+                            :fechaFin
+                        )
+    [params] => Array
+        (
+            [:nombreBanner] => Madre
+            [:imgBanner] => prod_6a24adcd1bad42.46234997.jpg
+            [:fechaInicio] => 2026-06-06
+            [:fechaFin] => 2026-06-17
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 01:31:25] ERROR: Error interno en el Controlador de Registro de Banner de Promociones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/PromocionesModel.php(25): conexion->execute('INSERT INTO ban...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/PromocionesService.php(25): PromocionesModel->registrarBannerPromocion(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/PrmocionesController.php(25): PromocionesService->registroBanner(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(24): PromocionesController->registrarBannerPromocion(Array, Array)
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:03] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(18): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): ServiceContainer::getProductoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:03] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:03] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:03] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:03] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:22] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(18): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): ServiceContainer::getProductoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:22] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:22] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:22] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:22] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:30] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(88): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php(9): ServiceContainer::getComprasService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:24:40] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(31): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php(8): ServiceContainer::getProveedorService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:25:24] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(101): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(10): ServiceContainer::getPromocionesService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:26:42] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:26:42] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(18): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): ServiceContainer::getProductoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:26:42] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:26:42] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:26:42] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(10): ServiceContainer::getCatalogoService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:27:11] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [1049] Unknown database 'distribuciones_jm'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct('mysql:host=loca...', 'root', Object(SensitiveParameterValue), Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(31): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/proveedorAjax.php(8): ServiceContainer::getProveedorService()
+#4 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:28:52] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'distribuciones_jm.compras' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(24): conexion->select('SELECT\n        ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(26): ComprasModel->obtenerCompras()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ComprasController.php(18): ComprasService->obtenerCompras()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php(20): ComprasController->listar()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                        c.id_compras,
+                        c.numero_factura_compra,
+                        c.total_compra,
+                        c.fecha_compra,
+                        COUNT(dc.id_detalle_compra) as cantidad_detalles,
+                        p.nombre_proveedor,
+                        GROUP_CONCAT(DISTINCT pp.nombre_presentacion SEPARATOR ', ') as presentaciones
+                    FROM compras c
+                    LEFT JOIN detalle_compra dc ON c.id_compras = dc.id_compra
+                    LEFT JOIN productos_presentaciones pp ON dc.id_presentacion = pp.id_presentacion
+                    LEFT JOIN proveedor p ON c.id_proveedor = p.id_proveedor
+                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra, c.fecha_compra, p.nombre_proveedor
+                    ORDER BY c.id_compras DESC
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:28:52] ERROR: Error al listar compras
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(24): conexion->select('SELECT\n        ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(26): ComprasModel->obtenerCompras()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ComprasController.php(18): ComprasService->obtenerCompras()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php(20): ComprasController->listar()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarCompras
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:30:37] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'distribuciones_jm.compras' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(24): conexion->select('SELECT\n        ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(26): ComprasModel->obtenerCompras()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ComprasController.php(18): ComprasService->obtenerCompras()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php(20): ComprasController->listar()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                        c.id_compras,
+                        c.numero_factura_compra,
+                        c.total_compra,
+                        c.fecha_compra,
+                        COUNT(dc.id_detalle_compra) as cantidad_detalles,
+                        p.nombre_proveedor,
+                        GROUP_CONCAT(DISTINCT pp.nombre_presentacion SEPARATOR ', ') as presentaciones
+                    FROM compras c
+                    LEFT JOIN detalle_compra dc ON c.id_compras = dc.id_compra
+                    LEFT JOIN productos_presentaciones pp ON dc.id_presentacion = pp.id_presentacion
+                    LEFT JOIN proveedor p ON c.id_proveedor = p.id_proveedor
+                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra, c.fecha_compra, p.nombre_proveedor
+                    ORDER BY c.id_compras DESC
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-07 02:30:37] ERROR: Error al listar compras
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(24): conexion->select('SELECT\n        ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(26): ComprasModel->obtenerCompras()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ComprasController.php(18): ComprasService->obtenerCompras()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/comprasAjax.php(20): ComprasController->listar()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listarCompras
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+

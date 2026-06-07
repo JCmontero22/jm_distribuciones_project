@@ -11,7 +11,7 @@
  * });
  */
 function crearModuloInventario(config) {
-    const BASE_URL = "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project";
+    const BASE_URL = (CONFIG.BASE_URL || "").replace(/\/$/, "");
 
     /**
      * CAPA API — Solo responsable de comunicarse con el servidor
@@ -155,7 +155,7 @@ function crearModuloInventario(config) {
         obtenerFormulas() {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: `${BASE_URL}/ajax/formmulaAjax.php`,
+                    url: `${BASE_URL}/ajax/formulasAjax.php`,
                     method: "GET",
                     data: { accion: "listarFormulas" },
                     success(response) {

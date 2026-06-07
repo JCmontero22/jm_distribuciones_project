@@ -40,6 +40,70 @@ class Logger
         file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
     }
 
+    public static function info(string $message, ?array $context = null): void
+    {
+        self::ensureLogDirectoryExists();
+
+        $log = sprintf(
+            "[%s] INFO: %s%s",
+            date('Y-m-d H:i:s'),
+            $message,
+            PHP_EOL
+        );
+
+        if ($context !== null) {
+            $log .= "Context: " . json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        }
+
+        $log .= str_repeat('-', 120) . PHP_EOL;
+
+        file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+    }
+
+    public static function warning(string $message, ?array $context = null): void
+    {
+        self::ensureLogDirectoryExists();
+
+        $log = sprintf(
+            "[%s] WARNING: %s%s",
+            date('Y-m-d H:i:s'),
+            $message,
+            PHP_EOL
+        );
+
+        if ($context !== null) {
+            $log .= "Context: " . json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        }
+
+        $log .= str_repeat('-', 120) . PHP_EOL;
+
+        file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+    }
+
+    public static function debug(string $message, ?array $context = null): void
+    {
+        if (APP_DEBUG !== true) {
+            return;
+        }
+
+        self::ensureLogDirectoryExists();
+
+        $log = sprintf(
+            "[%s] DEBUG: %s%s",
+            date('Y-m-d H:i:s'),
+            $message,
+            PHP_EOL
+        );
+
+        if ($context !== null) {
+            $log .= "Context: " . json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        }
+
+        $log .= str_repeat('-', 120) . PHP_EOL;
+
+        file_put_contents(self::LOG_FILE, $log, FILE_APPEND);
+    }
+
     private static function ensureLogDirectoryExists(): void
     {
         $dir = dirname(self::LOG_FILE);

@@ -1,13 +1,8 @@
-const INFORME_BASE_URL = "/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project";
-
 const InformeProduccionAPI = {
-    obtenerDatos() {
-        return $.ajax({
-            url: `${INFORME_BASE_URL}/ajax/informeProduccionAjax.php`,
-            method: 'GET',
-            data: { accion: 'obtenerDatosInforme' },
-            dataType: 'json'
-        });
+    client: new SimpleAPI(CONFIG.AJAX.INFORME_PRODUCCION),
+
+    async obtenerDatos() {
+        return await this.client.get({ accion: "obtenerDatosInforme" });
     }
 };
 
@@ -133,8 +128,10 @@ const InformeProduccionModule = {
             const { esencias, formulas, capacidades } = res.data;
             InformeProduccionView.renderizarEsencias(esencias, formulas, capacidades);
         } catch (err) {
-            console.error('Error al cargar informe de producción:', err);
+            Logger.error('Error al cargar informe de produccion', err);
             InformeProduccionView.mostrarError('Error de conexión al cargar el informe');
         }
     }
 };
+
+window.InformeProduccionModule = InformeProduccionModule;

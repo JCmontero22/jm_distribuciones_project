@@ -1,6 +1,6 @@
 <?php
 
-    require_once(__DIR__ . '/../config/configDB.php');
+    require_once(__DIR__ . '/../config/config.php');
     require_once(__DIR__ . '/Logger.php');
     
     class conexion {
@@ -51,5 +51,47 @@
                 throw new Exception('Error en la consulta a la base de datos: ');
             }
         }
+
+        /**
+         * Inicia una transacción
+         */
+        protected function beginTransaction() {
+            try {
+                return $this->db->beginTransaction();
+            } catch (PDOException $e) {
+                Logger::error("Error al iniciar transacción", $e);
+                throw new Exception('Error al iniciar transacción');
+            }
+        }
+
+        /**
+         * Confirma una transacción
+         */
+        protected function commit() {
+            try {
+                return $this->db->commit();
+            } catch (PDOException $e) {
+                Logger::error("Error al confirmar transacción", $e);
+                throw new Exception('Error al confirmar transacción');
+            }
+        }
+
+        /**
+         * Revierte una transacción
+         */
+        protected function rollBack() {
+            try {
+                return $this->db->rollBack();
+            } catch (PDOException $e) {
+                Logger::error("Error al revertir transacción", $e);
+                throw new Exception('Error al revertir transacción');
+            }
+        }
+
+        /**
+         * Verifica si hay una transacción activa
+         */
+        protected function inTransaction() {
+            return $this->db->inTransaction();
+        }
     }
-    
