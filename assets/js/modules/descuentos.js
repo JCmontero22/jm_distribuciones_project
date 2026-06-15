@@ -227,11 +227,11 @@ const DescuentosModule = {
 
     async registrarDescuento(e) {
         e.preventDefault();
-        const $form = $(e.target);
         const formData = new FormData(e.target);
+        const nombreDescuento = formData.get("nombreDescuento");
 
         // Validación
-        if (!formData.get("nombreDescuento") || !formData.get("porcentajeDescuento") ||
+        if (!nombreDescuento || !formData.get("porcentajeDescuento") ||
             !formData.get("fechaInicio") || !formData.get("fechaFin")) {
             Alerts.warning("Campos incompletos", "Por favor complete todos los campos.");
             return;
@@ -240,7 +240,7 @@ const DescuentosModule = {
         // Confirmación
         const confirmacion = await Alerts.confirmation(
             "Registrar descuento?",
-            `¿Estás seguro de registrar el descuento "${formData.get("nombreDescuento")}"?`
+            `¿Estás seguro de registrar el descuento "${nombreDescuento}"?`
         );
 
         if (!confirmacion.isConfirmed) return;
