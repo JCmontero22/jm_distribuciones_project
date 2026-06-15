@@ -21,6 +21,7 @@ const CONFIG = {
         CATALOGO: 'ajax/catalogoAjax.php',
         FORMULAS: 'ajax/formulasAjax.php',
         PROMOCIONES: 'ajax/promocionesAjax.php',
+        DESCUENTOS: 'ajax/descuentosAjax.php',
         INFORME_PRODUCCION: 'ajax/informeProduccionAjax.php',
     },
 
