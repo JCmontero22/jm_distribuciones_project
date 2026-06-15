@@ -52,7 +52,7 @@ class ServiceContainer {
             $tiposProductoModel = new TiposProductosModel();
             $sedesModel = new SedesModel();
             $insumosFormulasModel = new InsumoFormulasModel();
-            $storage = new LocalFileStorage(UPLOAD_PRODUCTS);
+            $storage = new LocalFileStorage(UPLOAD_MARCAS);
 
             self::$instances['catalogoService'] = new CatalogoService(
                 $marcaModel,
@@ -99,11 +99,25 @@ class ServiceContainer {
             require_once(DIR_INFRASTRUCTURE . 'FileStorageService.php');
 
             $modelo = new PromocionesModel();
-            $storage = new LocalFileStorage(UPLOAD_BANNERS);
+            $storage = new LocalFileStorage(IMG_COMUNES);
 
             self::$instances['promocionesService'] = new PromocionesService($modelo, $storage);
         }
         return self::$instances['promocionesService'];
+    }
+
+    public static function getDescuentosService(): DescuentosService {
+        if (!isset(self::$instances['descuentosService'])) {
+            require_once(DIR_MODEL . 'DescuentosModel.php');
+            require_once(DIR_MODEL . 'ProductosModel.php');
+            require_once(DIR_SERVICE . 'DescuentosService.php');
+
+            $modeloDescuento = new DescuentosModel();
+            $modeloProducto = new ProductosModel();
+
+            self::$instances['descuentosService'] = new DescuentosService($modeloDescuento, $modeloProducto);
+        }
+        return self::$instances['descuentosService'];
     }
 }
 

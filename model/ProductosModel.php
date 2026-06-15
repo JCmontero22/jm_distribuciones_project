@@ -259,5 +259,57 @@
             return $this->select($query);
         }
 
+        public function obtenerIdsPresentacionesPorMarca(int $idMarca): array {
+            $query = "SELECT pp.id_presentacion
+                      FROM productos_presentaciones pp
+                      LEFT JOIN productos p ON pp.id_producto = p.id_producto
+                      WHERE p.id_marca = :idMarca AND pp.id_estado = 1";
+
+            $resultado = $this->select($query, [':idMarca' => $idMarca]);
+            return array_column($resultado, 'id_presentacion');
+        }
+
+        public function obtenerIdsPresentacionesPorProductoYGenero(int $idProducto, int $idGenero): array {
+            $query = "SELECT pp.id_presentacion
+                      FROM productos_presentaciones pp
+                      WHERE pp.id_producto = :idProducto
+                      AND pp.id_genero = :idGenero
+                      AND pp.id_estado = 1";
+
+            $resultado = $this->select($query, [
+                ':idProducto' => $idProducto,
+                ':idGenero' => $idGenero
+            ]);
+            return array_column($resultado, 'id_presentacion');
+        }
+
+        public function obtenerIdsPresentacionesPorGenero(int $idGenero): array {
+            $query = "SELECT pp.id_presentacion
+                      FROM productos_presentaciones pp
+                      WHERE pp.id_genero = :idGenero
+                      AND pp.id_estado = 1";
+
+            $resultado = $this->select($query, [':idGenero' => $idGenero]);
+            return array_column($resultado, 'id_presentacion');
+        }
+
+        public function obtenerIdsTodosPresentaciones(): array {
+            $query = "SELECT pp.id_presentacion
+                      FROM productos_presentaciones pp
+                      WHERE pp.id_estado = 1";
+
+            $resultado = $this->select($query);
+            return array_column($resultado, 'id_presentacion');
+        }
+
+        public function obtenerIdsPresentacionesPorDescuento(int $idDescuento): array {
+            $query = "SELECT pp.id_presentacion
+                      FROM productos_presentaciones pp
+                      WHERE pp.id_descuento = :idDescuento";
+
+            $resultado = $this->select($query, [':idDescuento' => $idDescuento]);
+            return array_column($resultado, 'id_presentacion');
+        }
+
     }
     
