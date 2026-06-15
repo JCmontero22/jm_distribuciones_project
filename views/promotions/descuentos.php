@@ -4,12 +4,14 @@
             <h1>Gestión de Descuentos</h1>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-new-product" data-bs-toggle="modal" data-bs-target="#modalRegistrarDescuento">
+            <button type="button" class="btn btn-new-product" id="btnModalDescuento" data-bs-toggle="modal" data-bs-target="#modalRegistrarDescuento">
                 <i class="fa-solid fa-plus"></i> Nuevo Descuento
             </button>
         </div>
     </div>
+</section>
 
+<section class="content-list-descuentos container">
     <!-- TABS para navegación -->
     <ul class="nav nav-tabs mt-4" role="tablist">
         <li class="nav-item" role="presentation">
@@ -28,7 +30,7 @@
     <div class="tab-content">
         <div class="tab-pane fade show active" id="listaDescuentos" role="tabpanel">
             <div class="table-responsive mt-4">
-                <table id="tablaDescuentos" class="table table-striped table-hover table-bordered custom-table table-dark text-center">
+                <table id="tablaDescuentos" class="table table-striped table-hover table-bordered table-smal custom-table table-dark text-center">
                     <thead class="text-center">
                         <tr>
                             <th>ID</th>
@@ -39,7 +41,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tbodyDescuentos"></tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -224,22 +226,26 @@
 </section>
 
 
-<!-- MODAL: Registrar Nuevo Descuento -->
+<!-- ************* MODAL REGISTRAR DESCUENTO ********** -->
 <div class="modal fade" id="modalRegistrarDescuento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistrarDescuentoLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalRegistrarDescuentoLabel">Registrar Nuevo Descuento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
-                <form id="formRegistroDescuento">
-                    <div class="mb-3">
-                        <label for="nombreDescuento" class="form-label">Nombre del Descuento *</label>
-                        <input type="text" class="form-control" id="nombreDescuento" name="nombreDescuento" placeholder="Ej: Black Friday" required>
-                    </div>
+                <div class="modal-cabecera">
+                    <h3 class="modal-title" id="modalRegistrarDescuentoLabel">Registrar Nuevo Descuento</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form action="" id="registroDeDescuento">
+                    <input type="hidden" name="id_descuento" id="id_descuento">
 
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nombreDescuento" class="form-label">Nombre del Descuento *</label>
+                                <input type="text" class="form-control" id="nombreDescuento" name="nombreDescuento" placeholder="Ej: Black Friday" required>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="porcentajeDescuento" class="form-label">% Descuento *</label>
@@ -263,11 +269,12 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-save"></i> Registrar
-                        </button>
+                    <div class="row d-flex justify-content-center mt-4">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btnRegistro w-100" id="btnRegistrarDetalles">
+                                <i class="fa-regular fa-floppy-disk"></i> Registrar Descuento
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
