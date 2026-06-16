@@ -68,4 +68,66 @@ class FormulasController {
             return response::error('Error al obtener el listado de fórmulas');
         }
     }
+
+    public function obtenerFormulaPorID(int $idFormula): array {
+        try {
+            if (!$idFormula) {
+                return response::error('ID de fórmula es requerido');
+            }
+
+            $data = $this->servicio->obtenerFormulaPorId($idFormula);
+            return response::success($data);
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener fórmula por ID", $e, $_REQUEST);
+            return response::error('Error al obtener la fórmula');
+        }
+    }
+
+    public function editarFormula(array $request) : array {
+        try {
+            
+
+            if (!utils::validateRequiredFields(['id_formula', 'nombreFormula', 'cantidadEsencia', 'insumo', 'concentracion'], $request)) {
+                return response::error('Todos los campos son obligatorios');
+            }
+
+            $result = $this->servicio->actualizarFormula($request);
+            if ($result) {
+                return response::success(null, 'Fórmula actualizada exitosamente');
+            } else {
+                return response::error('No se pudo actualizar la fórmula');
+            }
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al editar fórmula", $e, $_REQUEST);
+            return response::error('Error al actualizar la fórmula');
+        }
+        
+    }
+
+    public function eliminarFormula(int $idFormula) : array {
+        try {
+            if (!$idFormula) {
+                return response::error('ID de fórmula es requerido');
+            }
+
+            $result = $this->servicio->eliminarFormula($idFormula);
+            if ($result) {
+                return response::success(null, 'Fórmula eliminada exitosamente');
+            } else {
+                return response::error('No se pudo eliminar la fórmula');
+            }
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al eliminar fórmula", $e, $_REQUEST);
+            return response::error('Error al eliminar la fórmula');
+        }
+    }
 }

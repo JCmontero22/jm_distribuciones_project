@@ -30,6 +30,7 @@
 <script src="assets/js/modules/informeProduccion.js"></script>
 <script src="assets/js/modules/marcas.js"></script>
 <script src="assets/js/modules/bannerPromociones.js"></script>
+<script src="assets/js/modules/descuentos.js"></script>
 
 <!-- ============================================================
      4. INICIALIZACIÓN PRINCIPAL

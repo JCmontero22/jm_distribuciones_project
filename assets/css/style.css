@@ -600,5 +600,84 @@ td{
     margin-top: 5rem;
 }
 
+/***********************************************************
+
+        ************ DESCUENTOS **********
+
+************************************************************/
+.content-list-descuentos{
+    margin-top: 5rem;
+}
+
+.content-list-descuentos h5{
+    color: var(--texto-principal);
+    font-weight: 700;
+}
+
+.descuentos-tabs,
+.descuentos-pills{
+    border-color: var(--color-borde) !important;
+    gap: .8rem;
+}
+
+.descuentos-tabs .nav-link,
+.descuentos-pills .nav-link{
+    background-color: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    color: var(--texto-secundario);
+    border-radius: 8px 8px 0 0;
+    padding: .9rem 1.4rem;
+}
+
+.descuentos-pills .nav-link{
+    border-radius: 8px;
+}
+
+.descuentos-tabs .nav-link:hover,
+.descuentos-pills .nav-link:hover{
+    color: var(--texto-principal);
+    border-color: var(--color-dorado);
+}
+
+.descuentos-tabs .nav-link.active,
+.descuentos-pills .nav-link.active{
+    background-color: var(--color-dorado) !important;
+    border-color: var(--color-dorado) !important;
+    color: var(--color-dorado-texto) !important;
+}
+
+.descuentos-apply-panel{
+    background-color: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+}
+
+.descuentos-productos-list{
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: var(--color-input);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+}
+
+.descuentos-productos-list .form-check{
+    padding: .7rem 1rem .7rem 2.8rem;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.descuentos-productos-list .form-check:last-child{
+    border-bottom: 0;
+}
+
+.descuentos-productos-list .form-check-label,
+.descuentos-empty{
+    color: var(--texto-secundario);
+}
+
+.descuentos-alert{
+    background-color: rgba(234, 179, 8, .12);
+    border: 1px solid rgba(234, 179, 8, .4);
+    color: var(--texto-principal);
+}
 
 

@@ -87,6 +87,19 @@ class ProductoController {
         }
     }
 
+    public function listarProductosActivos(): array {
+        try {
+            $data = $this->servicio->obtenerProductosActivos();
+            return response::success($data, 'Productos activos obtenidos exitosamente');
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al listar productos activos", $e, $_REQUEST);
+            return response::error('Error al obtener el listado de productos activos');
+        }
+    }
+
     public function listarEsencias(): array {
         try {
             $data = $this->servicio->obtenerEsencias();
@@ -196,4 +209,3 @@ class ProductoController {
         }
     }
 }
-

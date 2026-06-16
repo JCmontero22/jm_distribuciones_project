@@ -24,7 +24,7 @@ class CapacidadProduccionModel extends conexion {
 
     public function obtenerFormulasConInsumo(): array {
         $query = "SELECT
-                    f.id_fomulas AS id_formula,
+                    f.id_formula AS id_formula,
                     f.nombre_formula,
                     f.cantidad_esencia,
                     inf.id_insumo_formula,

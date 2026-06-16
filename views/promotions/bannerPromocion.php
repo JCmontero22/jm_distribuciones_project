@@ -137,6 +137,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" id="registroDeBanner">
+                    <input type="hidden" name="id_banner_promocion" id="id_banner_promocion">
                     <div class="row">
 
                         <div class="col-md-4">
@@ -154,7 +155,7 @@
 
                     <div class="row mt-5">
                         <div class="col-md-12">
-                            <input type="file" name="imgBanner" id="imgBanner" class="form-control" accept="image/*" required>
+                            <input type="file" name="imgBanner" id="imgBanner" class="form-control" accept="image/*">
                         </div>
                     </div>
 

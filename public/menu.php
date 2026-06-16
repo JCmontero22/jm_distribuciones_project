@@ -40,7 +40,7 @@
             <div id="promocion" class="collapse">
                 <ul class="ul-list">
                     <li class="ul-list__item" onclick="redirect('bannerPromociones')"><a href="#"><i class="fa-regular fa-file-image"></i> Banner Promociones</a></li>
-                    <li class="ul-list__item" onclick="redirect('promocionesProductos')"><a href="#"><i class="fa-solid fa-cart-arrow-down"></i> Promociones Productos</a></li>
+                    <li class="ul-list__item" onclick="redirect('descuentos')"><a href="#"><i class="fa-solid fa-cart-arrow-down"></i> Descuentos</a></li>
                 </ul>
             </div>
 

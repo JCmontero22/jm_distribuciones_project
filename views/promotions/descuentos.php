@@ -13,7 +13,7 @@
 
 <section class="content-list-descuentos container">
     <!-- TABS para navegación -->
-    <ul class="nav nav-tabs mt-4" role="tablist">
+    <ul class="nav nav-tabs descuentos-tabs mt-4" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="tabListaDescuentos" data-bs-toggle="tab" data-bs-target="#listaDescuentos" type="button" role="tab">
                 <i class="fa-solid fa-list"></i> Descuentos Registrados
@@ -51,7 +51,7 @@
             <div class="mt-4">
                 <h5>Selecciona cómo quieres aplicar el descuento</h5>
 
-                <ul class="nav nav-pills mt-3 mb-4" role="tablist">
+                <ul class="nav nav-pills descuentos-pills mt-3 mb-4" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="subTabProductos" data-bs-toggle="tab" data-bs-target="#formProductos" type="button" role="tab">
                             Productos Específicos
@@ -79,7 +79,7 @@
                     </li>
                 </ul>
 
-                <div class="tab-content border p-4 bg-dark-light">
+                <div class="tab-content descuentos-apply-panel p-4">
                     <!-- 1️⃣ Productos Específicos -->
                     <div class="tab-pane fade show active" id="formProductos" role="tabpanel">
                         <form id="formAplicarProductos">
@@ -94,7 +94,7 @@
                             <div class="row mt-3">
                                 <div class="col-md-12">
                                     <label class="form-label">Selecciona los Productos *</label>
-                                    <div id="productosCheckbox" class="border p-3" style="max-height: 300px; overflow-y: auto;">
+                                    <div id="productosCheckbox" class="descuentos-productos-list p-3">
                                         <!-- Se llena con JS -->
                                     </div>
                                 </div>
@@ -198,8 +198,8 @@
 
                     <!-- 5️⃣ Todos los Productos -->
                     <div class="tab-pane fade" id="formTodos" role="tabpanel">
-                        <div class="alert alert-warning">
-                            ⚠️ Esta acción aplicará el descuento a <strong>TODOS</strong> los productos del sistema.
+                        <div class="alert descuentos-alert">
+                            Esta acción aplicará el descuento a <strong>TODOS</strong> los productos del sistema.
                         </div>
                         <form id="formAplicarTodos">
                             <div class="row">
@@ -281,4 +281,3 @@
         </div>
     </div>
 </div>
-

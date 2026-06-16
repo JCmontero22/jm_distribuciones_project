@@ -38,6 +38,11 @@ require_once('../config/config.php');
             echo json_encode($resultado);
             break;
 
+        case 'listarProductosActivos':
+            $resultado = $productoController->listarProductosActivos();
+            echo json_encode($resultado);
+            break;
+
         case 'listarEsencias':
             $resultado = $productoController->listarEsencias();
             echo json_encode($resultado);

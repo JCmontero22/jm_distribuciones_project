@@ -44,9 +44,10 @@ const DescuentosAPI = {
 
 const CatalogoAPI = {
     client: new SimpleAPI(CONFIG.AJAX.CATALOGO),
+    productosClient: new SimpleAPI(CONFIG.AJAX.PRODUCTOS),
 
     async obtenerProductos() {
-        const response = await this.client.get({ accion: "listadoProductos" });
+        const response = await this.productosClient.get({ accion: "listarProductosActivos" });
         return response.data || [];
     },
 
@@ -136,23 +137,32 @@ const DescuentosModule = {
 
     async cargarDatos() {
         try {
-            // Descuentos
-            const respDescuentos = await DescuentosAPI.obtenerDescuentos();
-            this.descuentos = respDescuentos;
+            const [descuentosResp, productosResp, marcasResp, generosResp] = await Promise.allSettled([
+                DescuentosAPI.obtenerDescuentos(),
+                CatalogoAPI.obtenerProductos(),
+                CatalogoAPI.obtenerMarcas(),
+                CatalogoAPI.obtenerGeneros()
+            ]);
+
+            this.descuentos = descuentosResp.status === "fulfilled" ? descuentosResp.value : [];
+            this.productos = productosResp.status === "fulfilled" ? productosResp.value : [];
+            this.marcas = marcasResp.status === "fulfilled" ? marcasResp.value : [];
+            this.generos = generosResp.status === "fulfilled" ? generosResp.value : [];
+
+            if (descuentosResp.status === "rejected") Logger.error("Error cargando descuentos", descuentosResp.reason);
+            if (productosResp.status === "rejected") Logger.error("Error cargando productos", productosResp.reason);
+            if (marcasResp.status === "rejected") Logger.error("Error cargando marcas", marcasResp.reason);
+            if (generosResp.status === "rejected") Logger.error("Error cargando géneros", generosResp.reason);
+
             DescuentosView.renderTablaDescuentos(this.descuentos);
             this.llenarSelectsDescuentos();
-
-            // Productos
-            this.productos = await CatalogoAPI.obtenerProductos();
             this.llenarProductos();
-
-            // Marcas
-            this.marcas = await CatalogoAPI.obtenerMarcas();
             this.llenarMarcas();
-
-            // Géneros
-            this.generos = await CatalogoAPI.obtenerGeneros();
             this.llenarGeneros();
+
+            if ([descuentosResp, productosResp, marcasResp, generosResp].some(resp => resp.status === "rejected")) {
+                Alerts.warning("Datos incompletos", "Algunos catálogos no se pudieron cargar. Revisa la consola para más detalle.");
+            }
         } catch (error) {
             Logger.error("Error cargando datos descuentos", error);
             Alerts.error("Error", "No se pudieron cargar los datos");
@@ -188,6 +198,11 @@ const DescuentosModule = {
 
         // Checkboxes para "Productos Específicos"
         $productosCheckbox.html("");
+        if (!this.productos.length) {
+            $productosCheckbox.html('<p class="descuentos-empty mb-0">No hay productos activos para aplicar descuentos.</p>');
+            return;
+        }
+
         this.productos.forEach(prod => {
             const div = `
                 <div class="form-check">
@@ -204,6 +219,11 @@ const DescuentosModule = {
     llenarMarcas() {
         const $selectMarca = $("#selectMarca");
         $selectMarca.html('<option value="">-- Selecciona una marca --</option>');
+        if (!this.marcas.length) {
+            $selectMarca.append('<option value="" disabled>No hay marcas registradas</option>');
+            return;
+        }
+
         this.marcas.forEach(marca => {
             $selectMarca.append(
                 `<option value="${marca.id_marca}">${marca.nombre_marca}</option>`
@@ -217,6 +237,11 @@ const DescuentosModule = {
 
         [$selectGenero, $selectGeneroProducto].forEach($select => {
             $select.html('<option value="">-- Selecciona un género --</option>');
+            if (!this.generos.length) {
+                $select.append('<option value="" disabled>No hay géneros registrados</option>');
+                return;
+            }
+
             this.generos.forEach(genero => {
                 $select.append(
                     `<option value="${genero.id_genero}">${genero.nombre_genero}</option>`
@@ -444,4 +469,3 @@ const DescuentosModule = {
 };
 
 window.DescuentosModule = DescuentosModule;
-

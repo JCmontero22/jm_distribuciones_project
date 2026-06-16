@@ -7,28 +7,15 @@
     </div>
 </section>
 
+
+
 <section class="container" id="marcasContent">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="content-inventory-marcas table-responsive">
-                <table id="tablaMarcas" class="table table-striped table-hover table-dark table-bordered table-sm custom-table">
-                    <thead>
-                        <tr class="text-center">
-                            <th>ID</th>
-                            <th>Nombre Marca</th>
-                            <th>Imagen Marca</th>
-                        </tr>
-                    </thead>
-                    <tbody id="marcasTableBody" class="text-center"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
     <div class="row mt-5">
         <div class="col-md-12">
             <h4 class="mb-3">Registrar Nueva Marca</h4>
             <form id="formularioRegistroMarca" class="mt-5">
+                <input type="hidden" name="id_marca" id="id_marca">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="nombreMarca" class="form-label">* Nombre de la Marca</label>
@@ -37,7 +24,7 @@
                     
                     <div class="col-md-6">
                         <label for="imagenMarca" class="form-label">* Imagen Marca</label>
-                        <input type="file" class="form-control" id="imagenMarca" name="imagenMarca" accept="image/*" required>
+                        <input type="file" class="form-control" id="imagenMarca" name="imagenMarca" accept="image/*">
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -48,4 +35,24 @@
             </form>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="content-inventory-marcas table-responsive">
+                <table id="tablaMarcas" class="table table-striped table-hover table-dark table-bordered table-sm custom-table">
+                    <thead>
+                        <tr class="text-center">
+                            <th>ID</th>
+                            <th>Nombre Marca</th>
+                            <th>Imagen Marca</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marcasTableBody" class="text-center"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
 </section>

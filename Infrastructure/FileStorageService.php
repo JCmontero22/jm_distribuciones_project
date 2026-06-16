@@ -1,5 +1,8 @@
 <?php
 
+require_once(__DIR__ . '/../core/CustomExceptions.php');
+require_once(__DIR__ . '/../core/Logger.php');
+
 /**
  * Clase LocalFileStorage - Gestiona almacenamiento de archivos en disco local
  * Valida tipos, tamaños y crea directorios automáticamente
@@ -99,19 +102,22 @@ class LocalFileStorage {
 
         $ruta = $this->directorioBase . basename($nombreArchivo);
 
+        if (!file_exists($ruta)) {
+            Logger::warning("Archivo no encontrado al intentar eliminar", ['archivo' => $nombreArchivo]);
+            return;
+        }
+
         // Validar que el archivo está dentro del directorio permitido
         if (realpath($ruta) === false || strpos(realpath($ruta), realpath($this->directorioBase)) !== 0) {
             Logger::warning("Intento de eliminar archivo fuera del directorio permitido", ['archivo' => $nombreArchivo]);
-            throw new \RuntimeException("Archivo no encontrado o ubicación inválida");
+            throw new \RuntimeException("Ubicación de archivo inválida");
         }
 
-        if (file_exists($ruta)) {
-            if (!unlink($ruta)) {
-                Logger::error("Error al eliminar archivo: {$ruta}");
-                throw new \RuntimeException("No se pudo eliminar el archivo");
-            }
-            Logger::info("Imagen eliminada correctamente", ['archivo' => $nombreArchivo]);
+        if (!unlink($ruta)) {
+            Logger::error("Error al eliminar archivo: {$ruta}");
+            throw new \RuntimeException("No se pudo eliminar el archivo");
         }
+        Logger::info("Imagen eliminada correctamente", ['archivo' => $nombreArchivo]);
     }
 
     /**

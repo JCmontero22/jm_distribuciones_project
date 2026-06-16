@@ -44,7 +44,9 @@ define('DIR_ASSETS', BASE_URL . 'assets/');
 // ============================================================
 define('UPLOAD_PRODUCTS', DIR_ASSETS . 'img/productos/');
 define('UPLOAD_BANNERS', DIR_ASSETS . 'img/banners/');
+define('UPLOAD_MARCAS', DIR_ASSETS . 'img/marcas/');
 define('UPLOAD_TEMP', DIR_ASSETS . 'img/temp/');
+define('IMG_COMUNES', DIR_ASSETS . '../../../imagenes-jm-distribuciones/bannerPromociones/');
 
 // ============================================================
 // 4. RUTAS WEB (PARA JAVASCRIPT Y NAVEGADOR)
@@ -95,4 +97,8 @@ if (!file_exists(UPLOAD_PRODUCTS)) {
 
 if (!file_exists(UPLOAD_BANNERS)) {
     @mkdir(UPLOAD_BANNERS, 0755, true);
+}
+
+if (!file_exists(UPLOAD_MARCAS)) {
+    @mkdir(UPLOAD_MARCAS, 0755, true);
 }

@@ -88,6 +88,10 @@
             return $this->modelo->obtenerProductos($categoria);
         }
 
+        public function obtenerProductosActivos(): array {
+            return $this->modelo->obtenerProductosActivos();
+        }
+
         public function productosCompra(): array {
             return $this->modelo->obtenerProductosCompra();
         }
@@ -124,4 +128,3 @@
             $this->modelo->eliminarPresentacion($id);
         }
     }
-

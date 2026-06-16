@@ -40,6 +40,22 @@ require_once('../config/config.php');
             $resultado = $catalogoService->obtenerTiposConcentracion();
             echo json_encode($resultado);
             break;
+        
+        case 'obtenerFormula':
+            $idFormula = $_GET['id_formula'] ?? null;
+            $resultado = $formulaController->obtenerFormulaPorID($idFormula);
+            echo json_encode($resultado);
+            break;
+
+        case 'editarFormula':
+            $resultado = $formulaController->editarFormula($_POST);
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarFormula':
+            $resultado = $formulaController->eliminarFormula($_POST['id_formula'] ?? null);
+            echo json_encode($resultado);
+            break;
 
         default:
             echo json_encode(['error' => 'Acción no válida']);

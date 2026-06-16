@@ -15,8 +15,11 @@ const InformeProduccionView = {
             return;
         }
 
+        const accordionId = 'informeProduccionAccordion';
+
         const html = esencias.map((esencia, idx) => {
             const idAccordion = `esencia-acc-${idx}`;
+            const headerId = `esencia-heading-${idx}`;
             const gramos = parseFloat(esencia.total_gramos).toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
             const filasFormulas = formulas.map(formula => {
@@ -46,9 +49,10 @@ const InformeProduccionView = {
 
             return `
                 <div class="accordion-item mb-2 border rounded acordion" data-nombre="${esencia.nombre_producto.toLowerCase()}">
-                    <h2 class="accordion-header">
+                    <h2 class="accordion-header" id="${headerId}">
                         <button class="accordion-button collapsed py-3" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#${idAccordion}">
+                                data-bs-toggle="collapse" data-bs-target="#${idAccordion}"
+                                aria-expanded="false" aria-controls="${idAccordion}">
                             <div class="d-flex align-items-center gap-3 w-100">
                                 <i class="bi bi-droplet-half fs-5 text-primary"></i>
                                 <div class="flex-grow-1">
@@ -58,7 +62,7 @@ const InformeProduccionView = {
                             </div>
                         </button>
                     </h2>
-                    <div id="${idAccordion}" class="accordion-collapse collapse">
+                    <div id="${idAccordion}" class="accordion-collapse collapse" data-bs-parent="#${accordionId}" aria-labelledby="${headerId}">
                         <div class="accordion-body p-0">
                             <table class="table table-sm table-hover mb-0 text-center align-middle custom-table table-dark">
                                 <thead class="">
@@ -79,7 +83,7 @@ const InformeProduccionView = {
             `;
         }).join('');
 
-        container.html(`<div class="accordion accordion-flush prueba">${html}</div>`);
+        container.html(`<div class="accordion accordion-flush prueba" id="${accordionId}">${html}</div>`);
         $('#resumenContador').html(`<i class="bi bi-info-circle"></i> ${esencias.length} esencia(s) con stock`);
     },
 

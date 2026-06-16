@@ -21,6 +21,22 @@ switch ($accion) {
         echo json_encode($resultado);
         break;
 
+    case 'obtenerBannerID':
+        $resultado = $promocionController->obtenerBannerID($_GET);
+        echo json_encode($resultado);
+    break;
+
+    case 'actualizarBanner':
+        $resultado = $promocionController->actualizarBannerPromocion((int)($_POST['id_banner_promocion'] ?? 0), $_POST, $_FILES);
+        echo json_encode($resultado);
+        break;
+
+    case 'eliminarBanner':
+        $resultado = $promocionController->eliminarBanner((int)($_POST['id_banner_promocion'] ?? 0));
+        echo json_encode($resultado);
+        break;
+
+
     default:
         echo json_encode(response::error('Acción no válida'));
 }

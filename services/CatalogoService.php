@@ -112,6 +112,10 @@
             return $sedes;
         }
 
+        public function obtenerMarcaPorID(int $idMarca): ?array {
+            return $this->marcaModel->obtenerMarcaPorID($idMarca);
+        }
+
         // ✅ LÓGICA: Obtener todos los catálogos de una vez (útil para inicialización)
         public function obtenerCatalogosCompletos() : array {
             return [
@@ -149,13 +153,46 @@
         }
 
         // ✅ LÓGICA: Para registrar marca nueva
-        public function registrarMarca(string $nombreMarca, array $imagenMarca) : bool {
-            // Si llega un archivo válido, se almacena y se guarda su nombre.
-            if (isset($imagenMarca['imagenMarca']) && $imagenMarca['imagenMarca']['error'] === UPLOAD_ERR_OK) {
-                $nombreImagen = $this->storage->subirImagen($imagenMarca['imagenMarca']);
+        public function registrarMarca(string $nombreMarca, array $files) : bool {
+            $nombreImagen = null;
+            if (isset($files['imagenMarca']) && $files['imagenMarca']['error'] === UPLOAD_ERR_OK) {
+                $nombreImagen = $this->storage->subirImagen($files['imagenMarca']);
             }
 
-            // Registrar la marca usando el modelo
-            return $this->marcaModel->registrarMarca($nombreMarca, $nombreImagen ?? null);
+            return $this->marcaModel->registrarMarca($nombreMarca, $nombreImagen);
+        }
+
+        // ✅ LÓGICA: Para actualizar marca existente
+        public function actualizarMarca(int $idMarca, string $nombreMarca, array $files) : bool {
+            $marca = $this->obtenerMarcaPorID($idMarca);
+            if (!$marca) {
+                throw new DomainException('Marca no encontrada');
+            }
+
+            $nombreImagen = null;
+            if (isset($files['imagenMarca']) && $files['imagenMarca']['error'] === UPLOAD_ERR_OK) {
+                $nombreImagen = $this->storage->subirImagen($files['imagenMarca']);
+                // Eliminar imagen anterior si existe
+                if ($marca[0]['img_marca']) {
+                    $this->storage->eliminarImagen($marca[0]['img_marca']);
+                }
+            }
+
+            return $this->marcaModel->actualizarMarca($idMarca, $nombreMarca, $nombreImagen ?? $marca[0]['img_marca']);
+        }
+
+        // ✅ LÓGICA: Para eliminar marca existente
+        public function eliminarMarca(int $idMarca) : bool {
+            $marca = $this->obtenerMarcaPorID($idMarca);
+            if (!$marca) {
+                throw new DomainException('Marca no encontrada');
+            }
+
+            // Eliminar imagen si existe
+            if ($marca[0]['img_marca']) {
+                $this->storage->eliminarImagen($marca[0]['img_marca']);
+            }
+
+            return $this->marcaModel->eliminarMarca($idMarca);
         }
     }

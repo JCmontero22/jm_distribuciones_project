@@ -58,7 +58,7 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary btnRegistro">Registrar Fórmula</button>
+                        <button type="submit" class="btn btn-primary btnRegistro" id="btnRegistro">Registrar Fórmula</button>
                     </div>
                 </div>
             </form>

@@ -10128,3 +10128,427 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-06-09 03:47:45] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_034745_cb548dbe2a4ef660.jpg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/banners\/file_20260609_034745_cb548dbe2a4ef660.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 03:51:44] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_035144_6efce422f31fd1ff.jpg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/..\/..\/..\/imagenes-jm-distribuciones\/bannerPromociones\/file_20260609_035144_6efce422f31fd1ff.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 03:52:01] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_035201_a7ac15c50c29a603.jpg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/..\/..\/..\/imagenes-jm-distribuciones\/bannerPromociones\/file_20260609_035201_a7ac15c50c29a603.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 03:56:23] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20260609_035201_a7ac15c50c29a603.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 03:56:23] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'estado' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('UPDATE banner_p...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/PromocionesModel.php(64): conexion->execute('UPDATE banner_p...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/PromocionesService.php(70): PromocionesModel->eliminarBannerPromocion(1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/PromocionesController.php(87): PromocionesService->eliminarBanner(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(35): PromocionesController->eliminarBanner(1)
+#5 {main}
+Context:
+Array
+(
+    [sql] => UPDATE banner_promociones SET estado = 0 WHERE id_banner_promocion = :idBanner
+    [params] => Array
+        (
+            [:idBanner] => 1
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-09 03:56:23] ERROR: Error al eliminar banner de promoción
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/PromocionesModel.php(64): conexion->execute('UPDATE banner_p...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/PromocionesService.php(70): PromocionesModel->eliminarBannerPromocion(1)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/PromocionesController.php(87): PromocionesService->eliminarBanner(1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/promocionesAjax.php(35): PromocionesController->eliminarBanner(1)
+#4 {main}
+Context:
+Array
+(
+    [idBanner] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-09 03:57:05] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_035705_84c0e46af795539d.jpg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/..\/..\/..\/imagenes-jm-distribuciones\/bannerPromociones\/file_20260609_035705_84c0e46af795539d.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 03:57:09] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20260609_035705_84c0e46af795539d.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:24:01] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_042401_b93cc8ff2870a9c3.jpg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20260609_042401_b93cc8ff2870a9c3.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:24:01] WARNING: Intento de eliminar archivo fuera del directorio permitido
+Context: {
+    "archivo": "prod_6a20e6bbe2ea96.62499329.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:24:01] ERROR: Error al actualizar marca
+
+
+
+
+
+Mensaje: Archivo no encontrado o ubicación inválida
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/Infrastructure/FileStorageService.php
+Line: 105
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/CatalogoService.php(178): LocalFileStorage->eliminarImagen('prod_6a20e6bbe2...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/CatalogoController.php(136): CatalogoService->actualizarMarca(6, 'Paco Rabane', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(62): CatalogoController->actualizarMarca(6, 'Paco Rabane', Array)
+#3 {main}
+Context:
+Array
+(
+    [idMarca] => 6
+    [request] => Array
+        (
+            [id_marca] => 6
+            [nombreMarca] => Paco Rabane
+            [accion] => actualizarMarca
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-09 04:29:53] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_042953_721005109811d95e.png",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20260609_042953_721005109811d95e.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:29:53] WARNING: Archivo no encontrado al intentar eliminar
+Context: {
+    "archivo": "prod_6a20e6bbe2ea96.62499329.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:35:10] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_043510_2c09913aa95518ca.png",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20260609_043510_2c09913aa95518ca.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:35:30] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`jm_distribuciones`.`productos`, CONSTRAINT `productos_distribuciones_marca_distribuciones_FK` FOREIGN KEY (`id_marca`) REFERENCES `marca_producto` (`id_marca`))
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/MarcaModel.php(41): conexion->execute('DELETE FROM mar...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/CatalogoService.php(197): MarcaModel->eliminarMarca(1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/CatalogoController.php(148): CatalogoService->eliminarMarca(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(67): CatalogoController->eliminarMarca(1)
+#5 {main}
+Context:
+Array
+(
+    [sql] => DELETE FROM marca_producto WHERE id_marca = :idMarca
+    [params] => Array
+        (
+            [:idMarca] => 1
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-09 04:35:30] ERROR: Error al eliminar marca
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/MarcaModel.php(41): conexion->execute('DELETE FROM mar...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/CatalogoService.php(197): MarcaModel->eliminarMarca(1)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/CatalogoController.php(148): CatalogoService->eliminarMarca(1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(67): CatalogoController->eliminarMarca(1)
+#4 {main}
+Context:
+Array
+(
+    [idMarca] => 1
+    [request] => Array
+        (
+            [accion] => eliminarMarca
+            [idMarca] => 1
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-09 04:37:26] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20260609_043510_2c09913aa95518ca.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:47:12] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260609_044712_7a627f7d8797548f.jpg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/marcas\/file_20260609_044712_7a627f7d8797548f.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-09 04:49:16] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20260609_044712_7a627f7d8797548f.jpg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-14 18:44:23] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'f.id_fomulas' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/CapacidadProduccionModel.php(41): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/informeProduccionAjax.php(18): CapacidadProduccionModel->obtenerFormulasConInsumo()
+#3 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                    f.id_fomulas AS id_formula,
+                    f.nombre_formula,
+                    f.cantidad_esencia,
+                    inf.id_insumo_formula,
+                    inf.nombre_insumo,
+                    inf.tamanio_insumo,
+                    tc.id_tipo_concentracion,
+                    tc.nombre_concentracion
+                  FROM formulas f
+                  LEFT JOIN insumo_formulas inf ON f.id_insumo_formula = inf.id_insumo_formula
+                  LEFT JOIN tipo_concentracion tc ON f.id_tipo_concentracion = tc.id_tipo_concentracion
+                  WHERE (f.id_estado = 1 OR f.id_estado IS NULL)
+                  ORDER BY inf.tamanio_insumo, tc.nombre_concentracion
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-14 18:44:26] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'f.id_fomulas' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/CapacidadProduccionModel.php(41): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/informeProduccionAjax.php(18): CapacidadProduccionModel->obtenerFormulasConInsumo()
+#3 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                    f.id_fomulas AS id_formula,
+                    f.nombre_formula,
+                    f.cantidad_esencia,
+                    inf.id_insumo_formula,
+                    inf.nombre_insumo,
+                    inf.tamanio_insumo,
+                    tc.id_tipo_concentracion,
+                    tc.nombre_concentracion
+                  FROM formulas f
+                  LEFT JOIN insumo_formulas inf ON f.id_insumo_formula = inf.id_insumo_formula
+                  LEFT JOIN tipo_concentracion tc ON f.id_tipo_concentracion = tc.id_tipo_concentracion
+                  WHERE (f.id_estado = 1 OR f.id_estado IS NULL)
+                  ORDER BY inf.tamanio_insumo, tc.nombre_concentracion
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-14 18:44:38] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'f.id_fomulas' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT\n        ...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/CapacidadProduccionModel.php(41): conexion->select('SELECT\n        ...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/informeProduccionAjax.php(18): CapacidadProduccionModel->obtenerFormulasConInsumo()
+#3 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                    f.id_fomulas AS id_formula,
+                    f.nombre_formula,
+                    f.cantidad_esencia,
+                    inf.id_insumo_formula,
+                    inf.nombre_insumo,
+                    inf.tamanio_insumo,
+                    tc.id_tipo_concentracion,
+                    tc.nombre_concentracion
+                  FROM formulas f
+                  LEFT JOIN insumo_formulas inf ON f.id_insumo_formula = inf.id_insumo_formula
+                  LEFT JOIN tipo_concentracion tc ON f.id_tipo_concentracion = tc.id_tipo_concentracion
+                  WHERE (f.id_estado = 1 OR f.id_estado IS NULL)
+                  ORDER BY inf.tamanio_insumo, tc.nombre_concentracion
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-14 18:50:11] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260614_185011_5a972f06349cefe7.png",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/..\/..\/..\/imagenes-jm-distribuciones\/bannerPromociones\/file_20260614_185011_5a972f06349cefe7.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-14 18:50:26] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260614_185026_157bd792a25dfcd7.png",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/..\/..\/..\/imagenes-jm-distribuciones\/bannerPromociones\/file_20260614_185026_157bd792a25dfcd7.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-14 18:50:34] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20260614_185026_157bd792a25dfcd7.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-06-15 21:58:39] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] Operation not permitted
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(11): ServiceContainer::getCatalogoService()
+#4 Command line code(1): include('...')
+#5 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-15 21:58:39] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] Operation not permitted
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(49): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/catalogoAjax.php(11): ServiceContainer::getCatalogoService()
+#4 Command line code(1): include('...')
+#5 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-06-15 21:58:39] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] Operation not permitted
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/ServiceContainer.php(18): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(9): ServiceContainer::getProductoService()
+#4 Command line code(1): include('...')
+#5 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+

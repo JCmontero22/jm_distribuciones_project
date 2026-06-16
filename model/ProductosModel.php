@@ -156,6 +156,36 @@
             return $this->select($query, $params);
         }
 
+        public function obtenerProductosActivos(): array {
+            $query = "SELECT
+                            p.id_producto,
+                            p.nombre_producto,
+                            p.codigo_producto,
+                            p.id_categoria,
+                            p.id_marca,
+                            c.nombre_categoria,
+                            m.nombre_marca,
+                            COUNT(pp.id_presentacion) AS total_presentaciones
+                        FROM productos p
+                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
+                        INNER JOIN productos_presentaciones pp
+                            ON p.id_producto = pp.id_producto
+                            AND pp.id_estado = 1
+                        WHERE p.id_estado = 1
+                        GROUP BY
+                            p.id_producto,
+                            p.nombre_producto,
+                            p.codigo_producto,
+                            p.id_categoria,
+                            p.id_marca,
+                            c.nombre_categoria,
+                            m.nombre_marca
+                        ORDER BY p.nombre_producto";
+
+            return $this->select($query);
+        }
+
         public function obtenerPresentacionesPorProducto(int $idProducto): array {
             $query = "SELECT
                             pp.id_producto,

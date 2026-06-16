@@ -66,5 +66,38 @@
                 'insumos_registrados' => count($insertados)
             ];
         }
+
+        public function obtenerFormulaPorId(int $id): array {
+            return $this->modelo->obtenerFormulaPorId($id);
+        }
+
+        public function actualizarFormula(array $data): bool {
+            $idFormula       = $data['id_formula'] ?? null;
+            $nombre          = $data['nombreFormula'] ?? null;
+            $cantidadEsencia = $data['cantidadEsencia'] ?? null;
+            $insumo          = $data['insumo'] ?? null;
+            $concentracion   = $data['concentracion'] ?? null;
+
+            if (!$idFormula || !$nombre || !$cantidadEsencia || !$insumo || !$concentracion) {
+                throw new DomainException('Datos de fórmula incompletos');
+            }
+
+            $params = [
+                'id_formula'             => $idFormula,
+                'nombre_formula'         => $nombre,
+                'cantidad_esencia'       => $cantidadEsencia,
+                'id_insumo_formula'      => $insumo,
+                'id_tipo_concentracion'  => $concentracion,
+            ];
+
+            return $this->modelo->actualizarFormula($params);
+        }
+
+        public function eliminarFormula(int $idFormula): bool {
+            if (!$idFormula) {
+                throw new DomainException('ID de fórmula es requerido');
+            }
+            return $this->modelo->eliminarFormula($idFormula);
+        }
     }
 

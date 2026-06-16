@@ -10,18 +10,6 @@ class ComprasService {
 		$this->model = $model;
 	}
 
-	public function registrarCompra(array $data): mixed {
-		$idCompra = $this->model->registrarCompra($data);
-		return [
-			'id_compras' => $idCompra,
-		];
-	}
-
-	public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
-		$this->model->registrarDetalleCompra($idCompra, $detalle);
-		return true;
-	}
-
 	public function obtenerCompras(): array {
 		return $this->model->obtenerCompras();
 	}

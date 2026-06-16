@@ -118,4 +118,40 @@ class CatalogoController {
             return response::error('Error al registrar marca');
         }
     }
+
+    public function obtenerMarcaPorID(int $idMarca): array {
+        try {
+            $data = $this->servicio->obtenerMarcaPorID($idMarca);
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener marca por ID", $e, ['idMarca' => $idMarca, 'request' => $_REQUEST]);
+            return response::error('Error al obtener marca por ID');
+        }
+    }
+
+    public function actualizarMarca(int $idMarca, string $nombreMarca, array $files) {
+        try {
+            $resultado = $this->servicio->actualizarMarca($idMarca, $nombreMarca, $files);
+            return response::success($resultado, 'Marca actualizada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al actualizar marca", $e, ['idMarca' => $idMarca, 'request' => $_REQUEST]);
+            return response::error('Error al actualizar marca');
+        }
+    }
+
+    public function eliminarMarca(int $idMarca) {
+        try {
+            $resultado = $this->servicio->eliminarMarca($idMarca);
+            return response::success($resultado, 'Marca eliminada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al eliminar marca", $e, ['idMarca' => $idMarca, 'request' => $_REQUEST]);
+            return response::error('Error al eliminar marca');
+        }
+    }
 }
