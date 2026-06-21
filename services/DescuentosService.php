@@ -25,6 +25,10 @@
             return $this->modeloDescuento->obtenerDescuentoPorID($idDescuento);
         }
 
+        public function actualizarDescuento(int $idDescuento, array $data): bool {
+            return $this->modeloDescuento->actualizarDescuento($idDescuento, $data);
+        }
+
         public function aplicarDescuentoAProductosEspecificos(int $idDescuento, array $idsProductos): bool {
             if (empty($idsProductos)) {
                 throw new DomainException('Debe especificar al menos un producto');
@@ -95,5 +99,14 @@
 
             return $this->modeloDescuento->removerDescuentoDePresentaciones($idsPresentaciones);
         }
-    }
 
+        public function eliminarDescuento(int $idDescuento): bool {
+            $descuento = $this->modeloDescuento->obtenerDescuentoPorID($idDescuento);
+            if (!$descuento) {
+                throw new DomainException('Descuento no encontrado');
+            }
+
+            $this->removerDescuento($idDescuento);
+            return $this->modeloDescuento->eliminarDescuento($idDescuento);
+        }
+    }

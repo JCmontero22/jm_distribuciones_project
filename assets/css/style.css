@@ -444,13 +444,13 @@ td{
 }
 
 .active{
-    background-color: var(--color-dorado);
-    color: var(--color-dorado-texto);
+    /* background-color: var(--color-dorado);
+    color: var(--color-dorado-texto); */
 }
 
 .active:hover{
-    background-color: var(--color-dorado-brillo);
-    color: var(--color-dorado-texto);
+    /* background-color: var(--color-dorado-brillo);
+    color: var(--color-dorado-texto); */
 }
 
 .copyRith{

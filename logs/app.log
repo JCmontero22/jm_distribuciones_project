@@ -10552,3 +10552,9 @@ Stack trace:
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-06-17 01:38:35] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20260617_013835_d9bbb07eb37c314e.png",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/..\/..\/..\/imagenes-jm-distribuciones\/bannerPromociones\/file_20260617_013835_d9bbb07eb37c314e.png"
+}
+------------------------------------------------------------------------------------------------------------------------

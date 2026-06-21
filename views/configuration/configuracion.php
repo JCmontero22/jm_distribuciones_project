@@ -1,48 +1,94 @@
-<section class="content-panel" id="descuentosModule">
+<section class="content-panel" id="ConfiguracionModule">
     <div class="row">
         <div class="col-md-10">
-            <h1>Gestión de Descuentos</h1>
+            <h1>Gestión de Configuración</h1>
         </div>
         <div class="col-md-2">
-            <button type="button" class="btn btn-new-product" id="btnModalDescuento" data-bs-toggle="modal" data-bs-target="#modalRegistrarDescuento">
-                <i class="fa-solid fa-plus"></i> Nuevo Descuento
-            </button>
         </div>
     </div>
 </section>
 
-<section class="content-list-descuentos container">
+
+<section class="content-configuracion container">
     <!-- TABS para navegación -->
     <ul class="nav nav-tabs descuentos-tabs mt-4" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="tabListaDescuentos" data-bs-toggle="tab" data-bs-target="#listaDescuentos" type="button" role="tab">
-                <i class="fa-solid fa-list"></i> Descuentos Registrados
+            <button class="nav-link active" id="categoriaProductos" data-bs-toggle="tab" data-bs-target="#categoriaProductos" type="button" role="tab">
+                <i class="fa-solid fa-list"></i> Categorias Productos
             </button>
         </li>
+
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tabAplicarDescuentos" data-bs-toggle="tab" data-bs-target="#aplicarDescuentos" type="button" role="tab">
-                <i class="fa-solid fa-check"></i> Aplicar Descuentos
+            <button class="nav-link" id="tiposProductos" data-bs-toggle="tab" data-bs-target="#tiposProductos" type="button" role="tab">
+                <i class="fa-solid fa-table-list"></i> Tipos de Productos
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sedes" data-bs-toggle="tab" data-bs-target="#sedes" type="button" role="tab">
+                <i class="fa-solid fa-people-roof"></i> Sedes
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="usuarios" data-bs-toggle="tab" data-bs-target="#usuarios" type="button" role="tab">
+                <i class="fa-solid fa-user-group"></i> Usuarios
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="perfilUsuarios" data-bs-toggle="tab" data-bs-target="#perfilUsuarios" type="button" role="tab">
+                <i class="fa-solid fa-address-card"></i> Perfil usuarios
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="permisos" data-bs-toggle="tab" data-bs-target="#permisos" type="button" role="tab">
+                <i class="fa-solid fa-list-check"></i> Permisos 
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="perfilUsuariosPermisos" data-bs-toggle="tab" data-bs-target="#perfilUsuariosPermisos" type="button" role="tab">
+                <i class="fa-solid fa-user-check"></i> Perfil usuarios - Permisos
             </button>
         </li>
     </ul>
 
     <!-- TAB 1: Lista de descuentos registrados -->
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="listaDescuentos" role="tabpanel">
-            <div class="table-responsive mt-4">
-                <table id="tablaDescuentos" class="table table-striped table-hover table-bordered custom-table table-dark text-center">
-                    <thead class="text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>% Descuento</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+        <div class="tab-pane fade show active" id="categoriaProductos" role="tabpanel">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <form id="form-categoria-productos">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label for="nombreCategoria" class="form-label">Nombre de la categoría *</label>
+                                <input type="text" class="form-control" id="nombreCategoria" placeholder="Ej: Ropa, Calzado, Accesorios..." required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary btnRegistro w-100" type="submit">Registrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <div class="table-responsive mt-4">
+                        <table id="tablaCategoriaProductos" class="table table-striped table-hover table-bordered custom-table table-dark text-center">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre Categoria</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -230,60 +276,3 @@
         </div>
     </div>
 </section>
-
-
-<!-- ************* MODAL REGISTRAR DESCUENTO ********** -->
-<div class="modal fade" id="modalRegistrarDescuento" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistrarDescuentoLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="modal-cabecera">
-                    <h3 class="modal-title" id="modalRegistrarDescuentoLabel">Registrar Nuevo Descuento</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form action="" id="registroDeDescuento">
-                    <input type="hidden" name="id_descuento" id="id_descuento">
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="nombreDescuento" class="form-label">Nombre del Descuento *</label>
-                                <input type="text" class="form-control" id="nombreDescuento" name="nombreDescuento" placeholder="Ej: Black Friday" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="porcentajeDescuento" class="form-label">% Descuento *</label>
-                                <input type="number" class="form-control" id="porcentajeDescuento" name="porcentajeDescuento" placeholder="Ej: 20" min="0" max="100" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="fechaInicio" class="form-label">Fecha Inicio *</label>
-                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="fechaFin" class="form-label">Fecha Fin *</label>
-                                <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row d-flex justify-content-center mt-4">
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary btnRegistro w-100" id="btnRegistrarDetalles">
-                                <i class="fa-regular fa-floppy-disk"></i> Registrar Descuento
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>

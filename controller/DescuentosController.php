@@ -60,6 +60,26 @@ class DescuentosController {
         }
     }
 
+    public function actualizarDescuento(array $data): array {
+        $idDescuento = (int)($data['id_descuento'] ?? 0);
+        if (!$idDescuento) {
+            return response::error('ID de descuento requerido');
+        }
+        try {
+            if (!utils::validateRequiredFields(['nombreDescuento', 'porcentajeDescuento', 'fechaInicio', 'fechaFin'], $data)) {
+                return response::error('Todos los campos son obligatorios');
+            }
+            $this->descuentosService->actualizarDescuento($idDescuento, $data);
+            return response::success([], 'Descuento actualizado exitosamente');
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al actualizar descuento", $e, ['idDescuento' => $idDescuento, 'data' => $data]);
+            return response::error('Error al actualizar el descuento');
+        }
+    }   
+
     public function aplicarDescuentoAProductosEspecificos(array $data): array {
         try {
             if (empty($data['idDescuento']) || empty($data['idsProductos'])) {
@@ -177,5 +197,23 @@ class DescuentosController {
             return response::error('Error al remover el descuento');
         }
     }
-}
 
+    public function eliminarDescuento(array $data): array {
+        try {
+            if (empty($data['idDescuento'])) {
+                return response::error('ID de descuento requerido');
+            }
+
+            $idDescuento = (int)$data['idDescuento'];
+
+            $this->descuentosService->eliminarDescuento($idDescuento);
+            return response::success([], 'Descuento eliminado exitosamente');
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al eliminar descuento", $e, $data);
+            return response::error('Error al eliminar el descuento');
+        }
+    }
+}

@@ -120,7 +120,7 @@
             return $this->execute($query, $params);
         }
 
-        public function obtenerProductos(string $nombreCategoria) :array {
+        public function obtenerProductos(string $nombreCategoria, int $limit = null, int $offset = 0): array {
             $query = "SELECT
                             p.id_producto,
                             p.nombre_producto,
@@ -151,12 +151,20 @@
                         LEFT JOIN inventario_sedes iss ON pp.id_presentacion = iss.id_presentacion
                         WHERE c.nombre_categoria = :categoria AND iss.id_sede = 1 AND p.id_estado = 1 AND pp.id_estado = 1";
 
+            if ($limit !== null && $limit > 0) {
+                $query .= " LIMIT :limit OFFSET :offset";
+            }
+
             $params = [':categoria' => $nombreCategoria];
+            if ($limit !== null && $limit > 0) {
+                $params[':limit'] = $limit;
+                $params[':offset'] = $offset;
+            }
 
             return $this->select($query, $params);
         }
 
-        public function obtenerProductosActivos(): array {
+        public function obtenerProductosActivos(int $limit = null, int $offset = 0): array {
             $query = "SELECT
                             p.id_producto,
                             p.nombre_producto,
@@ -183,7 +191,17 @@
                             m.nombre_marca
                         ORDER BY p.nombre_producto";
 
-            return $this->select($query);
+            if ($limit !== null && $limit > 0) {
+                $query .= " LIMIT :limit OFFSET :offset";
+            }
+
+            $params = [];
+            if ($limit !== null && $limit > 0) {
+                $params[':limit'] = $limit;
+                $params[':offset'] = $offset;
+            }
+
+            return $this->select($query, $params);
         }
 
         public function obtenerPresentacionesPorProducto(int $idProducto): array {

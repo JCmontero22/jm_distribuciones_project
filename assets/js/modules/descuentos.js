@@ -11,6 +11,16 @@ const DescuentosAPI = {
         return response.data || [];
     },
 
+    async obtenerDescuentoID(id) {
+        const response = await this.client.get({ accion: "obtenerDescuentoPorID", idDescuento: id });
+        return response.data || null;
+    },
+
+    async actualizarDescuentos(formData) {
+        formData.set("accion", "actualizarDescuento");
+        return await this.client.post(formData);
+    },
+
     async aplicarAProductos(payload) {
         payload.accion = "aplicarAProductosEspecificos";
         return await this.client.post(payload);
@@ -39,6 +49,10 @@ const DescuentosAPI = {
     async removerDescuento(payload) {
         payload.accion = "removerDescuento";
         return await this.client.post(payload);
+    },
+
+    async eliminarDescuento(id) {
+        return await this.client.post({ accion: "eliminarDescuento", idDescuento: id });
     }
 };
 
@@ -75,9 +89,17 @@ const DescuentosView = {
                 {
                     data: null,
                     render: (data, _type, row) => {
-                        return `<button class="btn btn-sm btn-danger btn_eliminar" data-id="${row.id_descuento}">
+                        return `<button class="btn btn-sm btn-primary btn_editar" data-id="${row.id_descuento}">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <button class="btn btn-sm btn-warning btn_quitar_descuento" data-id="${row.id_descuento}" title="Quitar descuento de productos">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn_eliminar" data-id="${row.id_descuento}" title="Eliminar descuento">
                                     <i class="fa-regular fa-trash-can"></i>
-                                </button>`;
+                                </button>
+                                `
+                                ;
                     }
                 }
             ],
@@ -94,6 +116,16 @@ const DescuentosView = {
 
     formatDate(date) {
         return new Date(date).toLocaleDateString("es-ES");
+    },
+
+    cargarDescuentoEnModal(descuento) {
+        $("#id_descuento").val(descuento.id_descuento);
+        $("#nombreDescuento").val(descuento.nombre_descuento);
+        $("#porcentajeDescuento").val(descuento.porcentaje_descuento);
+        $("#fechaInicio").val(descuento.fecha_inicio.split(" ")[0]);
+        $("#fechaFin").val(descuento.fecha_fin.split(" ")[0]);
+        $("#btnRegistrarDetalles").text("Actualizar Descuento");
+        if (DescuentosModule.modalDescuento) DescuentosModule.modalDescuento.show();
     }
 };
 
@@ -112,7 +144,14 @@ const DescuentosModule = {
 
     bindEvents() {
         // Registro
-        $("#registroDeDescuento").on("submit", (e) => this.registrarDescuento(e));
+        $("#registroDeDescuento").on("submit", (e) => {
+            const id = $("#id_descuento").val();
+            if (id) {
+                this.actualizarDescuento(id, e);
+            } else {
+                this.registrarDescuento(e)
+            }
+        });
 
         // Reset modal
         $("#modalRegistrarDescuento").on("hidden.bs.modal", () => {
@@ -121,10 +160,20 @@ const DescuentosModule = {
             $("#btnRegistrarDetalles").text("Registrar Descuento");
         });
 
-        // Eliminar
-        $(document).on("click", ".btn_eliminar", (e) => {
+        // Quitar descuento de las presentaciones que lo tienen aplicado
+        $("#tablaDescuentos").on("click", ".btn_quitar_descuento", (e) => {
             const id = $(e.currentTarget).data("id");
-            this.removerDescuento(id);
+            this.quitarDescuentoDeProductos(id);
+        });
+
+        $("#tablaDescuentos").on("click", ".btn_eliminar", (e) => {
+            const id = $(e.currentTarget).data("id");
+            this.eliminarDescuento(id);
+        });
+
+        $("#tablaDescuentos").on("click", ".btn_editar", (e) => {
+            const id = $(e.currentTarget).data("id");
+            this.obtenerDescuentoID(id)
         });
 
         // Aplicar descuentos
@@ -133,6 +182,11 @@ const DescuentosModule = {
         $("#formAplicarProductoGenero").on("submit", (e) => this.aplicarAProductoPorGenero(e));
         $("#formAplicarGenero").on("submit", (e) => this.aplicarAGenero(e));
         $("#formAplicarTodos").on("submit", (e) => this.aplicarATodos(e));
+
+        // Resetear buscador cuando se abre el tab
+        $(document).on("shown.bs.tab", '[data-bs-target="#formProductos"]', () => {
+            $("#buscarProductosDescuento").val("").trigger("input");
+        });
     },
 
     async cargarDatos() {
@@ -198,14 +252,19 @@ const DescuentosModule = {
 
         // Checkboxes para "Productos Específicos"
         $productosCheckbox.html("");
+        $("#totalProductosDescuento").text(this.productos.length);
+        $("#countProductosBuscados").text(this.productos.length);
+
         if (!this.productos.length) {
             $productosCheckbox.html('<p class="descuentos-empty mb-0">No hay productos activos para aplicar descuentos.</p>');
             return;
         }
 
         this.productos.forEach(prod => {
+            const codigo = (prod.codigo_producto || '').toLowerCase();
+            const nombre = (prod.nombre_producto || '').toLowerCase();
             const div = `
-                <div class="form-check">
+                <div class="form-check producto-descuento-item" data-producto-id="${prod.id_producto}" data-producto-nombre="${nombre}" data-producto-codigo="${codigo}">
                     <input class="form-check-input" type="checkbox" value="${prod.id_producto}" id="check_${prod.id_producto}">
                     <label class="form-check-label" for="check_${prod.id_producto}">
                         ${prod.nombre_producto}
@@ -214,6 +273,51 @@ const DescuentosModule = {
             `;
             $productosCheckbox.append(div);
         });
+
+        this.initBuscador();
+    },
+
+    initBuscador() {
+        const self = this;
+        const $input = $("#buscarProductosDescuento");
+
+        if ($input.length === 0) {
+            console.error("❌ No se encontró #buscarProductosDescuento");
+            return;
+        }
+
+        $input.off("input").on("input", function() {
+            const query = $(this).val().toLowerCase().trim();
+            self.filtrarProductos(query);
+        });
+
+        console.log("✅ Buscador inicializado para", this.productos.length, "productos");
+    },
+
+    filtrarProductos(query) {
+        const $items = $(".producto-descuento-item");
+        let visible = 0;
+
+        if (!query) {
+            $items.show();
+            visible = this.productos.length;
+        } else {
+            $items.each(function() {
+                const $item = $(this);
+                const nombre = ($item.attr("data-producto-nombre") || "").toString();
+                const codigo = ($item.attr("data-producto-codigo") || "").toString();
+                const coincide = nombre.includes(query) || codigo.includes(query);
+
+                if (coincide) {
+                    $item.show();
+                    visible++;
+                } else {
+                    $item.hide();
+                }
+            });
+        }
+
+        $("#countProductosBuscados").text(visible);
     },
 
     llenarMarcas() {
@@ -283,6 +387,44 @@ const DescuentosModule = {
         } catch (error) {
             Logger.error("Error registrando descuento", error);
             Alerts.error("Error", "No se pudo registrar el descuento");
+        }
+    },
+
+    async actualizarDescuento(id, e) {
+         e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.set("id_descuento", id);
+        formData.set("accion", "actualizarDescuento");
+        const nombreDescuento = formData.get("nombreDescuento");
+
+        // Validación
+        if (!nombreDescuento || !formData.get("porcentajeDescuento") ||
+            !formData.get("fechaInicio") || !formData.get("fechaFin")) {
+            Alerts.warning("Campos incompletos", "Por favor complete todos los campos.");
+            return;
+        }
+
+        // Confirmación
+        const confirmacion = await Alerts.confirmation(
+            "Actualizar descuento?",
+            `¿Estás seguro de actualizar el descuento "${nombreDescuento}"?`
+        );
+
+        if (!confirmacion.isConfirmed) return;
+
+        try {
+            const response = await DescuentosAPI.actualizarDescuentos(formData);
+
+            if (response.success) {
+                Alerts.success("Descuento Actualizado", response.message || "El descuento se actualizó exitosamente");
+                if (this.modalDescuento) this.modalDescuento.hide();
+                await this.cargarDatos();
+            } else {
+                Alerts.error("Error", response.message || "No se pudo actualizar el descuento");
+            }
+        } catch (error) {
+            Logger.error("Error actualizando descuento", error);
+            Alerts.error("Error", "No se pudo actualizar el descuento");
         }
     },
 
@@ -442,10 +584,10 @@ const DescuentosModule = {
         }
     },
 
-    async removerDescuento(id) {
+    async quitarDescuentoDeProductos(id) {
         const confirmacion = await Alerts.confirmation(
-            "¿Remover descuento?",
-            "Esta acción removará el descuento de todas las presentaciones"
+            "¿Quitar descuento?",
+            "Esta acción quitará este descuento de todos los productos que lo tengan aplicado."
         );
 
         if (!confirmacion.isConfirmed) return;
@@ -456,7 +598,7 @@ const DescuentosModule = {
             });
 
             if (response.success) {
-                Alerts.success("Éxito", "Descuento removido");
+                Alerts.success("Éxito", response.message || "Descuento quitado de los productos");
                 await this.cargarDatos();
             } else {
                 Alerts.error("Error", response.message);
@@ -464,6 +606,44 @@ const DescuentosModule = {
         } catch (error) {
             Logger.error("Error removiendo descuento", error);
             Alerts.error("Error", "No se pudo remover el descuento");
+        }
+    },
+
+    async eliminarDescuento(id) {
+        const confirmacion = await Alerts.confirmation(
+            "¿Eliminar descuento?",
+            "Esta acción eliminará el descuento y también lo quitará de los productos que lo tengan aplicado."
+        );
+
+        if (!confirmacion.isConfirmed) return;
+
+        try {
+            const response = await DescuentosAPI.eliminarDescuento(id);
+
+            if (response.success) {
+                Alerts.success("Éxito", response.message || "Descuento eliminado");
+                await this.cargarDatos();
+            } else {
+                Alerts.error("Error", response.message || "No se pudo eliminar el descuento");
+            }
+        } catch (error) {
+            Logger.error("Error eliminando descuento", error);
+            Alerts.error("Error", "No se pudo eliminar el descuento");
+        }
+    },
+
+    async obtenerDescuentoID(id) {
+        try {
+            const descuento = await DescuentosAPI.obtenerDescuentoID(id);
+            if (!descuento) {
+                Alerts.error("Error", "Descuento no encontrado");
+                return;
+            }
+            DescuentosView.cargarDescuentoEnModal(descuento);
+            
+        } catch (error) {
+            Logger.error("Error obteniendo descuento por ID", error);
+            Alerts.error("Error", "No se pudo obtener el descuento");
         }
     }
 };

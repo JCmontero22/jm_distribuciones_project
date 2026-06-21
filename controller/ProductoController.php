@@ -58,12 +58,14 @@ class ProductoController {
     public function listar(array $request): array {
         try {
             $categoria = $request['categoria'] ?? null;
+            $limit = isset($request['limit']) ? (int)$request['limit'] : null;
+            $offset = isset($request['offset']) ? (int)$request['offset'] : 0;
 
             if (!$categoria) {
                 return response::error('Debe especificar la categoría');
             }
 
-            $data = $this->servicio->obtenerProductos($categoria);
+            $data = $this->servicio->obtenerProductos($categoria, $limit, $offset);
             return response::success($data);
 
         } catch (\DomainException $e) {
@@ -87,9 +89,12 @@ class ProductoController {
         }
     }
 
-    public function listarProductosActivos(): array {
+    public function listarProductosActivos(array $request = []): array {
         try {
-            $data = $this->servicio->obtenerProductosActivos();
+            $limit = isset($request['limit']) ? (int)$request['limit'] : null;
+            $offset = isset($request['offset']) ? (int)$request['offset'] : 0;
+
+            $data = $this->servicio->obtenerProductosActivos($limit, $offset);
             return response::success($data, 'Productos activos obtenidos exitosamente');
 
         } catch (\DomainException $e) {

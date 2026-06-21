@@ -31,6 +31,7 @@
 <script src="assets/js/modules/marcas.js"></script>
 <script src="assets/js/modules/bannerPromociones.js"></script>
 <script src="assets/js/modules/descuentos.js"></script>
+<script src="assets/js/modules/configuracion.js"></script>
 
 <!-- ============================================================
      4. INICIALIZACIÓN PRINCIPAL

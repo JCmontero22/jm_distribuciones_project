@@ -84,12 +84,12 @@
             return $resultados;
         }
 
-        public function obtenerProductos(string $categoria): array {
-            return $this->modelo->obtenerProductos($categoria);
+        public function obtenerProductos(string $categoria, int $limit = null, int $offset = 0): array {
+            return $this->modelo->obtenerProductos($categoria, $limit, $offset);
         }
 
-        public function obtenerProductosActivos(): array {
-            return $this->modelo->obtenerProductosActivos();
+        public function obtenerProductosActivos(int $limit = null, int $offset = 0): array {
+            return $this->modelo->obtenerProductosActivos($limit, $offset);
         }
 
         public function productosCompra(): array {

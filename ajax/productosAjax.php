@@ -39,7 +39,7 @@ require_once('../config/config.php');
             break;
 
         case 'listarProductosActivos':
-            $resultado = $productoController->listarProductosActivos();
+            $resultado = $productoController->listarProductosActivos($request);
             echo json_encode($resultado);
             break;
 

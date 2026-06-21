@@ -26,6 +26,11 @@ switch ($accion) {
         echo json_encode($resultado);
         break;
 
+    case 'actualizarDescuento':
+        $resultado = $descuentoController->actualizarDescuento($_POST);
+        echo json_encode($resultado);
+        break;
+
     case 'aplicarAProductosEspecificos':
         $resultado = $descuentoController->aplicarDescuentoAProductosEspecificos($_POST);
         echo json_encode($resultado);
@@ -56,7 +61,11 @@ switch ($accion) {
         echo json_encode($resultado);
         break;
 
+    case 'eliminarDescuento':
+        $resultado = $descuentoController->eliminarDescuento($_POST);
+        echo json_encode($resultado);
+        break;
+
     default:
         echo json_encode(response::error('Acción no válida'));
 }
-

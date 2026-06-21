@@ -44,7 +44,7 @@
                 </ul>
             </div>
 
-            
+            <li class="ul-list__item" onclick="redirect('configuracion')"><a href="#"><i class="fa-solid fa-cog"></i> Configuraciones</a></li>        
 
             <li class="ul-list__item" onclick="redirect('historial')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
             

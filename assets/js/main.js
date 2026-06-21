@@ -45,6 +45,7 @@ function initializeModules() {
         locionesPreparadasModule: "LocionesPreparadasModule",
         locionesAAAModule: "LocionesAAAModule",
         descuentosModule: "DescuentosModule",
+        ConfiguracionModule: "ConfiguracionModule"
     };
 
     Object.entries(inventoryModules).forEach(([elementId, moduleName]) => {
@@ -72,7 +73,8 @@ function initializeModules() {
         { id: 'descuentosModule', name: 'DescuentosModule' },
         { id: 'informeProduccionModule', name: 'InformeProduccionModule' },
         { id: 'marcasModule', name: 'marcasModule' },
-        { id: 'bannerPromocionesModule', name: 'bannerPromocionesModule' }
+        { id: 'bannerPromocionesModule', name: 'bannerPromocionesModule' },
+        { id: 'ConfiguracionModule', name: 'ConfiguracionModule' }
     ];
 
     modules.forEach(({ id, name }) => {

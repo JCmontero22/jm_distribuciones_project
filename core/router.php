@@ -18,6 +18,7 @@
         'marcas' => 'production/marcas.php',
         'bannerPromociones' => 'promotions/bannerPromocion.php',
         'descuentos' => 'promotions/descuentos.php',
+        'configuracion' => 'configuration/configuracion.php', 
     ];
 
 

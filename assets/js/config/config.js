@@ -23,6 +23,7 @@ const CONFIG = {
         PROMOCIONES: 'ajax/promocionesAjax.php',
         DESCUENTOS: 'ajax/descuentosAjax.php',
         INFORME_PRODUCCION: 'ajax/informeProduccionAjax.php',
+        CONFIGURACION: 'ajax/configuracionAjax.php',
     },
 
     // ============================================================
