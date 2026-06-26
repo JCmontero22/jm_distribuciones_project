@@ -78,6 +78,51 @@ require_once('../config/config.php');
             $resultado = $getCatalogoController()->eliminarMarca((int)($_POST['idMarca'] ?? 0));
             echo json_encode($resultado);
             break;
+        
+        case 'registrarCategoria':
+            $resultado = $getCatalogoController()->registrarCategoria($_POST['nombreCategoria'] ?? '');
+            echo json_encode($resultado);
+            break;
+        
+        case 'actualizarCategoria':
+            $resultado = $getCatalogoController()->actualizarCategoria((int)($_POST['idCategoria'] ?? 0), $_POST['nombreCategoria'] ?? '');
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarCategoria':
+            $resultado = $getCatalogoController()->eliminarCategoria((int)($_POST['idCategoria'] ?? 0));
+            echo json_encode($resultado);
+            break;
+
+        case 'registrarTipoProducto':
+            $resultado = $getCatalogoController()->registrarTipoProducto($_POST['descripcionTipoProducto'] ?? '');
+            echo json_encode($resultado);
+            break;
+
+        case 'actualizarTipoProducto':
+            $resultado = $getCatalogoController()->actualizarTipoProducto((int)($_POST['idTipoProducto'] ?? 0), $_POST['descripcionTipoProducto'] ?? '');
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarTipoProducto':
+            $resultado = $getCatalogoController()->eliminarTipoProducto((int)($_POST['idTipoProducto'] ?? 0));
+            echo json_encode($resultado);
+            break;
+
+        case 'registrarSede':
+            $resultado = $getCatalogoController()->registrarSede($_POST);
+            echo json_encode($resultado);
+            break;
+
+        case 'actualizarSede':
+            $resultado = $getCatalogoController()->actualizarSede($_POST);
+            echo json_encode($resultado);
+            break;
+
+        case 'eliminarSede':
+            $resultado = $getCatalogoController()->eliminarSede((int)($_POST['idSede'] ?? 0));
+            echo json_encode($resultado);
+            break;
 
         default:
             echo json_encode(response::error('Acción no válida', ['accion' => $accion]));

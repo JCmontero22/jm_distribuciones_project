@@ -195,4 +195,49 @@
 
             return $this->marcaModel->eliminarMarca($idMarca);
         }
+
+        // ✅ LÓGICA: Para registrar categoría nueva
+        public function registrarCategoria(string $nombreCategoria) : bool {
+            return $this->categoriaModel->registrarCategoria($nombreCategoria);
+        }
+
+        // ✅ LÓGICA: Para actualizar categoría existente
+        public function actualizarCategoria(int $idCategoria, string $nombreCategoria) : bool {
+            return $this->categoriaModel->actualizarCategoria($idCategoria, $nombreCategoria);
+        }
+
+        // ✅ LÓGICA: Para eliminar categoría existente
+        public function eliminarCategoria(int $idCategoria) : bool {
+            return $this->categoriaModel->eliminarCategoria($idCategoria);
+        }
+
+        // ✅ LÓGICA: Para registrar tipo de producto nuevo
+        public function registrarTipoProducto(string $nombreTipoProducto) : bool {
+            return $this->tiposProductoModel->crearTipoProducto($nombreTipoProducto);
+        }
+
+        // ✅ LÓGICA: Para actualizar tipo de producto existente
+        public function actualizarTipoProducto(int $idTipoProducto, string $nombreTipoProducto) : bool {
+            return $this->tiposProductoModel->updateTipoProducto($idTipoProducto, $nombreTipoProducto);
+        }
+
+        // ✅ LÓGICA: Para eliminar tipo de producto existente
+        public function eliminarTipoProducto(int $idTipoProducto) : bool {
+            return $this->tiposProductoModel->deleteTipoProducto($idTipoProducto); 
+        }
+
+        // ✅ LÓGICA: Para registrar sede nueva
+        public function registrarSede(array $data) : bool {
+            return $this->sedesModel->crearSede($data);
+        }
+
+        // ✅ LÓGICA: Para actualizar sede existente
+        public function actualizarSede(array $data) : bool {
+            return $this->sedesModel->actualizarSede($data);
+        }
+
+        // ✅ LÓGICA: Para eliminar sede existente
+        public function eliminarSede(int $idSede) : bool {
+            return $this->sedesModel->eliminarSede($idSede);
+        }
     }

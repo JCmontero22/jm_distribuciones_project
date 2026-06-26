@@ -154,4 +154,133 @@ class CatalogoController {
             return response::error('Error al eliminar marca');
         }
     }
+
+    public function registrarCategoria(string $nombreCategoria) {
+        try {
+            $resultado = $this->servicio->registrarCategoria($nombreCategoria);
+            return response::success($resultado, 'Categoría registrada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al registrar categoría", $e, ['nombreCategoria' => $nombreCategoria, 'request' => $_REQUEST]);
+            return response::error('Error al registrar categoría');
+        }
+    }
+
+    public function actualizarCategoria(int $idCategoria, string $nombreCategoria) {
+        try {
+            $resultado = $this->servicio->actualizarCategoria($idCategoria, $nombreCategoria);
+            return response::success($resultado, 'Categoría actualizada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al actualizar categoría", $e, ['idCategoria' => $idCategoria, 'nombreCategoria' => $nombreCategoria, 'request' => $_REQUEST]);
+            return response::error('Error al actualizar categoría');
+        }
+    }
+
+    public function eliminarCategoria(int $idCategoria) {
+        try {
+            $resultado = $this->servicio->eliminarCategoria($idCategoria);
+            return response::success($resultado, 'Categoría eliminada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al eliminar categoría", $e, ['idCategoria' => $idCategoria, 'request' => $_REQUEST]);
+            return response::error('Error al eliminar categoría');
+        }
+    }
+
+    public function registrarTipoProducto(string $nombreTipoProducto) {
+        try {
+            $resultado = $this->servicio->registrarTipoProducto($nombreTipoProducto);
+            return response::success($resultado, 'Tipo de producto registrado exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al registrar tipo de producto", $e, ['nombreTipoProducto' => $nombreTipoProducto, 'request' => $_REQUEST]);
+            return response::error('Error al registrar tipo de producto');
+        }
+    }
+
+    public function actualizarTipoProducto(int $idTipoProducto, string $nombreTipoProducto) {
+        try {
+            $resultado = $this->servicio->actualizarTipoProducto($idTipoProducto, $nombreTipoProducto);
+            return response::success($resultado, 'Tipo de producto actualizado exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al actualizar tipo de producto", $e, ['idTipoProducto' => $idTipoProducto, 'nombreTipoProducto' => $nombreTipoProducto, 'request' => $_REQUEST]);
+            return response::error('Error al actualizar tipo de producto');
+        }
+    }
+
+    public function eliminarTipoProducto(int $idTipoProducto) {
+        try {
+            $resultado = $this->servicio->eliminarTipoProducto($idTipoProducto);
+            return response::success($resultado, 'Tipo de producto eliminado exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al eliminar tipo de producto", $e, ['idTipoProducto' => $idTipoProducto, 'request' => $_REQUEST]);
+            return response::error('Error al eliminar tipo de producto');
+        }
+    }
+
+    public function registrarSede(array $data) {
+        try {
+
+            if (!utils::validateRequiredFields(['nombreSede', 'direccionSede', 'responsableSede'], $data)) {
+                return response::error('Todos los campos son obligatorios');
+            }
+
+            $data['nombreSede'] = trim($data['nombreSede']);
+            $data['direccionSede'] = trim($data['direccionSede']);
+            $data['responsableSede'] = trim($data['responsableSede']);  
+            $data['telefonoSede'] = trim($data['telefonoSede']) ?? ''; // Optional field, default to empty string if not provided
+
+            $resultado = $this->servicio->registrarSede($data);
+            return response::success($resultado, 'Sede registrada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al registrar sede", $e, ['data' => $data, 'request' => $_REQUEST]);
+            return response::error('Error al registrar sede');
+        }
+    }
+
+    public function actualizarSede(array $data) {
+        try {
+
+            if (!utils::validateRequiredFields(['idSede', 'nombreSede', 'direccionSede', 'responsableSede'], $data)) {
+                return response::error('Todos los campos son obligatorios');
+            }
+
+            $data['idSede'] = (int)$data['idSede'];
+            $data['nombreSede'] = trim($data['nombreSede']);
+            $data['direccionSede'] = trim($data['direccionSede']);
+            $data['responsableSede'] = trim($data['responsableSede']);  
+            $data['telefonoSede'] = trim($data['telefonoSede']) ?? ''; // Optional field, default to empty string if not provided
+
+            $resultado = $this->servicio->actualizarSede($data);
+            return response::success($resultado, 'Sede actualizada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al actualizar sede", $e, ['data' => $data, 'request' => $_REQUEST]);
+            return response::error('Error al actualizar sede');
+        }
+    }
+
+    public function eliminarSede(int $idSede) {
+        try {
+            $resultado = $this->servicio->eliminarSede($idSede);
+            return response::success($resultado, 'Sede eliminada exitosamente');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al eliminar sede", $e, ['idSede' => $idSede, 'request' => $_REQUEST]);
+            return response::error('Error al eliminar sede');
+        }
+    }
 }
