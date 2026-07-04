@@ -1,19 +1,12 @@
-# Activar motor de reescritura
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/
 
-# Definir la base del proyecto (ajusta según tu carpeta)
-RewriteBase /PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project
+    # No reescribir endpoints AJAX (deben responder JSON directamente)
+    RewriteRule ^ajax/ - [L,NC]
 
-# Si no se indica nada en la URL, cargar index.php
-DirectoryIndex index.php
-
-# Redirigir todas las peticiones al index.php dentro de /public
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L]
-
-# Proteger archivos sensibles
-<FilesMatch "\.(env|sql|log|ini|sh|bat|inc|bak|config|php~)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+    # No reescribir assets u otros archivos reales
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

@@ -15,6 +15,7 @@ const CONFIG = {
     // ENDPOINTS AJAX
     // ============================================================
     AJAX: {
+        LOGIN: 'ajax/login.php',
         PRODUCTOS: 'ajax/productosAjax.php',
         COMPRAS: 'ajax/comprasAjax.php',
         PROVEEDORES: 'ajax/proveedorAjax.php',

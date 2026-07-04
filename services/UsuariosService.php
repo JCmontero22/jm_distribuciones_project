@@ -20,6 +20,26 @@ class UsuariosService {
     }
 
     // ✅ Lógica de Usuarios
+    public function validarCredenciales(string $usuario, string $password): ?array {
+        $usuarioData = $this->usuariosModel->obtenerPorUsuario($usuario);
+
+        if (!$usuarioData) {
+            return null;
+        }
+
+        // ✅ Verificar contraseña con password_verify (igual que en LoginService)
+        if (!password_verify($password, $usuarioData['pass_usuario'])) {
+            return null;
+        }
+
+        // Verificar estado del usuario
+        if ($usuarioData['nombre_estado'] !== 'Activo' && $usuarioData['id_estado'] !== 1) {
+            return null;
+        }
+
+        return $usuarioData;
+    }
+
     public function obtenerUsuarios(): array {
         $usuarios = $this->usuariosModel->obtenerUsuarios();
         return empty($usuarios) ? [] : $usuarios;
@@ -36,12 +56,20 @@ class UsuariosService {
             throw new DomainException('El nombre de usuario ya existe');
         }
 
+        // ✅ HASHEAR la contraseña antes de guardar
+        $data['passwordUsuario'] = password_hash($data['passwordUsuario'], PASSWORD_DEFAULT);
+
         return $this->usuariosModel->registroUsuario($data);
     }
 
     public function actualizarUsuario(array $data): bool {
         if (empty($data['idUsuario'])) {
             throw new DomainException('ID de usuario requerido');
+        }
+
+        // ✅ Si se proporciona nueva contraseña, hashearla
+        if (!empty($data['passwordUsuario'])) {
+            $data['passwordUsuario'] = password_hash($data['passwordUsuario'], PASSWORD_DEFAULT);
         }
 
         return $this->usuariosModel->actualizarUsuario($data);

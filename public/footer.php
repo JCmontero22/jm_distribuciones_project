@@ -10,33 +10,87 @@
 <!-- ============================================================
      1. CONFIGURACIÓN (DEBE SER PRIMERO)
      ============================================================ -->
-<script src="assets/js/config/config.js"></script>
+<?php $bp = defined('BASE_PATH') ? BASE_PATH : '/'; ?>
+<script src="<?= $bp ?>assets/js/config/config.js"></script>
 
 <!-- ============================================================
      2. CORE - SERVICIOS BÁSICOS
      ============================================================ -->
-<script src="assets/js/core/Logger.js"></script>
-<script src="assets/js/core/SimpleAPI.js"></script>
-<script src="assets/js/core/alert.js"></script>
-<script src="assets/js/core/utils.js"></script>
+<script src="<?= $bp ?>assets/js/core/Logger.js"></script>
+<script src="<?= $bp ?>assets/js/core/SimpleAPI.js"></script>
+<script src="<?= $bp ?>assets/js/core/alert.js"></script>
+<script src="<?= $bp ?>assets/js/core/utils.js"></script>
 
 <!-- ============================================================
      3. MÓDULOS DE LA APLICACIÓN
      ============================================================ -->
-<script src="assets/js/modules/inventarioGenerico.js"></script>
-<script src="assets/js/modules/compras.js"></script>
-<script src="assets/js/modules/proveedores.js"></script>
-<script src="assets/js/modules/inventarioFormulas.js"></script>
-<script src="assets/js/modules/informeProduccion.js"></script>
-<script src="assets/js/modules/marcas.js"></script>
-<script src="assets/js/modules/bannerPromociones.js"></script>
-<script src="assets/js/modules/descuentos.js"></script>
-<script src="assets/js/modules/configuracion.js"></script>
 
 <!-- ============================================================
      4. INICIALIZACIÓN PRINCIPAL
      ============================================================ -->
-<script src="assets/js/main.js"></script>
+<script src="<?= $bp ?>assets/js/modules/inventarioGenerico.js"></script>
+<script src="<?= $bp ?>assets/js/modules/compras.js"></script>
+<script src="<?= $bp ?>assets/js/modules/proveedores.js"></script>
+<script src="<?= $bp ?>assets/js/modules/inventarioFormulas.js"></script>
+<script src="<?= $bp ?>assets/js/modules/informeProduccion.js"></script>
+<script src="<?= $bp ?>assets/js/modules/marcas.js"></script>
+<script src="<?= $bp ?>assets/js/modules/bannerPromociones.js"></script>
+<script src="<?= $bp ?>assets/js/modules/descuentos.js"></script>
+<script src="<?= $bp ?>assets/js/modules/configuracion.js"></script>
+
+<script src="<?= $bp ?>assets/js/main.js"></script>
+
+<!-- ============================================================
+     LOGOUT HANDLER
+     ============================================================ -->
+<script>
+    // Manejar click en botón de logout
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Confirmar logout
+                Swal.fire({
+                    title: '¿Cerrar sesión?',
+                    text: 'Se cerrará tu sesión actual',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sí, cerrar sesión',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Realizar logout
+                        const formData = new FormData();
+                        formData.append('accion', 'logout');
+
+                        fetch('<?= $bp ?>ajax/login.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Redirigir al login
+                                window.location.href = '<?= $bp ?>login';
+                            } else {
+                                Swal.fire('Error', 'Error al cerrar sesión', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al logout:', error);
+                            Swal.fire('Error', 'Error de conexión', 'error');
+                        });
+                    }
+                });
+            });
+        }
+    });
+</script>
 
 </body>
 </html>

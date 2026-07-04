@@ -139,5 +139,17 @@ class ServiceContainer {
         }
         return self::$instances['usuariosService'];
     }
+
+    public static function getLoginService(): LoginService {
+        if (!isset(self::$instances['loginService'])) {
+            require_once(DIR_MODEL . 'LoginModel.php');
+            require_once(DIR_SERVICE . 'LoginService.php');
+
+            $loginModel = new LoginModel();
+
+            self::$instances['loginService'] = new LoginService($loginModel);
+        }
+        return self::$instances['loginService'];
+    }
 }
 
