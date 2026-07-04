@@ -1,6 +1,8 @@
 const ConfiguracionAPI = {
     catalogoClient: new SimpleAPI(CONFIG.AJAX.CATALOGO),
+    usuariosClient: new SimpleAPI(CONFIG.AJAX.USUARIOS),
 
+    // CATEGORIAS DE PRODUCTOS
     async categoriasProductos() {
         const response = await this.catalogoClient.get({ accion: 'listadoCategorias' });
         return await response && response.data ? response.data : [];
@@ -18,10 +20,11 @@ const ConfiguracionAPI = {
         return await this.catalogoClient.post(formData);
     },
 
+    // TIPOS DE PRODUCTOS
     async obtenerTiposProductos() {
         const response = await this.catalogoClient.get({ accion: 'listadoTiposProductos' });
         return await response && response.data ? response.data : [];
-    },  
+    },
 
     async crearTiposProductos(formData) {
         return await this.catalogoClient.post(formData);
@@ -30,11 +33,12 @@ const ConfiguracionAPI = {
     async actualizarTiposProductos(formData) {
         return await this.catalogoClient.post(formData);
     },
-    
+
     async eliminarTiposProductos(formData) {
         return await this.catalogoClient.post(formData);
     },
 
+    // SEDES
     async obtenerSedes() {
         const response = await this.catalogoClient.get({ accion: 'listadoSedes' });
         return await response && response.data ? response.data : [];
@@ -47,13 +51,91 @@ const ConfiguracionAPI = {
     async actualizarSedes(formData) {
         return await this.catalogoClient.post(formData);
     },
-    
+
     async eliminarSedes(formData) {
         return await this.catalogoClient.post(formData);
+    },
+
+    // PERMISOS
+    async obtenerPermisos() {
+        const response = await this.usuariosClient.get({ accion: 'listadoPermisos' });
+        return await response && response.data ? response.data : [];
+    },
+
+    async crearPermisos(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async actualizarPermisos(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async eliminarPermisos(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    // PERFIL DE USUARIO
+    async obtenerPerfilUsuario() {
+        const response = await this.usuariosClient.get({ accion: 'listadoPerfiles' });
+        return await response && response.data ? response.data : [];
+    },
+
+    async crearPerfilUsuario(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async actualizarPerfilUsuario(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async eliminarPerfilUsuario(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    // USUARIOS
+    async obtenerUsuarios() {
+        const response = await this.usuariosClient.get({ accion: 'listadoUsuarios' });
+        return await response && response.data ? response.data : [];
+    },
+
+    async registrarUsuario(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async actualizarUsuarios(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async eliminarUsuarios(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    // PERFIL - PERMISOS
+    async obtenerPermisosDelPerfil(idPerfil) {
+        const response = await this.usuariosClient.get({
+            accion: 'obtenerPermisosDelPerfil',
+            idPerfil: idPerfil
+        });
+        return await response && response.data ? response.data : [];
+    },
+
+    async listadoPerfilPermisos() {
+        const response = await this.usuariosClient.get({ accion: 'listadoPerfilPermisos' });
+        return await response && response.data ? response.data : [];
+    },
+
+    async asignarPermisosAlPerfil(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
+    async eliminarPermisosDelPerfil(formData) {
+        return await this.usuariosClient.post(formData);
     }
 };
 
 const ConfiguracionView = {
+
+    // CATEGORIAS DE PRODUCTOS
     renderCategoriasProductos(categorias) {
         const tbody = document.querySelector('#tablaCategoriaProductos tbody');
         tbody.innerHTML = '';
@@ -77,6 +159,7 @@ const ConfiguracionView = {
         });
     },
 
+    // TIPOS DE PRODUCTOS
     renderTiposProductos(tipos) {
         const tbody = document.querySelector('#tablaTipoProductos tbody');
         tbody.innerHTML = '';
@@ -100,6 +183,7 @@ const ConfiguracionView = {
         });
     },
 
+    // SEDES
     renderSedes(sedes) {
         const tbody = document.querySelector('#tablaSedes tbody');
         tbody.innerHTML = '';
@@ -133,7 +217,206 @@ const ConfiguracionView = {
         $("#responsableSede").val(sede ? sede.responsable_sede : '');
         $("#telefonoSede").val(sede ? sede.telefono_sede : '');
         $("#btnRegistrarSede").html(sede ? 'Actualizar' : 'Registrar');
+    },
+
+    // PERMISOS
+    renderPermisos(permisos) {
+        const tbody = document.querySelector('#tablaPermisos tbody');
+        tbody.innerHTML = '';
+        
+        if (permisos.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4">No hay permisos registrados.</td></tr>';
+            return;
+        }
+
+        permisos.forEach(permiso => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${permiso.id_permiso}</td>
+                <td>${permiso.nombre_permiso}</td>
+                <td>${permiso.descripcion_permiso}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning btnEditar" data-id="${permiso.id_permiso}"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${permiso.id_permiso}"><i class="fa-regular fa-trash-can"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    },
+
+    // TIPOS USUARIO
+    renderPerfiles(tiposUsuario) {
+        const tbody = document.querySelector('#tablaPerfiles tbody');
+        tbody.innerHTML = '';
+        if (tiposUsuario.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4">No hay tipos de usuario registrados.</td></tr>';
+            return;
+        }
+
+        tiposUsuario.forEach(perfil => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${perfil.id_perfil_usuario}</td>
+                <td>${perfil.nombre_perfil_usuario}</td>
+                <td>${perfil.descripcion_perfil_usuario || ''}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning btnEditar" data-id="${perfil.id_perfil_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${perfil.id_perfil_usuario}"><i class="fa-regular fa-trash-can"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    },
+
+    // USUARIOS
+    renderUsuarios(usuarios) {
+        const tbody = document.querySelector('#tablaUsuarios tbody');
+        tbody.innerHTML = '';
+        if (usuarios.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7">No hay usuarios registrados.</td></tr>';
+            return;
+        }
+        usuarios.forEach(usuario => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${usuario.id_usuario}</td>
+                <td>${usuario.nombre_usuario}</td>
+                <td>${usuario.user_usuario}</td>
+                <td>${usuario.pass_usaurio}</td>
+                <td>${usuario.nombre_perfil_usuario}</td>
+                <td>${usuario.nombre_estado}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning btnEditar" data-id="${usuario.id_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${usuario.id_usuario}"><i class="fa-regular fa-trash-can"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    },
+
+    renderFormularioEditarUsuario(usuario) {
+        $("#idUsuario").val(usuario ? usuario.id_usuario : '');
+        $("#nombreUsuario").val(usuario ? usuario.nombre_usuario : '');
+        $("#userUsuario").val(usuario ? usuario.user_usuario : '');
+        $("#perfilUsuario").val(usuario ? usuario.id_perfil_usuario : '');
+        $("#estadoUsuario").val(usuario ? usuario.id_estado : '');
+        $("#btnRegistrarUsuario").html(usuario ? 'Actualizar' : 'Registrar');
+    },
+
+    renderSeleccionPerfil(perfiles) {
+        const select = document.querySelector('#perfilUsuario');
+        select.innerHTML = '<option value="">Seleccione un perfil</option>';
+
+        if (perfiles.length === 0) {
+            console.warn('No hay perfiles disponibles');
+            return;
+        }
+
+        perfiles.forEach(perfil => {
+            const option = document.createElement('option');
+            option.value = perfil.id_perfil_usuario || perfil.id_perfil || '';
+            option.textContent = perfil.nombre_perfil_usuario || perfil.nombre_perfil || 'Sin nombre';
+            console.log('Agregando perfil:', option.value, option.textContent);
+            select.appendChild(option);
+        });
+    },
+
+    // Agregar métodos al ConfiguracionView para perfil-permisos
+    renderCheckboxPermisos(permisos, idsAsignados) {
+        const container = document.getElementById('containerCheckboxPermisos');
+        container.innerHTML = '';
+
+        if (!Array.isArray(permisos) || permisos.length === 0) {
+            container.innerHTML = '<p class="text-muted text-center pt-5">No hay permisos disponibles</p>';
+            return;
+        }
+
+        console.log('Renderizando permisos:', permisos);
+        console.log('IDs asignados:', idsAsignados);
+
+        // Usar grid de 3 columnas (responsive con Bootstrap)
+        const placeholder = document.getElementById('placeholderPermisos');
+        if (placeholder) placeholder.remove();
+
+        let html = '<div class="row">';
+
+        permisos.forEach(permiso => {
+            const idPermiso = permiso.id_permiso || '';
+            const nombrePermiso = permiso.nombre_permiso || 'Sin nombre';
+            const descripcionPermiso = permiso.descripcion_permiso || '';
+            const isChecked = idsAsignados.includes(Number(idPermiso)) ? 'checked' : '';
+
+            html += `
+                <div class="col-12 col-md-4 mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="permiso_${idPermiso}"
+                            value="${idPermiso}" ${isChecked}>
+                        <label class="form-check-label" for="permiso_${idPermiso}">
+                            <strong>${nombrePermiso}</strong>
+                            <div class="text-muted small">${descripcionPermiso}</div>
+                        </label>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+        // Añadir separación para empujar la tabla abajo solo cuando se muestran permisos
+        container.classList.add('mt-3');
+    },
+
+    renderSeleccionPerfilPermisos(perfiles) {
+        const select = document.querySelector('#perfilUsuarioPermiso');
+        select.innerHTML = '<option value="">Seleccione un perfil</option>';
+
+        if (perfiles.length === 0) {
+            console.warn('No hay perfiles disponibles');
+            return;
+        }
+
+        perfiles.forEach(perfil => {
+            const option = document.createElement('option');
+            option.value = perfil.id_perfil_usuario || perfil.id_perfil || '';
+            option.textContent = perfil.nombre_perfil_usuario || perfil.nombre_perfil || 'Sin nombre';
+            select.appendChild(option);
+        });
+    },
+
+    renderTablaPerfilPermisos(datos) {
+    const tbody = document.querySelector('#tablaPerfilPermisos tbody');
+    tbody.innerHTML = '';
+
+    if (!Array.isArray(datos) || datos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No hay relaciones perfil-permisos registradas.</td></tr>';
+        return;
     }
+
+    datos.forEach(item => {
+        const idPerfil = item.id_perfil_usuario || item.id_perfil || '';
+        const nombrePerfil = item.nombre_perfil_usuario || item.nombre_perfil || 'Sin nombre';
+        const permisosAsignados = item.permisos_asignados || 'Sin permisos asignados';
+        const cantidad = item.cantidad_permisos || 0;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${nombrePerfil}</strong></td>
+            <td style="text-align: left; font-size: 1.6rem; max-width: 400px;">
+                <small>${permisosAsignados}</small>
+            </td>
+            <td>
+                <span class="badge bg-primary">${cantidad}</span>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger btnEliminarPermisos"
+                        data-id="${idPerfil}" title="Eliminar todos los permisos">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
 };
 
 const ConfiguracionModule = {
@@ -143,7 +426,9 @@ const ConfiguracionModule = {
     },
 
     bindEvents() {
+        const self = this;
 
+        /* Categorías de Productos */
         $("#tab-categoriaProductos").on("click", async () => this.listadoCategoriasProductos());
         $("#form-categoria-productos").on("submit", async (e) => this.crearCategoriaProducto(e));
         $("#tablaCategoriaProductos").on("click", ".btnEditar", (e) => {
@@ -155,6 +440,7 @@ const ConfiguracionModule = {
             this.eliminarCategoriaProducto(idCategoria);
         });
 
+        /* Tipos de Productos */
         $("#tab-tiposProductos").on("click", async () => this.listadoTiposProductos());
         $("#form-tipo-productos").on("submit", async (e) => this.crearTipoProducto(e));
         $("#tablaTipoProductos").on("click", ".btnEditar", (e) => {
@@ -166,6 +452,7 @@ const ConfiguracionModule = {
             this.eliminarTipoProducto(idTipoProducto);
         });
 
+        /* Sedes */
         $("#tab-sedes").on("click", async () => this.listadoSedes());
         $("#form-sedes").on("submit", async (e) => this.crearSede(e));
         $("#tablaSedes").on("click", ".btnEditar", (e) => {
@@ -175,6 +462,61 @@ const ConfiguracionModule = {
         $("#tablaSedes").on("click", ".btnEliminar", (e) => {
             const idSede = $(e.currentTarget).data("id");
             this.eliminarSede(idSede);
+        });
+
+        /* Permisos */
+        $("#tab-permisos").on("click", async () => this.listadoPermisos());
+        $("#form-permisos").on("submit", async (e) => this.crearPermiso(e));
+        $("#tablaPermisos").on("click", ".btnEditar", (e) => {
+            const idPermiso = $(e.currentTarget).data("id");
+            this.obtenerPermiso(idPermiso);
+        });
+        $("#tablaPermisos").on("click", ".btnEliminar", (e) => {
+            const idPermiso = $(e.currentTarget).data("id");
+            this.eliminarPermiso(idPermiso);
+        });
+
+        /* Perfiles de Usuario */
+        $("#tab-perfilUsuarios").on("click", async () => this.listadoPerfiles());
+        $("#form-perfiles").on("submit", async (e) => this.crearPerfil(e));
+        $("#tablaPerfiles").on("click", ".btnEditar", (e) => {
+            const idPerfil = $(e.currentTarget).data("id");
+            this.obtenerPerfil(idPerfil);
+        });
+        $("#tablaPerfiles").on("click", ".btnEliminar", (e) => {
+            const idPerfil = $(e.currentTarget).data("id");
+            this.eliminarPerfil(idPerfil);
+        });
+
+        /* Usuarios */
+        $("#tab-usuarios").on("click", async () => this.listadoUsuarios());
+        $("#form-usuarios").on("submit", async (e) => this.crearUsuario(e));
+        $("#tablaUsuarios").on("click", ".btnEditar", (e) => {
+            const idUsuario = $(e.currentTarget).data("id");
+            this.obtenerUsuario(idUsuario);
+        });
+        $("#tablaUsuarios").on("click", ".btnEliminar", (e) => {
+            const idUsuario = $(e.currentTarget).data("id");
+            this.eliminarUsuario(idUsuario);
+        });
+
+        /* Perfil Usuario - Permisos */
+        $("#tab-perfilUsuariosPermisos").on("click", async () => {
+            await this.listadoPerfilPermisos();
+        });
+
+        $(document).on("change", "#perfilUsuarioPermiso", async function() {
+            const idPerfil = $(this).val();
+            await self.cargarPermisosDelPerfil(idPerfil);
+        });
+
+        $("#form-perfilUsuariosPermisos").on("submit", async (e) => {
+            await this.asignarPermisosAlPerfil(e);
+        });
+
+        $(document).on("click", ".btnEliminarPermisos", async function() {
+            const idPerfil = $(this).data("id");
+            await self.eliminarPermisoDelPerfil(idPerfil);
         });
     },
 
@@ -243,6 +585,9 @@ const ConfiguracionModule = {
             return;
         }
         try {
+            const result = await Alerts.confirmation("Actualizar categoría", "¿Está seguro de que desea actualizar esta categoría?");
+            if (!result.isConfirmed) return;
+
             const response = await ConfiguracionAPI.actualizarCategoriasProductos(formData);
             if (response && response.success) {
                 Alerts.success("Éxito", "Categoría actualizada correctamente");
@@ -260,6 +605,9 @@ const ConfiguracionModule = {
 
     async eliminarCategoriaProducto(idCategoria) {
         try {
+            const result = await Alerts.confirmation("Eliminar categoría", "¿Está seguro de que desea eliminar esta categoría?");
+            if (!result.isConfirmed) return;
+
             const formData = new FormData();
             formData.append('accion', 'eliminarCategoria');
             formData.append('idCategoria', idCategoria);
@@ -336,6 +684,9 @@ const ConfiguracionModule = {
             return;
         }
         try {
+            const result = await Alerts.confirmation("Actualizar tipo de producto", "¿Está seguro de que desea actualizar este tipo de producto?");
+            if (!result.isConfirmed) return;
+
             const response = await ConfiguracionAPI.actualizarTiposProductos(formData);
             if (response && response.success) {
                 Alerts.success("Éxito", "Tipo de producto actualizado correctamente");
@@ -353,6 +704,9 @@ const ConfiguracionModule = {
 
     async eliminarTipoProducto(idTipoProducto) {
         try {
+            const result = await Alerts.confirmation("Eliminar tipo de producto", "¿Está seguro de que desea eliminar este tipo de producto?");
+            if (!result.isConfirmed) return;
+
             const formData = new FormData();
             formData.append('accion', 'eliminarTipoProducto');
             formData.append('idTipoProducto', idTipoProducto);
@@ -421,8 +775,7 @@ const ConfiguracionModule = {
     async actualizarSedes(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        console.log(formData);
-        
+
         formData.append('accion', 'actualizarSede');
         formData.append('idSede', $("#idSede").val());
         if (!formData.get('nombreSede')) {
@@ -430,6 +783,9 @@ const ConfiguracionModule = {
             return;
         }
         try {
+            const result = await Alerts.confirmation("Actualizar sede", "¿Está seguro de que desea actualizar esta sede?");
+            if (!result.isConfirmed) return;
+
             const response = await ConfiguracionAPI.actualizarSedes(formData);
             if (response && response.success) {
                 Alerts.success("Éxito", "Sede actualizada correctamente");
@@ -447,6 +803,9 @@ const ConfiguracionModule = {
 
     async eliminarSede(idSede) {
         try {
+            const result = await Alerts.confirmation("Eliminar sede", "¿Está seguro de que desea eliminar esta sede?");
+            if (!result.isConfirmed) return;
+
             const formData = new FormData();
             formData.append('accion', 'eliminarSede');
             formData.append('idSede', idSede);
@@ -461,8 +820,446 @@ const ConfiguracionModule = {
             console.error('Error al eliminar sede:', error);
             Alerts.error("Error", "Ocurrió un error al eliminar la sede");
         }
+    },
+
+    //TODO: Implementación de funciones para permisos
+    async listadoPermisos() {
+        try {
+            $("#form-permisos")[0].reset();
+            $("#btnRegistrarPermiso").html('Registrar');
+            const permisos = await ConfiguracionAPI.obtenerPermisos();
+            ConfiguracionView.renderPermisos(permisos);
+            
+        } catch (error) {
+            console.error('Error al cargar permisos:', error);
+        }
+    },
+
+    async crearPermiso(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('accion', 'registrarPermiso');
+        if (!formData.get('nombrePermiso')) {
+            Alerts.warning("Cuidado", "El nombre del permiso es obligatorio");
+            return;
+        }
+        try {
+            const response = await ConfiguracionAPI.crearPermisos(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Permiso creado correctamente");
+                this.listadoPermisos();
+                e.target.reset();
+            } else {
+                Alerts.error("Error", "No se pudo crear el permiso");
+            }
+        } catch (error) {
+            console.error('Error al crear permiso:', error);
+            Alerts.error("Error", "Ocurrió un error al crear el permiso");
+        }
+    },
+
+    async obtenerPermiso(idPermiso) {
+        try {
+            const permisos = await ConfiguracionAPI.obtenerPermisos();
+            const dataPermiso = permisos.find(permiso => permiso.id_permiso === idPermiso) || null;
+            $("#idPermiso").val(dataPermiso ? dataPermiso.id_permiso : '');
+            $("#nombrePermiso").val(dataPermiso ? dataPermiso.nombre_permiso : '');
+            $("#descripcionPermiso").val(dataPermiso ? dataPermiso.descripcion_permiso : '');
+            $("#btnRegistrarPermiso").html('Actualizar');
+            $("#form-permisos").off("submit").on("submit", async (e) => this.actualizarPermisos(e));
+            return dataPermiso;
+        } catch (error) {
+            console.error('Error al obtener permiso:', error);
+            return null;
+        }
+    },
+
+    async actualizarPermisos(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('accion', 'actualizarPermiso');
+        formData.append('idPermiso', $("#idPermiso").val());
+        if (!formData.get('nombrePermiso')) {
+            Alerts.warning("Cuidado", "El nombre del permiso es obligatorio");
+            return;
+        }
+        try {
+            const result = await Alerts.confirmation("Actualizar permiso", "¿Está seguro de que desea actualizar este permiso?");
+            if (!result.isConfirmed) return;
+
+            const response = await ConfiguracionAPI.actualizarPermisos(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Permiso actualizado correctamente");
+                this.listadoPermisos();
+                e.target.reset();
+                $("#btnRegistrarPermiso").html('Registrar');
+            } else {
+                Alerts.error("Error", "No se pudo actualizar el permiso");
+            }
+        } catch (error) {
+            console.error('Error al actualizar permiso:', error);
+            Alerts.error("Error", "Ocurrió un error al actualizar el permiso");
+        }
+    },
+
+    async eliminarPermiso(idPermiso) {
+        try {
+            const result = await Alerts.confirmation("Eliminar permiso", "¿Está seguro de que desea eliminar este permiso?");
+            if (!result.isConfirmed) return;
+
+            const formData = new FormData();
+            formData.append('accion', 'eliminarPermiso');
+            formData.append('idPermiso', idPermiso);
+            const response = await ConfiguracionAPI.eliminarPermisos(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Permiso eliminado correctamente");
+                this.listadoPermisos();
+            } else {
+                Alerts.error("Error", "No se pudo eliminar el permiso");
+            }
+        } catch (error) {
+            console.error('Error al eliminar permiso:', error);
+            Alerts.error("Error", "Ocurrió un error al eliminar el permiso");
+        }
+    },
+
+    //TODO: Implementación de funciones para perfiles de usuario
+    async listadoPerfiles() {
+        try {
+            $("#form-perfiles")[0].reset();
+            $("#btnRegistrarPerfil").html('Registrar');
+            const perfiles = await ConfiguracionAPI.obtenerPerfilUsuario();
+            ConfiguracionView.renderPerfiles(perfiles);
+        } catch (error) {
+            console.error('Error al cargar perfiles de usuario:', error);
+        }
+    },
+
+    async crearPerfil(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('accion', 'registrarPerfil');
+        if (!formData.get('nombrePerfil')) {
+            Alerts.warning("Cuidado", "El nombre del perfil es obligatorio");
+            return;
+        }
+        try {
+            const response = await ConfiguracionAPI.crearPerfilUsuario(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Perfil de usuario creado correctamente");
+                this.listadoPerfiles();
+                e.target.reset();
+            } else {
+                Alerts.error("Error", "No se pudo crear el perfil de usuario");
+            }
+        } catch (error) {
+            console.error('Error al crear perfil de usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al crear el perfil de usuario");
+        }
+    },
+
+    async obtenerPerfil(idPerfil) {
+        try {
+            const perfiles = await ConfiguracionAPI.obtenerPerfilUsuario();
+            const dataPerfil = perfiles.find(perfil => perfil.id_perfil_usuario === idPerfil) || null;
+            $("#idPerfil").val(dataPerfil ? dataPerfil.id_perfil_usuario : '');
+            $("#nombrePerfil").val(dataPerfil ? dataPerfil.nombre_perfil_usuario : '');
+            $("#descripcionPerfil").val(dataPerfil ? dataPerfil.descripcion_perfil_usuario : '');
+            $("#btnRegistrarPerfil").html('Actualizar');
+            $("#form-perfiles").off("submit").on("submit", async (e) => this.actualizarPerfiles(e));
+            return dataPerfil;
+        } catch (error) {
+            console.error('Error al obtener perfil de usuario:', error);
+            return null;
+        }
+    },
+
+    async actualizarPerfiles(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('accion', 'actualizarPerfil');
+        formData.append('idPerfil', $("#idPerfil").val());
+        if (!formData.get('nombrePerfil')) {
+            Alerts.warning("Cuidado", "El nombre del perfil es obligatorio");
+            return;
+        }
+        try {
+            const result = await Alerts.confirmation("Actualizar perfil", "¿Está seguro de que desea actualizar este perfil de usuario?");
+            if (!result.isConfirmed) return;
+
+            const response = await ConfiguracionAPI.actualizarPerfilUsuario(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Perfil de usuario actualizado correctamente");
+                this.listadoPerfiles();
+                e.target.reset();
+                $("#btnRegistrarPerfil").html('Registrar');
+            } else {
+                Alerts.error("Error", "No se pudo actualizar el perfil de usuario");
+            }
+        } catch (error) {
+            console.error('Error al actualizar perfil de usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al actualizar el perfil de usuario");
+        }
+    },
+
+    async eliminarPerfil(idPerfil) {
+        try {
+            const result = await Alerts.confirmation("Eliminar perfil", "¿Está seguro de que desea eliminar este perfil de usuario?");
+            if (!result.isConfirmed) return;
+
+            const formData = new FormData();
+            formData.append('accion', 'eliminarPerfil');
+            formData.append('idPerfil', idPerfil);
+            const response = await ConfiguracionAPI.eliminarPerfilUsuario(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Perfil de usuario eliminado correctamente");
+                this.listadoPerfiles();
+            } else {
+                Alerts.error("Error", "No se pudo eliminar el perfil de usuario");
+            }
+        } catch (error) {
+            console.error('Error al eliminar perfil de usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al eliminar el perfil de usuario");
+        }
+    },
+
+    //TODO: Implementación de funciones para usuarios
+    async listadoUsuarios() {
+        try {
+            $("#form-usuarios")[0].reset();
+            $("#btnRegistrarUsuario").html('Registrar');
+            const usuarios = await ConfiguracionAPI.obtenerUsuarios();
+            ConfiguracionView.renderUsuarios(usuarios);
+            await this.obtenerPerfilesSelect();
+        } catch (error) {
+            console.error('Error al cargar usuarios:', error);
+        }
+    },
+
+    async obtenerPerfilesSelect() {
+        try {
+            const perfiles = await ConfiguracionAPI.obtenerPerfilUsuario();
+            ConfiguracionView.renderSeleccionPerfil(perfiles);
+        } catch (error) {
+            console.error('Error al obtener perfiles de usuario:', error);
+            return [];
+        }
+    },
+
+    async crearUsuario(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('accion', 'registrarUsuario');
+        if (!formData.get('nombreUsuario') || !formData.get('userUsuario') || !formData.get('perfilUsuario') || !formData.get('passwordUsuario')) {
+            Alerts.warning("Cuidado", "Los campos de nombre, usuario y perfil de usuario son obligatorios");
+            return;
+        }
+        try {
+            const response = await ConfiguracionAPI.registrarUsuario(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Usuario creado correctamente");
+                this.listadoUsuarios();
+                e.target.reset();
+            } else {
+                Alerts.error("Error", "No se pudo crear el usuario");
+            }
+        } catch (error) {
+            console.error('Error al crear usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al crear el usuario");
+        }
+    },
+    
+    async obtenerUsuario(idUsuario) {
+        try {
+            const usuarios = await ConfiguracionAPI.obtenerUsuarios();
+            const dataUsuario = usuarios.find(usuario => usuario.id_usuario === idUsuario) || null;
+            ConfiguracionView.renderFormularioEditarUsuario(dataUsuario);
+            $("#form-usuarios").off("submit").on("submit", async (e) => this.actualizarUsuario(e));
+            return dataUsuario;
+        } catch (error) {
+            console.error('Error al obtener usuario:', error);
+            return null;
+        }
+    },
+    
+    async actualizarUsuario(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('accion', 'actualizarUsuario');
+        formData.append('idUsuario', $("#idUsuario").val());
+        if (!formData.get('nombreUsuario') || !formData.get('userUsuario') || !formData.get('perfilUsuario')) {
+            Alerts.warning("Cuidado", "Los campos de nombre, usuario y perfil de usuario son obligatorios");
+            return;
+        }
+        try {
+            const result = await Alerts.confirmation("Actualizar usuario", "¿Está seguro de que desea actualizar este usuario?");
+            if (!result.isConfirmed) return;
+            
+            const response = await ConfiguracionAPI.actualizarUsuarios(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Usuario actualizado correctamente");
+                this.listadoUsuarios();
+                e.target.reset();
+                $("#btnRegistrarUsuario").html('Registrar');
+            }
+        } catch (error) {
+            console.error('Error al actualizar usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al actualizar el usuario");
+        }
+    },
+
+    async eliminarUsuario(idUsuario) {
+        try {
+            const result = await Alerts.confirmation("Eliminar usuario", "¿Está seguro de que desea eliminar este usuario?");
+            if (!result.isConfirmed) return;
+
+            const formData = new FormData();
+            formData.append('accion', 'eliminarUsuario');
+            formData.append('idUsuario', idUsuario);
+            const response = await ConfiguracionAPI.eliminarUsuarios(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Usuario eliminado correctamente");
+                this.listadoUsuarios();
+            } else {
+                Alerts.error("Error", "No se pudo eliminar el usuario");
+            }
+        } catch (error) {
+            console.error('Error al eliminar usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al eliminar el usuario");
+        }
+    },
+
+    //TODO: Implementación de funciones para perfil-permisos
+    async listadoPerfilPermisos() {
+        try {
+            $("#form-perfilUsuariosPermisos")[0].reset();
+            $("#btnAsignarPermisos").prop('disabled', true);
+            const perfiles = await ConfiguracionAPI.obtenerPerfilUsuario();
+            ConfiguracionView.renderSeleccionPerfilPermisos(perfiles);
+            await this.cargarTablaPerfilPermisos();
+        } catch (error) {
+            console.error('Error al cargar perfil-permisos:', error);
+        }
+    },
+
+    async cargarTablaPerfilPermisos() {
+        try {
+            const response = await ConfiguracionAPI.usuariosClient.get({
+                accion: 'listadoPerfilPermisos'
+            });
+            const datos = response && response.data ? response.data : [];
+            ConfiguracionView.renderTablaPerfilPermisos(datos);
+        } catch (error) {
+            console.error('Error al cargar tabla perfil-permisos:', error);
+        }
+    },
+
+    async cargarPermisosDelPerfil(idPerfil) {
+        try {
+            console.log('Cargando permisos para perfil:', idPerfil);
+            if (!idPerfil) {
+                const container = document.getElementById('containerCheckboxPermisos');
+                container.innerHTML = '<p class="text-muted">Seleccione un perfil para ver los permisos disponibles</p>';
+                container.classList.remove('mt-3');
+                $("#btnAsignarPermisos").prop('disabled', true);
+                return;
+            }
+
+            const permisos = await ConfiguracionAPI.obtenerPermisos();
+            
+            const response = await ConfiguracionAPI.usuariosClient.get({
+                accion: 'obtenerPermisosDelPerfil',
+                idPerfil: idPerfil
+            });
+            
+            const permisosAsignados = response && response.data ? response.data : [];
+            const idsAsignados = permisosAsignados.map(p => p.id_permiso);
+            ConfiguracionView.renderCheckboxPermisos(permisos, idsAsignados);
+            $("#btnAsignarPermisos").prop('disabled', false);
+        } catch (error) {
+            console.error('Error al cargar permisos del perfil:', error);
+            Alerts.error("Error", "No se pudieron cargar los permisos");
+        }
+    },
+
+    async asignarPermisosAlPerfil(e) {
+        e.preventDefault();
+        const idPerfil = document.getElementById('perfilUsuarioPermiso').value;
+
+        if (!idPerfil) {
+            Alerts.warning("Cuidado", "Debe seleccionar un perfil");
+            return;
+        }
+
+        const checkboxes = document.querySelectorAll('#containerCheckboxPermisos input[type="checkbox"]');
+        const permisosSeleccionados = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        if (permisosSeleccionados.length === 0) {
+            Alerts.warning("Cuidado", "Debe seleccionar al menos un permiso");
+            return;
+        }
+
+        try {
+            const result = await Alerts.confirmation(
+                "Asignar Permisos",
+                `¿Está seguro de que desea asignar ${permisosSeleccionados.length} permiso(s) a este perfil?`
+            );
+            if (!result.isConfirmed) return;
+
+            const formData = new FormData();
+            formData.append('accion', 'asignarPermisosAlPerfil');
+            formData.append('idPerfil', idPerfil);
+            formData.append('permisos', JSON.stringify(permisosSeleccionados));
+
+            const response = await ConfiguracionAPI.usuariosClient.post(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Permisos asignados correctamente");
+                this.listadoPerfilPermisos();
+                this.cargarPermisosDelPerfil('');
+                e.target.reset();
+            } else {
+                Alerts.error("Error", response?.message || "No se pudieron asignar los permisos");
+            }
+        } catch (error) {
+            console.error('Error al asignar permisos:', error);
+            Alerts.error("Error", "Ocurrió un error al asignar los permisos");
+        }
+    },
+
+    async eliminarPermisoDelPerfil(idPerfil) {
+        try {
+            const result = await Alerts.confirmation(
+                "Eliminar Permisos",
+                "¿Está seguro de que desea eliminar todos los permisos de este perfil?"
+            );
+            if (!result.isConfirmed) return;
+
+            const formData = new FormData();
+            formData.append('accion', 'eliminarPermisosDelPerfil');
+            formData.append('idPerfil', idPerfil);
+
+            const response = await ConfiguracionAPI.usuariosClient.post(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Permisos eliminados correctamente");
+                this.listadoPerfilPermisos();
+            } else {
+                Alerts.error("Error", "No se pudieron eliminar los permisos");
+            }
+        } catch (error) {
+            console.error('Error al eliminar permisos:', error);
+            Alerts.error("Error", "Ocurrió un error al eliminar los permisos");
+        }
     }
+
 };
+
+
+
+
+
+
 
 // Exponer el módulo en `window` para que `main.js` lo encuentre
 window.ConfiguracionModule = ConfiguracionModule;

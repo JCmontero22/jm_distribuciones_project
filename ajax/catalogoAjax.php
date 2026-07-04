@@ -18,54 +18,20 @@ require_once('../config/config.php');
     };
 
     switch ($accion) {
+
+        // MARCAS
         case 'listadoMarcas':
             $resultado = $getCatalogoController()->obtenerMarcas();
             echo json_encode($resultado);
             break;
 
-        case 'listadoGeneros':
-            $resultado = $getCatalogoController()->obtenerGeneros();
-            echo json_encode($resultado);
-            break;
-
-        case 'listadoCategorias':
-            $resultado = $getCatalogoController()->obtenerCategorias();
-            echo json_encode($resultado);
-            break;
-
-        case 'listadoPresentaciones':
-            $resultado = $getCatalogoController()->obtenerPresentaciones();
-            echo json_encode($resultado);
-            break;
-
-        case 'listadoProductos':
-            $productoController = new ProductoController(ServiceContainer::getProductoService());
-            $resultado = $productoController->listarProductosActivos();
-            echo json_encode($resultado);
-            break;
-
-        case 'obtenerCatalogosCompletos':
-            $resultado = $getCatalogoController()->obtenerCatalogosCompletos();
-            echo json_encode($resultado);
-            break;
-
-        case 'listadoTiposProductos':
-            $resultado = $getCatalogoController()->obtenerTiposProductos();
-            echo json_encode($resultado);
-            break;
-
-        case 'listadoSedes':
-            $resultado = $getCatalogoController()->obtenerSedes();
+        case 'obtenerMarcaID':
+            $resultado = $getCatalogoController()->obtenerMarcaPorID($_GET['idMarca'] ?? 0);
             echo json_encode($resultado);
             break;
 
         case 'registroMarca':
             $resultado = $getCatalogoController()->registrarMarca($_POST['nombreMarca'] ?? '', $_FILES);
-            echo json_encode($resultado);
-            break;
-
-        case 'obtenerMarcaID':
-            $resultado = $getCatalogoController()->obtenerMarcaPorID($_GET['idMarca'] ?? 0);
             echo json_encode($resultado);
             break;
 
@@ -78,12 +44,18 @@ require_once('../config/config.php');
             $resultado = $getCatalogoController()->eliminarMarca((int)($_POST['idMarca'] ?? 0));
             echo json_encode($resultado);
             break;
-        
+
+        // CATEGORIAS
+        case 'listadoCategorias':
+            $resultado = $getCatalogoController()->obtenerCategorias();
+            echo json_encode($resultado);
+            break;
+
         case 'registrarCategoria':
             $resultado = $getCatalogoController()->registrarCategoria($_POST['nombreCategoria'] ?? '');
             echo json_encode($resultado);
             break;
-        
+
         case 'actualizarCategoria':
             $resultado = $getCatalogoController()->actualizarCategoria((int)($_POST['idCategoria'] ?? 0), $_POST['nombreCategoria'] ?? '');
             echo json_encode($resultado);
@@ -91,6 +63,12 @@ require_once('../config/config.php');
 
         case 'eliminarCategoria':
             $resultado = $getCatalogoController()->eliminarCategoria((int)($_POST['idCategoria'] ?? 0));
+            echo json_encode($resultado);
+            break;
+
+        // TIPOS DE PRODUCTOS
+        case 'listadoTiposProductos':
+            $resultado = $getCatalogoController()->obtenerTiposProductos();
             echo json_encode($resultado);
             break;
 
@@ -109,6 +87,12 @@ require_once('../config/config.php');
             echo json_encode($resultado);
             break;
 
+        // SEDES
+        case 'listadoSedes':
+            $resultado = $getCatalogoController()->obtenerSedes();
+            echo json_encode($resultado);
+            break;
+
         case 'registrarSede':
             $resultado = $getCatalogoController()->registrarSede($_POST);
             echo json_encode($resultado);
@@ -123,6 +107,31 @@ require_once('../config/config.php');
             $resultado = $getCatalogoController()->eliminarSede((int)($_POST['idSede'] ?? 0));
             echo json_encode($resultado);
             break;
+
+        // PRESENTACIONES
+        case 'listadoPresentaciones':
+            $resultado = $getCatalogoController()->obtenerPresentaciones();
+            echo json_encode($resultado);
+            break;
+
+        // PRODUCTOS
+        case 'listadoProductos':
+            $productoController = new ProductoController(ServiceContainer::getProductoService());
+            $resultado = $productoController->listarProductosActivos();
+            echo json_encode($resultado);
+            break;
+
+        //CATALOGO
+        case 'obtenerCatalogosCompletos':
+            $resultado = $getCatalogoController()->obtenerCatalogosCompletos();
+            echo json_encode($resultado);
+            break;
+
+        // GENEROS
+        case 'listadoGeneros':
+            $resultado = $getCatalogoController()->obtenerGeneros();
+            echo json_encode($resultado);
+            break;        
 
         default:
             echo json_encode(response::error('Acción no válida', ['accion' => $accion]));

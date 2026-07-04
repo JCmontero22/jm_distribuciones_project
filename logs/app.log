@@ -10785,3 +10785,553 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-07-02 04:39:27] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.usuarios' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usaurio, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuarios u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estados e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:39:27] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:42:12] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.usuarios' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usaurio, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuarios u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estados e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:42:12] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:43:18] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.usuarios' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usaurio, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuarios u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estados e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:43:18] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:43:40] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.usuarios' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usaurio, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuarios u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estados e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:43:40] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:44:37] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jm_distribuciones.estados' doesn't exist
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usaurio, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuario u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estados e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:44:37] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:45:19] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.id_perfil_usuario' in 'on clause'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usaurio, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuario u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estado e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:45:19] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(16): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:56:57] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.usuario' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(17): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.usuario, u.password, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuario u
+                      JOIN perfil_usuario p ON u.id_perfil_usuario = p.id_perfil_usuario
+                      JOIN estado e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:56:57] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(17): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:58:09] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.usuario' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(17): UsuariosService->obtenerUsuarios()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT u.id_usuario, u.nombre_usuario, u.usuario, u.password, p.nombre_perfil_usuario, e.nombre_estado
+                      FROM usuario u
+                      JOIN perfil_usuario p ON u.id_perfil = p.id_perfil_usuario
+                      JOIN estado e ON u.id_estado = e.id_estado
+                      WHERE u.id_estado = 1
+    [params] => Array
+        (
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 04:58:09] ERROR: Error al obtener usuarios
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/UsuariosModel.php(13): conexion->select('SELECT u.id_usu...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/UsuariosService.php(24): UsuariosModel->obtenerUsuarios()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/UsuariosController.php(17): UsuariosService->obtenerUsuarios()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/usuariosAjax.php(21): UsuariosController->obtenerUsuarios()
+#4 {main}
+Context:
+Array
+(
+    [accion] => listadoUsuarios
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-07-02 05:10:24] DEBUG: AJAX registrarUsuario - incoming POST
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:12:03] DEBUG: AJAX registrarUsuario - incoming POST
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:12:03] DEBUG: Controller registrarUsuario - received data
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:12:03] DEBUG: Controller registrarUsuario - validateRequiredFields result
+Context: {
+    "valid": true
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:12:47] DEBUG: AJAX registrarUsuario - incoming POST
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:12:47] DEBUG: Controller registrarUsuario - received data
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:12:47] DEBUG: Controller registrarUsuario - validateRequiredFields result
+Context: {
+    "valid": true
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:13:24] DEBUG: AJAX registrarUsuario - incoming POST
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:13:24] DEBUG: Controller registrarUsuario - received data
+Context: {
+    "nombreUsuario": "Johan Montero",
+    "userUsuario": "jmontero",
+    "passwordUsuario": "***REDACTED***",
+    "perfilUsuario": "1",
+    "accion": "registrarUsuario"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-02 05:13:24] DEBUG: Controller registrarUsuario - validateRequiredFields result
+Context: {
+    "valid": true
+}
+------------------------------------------------------------------------------------------------------------------------

@@ -11,6 +11,7 @@ class CatalogoController {
         $this->servicio = $servicio;
     }
 
+    // ✅ LÓGICA: Controladores Marca
     public function obtenerMarcas() {
         try {
             $data = $this->servicio->obtenerMarcas();
@@ -20,90 +21,6 @@ class CatalogoController {
         } catch (\Exception $e) {
             Logger::error("Error al obtener marcas", $e, $_REQUEST);
             return response::error('Error al obtener marcas');
-        }
-    }
-
-    public function obtenerGeneros() {
-        try {
-            $data = $this->servicio->obtenerGeneros();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener géneros", $e, $_REQUEST);
-            return response::error('Error al obtener géneros');
-        }
-    }
-
-    public function obtenerCategorias() {
-        try {
-            $data = $this->servicio->obtenerCategorias();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener categorías", $e, $_REQUEST);
-            return response::error('Error al obtener categorías');
-        }
-    }
-
-    public function obtenerPresentaciones() {
-        try {
-            $data = $this->servicio->obtenerPresentaciones();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener presentaciones", $e, $_REQUEST);
-            return response::error('Error al obtener presentaciones');
-        }
-    }
-
-    public function obtenerCatalogosCompletos() {
-        try {
-            $data = $this->servicio->obtenerCatalogosCompletos();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener catálogos completos", $e, $_REQUEST);
-            return response::error('Error al obtener catálogos completos');
-        }
-    }
-
-    public function obtenerTiposProductos() {
-        try {
-            $data = $this->servicio->obtenerTiposProductos();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener tipos de productos", $e, $_REQUEST);
-            return response::error('Error al obtener tipos de productos');
-        }
-    }
-
-    public function obtenerSedes() {
-        try {
-            $data = $this->servicio->obtenerSedes();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener sedes", $e, $_REQUEST);
-            return response::error('Error al obtener sedes');
-        }
-    }
-
-    public function obtenerInsumosFormulas() {
-        try {
-            $data = $this->servicio->obtenerInsumosFormulas();
-            return response::success($data);
-        } catch (\DomainException $e) {
-            return response::error($e->getMessage());
-        } catch (\Exception $e) {
-            Logger::error("Error al obtener insumos para fórmulas", $e, $_REQUEST);
-            return response::error('Error al obtener insumos para fórmulas');
         }
     }
 
@@ -155,6 +72,32 @@ class CatalogoController {
         }
     }
 
+    // ✅ LÓGICA: Controladores Genero
+    public function obtenerGeneros() {
+        try {
+            $data = $this->servicio->obtenerGeneros();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener géneros", $e, $_REQUEST);
+            return response::error('Error al obtener géneros');
+        }
+    }
+
+    // ✅ LÓGICA: Controladores Categoría
+    public function obtenerCategorias() {
+        try {
+            $data = $this->servicio->obtenerCategorias();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener categorías", $e, $_REQUEST);
+            return response::error('Error al obtener categorías');
+        }
+    }
+
     public function registrarCategoria(string $nombreCategoria) {
         try {
             $resultado = $this->servicio->registrarCategoria($nombreCategoria);
@@ -191,6 +134,45 @@ class CatalogoController {
         }
     }
 
+    // ✅ LÓGICA: Presentaciones
+    public function obtenerPresentaciones() {
+        try {
+            $data = $this->servicio->obtenerPresentaciones();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener presentaciones", $e, $_REQUEST);
+            return response::error('Error al obtener presentaciones');
+        }
+    }
+
+    // ✅ LÓGICA: Catálogos Completos
+    public function obtenerCatalogosCompletos() {
+        try {
+            $data = $this->servicio->obtenerCatalogosCompletos();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener catálogos completos", $e, $_REQUEST);
+            return response::error('Error al obtener catálogos completos');
+        }
+    }
+
+    // ✅ LÓGICA: Tipos de Productos
+    public function obtenerTiposProductos() {
+        try {
+            $data = $this->servicio->obtenerTiposProductos();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener tipos de productos", $e, $_REQUEST);
+            return response::error('Error al obtener tipos de productos');
+        }
+    }
+
     public function registrarTipoProducto(string $nombreTipoProducto) {
         try {
             $resultado = $this->servicio->registrarTipoProducto($nombreTipoProducto);
@@ -224,6 +206,19 @@ class CatalogoController {
         } catch (\Exception $e) {
             Logger::error("Error al eliminar tipo de producto", $e, ['idTipoProducto' => $idTipoProducto, 'request' => $_REQUEST]);
             return response::error('Error al eliminar tipo de producto');
+        }
+    }
+
+    // ✅ LÓGICA: Sedes
+    public function obtenerSedes() {
+        try {
+            $data = $this->servicio->obtenerSedes();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener sedes", $e, $_REQUEST);
+            return response::error('Error al obtener sedes');
         }
     }
 
@@ -283,4 +278,18 @@ class CatalogoController {
             return response::error('Error al eliminar sede');
         }
     }
+
+    // ✅ LÓGICA: Insumos para Fórmulas
+    public function obtenerInsumosFormulas() {
+        try {
+            $data = $this->servicio->obtenerInsumosFormulas();
+            return response::success($data);
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener insumos para fórmulas", $e, $_REQUEST);
+            return response::error('Error al obtener insumos para fórmulas');
+        }
+    }
+
 }

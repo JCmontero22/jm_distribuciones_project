@@ -11,7 +11,8 @@ class utils {
      */
     public static function validateRequiredFields($fields, $data) {
         foreach ($fields as $field) {
-            if (empty($data[$field]) || trim($data[$field]) === '') {
+            // Usar isset para permitir valores como '0' (empty('0') devuelve true)
+            if (!isset($data[$field]) || trim((string)$data[$field]) === '') {
                 return false;
             }
         }

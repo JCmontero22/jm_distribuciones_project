@@ -3,7 +3,6 @@
     require_once('../model/MarcaModel.php');
     require_once('../model/GeneroModel.php');
     require_once('../model/CategoriaModel.php');
-    // require_once('../model/PresentacionProductoModel.php');
     require_once('../model/TiposProductosModel.php');
     require_once('../model/SedesModel.php');
     require_once('../model/InsumoFormulasModel.php');
@@ -25,7 +24,7 @@
             TiposProductosModel $tiposProductoModel,
             SedesModel $sedesModel,
             InsumoFormulasModel $insumosFormulasModel,
-            localFileStorage $storage
+            LocalFileStorage $storage
         ) {
             $this->marcaModel = $marcaModel;
             $this->generoModel = $generoModel;
@@ -33,10 +32,10 @@
             $this->insumosFormulasModel = $insumosFormulasModel;
             $this->tiposProductoModel = $tiposProductoModel;
             $this->sedesModel = $sedesModel;
-            $this->storage = $storage; // Inicializar el almacenamiento local
+            $this->storage = $storage;
         }
 
-        // ✅ Obtener Marcas con validación
+        // ✅ Logica de Marcas
         public function obtenerMarcas() : array {
             $marcas = $this->marcaModel->obtenerTodos();
 
@@ -47,112 +46,15 @@
             return $marcas;
         }
 
-        // ✅ Obtener Géneros con validación
-        public function obtenerGeneros() : array {
-            $generos = $this->generoModel->obtenerTodos();
-
-            if (empty($generos)) {
-                return [];
-            }
-
-            return $generos;
-        }
-
-        // ✅ Obtener Categorías con validación
-        public function obtenerCategorias() : array {
-            $categorias = $this->categoriaModel->obtenerTodos();
-
-            if (empty($categorias)) {
-                return [];
-            }
-
-            return $categorias;
-        }
-
-        // ✅ Obtener Presentaciones con validación
-        public function obtenerPresentaciones() : array {
-            $presentaciones = $this->presentacionModel->obtenerTodos();
-
-            if (empty($presentaciones)) {
-                return [];
-            }
-
-            return $presentaciones;
-        }
-
-        // ✅ Obtener Tipos de Productos con validación
-        public function obtenerTiposProductos() : array {
-            $tipos = $this->tiposProductoModel->obtenerTiposProductos();
-            if (empty($tipos)) {
-                return [];
-            }
-            return $tipos;
-        }
-
-        // ✅ Obtener Insumos para Fórmulas
-        public function obtenerInsumosFormulas() : array {
-            $insumos = $this->insumosFormulasModel->listadoInsumosFormulas();
-            if (empty($insumos)) {
-                return [];
-            }
-            return $insumos;
-        }
-
-        // ✅ Obtener tipos de concentración
-        public function obtenerTiposConcentracion() : array {
-            return $this->insumosFormulasModel->listadoTiposConcentracion();
-        }
-
-        // ✅ Obtener Sedes con validación
-        public function obtenerSedes() : array {
-            $sedes = $this->sedesModel->obtenerSedes();
-            if (empty($sedes)) {
-                return [];
-            }
-            return $sedes;
-        }
-
         public function obtenerMarcaPorID(int $idMarca): ?array {
             return $this->marcaModel->obtenerMarcaPorID($idMarca);
         }
 
-        // ✅ LÓGICA: Obtener todos los catálogos de una vez (útil para inicialización)
-        public function obtenerCatalogosCompletos() : array {
-            return [
-                'marcas' => $this->obtenerMarcas(),
-                'generos' => $this->obtenerGeneros(),
-                'categorias' => $this->obtenerCategorias(),
-                'presentaciones' => $this->obtenerPresentaciones(),
-                'insumosFormulas' => $this->obtenerInsumosFormulas(),
-                'sedes' => $this->obtenerSedes()        
-            ];
-        }
-
-        // ✅ LÓGICA: Validar que una marca exista
         public function validarMarca($idMarca) : bool {
             $marcas = $this->obtenerMarcas();
             return in_array($idMarca, array_column($marcas, 'id_marca'));
         }
 
-        // ✅ LÓGICA: Validar que un género exista
-        public function validarGenero($idGenero) : bool {
-            $generos = $this->obtenerGeneros();
-            return in_array($idGenero, array_column($generos, 'id_genero'));
-        }
-
-        // ✅ LÓGICA: Validar que una categoría exista
-        public function validarCategoria($idCategoria) : bool {
-            $categorias = $this->obtenerCategorias();
-            return in_array($idCategoria, array_column($categorias, 'id_categoria'));
-        }
-
-        // ✅ LÓGICA: Validar que una presentación exista
-        public function validarPresentacion($idPresentacion) : bool {
-            $presentaciones = $this->obtenerPresentaciones();
-            return in_array($idPresentacion, array_column($presentaciones, 'id_presentacion'));
-        }
-
-        // ✅ LÓGICA: Para registrar marca nueva
         public function registrarMarca(string $nombreMarca, array $files) : bool {
             $nombreImagen = null;
             if (isset($files['imagenMarca']) && $files['imagenMarca']['error'] === UPLOAD_ERR_OK) {
@@ -161,8 +63,7 @@
 
             return $this->marcaModel->registrarMarca($nombreMarca, $nombreImagen);
         }
-
-        // ✅ LÓGICA: Para actualizar marca existente
+        
         public function actualizarMarca(int $idMarca, string $nombreMarca, array $files) : bool {
             $marca = $this->obtenerMarcaPorID($idMarca);
             if (!$marca) {
@@ -181,8 +82,7 @@
             return $this->marcaModel->actualizarMarca($idMarca, $nombreMarca, $nombreImagen ?? $marca[0]['img_marca']);
         }
 
-        // ✅ LÓGICA: Para eliminar marca existente
-        public function eliminarMarca(int $idMarca) : bool {
+         public function eliminarMarca(int $idMarca) : bool {
             $marca = $this->obtenerMarcaPorID($idMarca);
             if (!$marca) {
                 throw new DomainException('Marca no encontrada');
@@ -196,48 +96,122 @@
             return $this->marcaModel->eliminarMarca($idMarca);
         }
 
-        // ✅ LÓGICA: Para registrar categoría nueva
-        public function registrarCategoria(string $nombreCategoria) : bool {
-            return $this->categoriaModel->registrarCategoria($nombreCategoria);
+        // ✅ Logica de Tipos de Productos
+        public function obtenerTiposProductos() : array {
+            $tipos = $this->tiposProductoModel->obtenerTiposProductos();
+            if (empty($tipos)) {
+                return [];
+            }
+            return $tipos;
         }
 
-        // ✅ LÓGICA: Para actualizar categoría existente
-        public function actualizarCategoria(int $idCategoria, string $nombreCategoria) : bool {
-            return $this->categoriaModel->actualizarCategoria($idCategoria, $nombreCategoria);
-        }
-
-        // ✅ LÓGICA: Para eliminar categoría existente
-        public function eliminarCategoria(int $idCategoria) : bool {
-            return $this->categoriaModel->eliminarCategoria($idCategoria);
-        }
-
-        // ✅ LÓGICA: Para registrar tipo de producto nuevo
         public function registrarTipoProducto(string $nombreTipoProducto) : bool {
             return $this->tiposProductoModel->crearTipoProducto($nombreTipoProducto);
         }
-
-        // ✅ LÓGICA: Para actualizar tipo de producto existente
+        
         public function actualizarTipoProducto(int $idTipoProducto, string $nombreTipoProducto) : bool {
             return $this->tiposProductoModel->updateTipoProducto($idTipoProducto, $nombreTipoProducto);
         }
 
-        // ✅ LÓGICA: Para eliminar tipo de producto existente
         public function eliminarTipoProducto(int $idTipoProducto) : bool {
             return $this->tiposProductoModel->deleteTipoProducto($idTipoProducto); 
         }
 
-        // ✅ LÓGICA: Para registrar sede nueva
+        // ✅ Logica de Categorías
+        public function obtenerCategorias() : array {
+            $categorias = $this->categoriaModel->obtenerTodos();
+
+            if (empty($categorias)) {
+                return [];
+            }
+
+            return $categorias;
+        }
+
+        public function validarCategoria($idCategoria) : bool {
+            $categorias = $this->obtenerCategorias();
+            return in_array($idCategoria, array_column($categorias, 'id_categoria'));
+        }
+
+        public function registrarCategoria(string $nombreCategoria) : bool {
+            return $this->categoriaModel->registrarCategoria($nombreCategoria);
+        }
+
+        public function actualizarCategoria(int $idCategoria, string $nombreCategoria) : bool {
+            return $this->categoriaModel->actualizarCategoria($idCategoria, $nombreCategoria);
+        }
+
+        public function eliminarCategoria(int $idCategoria) : bool {
+            return $this->categoriaModel->eliminarCategoria($idCategoria);
+        }
+
+        //Logica de Sedes
+        public function obtenerSedes() : array {
+            $sedes = $this->sedesModel->obtenerSedes();
+            if (empty($sedes)) {
+                return [];
+            }
+            return $sedes;
+        }
+
         public function registrarSede(array $data) : bool {
             return $this->sedesModel->crearSede($data);
         }
-
-        // ✅ LÓGICA: Para actualizar sede existente
+        
         public function actualizarSede(array $data) : bool {
             return $this->sedesModel->actualizarSede($data);
         }
-
-        // ✅ LÓGICA: Para eliminar sede existente
+        
         public function eliminarSede(int $idSede) : bool {
             return $this->sedesModel->eliminarSede($idSede);
         }
+
+        // ✅ Logica de Géneros
+        public function obtenerGeneros() : array {
+            $generos = $this->generoModel->obtenerTodos();
+
+            if (empty($generos)) {
+                return [];
+            }
+
+            return $generos;
+        }
+
+        public function validarGenero($idGenero) : bool {
+            $generos = $this->obtenerGeneros();
+            return in_array($idGenero, array_column($generos, 'id_genero'));
+        }
+
+        // ✅ Logica de Presentaciones
+        public function obtenerPresentaciones() : array {
+            $presentaciones = $this->presentacionModel->obtenerTodos();
+
+            if (empty($presentaciones)) {
+                return [];
+            }
+
+            return $presentaciones;
+        }
+
+        public function validarPresentacion($idPresentacion) : bool {
+            $presentaciones = $this->obtenerPresentaciones();
+            return in_array($idPresentacion, array_column($presentaciones, 'id_presentacion'));
+        }
+
+        // ✅ Obtener tipos de concentración
+        public function obtenerTiposConcentracion() : array {
+            return $this->insumosFormulasModel->listadoTiposConcentracion();
+        }
+
+        // ✅ Logica de Catalogos Completos
+        public function obtenerCatalogosCompletos() : array {
+            return [
+                'marcas' => $this->obtenerMarcas(),
+                'generos' => $this->obtenerGeneros(),
+                'categorias' => $this->obtenerCategorias(),
+                'presentaciones' => $this->obtenerPresentaciones(),
+                'sedes' => $this->obtenerSedes()        
+            ];
+        }
+
     }

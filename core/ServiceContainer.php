@@ -119,5 +119,25 @@ class ServiceContainer {
         }
         return self::$instances['descuentosService'];
     }
+
+    public static function getUsuariosService(): UsuariosService {
+        if (!isset(self::$instances['usuariosService'])) {
+            require_once(DIR_MODEL . 'UsuariosModel.php');
+            require_once(DIR_MODEL . 'PermisosModel.php');
+            require_once(DIR_MODEL . 'PerfilUsuarioModel.php');
+            require_once(DIR_SERVICE . 'UsuariosService.php');
+
+            $usuariosModel = new UsuariosModel();
+            $permisosModel = new PermisosModel();
+            $perfilUsuarioModel = new PerfilUsuarioModel();
+
+            self::$instances['usuariosService'] = new UsuariosService(
+                $usuariosModel,
+                $permisosModel,
+                $perfilUsuarioModel
+            );
+        }
+        return self::$instances['usuariosService'];
+    }
 }
 
