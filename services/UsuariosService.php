@@ -79,6 +79,10 @@ class UsuariosService {
         return $this->usuariosModel->eliminarUsuario($idUsuario);
     }
 
+    public function reactivarUsuario(int $idUsuario): bool {
+        return $this->usuariosModel->reactivarUsuario($idUsuario);
+    }
+
     // ✅ Lógica de Perfiles de Usuario
     public function obtenerPerfiles(): array {
         $perfiles = $this->perfilUsuarioModel->obtenerPerfiles();

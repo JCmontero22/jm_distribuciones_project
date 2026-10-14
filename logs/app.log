@@ -11533,3 +11533,912 @@ Context: {
 ------------------------------------------------------------------------------------------------------------------------
 [2026-07-04 19:34:30] INFO: LOGIN EXITOSO: jmontero (ID: 2)
 ------------------------------------------------------------------------------------------------------------------------
+[2026-07-05 19:01:05] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-05 19:01:05] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-05 19:01:05] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-05 19:01:05] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-07-05 19:01:05] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:27:32] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:27:32] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:27:32] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:27:32] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:27:32] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:27:32] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:32] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:32] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:32] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:32] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:32] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:32] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:33] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:33] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:33] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:33] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:33] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:33] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:38] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:38] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:38] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:38] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:38] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:34:38] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:40] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:40] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:40] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:40] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:40] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:40] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:51] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:51] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:51] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:51] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:51] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:35:51] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:01] INFO: LOGIN: Buscando usuario: testuser
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:01] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Inactivo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:01] WARNING: LOGIN FALLIDO: Usuario inactivo (Estado: Inactivo) - testuser
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:16] INFO: LOGIN: Buscando usuario: testuser
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:16] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Inactivo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:16] WARNING: LOGIN FALLIDO: Usuario inactivo (Estado: Inactivo) - testuser
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:31] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:31] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:31] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:31] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 04:37:31] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-08-25 02:49:31] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 Command line code(14): conexion->__construct()
+#3 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 02:26:56] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:26:56] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:26:56] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:26:56] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:26:56] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:26:56] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:03] INFO: LOGIN: Buscando usuario: admin
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:03] WARNING: LOGIN FALLIDO: Usuario no existe - admin
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:04] INFO: LOGIN: Buscando usuario: admin
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:04] WARNING: LOGIN FALLIDO: Usuario no existe - admin
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:11] INFO: LOGIN: Buscando usuario: admin
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:11] WARNING: LOGIN FALLIDO: Usuario no existe - admin
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:46] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:46] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:46] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:46] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:46] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:46] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:51] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:51] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:51] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:51] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:51] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:27:51] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:28:00] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:28:00] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:28:00] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:28:00] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 02:28:00] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(47): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(51): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(55): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(59): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(62): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(65): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(73): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(77): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(80): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(87): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(91): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(94): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(97): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(104): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(108): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(111): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(118): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(122): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(47): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(51): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(55): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(59): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(62): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(65): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(73): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(77): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(80): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(87): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(91): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(94): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(97): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(22): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(104): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:20}()
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#7 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(108): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(111): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(118): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 00:50:57] ERROR: Error de conexión a la base de datos
+
+
+
+
+
+Mensaje: SQLSTATE[HY000] [2002] No such file or directory
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 15
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(15): PDO->__construct()
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(10): conexion->conect()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/Auth.php(121): conexion->__construct()
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(16): Auth::hasPermission()
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php(122): {closure:/opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/public/menu.php:15}()
+#5 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/a5907b64-7500-4bc4-bf87-61b3bee75a73/scratchpad/render.php(8): require('...')
+#6 {main}
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-14 02:59:32] INFO: LOGOUT: Usuario desconocido
+------------------------------------------------------------------------------------------------------------------------

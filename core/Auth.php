@@ -98,12 +98,80 @@ class Auth {
     }
 
     /**
-     * Validar permiso para acceder a una ruta
+     * Sección de permiso que controla cada ruta y cada endpoint AJAX.
+     * Varias rutas comparten la misma sección (p. ej. todo el inventario usa "Inventario").
+     * Toda ruta o módulo que no aparezca aquí (y no esté en $soloAutenticado) se DENIEGA.
+     */
+    private static $permisoPorRuta = array(
+        'relojes'            => 'Inventario',
+        'esencias'           => 'Inventario',
+        'insumos'            => 'Inventario',
+        'locionesAAA'        => 'Inventario',
+        'locionesPreparadas' => 'Inventario',
+        'lociones'           => 'Inventario',
+        'compras'            => 'Compras',
+        'proveedores'        => 'Compras',
+        'informeProduccion'  => 'Produccion',
+        'formulas'           => 'Produccion',
+        'marcas'             => 'Produccion',
+        'bannerPromociones'  => 'Promociones',
+        'descuentos'         => 'Promociones',
+        'configuracion'      => 'configuraciones',
+        'historial'          => 'Historial',
+
+        // Endpoints AJAX
+        'productosAjax'         => 'Inventario',
+        'comprasAjax'           => 'Compras',
+        'proveedorAjax'         => 'Compras',
+        'formulasAjax'          => 'Produccion',
+        'informeProduccionAjax' => 'Produccion',
+        'promocionesAjax'       => 'Promociones',
+        'descuentosAjax'        => 'Promociones',
+        'usuariosAjax'          => 'configuraciones',
+    );
+
+    /**
+     * Rutas y endpoints que solo requieren sesión iniciada (sin sección de permiso)
+     */
+    private static $soloAutenticado = array('home', 'catalogoAjax');
+
+    /**
+     * Permisos cargados de BD una sola vez por petición
+     */
+    private static $permisosCache = null;
+
+    /**
+     * Obtener el nombre de permiso que controla una ruta
+     */
+    public static function permisoDeRuta($ruta) {
+        return isset(self::$permisoPorRuta[$ruta]) ? self::$permisoPorRuta[$ruta] : $ruta;
+    }
+
+    /**
+     * Cargar (una vez por petición) los permisos existentes y los del perfil del usuario
+     */
+    private static function cargarPermisos($idPerfil) {
+        if (self::$permisosCache === null) {
+            require_once(__DIR__ . '/../model/PermisosModel.php');
+            $permisosModel = new PermisosModel();
+
+            self::$permisosCache = array(
+                'existentes' => array_map('strtolower', array_column($permisosModel->obtenerPermisos(), 'nombre_permiso')),
+                'delPerfil'  => array_map('strtolower', array_column($permisosModel->obtenerPermisosDelPerfil((int)$idPerfil), 'nombre_permiso')),
+            );
+        }
+        return self::$permisosCache;
+    }
+
+    /**
+     * Validar permiso para acceder a una ruta o endpoint AJAX
      *
-     * LÓGICA:
+     * LÓGICA (fail-closed):
      * 1. Si usuario NO está autenticado → DENEGAR
-     * 2. Si existe permiso en BD para esa ruta → VALIDAR que lo tenga
-     * 3. Si permiso NO existe en BD → PERMITIR (sin validación)
+     * 2. Si la ruta es solo-autenticado → PERMITIR
+     * 3. Si la sección de la ruta NO existe en BD → DENEGAR
+     * 4. Si la sección existe → PERMITIR solo si el perfil la tiene
+     * 5. Si hay error al consultar BD → DENEGAR
      */
     public static function hasPermission($ruta) {
         // Si no hay usuario logueado, denegar acceso
@@ -116,27 +184,66 @@ class Auth {
             return false;
         }
 
-        try {
-            require_once(__DIR__ . '/../model/PermisosModel.php');
-            $permisosModel = new PermisosModel();
-
-            // Verificar si existe el permiso en la BD para esta ruta
-            if (!$permisosModel->existePermiso($ruta)) {
-                // Permiso no existe en BD → Permitir acceso
-                return true;
-            }
-
-            // Permiso existe en BD → Validar que el usuario lo tenga
-            return $permisosModel->tienePermiso(
-                $usuario['id_perfil_usuario'],
-                $ruta
-            );
-
-        } catch (Exception $e) {
-            // Si hay error, permitir acceso (no romper la app)
-            error_log("Error al validar permisos: " . $e->getMessage());
+        if (in_array($ruta, self::$soloAutenticado, true)) {
             return true;
         }
+
+        try {
+            $permisos = self::cargarPermisos($usuario['id_perfil_usuario']);
+            $permiso = strtolower(self::permisoDeRuta($ruta));
+
+            // Sección no existe en BD → Denegar
+            if (!in_array($permiso, $permisos['existentes'], true)) {
+                return false;
+            }
+
+            // Sección existe en BD → Validar que el perfil la tenga
+            return in_array($permiso, $permisos['delPerfil'], true);
+
+        } catch (Exception $e) {
+            // Si hay error, denegar acceso
+            error_log("Error al validar permisos: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Guard para endpoints AJAX (ajax/*.php)
+     * Valida sesión, permiso del módulo y token CSRF en POST.
+     * Responde JSON y termina la ejecución si no se cumple.
+     *
+     * @param string $modulo Nombre del endpoint (p. ej. 'productosAjax')
+     */
+    public static function requireApi($modulo) {
+        self::init();
+
+        if (!self::isAuthenticated()) {
+            self::responderErrorJson(401, 'Sesión no iniciada o expirada');
+        }
+
+        if (!self::hasPermission($modulo)) {
+            self::responderErrorJson(403, 'No tienes permiso para esta acción');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = isset($_SERVER['HTTP_X_CSRF_TOKEN'])
+                ? $_SERVER['HTTP_X_CSRF_TOKEN']
+                : (isset($_POST['csrf_token']) ? $_POST['csrf_token'] : '');
+
+            if (!self::validateCsrfToken($token)) {
+                self::responderErrorJson(403, 'Token CSRF inválido');
+            }
+        }
+    }
+
+    /**
+     * Responder error en formato JSON del proyecto y terminar
+     */
+    private static function responderErrorJson($codigo, $mensaje) {
+        http_response_code($codigo);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(array('success' => false, 'message' => $mensaje, 'data' => array()));
+        exit();
     }
 
     /**

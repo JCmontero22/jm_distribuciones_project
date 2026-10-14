@@ -1,5 +1,7 @@
 <?php
 require_once('../config/config.php');
+require_once(__DIR__ . '/../core/Auth.php');
+Auth::requireApi('descuentosAjax');
 
 require_once(__DIR__ . '/../core/response.php');
 require_once(__DIR__ . '/../core/ServiceContainer.php');

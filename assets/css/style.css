@@ -188,8 +188,24 @@ div:where(.swal2-container) div:where(.swal2-popup){
     text-align: center !important;
 }
 
-td{
-    color: var(--texto-principal) !important;
+td {
+    color: var(--texto-principal);
+}
+
+/* Colores de estado en tablas */
+td .text-success {
+    color: var(--color-exito) !important;
+    font-weight: 700;
+}
+
+td .text-warning {
+    color: #eab308 !important;
+    font-weight: 700;
+}
+
+td .text-danger {
+    color: var(--color-error) !important;
+    font-weight: 700;
 }
 
 .dt-info{

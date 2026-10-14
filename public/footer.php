@@ -12,6 +12,7 @@
      ============================================================ -->
 <?php $bp = defined('BASE_PATH') ? BASE_PATH : '/'; ?>
 <script src="<?= $bp ?>assets/js/config/config.js"></script>
+<script src="<?= $bp ?>assets/js/core/csrf.js"></script>
 
 <!-- ============================================================
      2. CORE - SERVICIOS BÁSICOS

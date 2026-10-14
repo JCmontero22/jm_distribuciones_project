@@ -5,11 +5,10 @@
     class UsuariosModel extends conexion 
     {
         public function obtenerUsuarios() : array {
-            $query = "SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usuario, p.nombre_perfil_usuario, e.nombre_estado
+            $query = "SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usuario, p.nombre_perfil_usuario, e.nombre_estado, u.id_estado
                       FROM usuario u
                       JOIN perfil_usuario p ON u.id_perfil = p.id_perfil_usuario
-                      JOIN estado e ON u.id_estado = e.id_estado
-                      WHERE u.id_estado = 1";
+                      JOIN estado e ON u.id_estado = e.id_estado";
             return $this->select($query);
         }
 
@@ -62,6 +61,12 @@
 
         public function eliminarUsuario(int $idUsuario) : bool {
             $query = "UPDATE usuario SET id_estado = 2 WHERE id_usuario = :id";
+            $params = [':id' => $idUsuario];
+            return $this->execute($query, $params);
+        }
+
+        public function reactivarUsuario(int $idUsuario) : bool {
+            $query = "UPDATE usuario SET id_estado = 1 WHERE id_usuario = :id";
             $params = [':id' => $idUsuario];
             return $this->execute($query, $params);
         }

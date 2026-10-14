@@ -62,6 +62,16 @@ class UsuariosController {
         }
     }
 
+    public function reactivarUsuario(int $idUsuario) {
+        try {
+            $resultado = $this->servicio->reactivarUsuario($idUsuario);
+            return response::success($resultado, 'Usuario reactivado exitosamente');
+        } catch (\Exception $e) {
+            Logger::error("Error al reactivar usuario", $e, ['idUsuario' => $idUsuario, 'request' => $_REQUEST]);
+            return response::error('Error al reactivar usuario');
+        }
+    }
+
     // ✅ Perfiles
     public function obtenerPerfiles() {
         try {

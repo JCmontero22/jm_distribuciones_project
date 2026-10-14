@@ -1,5 +1,7 @@
 <?php 
 require_once('../config/config.php');
+require_once(__DIR__ . '/../core/Auth.php');
+Auth::requireApi('comprasAjax');
 
     require_once('../core/ServiceContainer.php');;
     require_once('../controller/ComprasController.php');

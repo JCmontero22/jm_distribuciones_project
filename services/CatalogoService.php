@@ -203,6 +203,11 @@
             return $this->insumosFormulasModel->listadoTiposConcentracion();
         }
 
+        // ✅ Obtener insumos para fórmulas
+        public function obtenerInsumosFormulas() : array {
+            return $this->insumosFormulasModel->listadoInsumosFormulas();
+        }
+
         // ✅ Logica de Catalogos Completos
         public function obtenerCatalogosCompletos() : array {
             return [

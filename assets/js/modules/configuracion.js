@@ -110,6 +110,10 @@ const ConfiguracionAPI = {
         return await this.usuariosClient.post(formData);
     },
 
+    async reactivarUsuario(formData) {
+        return await this.usuariosClient.post(formData);
+    },
+
     // PERFIL - PERMISOS
     async obtenerPermisosDelPerfil(idPerfil) {
         const response = await this.usuariosClient.get({
@@ -137,76 +141,61 @@ const ConfiguracionView = {
 
     // CATEGORIAS DE PRODUCTOS
     renderCategoriasProductos(categorias) {
-        const tbody = document.querySelector('#tablaCategoriaProductos tbody');
-        tbody.innerHTML = '';
-
-        if (categorias.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3">No hay categorías registradas.</td></tr>';
-            return;
-        }
-
-        categorias.forEach(categoria => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${categoria.id_categoria}</td>
-                <td>${categoria.nombre_categoria}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-id="${categoria.id_categoria}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${categoria.id_categoria}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+        AppUI.initDataTable('#tablaCategoriaProductos', {
+            data: categorias || [],
+            columns: [
+                { data: 'id_categoria' },
+                { data: 'nombre_categoria' },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_categoria}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_categoria}"><i class="fa-regular fa-trash-can"></i></button>`;
+                    }
+                }
+            ],
+            order: [[0, 'desc']]
         });
     },
 
     // TIPOS DE PRODUCTOS
     renderTiposProductos(tipos) {
-        const tbody = document.querySelector('#tablaTipoProductos tbody');
-        tbody.innerHTML = '';
-
-        if (tipos.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3">No hay tipos de productos registrados.</td></tr>';
-            return;
-        }
-
-        tipos.forEach(tipo => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${tipo.id_tipo_producto}</td>
-                <td>${tipo.descripcion_tipo_producto}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-id="${tipo.id_tipo_producto}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${tipo.id_tipo_producto}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+        AppUI.initDataTable('#tablaTipoProductos', {
+            data: tipos || [],
+            columns: [
+                { data: 'id_tipo_producto' },
+                { data: 'descripcion_tipo_producto' },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_tipo_producto}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_tipo_producto}"><i class="fa-regular fa-trash-can"></i></button>`;
+                    }
+                }
+            ],
+            order: [[0, 'desc']]
         });
     },
 
     // SEDES
     renderSedes(sedes) {
-        const tbody = document.querySelector('#tablaSedes tbody');
-        tbody.innerHTML = '';
-
-        if (sedes.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6">No hay sedes registradas.</td></tr>';
-            return;
-        }
-
-        sedes.forEach(sede => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${sede.id_sede}</td>
-                <td>${sede.nombre_sede}</td>
-                <td>${sede.direccion_sede}</td>
-                <td>${sede.responsable_sede}</td>
-                <td>${sede.telefono_sede}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-id="${sede.id_sede}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${sede.id_sede}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+        AppUI.initDataTable('#tablaSedes', {
+            data: sedes || [],
+            columns: [
+                { data: 'id_sede' },
+                { data: 'nombre_sede' },
+                { data: 'direccion_sede' },
+                { data: 'responsable_sede' },
+                { data: 'telefono_sede' },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_sede}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_sede}"><i class="fa-regular fa-trash-can"></i></button>`;
+                    }
+                }
+            ],
+            order: [[0, 'desc']]
         });
     },
 
@@ -221,76 +210,87 @@ const ConfiguracionView = {
 
     // PERMISOS
     renderPermisos(permisos) {
-        const tbody = document.querySelector('#tablaPermisos tbody');
-        tbody.innerHTML = '';
-        
-        if (permisos.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4">No hay permisos registrados.</td></tr>';
-            return;
-        }
-
-        permisos.forEach(permiso => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${permiso.id_permiso}</td>
-                <td>${permiso.nombre_permiso}</td>
-                <td>${permiso.descripcion_permiso}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-id="${permiso.id_permiso}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${permiso.id_permiso}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+        AppUI.initDataTable('#tablaPermisos', {
+            data: permisos || [],
+            columns: [
+                { data: 'id_permiso' },
+                { data: 'nombre_permiso' },
+                { data: 'descripcion_permiso' },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_permiso}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_permiso}"><i class="fa-regular fa-trash-can"></i></button>`;
+                    }
+                }
+            ],
+            order: [[0, 'desc']]
         });
     },
 
     // TIPOS USUARIO
     renderPerfiles(tiposUsuario) {
-        const tbody = document.querySelector('#tablaPerfiles tbody');
-        tbody.innerHTML = '';
-        if (tiposUsuario.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4">No hay tipos de usuario registrados.</td></tr>';
-            return;
-        }
-
-        tiposUsuario.forEach(perfil => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${perfil.id_perfil_usuario}</td>
-                <td>${perfil.nombre_perfil_usuario}</td>
-                <td>${perfil.descripcion_perfil_usuario || ''}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-id="${perfil.id_perfil_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${perfil.id_perfil_usuario}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+        AppUI.initDataTable('#tablaPerfiles', {
+            data: tiposUsuario || [],
+            columns: [
+                { data: 'id_perfil_usuario' },
+                { data: 'nombre_perfil_usuario' },
+                { data: 'descripcion_perfil_usuario' },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_perfil_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_perfil_usuario}"><i class="fa-regular fa-trash-can"></i></button>`;
+                    }
+                }
+            ],
+            order: [[0, 'desc']]
         });
     },
 
     // USUARIOS
     renderUsuarios(usuarios) {
-        const tbody = document.querySelector('#tablaUsuarios tbody');
-        tbody.innerHTML = '';
-        if (usuarios.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7">No hay usuarios registrados.</td></tr>';
-            return;
-        }
-        usuarios.forEach(usuario => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${usuario.id_usuario}</td>
-                <td>${usuario.nombre_usuario}</td>
-                <td>${usuario.user_usuario}</td>
-                <td>${usuario.pass_usaurio}</td>
-                <td>${usuario.nombre_perfil_usuario}</td>
-                <td>${usuario.nombre_estado}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-id="${usuario.id_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger btnEliminar" data-id="${usuario.id_usuario}"><i class="fa-regular fa-trash-can"></i></button>
-                </td>
-            `;
-            tbody.appendChild(tr);
+        AppUI.initDataTable('#tablaUsuarios', {
+            data: usuarios || [],
+            columns: [
+                { data: 'id_usuario' },
+                { data: 'nombre_usuario' },
+                { data: 'user_usuario' },
+                { data: 'pass_usuario', visible: false }, // Ocultar contraseña por seguridad
+                { data: 'nombre_perfil_usuario' },
+                {
+                    data: 'nombre_estado',
+                    render(data, type, row) {
+                        if (type === 'display') {
+                            const estadoId = row.id_estado || row.estado || null;
+                            const estadoText = data || row.estado || '';
+                            let colorClass = '';
+
+                            if (Number(estadoId) === 1) {
+                                colorClass = 'text-success'; // activo
+                            } else if (Number(estadoId) === 2) {
+                                colorClass = 'text-warning'; // pendiente
+                            } else {
+                                colorClass = 'text-danger'; // inactivo u otros
+                            }
+                            return `<span class="fw-bold ${colorClass}">${estadoText}</span>`;
+                        }
+                        return data;
+                    }
+                },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        const isInactive = Number(row.id_estado) === 2;
+                        const actionBtn = isInactive
+                            ? `<button class="btn btn-sm btn-success btnReactivar" data-id="${row.id_usuario}" title="Reactivar usuario"><i class="fa-solid fa-check"></i></button>`
+                            : `<button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_usuario}" title="Inactivar usuario"><i class="fa-regular fa-trash-can"></i></button>`;
+                        return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
+                                ${actionBtn}`;
+                    }
+                }
+            ],
+            order: [[0, 'desc']]
         });
     },
 
@@ -384,39 +384,23 @@ const ConfiguracionView = {
     },
 
     renderTablaPerfilPermisos(datos) {
-    const tbody = document.querySelector('#tablaPerfilPermisos tbody');
-    tbody.innerHTML = '';
-
-    if (!Array.isArray(datos) || datos.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No hay relaciones perfil-permisos registradas.</td></tr>';
-        return;
+        AppUI.initDataTable('#tablaPerfilPermisos', {
+            data: datos || [],
+            columns: [
+                { data: null, render: (d) => `<strong>${d.nombre_perfil_usuario || d.nombre_perfil || 'Sin nombre'}</strong>` },
+                { data: 'permisos_asignados', render: (d) => `<small style="font-size: .9rem">${d || 'Sin permisos asignados'}</small>` },
+                { data: 'cantidad_permisos', render: (d) => `<span class="badge bg-primary">${d || 0}</span>` },
+                {
+                    button: 'Acciones',
+                    render(_data, _type, row) {
+                        const idPerfil = row.id_perfil_usuario || row.id_perfil || '';
+                        return `<button class="btn btn-sm btn-danger btnEliminarPermisos" data-id="${idPerfil}" title="Eliminar todos los permisos"><i class="fa-regular fa-trash-can"></i></button>`;
+                    }
+                }
+            ],
+            order: [[0, 'asc']]
+        });
     }
-
-    datos.forEach(item => {
-        const idPerfil = item.id_perfil_usuario || item.id_perfil || '';
-        const nombrePerfil = item.nombre_perfil_usuario || item.nombre_perfil || 'Sin nombre';
-        const permisosAsignados = item.permisos_asignados || 'Sin permisos asignados';
-        const cantidad = item.cantidad_permisos || 0;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><strong>${nombrePerfil}</strong></td>
-            <td style="text-align: left; font-size: 1.6rem; max-width: 400px;">
-                <small>${permisosAsignados}</small>
-            </td>
-            <td>
-                <span class="badge bg-primary">${cantidad}</span>
-            </td>
-            <td>
-                <button class="btn btn-sm btn-danger btnEliminarPermisos"
-                        data-id="${idPerfil}" title="Eliminar todos los permisos">
-                    <i class="fa-regular fa-trash-can"></i>
-                </button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
 };
 
 const ConfiguracionModule = {
@@ -498,6 +482,10 @@ const ConfiguracionModule = {
         $("#tablaUsuarios").on("click", ".btnEliminar", (e) => {
             const idUsuario = $(e.currentTarget).data("id");
             this.eliminarUsuario(idUsuario);
+        });
+        $("#tablaUsuarios").on("click", ".btnReactivar", (e) => {
+            const idUsuario = $(e.currentTarget).data("id");
+            this.reactivarUsuario(idUsuario);
         });
 
         /* Perfil Usuario - Permisos */
@@ -1110,7 +1098,7 @@ const ConfiguracionModule = {
 
     async eliminarUsuario(idUsuario) {
         try {
-            const result = await Alerts.confirmation("Eliminar usuario", "¿Está seguro de que desea eliminar este usuario?");
+            const result = await Alerts.confirmation("Eliminar usuario", "¿Está seguro de que desea inactivar este usuario?");
             if (!result.isConfirmed) return;
 
             const formData = new FormData();
@@ -1118,14 +1106,35 @@ const ConfiguracionModule = {
             formData.append('idUsuario', idUsuario);
             const response = await ConfiguracionAPI.eliminarUsuarios(formData);
             if (response && response.success) {
-                Alerts.success("Éxito", "Usuario eliminado correctamente");
+                Alerts.success("Éxito", "Usuario inactivado correctamente");
                 this.listadoUsuarios();
             } else {
-                Alerts.error("Error", "No se pudo eliminar el usuario");
+                Alerts.error("Error", "No se pudo inactivar el usuario");
             }
         } catch (error) {
-            console.error('Error al eliminar usuario:', error);
-            Alerts.error("Error", "Ocurrió un error al eliminar el usuario");
+            console.error('Error al inactivar usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al inactivar el usuario");
+        }
+    },
+
+    async reactivarUsuario(idUsuario) {
+        try {
+            const result = await Alerts.confirmation("Reactivar usuario", "¿Está seguro de que desea reactivar este usuario?");
+            if (!result.isConfirmed) return;
+
+            const formData = new FormData();
+            formData.append('accion', 'reactivarUsuario');
+            formData.append('idUsuario', idUsuario);
+            const response = await ConfiguracionAPI.reactivarUsuario(formData);
+            if (response && response.success) {
+                Alerts.success("Éxito", "Usuario reactivado correctamente");
+                this.listadoUsuarios();
+            } else {
+                Alerts.error("Error", "No se pudo reactivar el usuario");
+            }
+        } catch (error) {
+            console.error('Error al reactivar usuario:', error);
+            Alerts.error("Error", "Ocurrió un error al reactivar el usuario");
         }
     },
 

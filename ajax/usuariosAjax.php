@@ -1,5 +1,7 @@
 <?php
 require_once('../config/config.php');
+require_once(__DIR__ . '/../core/Auth.php');
+Auth::requireApi('usuariosAjax');
 require_once(__DIR__ . '/../core/ServiceContainer.php');
 require_once(__DIR__ . '/../controller/UsuariosController.php');
 
@@ -34,6 +36,11 @@ switch ($accion) {
 
     case 'eliminarUsuario':
         $resultado = $getUsuariosController()->eliminarUsuario((int)($_POST['idUsuario'] ?? 0));
+        echo json_encode($resultado);
+        break;
+
+    case 'reactivarUsuario':
+        $resultado = $getUsuariosController()->reactivarUsuario((int)($_POST['idUsuario'] ?? 0));
         echo json_encode($resultado);
         break;
 
