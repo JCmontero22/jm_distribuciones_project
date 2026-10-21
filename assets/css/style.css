@@ -490,17 +490,47 @@ td .text-danger {
 /*************** CARD ***************/
 .card-information{
     background-color: var(--color-fondo-tarjeta);
-    border-radius: 20px;
-    padding: 20px;
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    padding: 2.2rem 1.8rem;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.2rem;
     text-align: center;
 }
 
+.card-information h3:first-child {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--texto-secundario);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    white-space: nowrap;
+}
+
+.card-information h3:nth-child(2) {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--texto-principal);
+    margin: 0;
+}
+
 .icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.4rem;
+    height: 3.4rem;
     padding: .5rem;
-    border-radius: 20%;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    flex-shrink: 0;
 }
 
 .icon-inversion{
@@ -695,5 +725,140 @@ td .text-danger {
     border: 1px solid rgba(234, 179, 8, .4);
     color: var(--texto-principal);
 }
+
+/***********************************************************
+
+        ************ VENTAS **********
+
+************************************************************/
+.content-list-ventas {
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+.btn-ventas-secundario {
+    border: 1px solid var(--color-borde) !important;
+    background-color: var(--color-fondo-tarjeta) !important;
+    color: var(--texto-principal) !important;
+    border-radius: 10px !important;
+    padding: 1rem 1.6rem !important;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.btn-ventas-secundario:hover {
+    border-color: var(--color-dorado) !important;
+    background-color: var(--color-borde) !important;
+    color: var(--color-dorado) !important;
+}
+
+.ventas-kpi-sub {
+    color: var(--texto-secundario);
+    font-size: 1.3rem;
+}
+
+.ventas-filtros-panel {
+    background-color: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 1.8rem 2rem;
+}
+
+.ventas-item-box {
+    background-color: rgba(9, 9, 11, 0.55);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 1.8rem;
+}
+
+.ventas-resumen-box {
+    background-color: rgba(9, 9, 11, 0.7);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 1.8rem;
+}
+
+.ventas-totales-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.ventas-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.6rem;
+    color: var(--texto-secundario);
+}
+
+.ventas-total-row strong {
+    color: var(--texto-principal);
+    font-size: 1.7rem;
+}
+
+.ventas-total-principal span {
+    color: var(--texto-principal);
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.ventas-total-principal strong {
+    color: var(--color-dorado);
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.stock-pill {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    background-color: #182922;
+    color: var(--color-exito);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.stock-pill.stock-pill-danger {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--color-error);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+.stock-pill.stock-pill-gold {
+    background-color: #2d2719;
+    color: var(--color-dorado);
+    border-color: rgba(234, 179, 8, 0.4);
+}
+
+.badge-venta {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.badge-venta-pagada {
+    background-color: #182922;
+    color: var(--color-exito);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.badge-venta-pendiente {
+    background-color: #2d2719;
+    color: var(--color-dorado);
+    border: 1px solid rgba(234, 179, 8, 0.4);
+}
+
+.badge-venta-anulada {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--color-error);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
 
 

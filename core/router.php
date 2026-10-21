@@ -21,6 +21,7 @@ $routes = array(
     'bannerPromociones' => 'promotions/bannerPromocion.php',
     'descuentos' => 'promotions/descuentos.php',
     'configuracion' => 'configuration/configuracion.php',
+    'ventas' => 'ventas/ventas.php',
 );
 
 $page = isset($page) ? $page : 'home';

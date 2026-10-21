@@ -151,5 +151,25 @@ class ServiceContainer {
         }
         return self::$instances['loginService'];
     }
+
+    public static function getVentasService(): VentasService {
+        if (!isset(self::$instances['ventasService'])) {
+            require_once(DIR_MODEL . 'VentasModel.php');
+            require_once(DIR_MODEL . 'SedesModel.php');
+            require_once(DIR_MODEL . 'CategoriaModel.php');
+            require_once(DIR_SERVICE . 'VentasService.php');
+
+            $ventasModel = new VentasModel();
+            $sedesModel = new SedesModel();
+            $categoriaModel = new CategoriaModel();
+
+            self::$instances['ventasService'] = new VentasService(
+                $ventasModel,
+                $sedesModel,
+                $categoriaModel
+            );
+        }
+        return self::$instances['ventasService'];
+    }
 }
 

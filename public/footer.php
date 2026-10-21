@@ -31,6 +31,7 @@
      ============================================================ -->
 <script src="<?= $bp ?>assets/js/modules/inventarioGenerico.js"></script>
 <script src="<?= $bp ?>assets/js/modules/compras.js"></script>
+<script src="<?= $bp ?>assets/js/modules/ventas.js"></script>
 <script src="<?= $bp ?>assets/js/modules/proveedores.js"></script>
 <script src="<?= $bp ?>assets/js/modules/inventarioFormulas.js"></script>
 <script src="<?= $bp ?>assets/js/modules/informeProduccion.js"></script>

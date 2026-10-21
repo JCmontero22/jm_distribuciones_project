@@ -5,7 +5,7 @@
         </div>
 
         <div class="col-md-2">
-            <button type="button" class="btn btn-success"><i class="fa-solid fa-tags"></i> Nueva Venta</button>
+            <button type="button" class="btn btn-new-product" onclick="redirect('ventas')"><i class="fa-solid fa-cash-register"></i> Nueva Venta</button>
         </div>
     </div>
 

@@ -30,6 +30,7 @@
     $grupoCompras      = ['compras', 'proveedores'];
     $grupoProduccion   = ['informeProduccion', 'formulas', 'marcas'];
     $grupoPromociones  = ['bannerPromociones', 'descuentos'];
+    $grupoVentas       = ['ventas'];
 
 ?>
 
@@ -46,6 +47,18 @@
 
             <?php if ($puede('home')): ?>
             <li class="ul-list__item" onclick="redirect('home')"><a href="#">  <i class="fa-solid fa-gauge-high"></i> Resumen</a></li>
+            <?php endif; ?>
+
+            <?php if ($algunoPuede($grupoVentas)): ?>
+            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#sales" aria-expanded="false" aria-controls="sales"><i class="fa-solid fa-cart-shopping"></i> Ventas</a></li>
+            <div id="sales" class="collapse">
+                <ul class="ul-list">
+                    <?php if ($puede('ventas')): ?>
+                    <li class="ul-list__item" onclick="redirect('ventas')"><a href="#"><i class="fa-solid fa-cash-register"></i> Ventas</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+                
             <?php endif; ?>
 
             <?php if ($algunoPuede($grupoInventario)): ?>

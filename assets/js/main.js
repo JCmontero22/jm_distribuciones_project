@@ -68,6 +68,7 @@ function initializeModules() {
     // Módulos específicos
     const modules = [
         { id: 'moduleCompras', name: 'comprasModule' },
+        { id: 'moduleVentas', name: 'ventasModule' },
         { id: 'moduloProveedores', name: 'proveedoresModule' },
         { id: 'formulasModule', name: 'formulasModule' },
         { id: 'descuentosModule', name: 'DescuentosModule' },
@@ -119,7 +120,7 @@ function setActiveMenu() {
 
         if (match && match[1] === path) {
             item.classList.add('active');
-            const collapse = item.closest('#collapseExample');
+            const collapse = item.closest('.collapse');
             if (collapse) {
                 collapse.classList.add('show');
             }

@@ -118,6 +118,7 @@ class Auth {
         'descuentos'         => 'Promociones',
         'configuracion'      => 'configuraciones',
         'historial'          => 'Historial',
+        'ventas'             => 'Ventas',
 
         // Endpoints AJAX
         'productosAjax'         => 'Inventario',
@@ -128,6 +129,7 @@ class Auth {
         'promocionesAjax'       => 'Promociones',
         'descuentosAjax'        => 'Promociones',
         'usuariosAjax'          => 'configuraciones',
+        'ventasAjax'            => 'Ventas',
     );
 
     /**
