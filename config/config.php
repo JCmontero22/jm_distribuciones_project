@@ -17,7 +17,13 @@
 // ============================================================
 // 1. RUTA BASE DEL PROYECTO (PUNTO CRÍTICO - CAMBIAR AQUÍ PARA SERVIDOR)
 // ============================================================
-define('BASE_PROJECT_PATH', '/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/');
+// Ruta del proyecto calculada desde el servidor (funciona en XAMPP y en producción)
+define('BASE_PROJECT_PATH', (function () {
+    $raiz = rtrim(str_replace('\\', '/', realpath(__DIR__ . '/..')), '/');
+    $docRoot = rtrim(str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: ''), '/');
+    $ruta = $docRoot !== '' && strpos($raiz, $docRoot) === 0 ? substr($raiz, strlen($docRoot)) : '';
+    return rtrim($ruta, '/') . '/';
+})());
 
 // ============================================================
 // 2. RUTAS DE DIRECTORIOS DEL SISTEMA
