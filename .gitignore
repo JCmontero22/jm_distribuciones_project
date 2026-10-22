@@ -1,4 +1,3 @@
-# Ignore .htaccess file
-.htaccess
-./config/config.php
-./config/configDB.php
+config/configDB.php
+# Registros del servidor (no se suben)
+logs/

@@ -1,11 +1,11 @@
-<?php 
+<?php
 
-    /* DEFINE('DB_HOST', 'localhost');
-    DEFINE('DB_USER', 'root');
-    DEFINE('DB_PASS', '');
-    DEFINE('DB_NAME', 'jm_distribuciones'); */
+/**
+ * CREDENCIALES DE LA BASE - ENTORNO LOCAL (XAMPP)
+ * Este archivo NO se sube a Git. En producción va su propia copia con los datos de cPanel.
+ */
 
-    define('DB_HOST', '127.0.0.1');
-    define('DB_NAME', 'jcmonter_dev');
-    define('DB_USER', 'jcmonter_dev94');
-    define('DB_PASS', 'Stratovarius94@');
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'jm_distribuciones');

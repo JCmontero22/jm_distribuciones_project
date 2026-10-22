@@ -67,10 +67,11 @@ define('WEB_JS', WEB_ASSETS . 'js/');
 // ============================================================
 // 5. CONFIGURACIÓN DE BASE DE DATOS
 // ============================================================
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'jm_distribuciones');
+// Credenciales por entorno: config/configDB.php (no se sube a Git)
+if (!file_exists(__DIR__ . '/configDB.php')) {
+    die('Falta config/configDB.php. Copia config/configDB.example.php y pon los datos de este entorno.');
+}
+require_once __DIR__ . '/configDB.php';
 define('DB_CHARSET', 'utf8mb4');
 define('DB_PORT', 3306);
 
