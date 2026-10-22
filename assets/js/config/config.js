@@ -9,7 +9,12 @@ const CONFIG = {
     // ============================================================
     // Localhost: '/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/'
     // Servidor:  '/jm_distribuciones/' o '/'
-    BASE_URL: '/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/',
+    // Base del proyecto calculada desde la URL de este mismo archivo (funciona en XAMPP y en producción)
+    BASE_URL: (function () {
+        const src = document.currentScript ? document.currentScript.src : '';
+        const i = src.indexOf('/assets/js/config/');
+        return i >= 0 ? src.substring(0, i + 1) : '/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/';
+    })(),
 
     // ============================================================
     // ENDPOINTS AJAX
