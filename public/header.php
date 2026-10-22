@@ -82,13 +82,13 @@
 
         .user-name {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1.2rem;
             color: var(--color-text-primary);
             margin: 0;
         }
 
         .user-role {
-            font-size: 0.8rem;
+            font-size: 1.1rem;
             color: var(--color-text-secondary);
             margin: 0;
         }
