@@ -3,7 +3,8 @@
 # La entrada del sistema es index.php en la raíz del proyecto.
 # ============================================================
 RewriteEngine On
-RewriteBase /
+# Sin RewriteBase: Apache usa la carpeta de este .htaccess como base,
+# así funciona tanto en la raíz del dominio como en una subcarpeta (XAMPP).
 
 # Carpetas internas: no accesibles desde el navegador
 RewriteRule ^(\.git|\.agents|\.codex|config|db|scripts|logs)(/|$) - [F,L]
