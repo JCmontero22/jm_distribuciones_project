@@ -80,7 +80,10 @@ define('DB_PORT', 3306);
 // ============================================================
 define('APP_NAME', 'JM Distribuciones');
 define('APP_VERSION', '1.0.0');
-define('APP_ENVIRONMENT', 'development'); // development, production
+// Entorno: lo define config/configDB.php de cada servidor (por defecto, producción)
+if (!defined('APP_ENVIRONMENT')) {
+    define('APP_ENVIRONMENT', 'production');
+}
 define('APP_DEBUG', APP_ENVIRONMENT === 'development');
 
 // ============================================================

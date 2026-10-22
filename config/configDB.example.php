@@ -14,3 +14,6 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'usuario_de_la_base');
 define('DB_PASS', 'contraseña');
 define('DB_NAME', 'nombre_de_la_base');
+
+// Entorno: 'production' en el servidor, 'development' en XAMPP
+define('APP_ENVIRONMENT', 'production');
