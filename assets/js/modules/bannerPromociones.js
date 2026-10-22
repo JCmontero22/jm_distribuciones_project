@@ -48,18 +48,13 @@ const bannerPromocionesView = {
                     }
                 },
                 {
-                     button: "Acciones",
+                    data: null,
+                    orderable: false,
                     render(data, _type, row) {
                         const id = row.id_banner_promocion;
                         return `<button class="btn btn-sm btn-primary btn_editar" data-id="${id}"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-sm btn-danger btn_eliminar" data-id="${id}"><i class="fa-regular fa-trash-can"></i></button>`;
                     }
-                },
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    defaultContent: "-"
                 }
             ],
             order: [[0, "desc"]]

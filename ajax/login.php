@@ -49,6 +49,7 @@ switch ($accion) {
                 'user_usuario' => $usuarioData['user_usuario'],
                 'id_perfil_usuario' => $usuarioData['id_perfil_usuario'],
                 'nombre_perfil_usuario' => $usuarioData['nombre_perfil_usuario'],
+                'id_sede' => $usuarioData['id_sede'],
             ];
 
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

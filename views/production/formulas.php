@@ -32,7 +32,7 @@
             <h4 class="mb-3">Registrar Nueva Fórmula</h4>
             <form id="formularioRegistroFormula" class="mt-5">
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="nombreFormula" class="form-label">* Nombre de la Fórmula</label>
                         <input type="text" class="form-control" id="nombreFormula" name="nombreFormula" placeholder="Ej: 30ml Normal">
                     </div>
@@ -42,17 +42,17 @@
                         <input type="number" class="form-control" id="cantidadEsencia" name="cantidadEsencia" placeholder="Ej: 30" min="1">
                     </div>
 
-                    <div class="col-md-3">
-                        <label for="insumo" class="form-label">* Frasco (Insumo)</label>
-                        <select name="insumo" id="insumo" class="form-select">
-                            <option value="">Seleccione el frasco</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="concentracion" class="form-label">* Concentración</label>
                         <select name="concentracion" id="concentracion" class="form-select">
                             <option value="">Seleccione la concentración</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="envaseFormula" class="form-label">* Frasco (envase en inventario)</label>
+                        <select name="envaseFormula" id="envaseFormula" class="form-select">
+                            <option value="">Seleccione el envase</option>
                         </select>
                     </div>
                 </div>

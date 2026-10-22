@@ -221,6 +221,13 @@
                                     <option value="">Seleccione un perfil</option>
                                 </select>
                             </div>
+
+                            <div class="col-md-3">
+                                <label for="sedeUsuario" class="form-label">Sede (vendedor)</label>
+                                <select class="form-select" id="sedeUsuario" name="idSede">
+                                    <option value="">Administrador (elige la sede al vender)</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row mt-4">
                             <div class="col-md-12 d-flex align-items-end justify-content-end" >

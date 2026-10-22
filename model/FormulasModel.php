@@ -16,14 +16,16 @@
                 nombre_formula,
                 cantidad_esencia,
                 id_insumo_formula,
-                id_tipo_concentracion
-            ) VALUES (:nombre, :cantidad_esencia, :id_insumo_formula, :id_tipo_concentracion)";
+                id_tipo_concentracion,
+                id_presentacion_envase
+            ) VALUES (:nombre, :cantidad_esencia, :id_insumo_formula, :id_tipo_concentracion, :id_envase)";
 
             $params = [
                 ':nombre'                => $data['nombre_formula'],
                 ':cantidad_esencia'      => $data['cantidad_esencia'],
                 ':id_insumo_formula'     => $data['id_insumo_formula'],
                 ':id_tipo_concentracion' => $data['id_tipo_concentracion'],
+                ':id_envase'             => $data['id_presentacion_envase'],
             ];
             return $this->execute($query, $params);
         }
@@ -33,11 +35,13 @@
                             f.id_formula AS id_formula,
                             f.nombre_formula,
                             f.cantidad_esencia,
-                            inf.nombre_insumo,
-                            inf.tamanio_insumo,
+                            COALESCE(inf.nombre_insumo, CONCAT(p.nombre_producto, ' ', pp.nombre_presentacion)) AS nombre_insumo,
+                            COALESCE(inf.tamanio_insumo, pp.nombre_presentacion) AS tamanio_insumo,
                             tc.nombre_concentracion
                         FROM formulas f
                         LEFT JOIN insumo_formulas inf ON inf.id_insumo_formula = f.id_insumo_formula
+                        LEFT JOIN productos_presentaciones pp ON pp.id_presentacion = f.id_presentacion_envase
+                        LEFT JOIN productos p ON p.id_producto = pp.id_producto
                         LEFT JOIN tipo_concentracion tc ON tc.id_tipo_concentracion = f.id_tipo_concentracion
                         WHERE f.id_estado = 1";
 
@@ -55,7 +59,7 @@
         }
 
         public function obtenerFormulaPorId(int $id): array {
-            $query = "SELECT id_formula, nombre_formula, id_tipo_concentracion, cantidad_esencia, id_insumo_formula FROM formulas WHERE id_estado = 1 AND id_formula = :id";
+            $query = "SELECT id_formula, nombre_formula, id_tipo_concentracion, cantidad_esencia, id_insumo_formula, id_presentacion_envase FROM formulas WHERE id_estado = 1 AND id_formula = :id";
             return $this->select($query, [':id' => $id]);
         }
 
@@ -64,7 +68,8 @@
                         nombre_formula = :nombre,
                         cantidad_esencia = :cantidad_esencia,
                         id_insumo_formula = :id_insumo_formula,
-                        id_tipo_concentracion = :id_tipo_concentracion
+                        id_tipo_concentracion = :id_tipo_concentracion,
+                        id_presentacion_envase = :id_envase
                       WHERE id_formula = :id";
 
             $params = [
@@ -72,6 +77,7 @@
                 ':cantidad_esencia'      => $data['cantidad_esencia'],
                 ':id_insumo_formula'     => $data['id_insumo_formula'],
                 ':id_tipo_concentracion' => $data['id_tipo_concentracion'],
+                ':id_envase'             => $data['id_presentacion_envase'],
                 ':id'                    => $data['id_formula'],
             ];
             return $this->execute($query, $params);

@@ -5,7 +5,7 @@
     class UsuariosModel extends conexion 
     {
         public function obtenerUsuarios() : array {
-            $query = "SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usuario, p.nombre_perfil_usuario, e.nombre_estado, u.id_estado
+            $query = "SELECT u.id_usuario, u.nombre_usuario, u.user_usuario, u.pass_usuario, u.id_perfil, u.id_sede, p.nombre_perfil_usuario, e.nombre_estado, u.id_estado
                       FROM usuario u
                       JOIN perfil_usuario p ON u.id_perfil = p.id_perfil_usuario
                       JOIN estado e ON u.id_estado = e.id_estado";
@@ -25,12 +25,13 @@
         }
 
         public function registroUsuario(array $data) {
-            $query = "INSERT INTO usuario (nombre_usuario, user_usuario, pass_usuario, id_perfil) VALUES (:nombre, :usuario, :password, :perfil)";
+            $query = "INSERT INTO usuario (nombre_usuario, user_usuario, pass_usuario, id_perfil, id_sede) VALUES (:nombre, :usuario, :password, :perfil, :sede)";
             $params = [
                 ':nombre' => $data['nombreUsuario'],
                 ':usuario' => $data['userUsuario'],
                 ':password' => $data['passwordUsuario'],
-                ':perfil' => $data['perfilUsuario']
+                ':perfil' => $data['perfilUsuario'],
+                ':sede' => !empty($data['idSede']) ? (int)$data['idSede'] : null
             ];
             return $this->execute($query, $params);
         }
@@ -38,21 +39,23 @@
         public function actualizarUsuario(array $data) : bool {
             // Si no se proporciona contraseña, no la actualizar
             if (empty($data['passwordUsuario'])) {
-                $query = "UPDATE usuario SET nombre_usuario = :nombre, user_usuario = :usuario, id_perfil = :perfil WHERE id_usuario = :id";
+                $query = "UPDATE usuario SET nombre_usuario = :nombre, user_usuario = :usuario, id_perfil = :perfil, id_sede = :sede WHERE id_usuario = :id";
                 $params = [
                     ':nombre' => $data['nombreUsuario'],
                     ':usuario' => $data['userUsuario'],
                     ':perfil' => $data['perfilUsuario'],
+                    ':sede' => !empty($data['idSede']) ? (int)$data['idSede'] : null,
                     ':id' => $data['idUsuario']
                 ];
             } else {
                 // Si se proporciona, actualizar incluyendo la contraseña
-                $query = "UPDATE usuario SET nombre_usuario = :nombre, user_usuario = :usuario, pass_usuario = :password, id_perfil = :perfil WHERE id_usuario = :id";
+                $query = "UPDATE usuario SET nombre_usuario = :nombre, user_usuario = :usuario, pass_usuario = :password, id_perfil = :perfil, id_sede = :sede WHERE id_usuario = :id";
                 $params = [
                     ':nombre' => $data['nombreUsuario'],
                     ':usuario' => $data['userUsuario'],
                     ':password' => $data['passwordUsuario'],
                     ':perfil' => $data['perfilUsuario'],
+                    ':sede' => !empty($data['idSede']) ? (int)$data['idSede'] : null,
                     ':id' => $data['idUsuario']
                 ];
             }

@@ -47,6 +47,14 @@ switch ($accion) {
         echo json_encode($resultado);
         break;
 
+    case 'preciosLocion':
+        echo json_encode($ventasController->preciosLocion($_GET));
+        break;
+
+    case 'guardarPrecioLocion':
+        echo json_encode($ventasController->guardarPrecioLocion($_POST));
+        break;
+
     case 'registrarCliente':
         $resultado = $ventasController->registrarCliente($_POST);
         echo json_encode($resultado);

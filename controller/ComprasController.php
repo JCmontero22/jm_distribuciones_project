@@ -3,6 +3,7 @@
 require_once('../core/response.php');
 require_once('../helper/utils.php');
 require_once('../core/Logger.php');
+require_once('../core/Auth.php');
 require_once('../core/CustomExceptions.php');
 require_once('../services/ComprasService.php');
 
@@ -28,14 +29,21 @@ class ComprasController {
 
     public function registrar(array $request): array {
         try {
-            if (!utils::validateRequiredFields(['idProveedor', 'totalCompra', 'numeroFacturaCompra', 'detalles'], $request)) {
+            if (!utils::validateRequiredFields(['idProveedor', 'sede', 'totalCompra', 'numeroFacturaCompra', 'detalles'], $request)) {
                 return response::error('Todos los campos son obligatorios');
+            }
+
+            $idUsuario = Auth::userId();
+            if (!$idUsuario) {
+                return response::error('Sesión no válida. Inicia sesión nuevamente.');
             }
 
             $params = [
                 'idProveedor' => utils::sanitizeInput($request['idProveedor']),
+                'idSede' => (int)$request['sede'],
                 'totalCompra' => utils::sanitizeInput($request['totalCompra']),
-                'numeroFacturaCompra' => utils::sanitizeInput($request['numeroFacturaCompra'])
+                'numeroFacturaCompra' => utils::sanitizeInput($request['numeroFacturaCompra']),
+                'idUsuario' => (int)$idUsuario
             ];
 
             $detalles = json_decode($request['detalles'], true);
@@ -78,13 +86,19 @@ class ComprasController {
             if (!$idCompra) {
                 return response::error('ID de compra requerido');
             }
-            if (!utils::validateRequiredFields(['idProveedor', 'totalCompra', 'numeroFacturaCompra', 'detalles'], $request)) {
+            if (!utils::validateRequiredFields(['idProveedor', 'sede', 'totalCompra', 'numeroFacturaCompra', 'detalles'], $request)) {
                 return response::error('Todos los campos son obligatorios');
+            }
+            $idUsuario = Auth::userId();
+            if (!$idUsuario) {
+                return response::error('Sesión no válida. Inicia sesión nuevamente.');
             }
             $params = [
                 'idProveedor' => utils::sanitizeInput($request['idProveedor']),
+                'idSede' => (int)$request['sede'],
                 'totalCompra' => utils::sanitizeInput($request['totalCompra']),
-                'numeroFacturaCompra' => utils::sanitizeInput($request['numeroFacturaCompra'])
+                'numeroFacturaCompra' => utils::sanitizeInput($request['numeroFacturaCompra']),
+                'idUsuario' => (int)$idUsuario
             ];
             $detalles = json_decode($request['detalles'], true);
             if (!is_array($detalles) || empty($detalles)) {

@@ -9,7 +9,6 @@ $routes = array(
     'relojes' => 'inventory/relojes.php',
     'lociones' => 'inventory/lociones.php',
     'locionesAAA' => 'inventory/locionesAAA.php',
-    'locionesPreparadas' => 'inventory/locionesPreparadas.php',
     'esencias' => 'inventory/esencias.php',
     'insumos' => 'inventory/insumos.php',
     'historial' => 'historial.php',
@@ -22,6 +21,9 @@ $routes = array(
     'descuentos' => 'promotions/descuentos.php',
     'configuracion' => 'configuration/configuracion.php',
     'ventas' => 'ventas/ventas.php',
+    'gastos' => 'gastos/gastos.php',
+    'historialVentas' => 'ventas/historial.php',
+    'balanceMensual' => 'ventas/balance.php',
 );
 
 $page = isset($page) ? $page : 'home';

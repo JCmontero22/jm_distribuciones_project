@@ -63,17 +63,18 @@
     </div>
 </section>
 
+<?php $esVendedor = !empty(Auth::sedeUsuario()); ?>
 <!-- FILTROS Y LISTADO DE VENTAS -->
 <section class="content-list-ventas container">
     <div class="ventas-filtros-panel mb-4">
         <div class="row g-3 align-items-end">
-            <div class="col-md-4">
+            <div class="col-md-5" id="wrapperFiltroSedeVentas" <?= $esVendedor ? 'style="display: none;"' : '' ?>>
                 <label for="filtroSedeVentas" class="form-label">Filtrar por Sede</label>
                 <select class="form-select" id="filtroSedeVentas">
                     <option value="">Todas las sedes</option>
                 </select>
             </div>
-            <div class="col-md-4">
+            <div class="<?= $esVendedor ? 'col-md-9' : 'col-md-5' ?>" id="wrapperFiltroEstadoVentas">
                 <label for="filtroEstadoVentas" class="form-label">Estado de Venta</label>
                 <select class="form-select" id="filtroEstadoVentas">
                     <option value="">Todos los estados</option>
@@ -82,9 +83,9 @@
                     <option value="anulada">Anuladas</option>
                 </select>
             </div>
-            <div class="col-md-4 d-flex justify-content-end gap-2">
-                <button type="button" class="btn btnRegistro px-4" id="btnRefrescarVentas">
-                    <i class="fa-solid fa-rotate"></i> Actualizar
+            <div class="<?= $esVendedor ? 'col-md-3' : 'col-md-2' ?> d-flex justify-content-end" id="wrapperBtnRefrescarVentas">
+                <button type="button" class="btn btnRegistro w-100" id="btnRefrescarVentas">
+                    <i class="fa-solid fa-rotate me-1"></i> Actualizar
                 </button>
             </div>
         </div>
@@ -129,19 +130,19 @@
                 <form id="formRegistroVenta" autocomplete="off">
                     <!-- ENCABEZADO DE LA VENTA -->
                     <div class="row g-3">
-                        <div class="col-md-3">
+                        <div class="col-md-3" id="wrapperSedeVenta" <?= $esVendedor ? 'style="display: none;"' : '' ?>>
                             <label for="selectSedeVenta" class="form-label">Sede *</label>
                             <select class="form-select" name="idSede" id="selectSedeVenta" required>
                                 <option value="">Seleccione sede</option>
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="<?= $esVendedor ? 'col-md-4' : 'col-md-3' ?>" id="wrapperNumeroVenta">
                             <label for="numeroVenta" class="form-label">N° de Venta / Factura *</label>
                             <input type="text" name="numeroVenta" id="numeroVenta" class="form-control" placeholder="Ej: VTA-0001" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="<?= $esVendedor ? 'col-md-5' : 'col-md-4' ?>" id="wrapperClienteVenta">
                             <label for="selectClienteVenta" class="form-label">Cliente</label>
                             <div class="d-flex gap-2">
                                 <select class="form-select" name="idCliente" id="selectClienteVenta">
@@ -153,7 +154,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="<?= $esVendedor ? 'col-md-3' : 'col-md-2' ?>" id="wrapperModalidadVenta">
                             <label for="selectModalidadVenta" class="form-label">Modalidad *</label>
                             <select class="form-select" id="selectModalidadVenta" name="modalidadVenta">
                                 <option value="contado">Contado</option>

@@ -42,7 +42,6 @@ function initializeModules() {
         relojesModule: "RelojesModule",
         esenciasModule: "EsenciasModule",
         insumosModule: "InsumosModule",
-        locionesPreparadasModule: "LocionesPreparadasModule",
         locionesAAAModule: "LocionesAAAModule",
         descuentosModule: "DescuentosModule",
         ConfiguracionModule: "ConfiguracionModule"
@@ -69,6 +68,9 @@ function initializeModules() {
     const modules = [
         { id: 'moduleCompras', name: 'comprasModule' },
         { id: 'moduleVentas', name: 'ventasModule' },
+        { id: 'moduleGastos', name: 'gastosModule' },
+        { id: 'moduleHistorial', name: 'historialModule' },
+        { id: 'moduleBalance', name: 'balanceModule' },
         { id: 'moduloProveedores', name: 'proveedoresModule' },
         { id: 'formulasModule', name: 'formulasModule' },
         { id: 'descuentosModule', name: 'DescuentosModule' },

@@ -1,5 +1,11 @@
 const InventarioFormulasAPI = {
     client: new SimpleAPI(CONFIG.AJAX.FORMULAS),
+    productosClient: new SimpleAPI(CONFIG.AJAX.PRODUCTOS),
+
+    async obtenerCatalogoVinculos() {
+        const response = await this.productosClient.get({ accion: "listarCatalogoVinculos" });
+        return response.data || {};
+    },
 
     async listarFormulas() {
         const response = await this.client.get({ accion: "listarFormulas" });
@@ -76,7 +82,7 @@ const InventarioFormulasView = {
         
         $("#nombreFormula").val(formula[0].nombre_formula || "-");
         $("#cantidadEsencia").val(formula[0].cantidad_esencia || 0);
-        $("#insumo").val(formula[0].id_insumo_formula).trigger("change");
+        $("#envaseFormula").val(formula[0].id_presentacion_envase).trigger("change");
         $("#concentracion").val(formula[0].id_tipo_concentracion).trigger("change");
         $("#btnRegistro").text("Actualizar Fórmula").data("id", formula[0].id_formula);
     }   
@@ -113,14 +119,19 @@ const formulasModule = {
 
     async cargarDatos() {
         try {
-            const [insumos, concentraciones, formulas] = await Promise.all([
-                InventarioFormulasAPI.listarInsumos(),
+            const [concentraciones, formulas, vinculos] = await Promise.all([
                 InventarioFormulasAPI.listarConcentraciones(),
-                InventarioFormulasAPI.listarFormulas()
+                InventarioFormulasAPI.listarFormulas(),
+                InventarioFormulasAPI.obtenerCatalogoVinculos()
             ]);
 
-            InventarioFormulasView.poblarSelect("#insumo", insumos, "id_insumo_formula", "nombre_insumo");
+            const envases = (vinculos.envases || []).map(e => ({
+                id_presentacion: e.id_presentacion,
+                texto: `${e.nombre_producto} - ${e.nombre_presentacion}`
+            }));
+
             InventarioFormulasView.poblarSelect("#concentracion", concentraciones, "id_tipo_concentracion", "nombre_concentracion");
+            InventarioFormulasView.poblarSelect("#envaseFormula", envases, "id_presentacion", "texto");
             InventarioFormulasView.renderizarTabla(formulas);
         } catch (error) {
             Alerts.error("Error", "No se pudieron cargar los datos de formulas");
@@ -134,11 +145,11 @@ const formulasModule = {
             accion: "registrarFormula",
             nombreFormula: $("#nombreFormula").val().trim(),
             cantidadEsencia: $("#cantidadEsencia").val(),
-            insumo: $("#insumo").val(),
-            concentracion: $("#concentracion").val()
+            concentracion: $("#concentracion").val(),
+            envaseFormula: $("#envaseFormula").val()
         };
 
-        if (!payload.nombreFormula || !payload.cantidadEsencia || !payload.insumo || !payload.concentracion) {
+        if (!payload.nombreFormula || !payload.cantidadEsencia || !payload.concentracion || !payload.envaseFormula) {
             Alerts.warning("Campos incompletos", "Todos los campos son obligatorios");
             return;
         }
@@ -180,7 +191,7 @@ const formulasModule = {
         formData.set("id_formula", id);
         formData.set("accion", "editarFormula");
 
-        if (!formData.get("nombreFormula") || !formData.get("cantidadEsencia") || !formData.get("insumo") || !formData.get("concentracion")) {
+        if (!formData.get("nombreFormula") || !formData.get("cantidadEsencia") || !formData.get("concentracion") || !formData.get("envaseFormula")) {
             Alerts.warning("Campos incompletos", "Todos los campos son obligatorios");
             return;
         }

@@ -20,27 +20,66 @@ class VentasService {
         $this->categoriaModel = $categoriaModel;
     }
 
-    public function obtenerListadoYResumen(?int $idSede = null, ?string $estado = null): array {
+    public function obtenerListadoYResumen(?int $idSede = null, ?string $estado = null, ?string $desde = null, ?string $hasta = null, ?string $texto = null): array {
         return [
-            'ventas' => $this->ventasModel->obtenerVentas($idSede, $estado),
+            'ventas' => $this->ventasModel->obtenerVentas($idSede, $estado, $desde, $hasta, $texto),
             'resumen' => $this->ventasModel->obtenerResumenVentas($idSede)
         ];
     }
 
-    public function obtenerCatalogosVenta(int $idSede = 1): array {
-        $sedes = $this->sedesModel->obtenerTodos();
-        if ($idSede <= 0 && !empty($sedes)) {
-            $idSede = (int)$sedes[0]['id_sede'];
+    /** Categorias que no se venden: son insumos o no tienen productos de venta. */
+    private const CATEGORIAS_NO_VENDIBLES = ['Insumos', 'Esencias', 'Lociones Preparadas'];
+
+    /**
+     * Catalogo de venta. Sin sede (idSede = 0) no se cargan categorias ni productos.
+     * $sedeFija: sede asignada al usuario (vendedor). Si existe, solo se muestra esa sede.
+     */
+    public function obtenerCatalogosVenta(int $idSede = 0, ?int $sedeFija = null): array {
+        $sedes = $this->sedesModel->obtenerSedes();
+        if ($sedeFija) {
+            $sedes = array_values(array_filter($sedes, fn($s) => (int)$s['id_sede'] === $sedeFija));
+            $idSede = $sedeFija;
         }
 
-        return [
+        $data = [
             'sedes' => $sedes,
-            'categorias' => $this->categoriaModel->obtenerTodos(),
+            'sedeFija' => $sedeFija,
             'clientes' => $this->ventasModel->obtenerClientes(),
             'metodosPago' => $this->ventasModel->obtenerMetodosPago(),
-            'productos' => $this->ventasModel->obtenerProductosParaVenta($idSede),
-            'siguienteNumero' => $this->ventasModel->generarSiguienteNumeroVenta($idSede)
+            'categorias' => [],
+            'productos' => [],
+            'siguienteNumero' => null
         ];
+
+        if ($idSede > 0) {
+            $data['categorias'] = $this->categoriasVendibles();
+            $data['productos'] = $this->ventasModel->obtenerProductosParaVenta($idSede);
+            $data['siguienteNumero'] = $this->ventasModel->generarSiguienteNumeroVenta($idSede);
+        }
+
+        return $data;
+    }
+
+    private function categoriasVendibles(): array {
+        return array_values(array_filter(
+            $this->categoriaModel->obtenerTodos(),
+            fn($c) => ($c['id_estado'] ?? 1) == 1
+                && !in_array($c['nombre_categoria'], self::CATEGORIAS_NO_VENDIBLES, true)
+        ));
+    }
+
+    /** Lanza error si la venta no es de la sede del vendedor. */
+    public function validarSedeVenta(int $idVenta, ?int $sedeUsuario): void {
+        if (!$sedeUsuario) {
+            return;
+        }
+        $venta = $this->ventasModel->obtenerVentaPorId($idVenta);
+        if (!$venta) {
+            throw new \DomainException('La venta no existe.');
+        }
+        if ((int)$venta['id_sede'] !== $sedeUsuario) {
+            throw new \DomainException('Esta venta pertenece a otra sede.');
+        }
     }
 
     public function obtenerProductosYConsecutivoPorSede(int $idSede): array {
@@ -113,6 +152,23 @@ class VentasService {
             throw new \DomainException('ID de venta inválido');
         }
         return $this->ventasModel->anularVenta($idVenta, $idUsuario);
+    }
+
+    public function obtenerPreciosLocion(int $idSede): array {
+        if ($idSede <= 0) {
+            throw new \DomainException('Sede inválida');
+        }
+        return $this->ventasModel->obtenerPreciosLocion($idSede);
+    }
+
+    public function guardarPrecioLocion(int $idSede, int $idProductoEsencia, int $idFormula, float $precio): void {
+        if ($idSede <= 0 || $idProductoEsencia <= 0 || $idFormula <= 0) {
+            throw new \DomainException('Datos de precio inválidos');
+        }
+        if ($precio <= 0) {
+            throw new \DomainException('El precio debe ser mayor a 0');
+        }
+        $this->ventasModel->guardarPrecioLocion($idSede, $idProductoEsencia, $idFormula, $precio);
     }
 
     public function registrarCliente(array $data): array {

@@ -45,18 +45,19 @@
         public function registrarFormulas(array $data): array {
             $nombre          = $data['nombre_formula'] ?? null;
             $cantidadEsencia = $data['cantidad_esencia'] ?? null;
-            $insumo          = $data['id_insumo_formula'] ?? null;
             $concentracion   = $data['id_tipo_concentracion'] ?? null;
+            $envase          = $data['id_presentacion_envase'] ?? null;
 
-            if (!$nombre || !$cantidadEsencia || !$insumo || !$concentracion) {
+            if (!$nombre || !$cantidadEsencia || !$concentracion || !$envase) {
                 throw new DomainException('Datos de fórmula incompletos');
             }
 
             $params = [
                 'nombre_formula'        => $nombre,
-                'id_insumo_formula'     => $insumo,
+                'id_insumo_formula'     => null,
                 'id_tipo_concentracion' => $concentracion,
                 'cantidad_esencia'      => $cantidadEsencia,
+                'id_presentacion_envase' => $envase,
             ];
             $insertados[] = $this->modelo->registrarFormula($params);
             
@@ -75,10 +76,10 @@
             $idFormula       = $data['id_formula'] ?? null;
             $nombre          = $data['nombreFormula'] ?? null;
             $cantidadEsencia = $data['cantidadEsencia'] ?? null;
-            $insumo          = $data['insumo'] ?? null;
             $concentracion   = $data['concentracion'] ?? null;
+            $envase          = $data['envaseFormula'] ?? null;
 
-            if (!$idFormula || !$nombre || !$cantidadEsencia || !$insumo || !$concentracion) {
+            if (!$idFormula || !$nombre || !$cantidadEsencia || !$concentracion || !$envase) {
                 throw new DomainException('Datos de fórmula incompletos');
             }
 
@@ -86,8 +87,9 @@
                 'id_formula'             => $idFormula,
                 'nombre_formula'         => $nombre,
                 'cantidad_esencia'       => $cantidadEsencia,
-                'id_insumo_formula'      => $insumo,
+                'id_insumo_formula'      => null,
                 'id_tipo_concentracion'  => $concentracion,
+                'id_presentacion_envase' => $envase,
             ];
 
             return $this->modelo->actualizarFormula($params);

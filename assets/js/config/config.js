@@ -27,6 +27,9 @@ const CONFIG = {
         INFORME_PRODUCCION: 'ajax/informeProduccionAjax.php',
         CONFIGURACION: 'ajax/configuracionAjax.php',
         VENTAS: 'ajax/ventasAjax.php',
+        GASTOS: 'ajax/gastosAjax.php',
+        HISTORIAL: 'ajax/historialAjax.php',
+        BALANCE: 'ajax/balanceAjax.php',
     },
 
     // ============================================================

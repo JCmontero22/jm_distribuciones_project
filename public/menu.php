@@ -30,7 +30,8 @@
     $grupoCompras      = ['compras', 'proveedores'];
     $grupoProduccion   = ['informeProduccion', 'formulas', 'marcas'];
     $grupoPromociones  = ['bannerPromociones', 'descuentos'];
-    $grupoVentas       = ['ventas'];
+    $grupoVentas       = ['ventas', 'gastos', 'historialVentas', 'balanceMensual'];
+    $grupoVendedor = ['ventas', 'informeProduccion', 'gastos'];
 
 ?>
 
@@ -56,6 +57,15 @@
                     <?php if ($puede('ventas')): ?>
                     <li class="ul-list__item" onclick="redirect('ventas')"><a href="#"><i class="fa-solid fa-cash-register"></i> Ventas</a></li>
                     <?php endif; ?>
+                    <?php if ($puede('gastos')): ?>
+                    <li class="ul-list__item" onclick="redirect('gastos')"><a href="#"><i class="fa-solid fa-file-invoice-dollar"></i> Gastos</a></li>
+                    <?php endif; ?>
+                    <?php if ($puede('historialVentas')): ?>
+                    <li class="ul-list__item" onclick="redirect('historialVentas')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial de ventas</a></li>
+                    <?php endif; ?>
+                    <?php if ($puede('balanceMensual')): ?>
+                    <li class="ul-list__item" onclick="redirect('balanceMensual')"><a href="#"><i class="fa-solid fa-scale-balanced"></i> Balance mensual</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
                 
@@ -68,7 +78,6 @@
                     <?php if ($puede('relojes')): ?>
                     <li class="ul-list__item" onclick="redirect('relojes')"><a href="#"><i class="fa-solid fa-stopwatch-20"></i> Relojes</a></li>
                     <?php endif; ?>
-                    <!-- <li class="ul-list__item" onclick="redirect('locionesPreparadas')"><a href="#"><i class="fa-solid fa-vial"></i> Lociones Preparadas</a></li> -->
                     <?php if ($puede('esencias')): ?>
                     <li class="ul-list__item" onclick="redirect('esencias')"><a href="#"><i class="fa-solid fa-bottle-water"></i> Esencias</a></li>
                     <?php endif; ?>
@@ -102,7 +111,7 @@
             <div id="produccion" class="collapse">
                 <ul class="ul-list">
                     <?php if ($puede('informeProduccion')): ?>
-                    <li class="ul-list__item" onclick="redirect('informeProduccion')"><a href="#"><i class="fa-solid fa-cash-register"></i> Informe Prodcucion</a></li>
+                    <li class="ul-list__item" onclick="redirect('informeProduccion')"><a href="#"><i class="fa-solid fa-cash-register"></i> Informe de producción</a></li>
                     <?php endif; ?>
                     <?php if ($puede('formulas')): ?>
                     <li class="ul-list__item" onclick="redirect('formulas')"><a href="#"><i class="fa-solid fa-flask-vial"></i> Formulas</a></li>
@@ -132,9 +141,7 @@
             <li class="ul-list__item" onclick="redirect('configuracion')"><a href="#"><i class="fa-solid fa-cog"></i> Configuraciones</a></li>
             <?php endif; ?>
 
-            <?php if ($puede('historial')): ?>
-            <li class="ul-list__item" onclick="redirect('historial')"><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
-            <?php endif; ?>
+            
 
         </ul>
     </section>

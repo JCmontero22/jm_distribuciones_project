@@ -46,7 +46,12 @@ Auth::requireApi('productosAjax');
             break;
 
         case 'listarEsencias':
-            $resultado = $productoController->listarEsencias();
+            $resultado = $productoController->listarEsencias($request);
+            echo json_encode($resultado);
+            break;
+
+        case 'listarCatalogoVinculos':
+            $resultado = $productoController->listarCatalogoVinculos();
             echo json_encode($resultado);
             break;
 

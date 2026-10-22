@@ -13,12 +13,29 @@ class VentasController {
         $this->servicio = $servicio;
     }
 
+    /** Usuario de la sesion. Nunca se asume un usuario por defecto: sin sesion no hay venta. */
+    private function usuarioActual(): int {
+        $idUsuario = Auth::userId();
+        if (!$idUsuario) {
+            throw new \DomainException('Sesión no válida. Inicia sesión nuevamente.');
+        }
+        return (int)$idUsuario;
+    }
+
+    /** Sede efectiva: la del vendedor (sesion) o la que elige el administrador. */
+    private function sedeEfectiva(array $request): int {
+        return Auth::sedeUsuario() ?? (int)($request['idSede'] ?? 0);
+    }
+
     public function listar(array $request): array {
         try {
-            $idSede = !empty($request['idSede']) ? (int)$request['idSede'] : null;
+            $idSede = Auth::sedeUsuario() ?? (!empty($request['idSede']) ? (int)$request['idSede'] : null);
             $estado = !empty($request['estado']) ? utils::sanitizeInput($request['estado']) : null;
+            $desde = $this->fechaValida($request['desde'] ?? null);
+            $hasta = $this->fechaValida($request['hasta'] ?? null);
+            $texto = !empty($request['texto']) ? utils::sanitizeInput($request['texto']) : null;
 
-            $data = $this->servicio->obtenerListadoYResumen($idSede, $estado);
+            $data = $this->servicio->obtenerListadoYResumen($idSede, $estado, $desde, $hasta, $texto);
             return response::success($data, 'Ventas obtenidas exitosamente');
         } catch (\DomainException $e) {
             return response::error($e->getMessage());
@@ -28,10 +45,15 @@ class VentasController {
         }
     }
 
+    /** Devuelve la fecha si tiene formato Y-m-d valido; si no, null. */
+    private function fechaValida(?string $fecha): ?string {
+        return ($fecha && preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) ? $fecha : null;
+    }
+
     public function catalogosVenta(array $request): array {
         try {
-            $idSede = !empty($request['idSede']) ? (int)$request['idSede'] : 1;
-            $data = $this->servicio->obtenerCatalogosVenta($idSede);
+            $sedeFija = Auth::sedeUsuario();
+            $data = $this->servicio->obtenerCatalogosVenta($this->sedeEfectiva($request), $sedeFija);
             return response::success($data, 'Catálogos de venta obtenidos');
         } catch (\DomainException $e) {
             return response::error($e->getMessage());
@@ -43,8 +65,7 @@ class VentasController {
 
     public function productosPorSede(array $request): array {
         try {
-            $idSede = (int)($request['idSede'] ?? 0);
-            $data = $this->servicio->obtenerProductosYConsecutivoPorSede($idSede);
+            $data = $this->servicio->obtenerProductosYConsecutivoPorSede($this->sedeEfectiva($request));
             return response::success($data, 'Productos de sede obtenidos');
         } catch (\DomainException $e) {
             return response::error($e->getMessage());
@@ -57,6 +78,7 @@ class VentasController {
     public function detalle(array $request): array {
         try {
             $idVenta = (int)($request['idVenta'] ?? 0);
+            $this->servicio->validarSedeVenta($idVenta, Auth::sedeUsuario());
             $data = $this->servicio->obtenerDetalleCompletoVenta($idVenta);
             return response::success($data, 'Detalle de venta obtenido');
         } catch (\DomainException $e) {
@@ -69,8 +91,12 @@ class VentasController {
 
     public function registrar(array $request): array {
         try {
-            if (!utils::validateRequiredFields(['idSede', 'numeroVenta', 'detalles'], $request)) {
-                return response::error('La sede, el número de venta y los productos son obligatorios');
+            $idSede = $this->sedeEfectiva($request);
+            if ($idSede <= 0) {
+                return response::error('Selecciona la sede de la venta');
+            }
+            if (!utils::validateRequiredFields(['numeroVenta', 'detalles'], $request)) {
+                return response::error('El número de venta y los productos son obligatorios');
             }
 
             $detalles = json_decode($request['detalles'], true);
@@ -78,9 +104,9 @@ class VentasController {
                 return response::error('El carrito de venta está vacío o es inválido');
             }
 
-            $idUsuario = (int)(Auth::userId() ?? 1);
+            $idUsuario = $this->usuarioActual();
             $encabezado = [
-                'idSede' => (int)$request['idSede'],
+                'idSede' => $idSede,
                 'numeroVenta' => utils::sanitizeInput($request['numeroVenta']),
                 'idCliente' => !empty($request['idCliente']) ? (int)$request['idCliente'] : null,
                 'idUsuario' => $idUsuario,
@@ -120,7 +146,8 @@ class VentasController {
             $idVenta = (int)$request['idVenta'];
             $idMetodoPago = (int)$request['idMetodoPago'];
             $montoPago = (float)$request['montoPago'];
-            $idUsuario = (int)(Auth::userId() ?? 1);
+            $idUsuario = $this->usuarioActual();
+            $this->servicio->validarSedeVenta($idVenta, Auth::sedeUsuario());
 
             $data = $this->servicio->registrarAbono($idVenta, $idMetodoPago, $montoPago, $idUsuario);
             return response::success($data, 'Abono registrado exitosamente');
@@ -135,8 +162,9 @@ class VentasController {
     public function anular(array $request): array {
         try {
             $idVenta = (int)($request['idVenta'] ?? 0);
-            $idUsuario = (int)(Auth::userId() ?? 1);
+            $idUsuario = $this->usuarioActual();
 
+            $this->servicio->validarSedeVenta($idVenta, Auth::sedeUsuario());
             $this->servicio->anularVenta($idVenta, $idUsuario);
             return response::success(null, 'Venta anulada y stock restaurado exitosamente');
         } catch (\DomainException $e) {
@@ -144,6 +172,41 @@ class VentasController {
         } catch (\Exception $e) {
             Logger::error('Error al anular venta', $e, $request);
             return response::error('Error al anular la venta');
+        }
+    }
+
+    public function preciosLocion(array $request): array {
+        try {
+            $data = $this->servicio->obtenerPreciosLocion($this->sedeEfectiva($request));
+            return response::success($data, 'Precios de lociones obtenidos');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error('Error al obtener precios de lociones', $e, $request);
+            return response::error('Error al obtener los precios');
+        }
+    }
+
+    public function guardarPrecioLocion(array $request): array {
+        try {
+            if (Auth::sedeUsuario()) {
+                return response::error('Solo el administrador puede cambiar los precios');
+            }
+            if (!utils::validateRequiredFields(['idSede', 'idProductoEsencia', 'idFormula', 'precio'], $request)) {
+                return response::error('Sede, esencia, fórmula y precio son obligatorios');
+            }
+            $this->servicio->guardarPrecioLocion(
+                (int)$request['idSede'],
+                (int)$request['idProductoEsencia'],
+                (int)$request['idFormula'],
+                (float)$request['precio']
+            );
+            return response::success(null, 'Precio guardado');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error('Error al guardar precio de loción', $e, $request);
+            return response::error('Error al guardar el precio');
         }
     }
 

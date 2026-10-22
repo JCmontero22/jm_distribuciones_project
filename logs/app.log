@@ -13051,3 +13051,1362 @@ Array
 ------------------------------------------------------------------------------------------------------------------------
 
 
+[2026-10-21 22:21:58] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[HY093]: Invalid parameter number
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 30
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(30): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(180): conexion->execute('INSERT INTO lot...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(141): ComprasModel->recalculoEsencia(Array, Array, 1, 24, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(87): ComprasModel->recalculo(Array, 24, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(61): ComprasModel->registrarDetalleCompra(24, Array, 1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(33): ComprasService->{closure}()
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(46): ComprasModel->ejecutarEnTransaccion(Object(Closure))
+#7 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_flujo.php(27): ComprasService->registrarCompraConDetalles(Array, Array)
+#8 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_flujo.php(18): {closure}()
+#9 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_flujo.php(26): paso('A. Compra de es...', Object(Closure))
+#10 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO lotes_esencia (
+                    id_sede, id_presentacion, id_compra, fecha_ingreso,
+                    gramos_iniciales, gramos_disponibles, costo_por_gramo
+                ) VALUES (:id_sede, :id_pres, :id_compra, NOW(), :gramos, :gramos, :costo)
+    [params] => Array
+        (
+            [:id_sede] => 1
+            [:id_pres] => 2
+            [:id_compra] => 24
+            [:gramos] => 125
+            [:costo] => 216
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 22:21:58] ERROR: Error al registrar compra y detalles
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(180): conexion->execute('INSERT INTO lot...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(141): ComprasModel->recalculoEsencia(Array, Array, 1, 24, 1)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(87): ComprasModel->recalculo(Array, 24, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(61): ComprasModel->registrarDetalleCompra(24, Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(33): ComprasService->{closure}()
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(46): ComprasModel->ejecutarEnTransaccion(Object(Closure))
+#6 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_flujo.php(27): ComprasService->registrarCompraConDetalles(Array, Array)
+#7 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_flujo.php(18): {closure}()
+#8 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_flujo.php(26): paso('A. Compra de es...', Object(Closure))
+#9 {main}
+Context:
+Array
+(
+    [data] => Array
+        (
+            [idProveedor] => 1
+            [idSede] => 1
+            [totalCompra] => 27000
+            [numeroFacturaCompra] => T-COMPRA-1
+            [idUsuario] => 1
+        )
+
+    [detalles] => Array
+        (
+            [0] => Array
+                (
+                    [idProductoPresentacion] => 2
+                    [idSede] => 1
+                    [cantidad] => 1
+                    [precioCompra] => 27000
+                    [subTotal] => 27000
+                )
+
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:14:26] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:14:26] ERROR: Error al obtener catálogos de venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => catalogosVenta
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:07] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:07] ERROR: Error al obtener catálogos de venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => catalogosVenta
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:17] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:17] ERROR: Error al obtener catálogos de venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => catalogosVenta
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:20] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(51): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(56): VentasService->obtenerProductosYConsecutivoPorSede(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(26): VentasController->productosPorSede(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:20] ERROR: Error al obtener productos por sede para venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(51): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(56): VentasService->obtenerProductosYConsecutivoPorSede(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(26): VentasController->productosPorSede(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => productosVentaPorSede
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:24] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:24] ERROR: Error al obtener catálogos de venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => catalogosVenta
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:26] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(51): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(56): VentasService->obtenerProductosYConsecutivoPorSede(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(26): VentasController->productosPorSede(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:26] ERROR: Error al obtener productos por sede para venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(51): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(56): VentasService->obtenerProductosYConsecutivoPorSede(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(26): VentasController->productosPorSede(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => productosVentaPorSede
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:28] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(51): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(56): VentasService->obtenerProductosYConsecutivoPorSede(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(26): VentasController->productosPorSede(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:28] ERROR: Error al obtener productos por sede para venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(51): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(56): VentasService->obtenerProductosYConsecutivoPorSede(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(26): VentasController->productosPorSede(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => productosVentaPorSede
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:52] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pp.id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 46
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(46): PDO->prepare('SELECT pp.id_pr...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#6 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#7 {main}
+Context:
+Array
+(
+    [sql] => SELECT pp.id_producto_esencia, f.cantidad_esencia, f.id_presentacion_envase
+             FROM productos_presentaciones pp
+             LEFT JOIN formulas f ON f.id_formula = pp.id_formula
+             WHERE pp.id_presentacion = :id
+    [params] => Array
+        (
+            [:id] => 13
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:15:52] ERROR: Error al obtener catálogos de venta
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(313): conexion->select('SELECT pp.id_pr...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(261): VentasModel->obtenerComponentesVenta(13)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(253): VentasModel->completarDisponibilidad(Array, 1)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(41): VentasModel->obtenerProductosParaVenta(1)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(43): VentasService->obtenerCatalogosVenta(1)
+#5 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/ventasAjax.php(21): VentasController->catalogosVenta(Array)
+#6 {main}
+Context:
+Array
+(
+    [accion] => catalogosVenta
+    [idSede] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-21 23:23:07] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:23:14] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:23:14] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:23:14] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:23:14] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:23:14] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:25:33] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_232533_907001f60416142b.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_232533_907001f60416142b.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:27:03] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_232703_ac9766a15ff846e3.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_232703_ac9766a15ff846e3.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:30:05] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_233005_4c41dbe955f63881.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_233005_4c41dbe955f63881.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:32:24] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_233224_8b867dad6ad531a8.png",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/marcas\/file_20261021_233224_8b867dad6ad531a8.png"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:33:52] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_233352_da30b40c41d3f923.jpeg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_233352_da30b40c41d3f923.jpeg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:37:13] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_233713_a7720b0a93e93297.jpeg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_233713_a7720b0a93e93297.jpeg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:38:23] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_233823_663dc8e814d6ce37.jpeg",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_233823_663dc8e814d6ce37.jpeg"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-21 23:50:20] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261021_235020_86f59edabd9fe32a.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261021_235020_86f59edabd9fe32a.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:05:11] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261022_000511_ac600501d03844ae.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261022_000511_ac600501d03844ae.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:05:41] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261022_000541_8f01e348beb41ade.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261022_000541_8f01e348beb41ade.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:05:41] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(88): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(72): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(47): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(29): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                            id_producto,
+                            nombre_presentacion,
+                            codigo_presentacion,
+                            precio_compra_presentacion,
+                            precio_venta_presentacion,
+                            id_tipo_producto,
+                            img_presentacion,
+                            unidad_medida_productos_presentacion,
+                            id_genero,
+                            favorito_presentacion,
+                            descripcion_presentacion,
+                            id_producto_esencia,
+                            id_formula
+                        )
+                        VALUES (
+                            :id_producto,
+                            :nombre_presentacion,
+                            :codigo_presentacion,
+                            :precio_compra_presentacion,
+                            :precio_venta_presentacion,
+                            :id_tipo_producto,
+                            :img_presentacion,
+                            :unidad_medida_productos_presentacion,
+                            :id_genero,
+                            :favoritoPresentacion,
+                            :descripcionPresentacion,
+                            :id_producto_esencia,
+                            :id_formula
+                        )
+    [params] => Array
+        (
+            [:id_producto] => 5
+            [:nombre_presentacion] => 30ml
+            [:codigo_presentacion] => 30ML-19159-187
+            [:precio_compra_presentacion] => 
+            [:precio_venta_presentacion] => 
+            [:id_tipo_producto] => 3
+            [:img_presentacion] => file_20261022_000541_8f01e348beb41ade.webp
+            [:unidad_medida_productos_presentacion] => unidad
+            [:id_genero] => 2
+            [:favoritoPresentacion] => 0
+            [:descripcionPresentacion] => 
+            [:id_producto_esencia] => 
+            [:id_formula] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:05:41] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20261022_000541_8f01e348beb41ade.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:05:41] ERROR: Error al registrar presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(88): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(72): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(47): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(29): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => registrarPresentaciones
+    [presentaciones] => [{"idPresentacionExistente":null,"isExistente":false,"nombrePresentacion":"30ml","codigoPresentacion":"30ML-19159-187","precioCompraPresentacion":null,"precioVentaPresentacion":null,"tipoProducto":"3","unidadMedidaProductosPresentacion":"unidad","cantidadGramosPresentacion":null,"idGenero":"2","idProducto":"5","favoritoPresentacion":0,"descripcionPresentacion":null}]
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:06:08] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261022_000608_202953f1def9371d.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261022_000608_202953f1def9371d.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:06:08] ERROR: Error en el execute SQL
+
+
+
+
+
+Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id_producto_esencia' in 'field list'
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 29
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(29): PDO->prepare('INSERT INTO pro...')
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(88): conexion->execute('INSERT INTO pro...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(72): ProductosModel->registroPresentacionProducto(Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(47): ProductoService->registrarPresentaciones(Array, Array)
+#4 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(29): ProductoController->registrarPresentaciones(Array, Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => INSERT INTO productos_presentaciones (
+                            id_producto,
+                            nombre_presentacion,
+                            codigo_presentacion,
+                            precio_compra_presentacion,
+                            precio_venta_presentacion,
+                            id_tipo_producto,
+                            img_presentacion,
+                            unidad_medida_productos_presentacion,
+                            id_genero,
+                            favorito_presentacion,
+                            descripcion_presentacion,
+                            id_producto_esencia,
+                            id_formula
+                        )
+                        VALUES (
+                            :id_producto,
+                            :nombre_presentacion,
+                            :codigo_presentacion,
+                            :precio_compra_presentacion,
+                            :precio_venta_presentacion,
+                            :id_tipo_producto,
+                            :img_presentacion,
+                            :unidad_medida_productos_presentacion,
+                            :id_genero,
+                            :favoritoPresentacion,
+                            :descripcionPresentacion,
+                            :id_producto_esencia,
+                            :id_formula
+                        )
+    [params] => Array
+        (
+            [:id_producto] => 5
+            [:nombre_presentacion] => 30ml
+            [:codigo_presentacion] => 30ML-19159-187
+            [:precio_compra_presentacion] => 
+            [:precio_venta_presentacion] => 
+            [:id_tipo_producto] => 3
+            [:img_presentacion] => file_20261022_000608_202953f1def9371d.webp
+            [:unidad_medida_productos_presentacion] => unidad
+            [:id_genero] => 2
+            [:favoritoPresentacion] => 0
+            [:descripcionPresentacion] => 
+            [:id_producto_esencia] => 
+            [:id_formula] => 
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:06:08] INFO: Imagen eliminada correctamente
+Context: {
+    "archivo": "file_20261022_000608_202953f1def9371d.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:06:08] ERROR: Error al registrar presentaciones
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 40
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ProductosModel.php(88): conexion->execute('INSERT INTO pro...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ProductoService.php(72): ProductosModel->registroPresentacionProducto(Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/ProductoController.php(47): ProductoService->registrarPresentaciones(Array, Array)
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/ajax/productosAjax.php(29): ProductoController->registrarPresentaciones(Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [accion] => registrarPresentaciones
+    [presentaciones] => [{"idPresentacionExistente":null,"isExistente":false,"nombrePresentacion":"30ml","codigoPresentacion":"30ML-19159-187","precioCompraPresentacion":null,"precioVentaPresentacion":null,"tipoProducto":"3","unidadMedidaProductosPresentacion":"unidad","cantidadGramosPresentacion":null,"idGenero":"2","idProducto":"5","favoritoPresentacion":0,"descripcionPresentacion":null}]
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:07:59] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261022_000759_6f87242cd4c7c5aa.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261022_000759_6f87242cd4c7c5aa.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:08:30] INFO: Imagen guardada correctamente
+Context: {
+    "archivo": "file_20261022_000830_9d63127d5da2345f.webp",
+    "ruta": "\/opt\/lampp\/htdocs\/PROYECTO_JM-ML\/distribuciones_jm\/jm_distribuciones_project\/assets\/img\/productos\/file_20261022_000830_9d63127d5da2345f.webp"
+}
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 00:23:03] ERROR: Error al actualizar compra
+
+
+
+
+
+Mensaje: No se puede modificar esta compra: ya se vendieron unidades de CURREN8391 - nego.
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php
+Line: 462
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(35): ComprasModel->revertirEfectosCompra(1)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/ComprasModel.php(33): ComprasService->{closure}()
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/ComprasService.php(30): ComprasModel->ejecutarEnTransaccion(Object(Closure))
+#3 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_editar_bloqueada.php(10): ComprasService->actualizarCompraConDetalles(1, Array, Array)
+#4 {main}
+Context:
+Array
+(
+    [idCompra] => 1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:29:17] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[HY093]: Invalid parameter number
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 47
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(47): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(83): conexion->select('SELECT\n        ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(25): VentasModel->obtenerVentas(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(33): VentasService->obtenerListadoYResumen(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#4 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_balance.php(15): VentasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                    v.id_venta,
+                    v.id_sede,
+                    v.numero_venta,
+                    v.id_cliente,
+                    v.id_usuario,
+                    v.subtotal_venta,
+                    v.descuento_venta,
+                    v.total_venta,
+                    v.costo_total_venta,
+                    v.estado_venta,
+                    v.fecha_venta,
+                    v.observacion_venta,
+                    COALESCE(pv.total_pagado, 0) AS total_pagado,
+                    GREATEST(0, v.total_venta - COALESCE(pv.total_pagado, 0)) AS saldo_pendiente,
+                    s.nombre_sede,
+                    c.nombre_cliente,
+                    u.nombre_usuario
+                  FROM ventas v
+                  LEFT JOIN (
+                        SELECT id_venta, SUM(monto_pago) AS total_pagado
+                        FROM pagos_venta
+                        GROUP BY id_venta
+                  ) pv ON pv.id_venta = v.id_venta
+                  LEFT JOIN sedes s ON v.id_sede = s.id_sede
+                  LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
+                  LEFT JOIN usuario u ON v.id_usuario = u.id_usuario
+                  WHERE 1 = 1 AND v.id_sede = :id_sede AND DATE(v.fecha_venta) >= :desde AND DATE(v.fecha_venta) <= :hasta AND (v.numero_venta LIKE :texto OR c.nombre_cliente LIKE :texto OR u.nombre_usuario LIKE :texto)
+                  ORDER BY v.id_venta DESC
+    [params] => Array
+        (
+            [:id_sede] => 1
+            [:desde] => 2026-10-01
+            [:hasta] => 2026-10-22
+            [:texto] => %H-1%
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:29:17] ERROR: Error al listar ventas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(83): conexion->select('SELECT\n        ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(25): VentasModel->obtenerVentas(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(33): VentasService->obtenerListadoYResumen(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#3 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/prueba_balance.php(15): VentasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [idSede] => 1
+    [desde] => 2026-10-01
+    [hasta] => 2026-10-22
+    [texto] => H-1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:29:23] ERROR: Error en consulta SELECT
+
+
+
+
+
+Mensaje: SQLSTATE[HY093]: Invalid parameter number
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 47
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php(47): PDOStatement->execute(Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(83): conexion->select('SELECT\n        ...', Array)
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(25): VentasModel->obtenerVentas(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#3 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(33): VentasService->obtenerListadoYResumen(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#4 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/hist_dbg.php(7): VentasController->listar(Array)
+#5 {main}
+Context:
+Array
+(
+    [sql] => SELECT
+                    v.id_venta,
+                    v.id_sede,
+                    v.numero_venta,
+                    v.id_cliente,
+                    v.id_usuario,
+                    v.subtotal_venta,
+                    v.descuento_venta,
+                    v.total_venta,
+                    v.costo_total_venta,
+                    v.estado_venta,
+                    v.fecha_venta,
+                    v.observacion_venta,
+                    COALESCE(pv.total_pagado, 0) AS total_pagado,
+                    GREATEST(0, v.total_venta - COALESCE(pv.total_pagado, 0)) AS saldo_pendiente,
+                    s.nombre_sede,
+                    c.nombre_cliente,
+                    u.nombre_usuario
+                  FROM ventas v
+                  LEFT JOIN (
+                        SELECT id_venta, SUM(monto_pago) AS total_pagado
+                        FROM pagos_venta
+                        GROUP BY id_venta
+                  ) pv ON pv.id_venta = v.id_venta
+                  LEFT JOIN sedes s ON v.id_sede = s.id_sede
+                  LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
+                  LEFT JOIN usuario u ON v.id_usuario = u.id_usuario
+                  WHERE 1 = 1 AND v.id_sede = :id_sede AND DATE(v.fecha_venta) >= :desde AND DATE(v.fecha_venta) <= :hasta AND (v.numero_venta LIKE :texto OR c.nombre_cliente LIKE :texto OR u.nombre_usuario LIKE :texto)
+                  ORDER BY v.id_venta DESC
+    [params] => Array
+        (
+            [:id_sede] => 1
+            [:desde] => 2026-10-01
+            [:hasta] => 2026-10-22
+            [:texto] => %H-1%
+        )
+
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 00:29:23] ERROR: Error al listar ventas
+
+
+
+
+
+Mensaje: Error en la consulta a la base de datos: 
+File: /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/core/conexion.php
+Line: 51
+Stack trace:
+#0 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/model/VentasModel.php(83): conexion->select('SELECT\n        ...', Array)
+#1 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/services/VentasService.php(25): VentasModel->obtenerVentas(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#2 /opt/lampp/htdocs/PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/controller/VentasController.php(33): VentasService->obtenerListadoYResumen(1, NULL, '2026-10-01', '2026-10-22', 'H-1')
+#3 /tmp/claude-1000/-opt-lampp-htdocs-PROYECTO-JM-ML-distribuciones-jm-jm-distribuciones-project/73ac5552-dc41-47ca-a253-650e90ed3140/scratchpad/hist_dbg.php(7): VentasController->listar(Array)
+#4 {main}
+Context:
+Array
+(
+    [idSede] => 1
+    [desde] => 2026-10-01
+    [hasta] => 2026-10-22
+    [texto] => H-1
+)
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+[2026-10-22 01:00:29] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:00:36] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:00:36] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:00:36] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:00:36] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:00:36] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:03:14] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:03:19] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:03:19] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:03:19] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:03:19] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:03:19] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:07:09] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:07:11] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:07:11] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:07:11] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:07:11] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:07:12] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:42] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:45] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:45] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:45] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:45] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:46] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:57] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:59] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:59] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:59] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:59] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:16:59] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:18:05] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:18:08] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:18:08] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:18:08] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:18:08] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:18:08] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:22:41] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:22:45] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:22:45] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:22:45] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:22:45] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:22:45] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:25:34] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:25:36] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:25:36] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:25:36] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:25:36] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:25:36] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:27:23] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:27:26] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:27:26] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:27:26] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:27:26] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:27:26] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:32:16] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:32:21] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:32:21] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:32:21] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:32:21] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 01:32:21] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:02:55] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:02:57] INFO: LOGIN: Buscando usuario: vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:02:57] INFO: LOGIN: Usuario encontrado - ID: 3, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:02:57] INFO: LOGIN: Validando contraseña para vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:02:57] DEBUG: Hash almacenado: $2y$10$jefP5Zou85vDF...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:02:57] INFO: LOGIN EXITOSO: vendedor (ID: 3)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:16:58] INFO: LOGOUT: Usuario vendedor
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:11] INFO: LOGIN: Buscando usuario: katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:11] INFO: LOGIN: Usuario encontrado - ID: 4, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:11] INFO: LOGIN: Validando contraseña para katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:11] DEBUG: Hash almacenado: $2y$10$x6Sfc5OR6BJcS...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:11] WARNING: LOGIN FALLIDO: Contraseña incorrecta - katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:11] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:17] INFO: LOGIN: Buscando usuario: katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:17] INFO: LOGIN: Usuario encontrado - ID: 4, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:17] INFO: LOGIN: Validando contraseña para katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:17] DEBUG: Hash almacenado: $2y$10$x6Sfc5OR6BJcS...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:17] WARNING: LOGIN FALLIDO: Contraseña incorrecta - katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:17] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:44] INFO: LOGIN: Buscando usuario: katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:44] INFO: LOGIN: Usuario encontrado - ID: 4, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:44] INFO: LOGIN: Validando contraseña para katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:44] DEBUG: Hash almacenado: $2y$10$x6Sfc5OR6BJcS...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:45] WARNING: LOGIN FALLIDO: Contraseña incorrecta - katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:45] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:55] INFO: LOGIN: Buscando usuario: katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:55] INFO: LOGIN: Usuario encontrado - ID: 4, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:55] INFO: LOGIN: Validando contraseña para katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:55] DEBUG: Hash almacenado: $2y$10$x6Sfc5OR6BJcS...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:55] WARNING: LOGIN FALLIDO: Contraseña incorrecta - katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:17:55] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:03] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:03] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:03] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:03] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:03] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:28] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:37] INFO: LOGIN: Buscando usuario: katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:37] INFO: LOGIN: Usuario encontrado - ID: 4, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:37] INFO: LOGIN: Validando contraseña para katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:37] DEBUG: Hash almacenado: $2y$10$7KOnN6wghOvkb...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:18:37] INFO: LOGIN EXITOSO: katerine (ID: 4)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:23:08] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:23:08] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:23:08] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:23:08] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:23:08] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:27] INFO: LOGOUT: Usuario katerine
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:34] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:34] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:34] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:34] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:34] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:24:47] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:35] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:35] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:35] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:35] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:35] WARNING: LOGIN FALLIDO: Contraseña incorrecta - jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:35] DEBUG: Password enviada no coincide con hash almacenado
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:40] INFO: LOGIN: Buscando usuario: jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:40] INFO: LOGIN: Usuario encontrado - ID: 2, Estado: Activo
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:40] INFO: LOGIN: Validando contraseña para jmontero
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:40] DEBUG: Hash almacenado: $2y$10$5y93s6HEMnvnw...
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:30:40] INFO: LOGIN EXITOSO: jmontero (ID: 2)
+------------------------------------------------------------------------------------------------------------------------
+[2026-10-22 02:36:22] INFO: LOGOUT: Usuario jmontero
+------------------------------------------------------------------------------------------------------------------------

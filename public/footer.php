@@ -10,17 +10,20 @@
 <!-- ============================================================
      1. CONFIGURACIÓN (DEBE SER PRIMERO)
      ============================================================ -->
-<?php $bp = defined('BASE_PATH') ? BASE_PATH : '/'; ?>
-<script src="<?= $bp ?>assets/js/config/config.js"></script>
-<script src="<?= $bp ?>assets/js/core/csrf.js"></script>
+<?php
+    $bp = defined('BASE_PATH') ? BASE_PATH : '/';
+    $jsVer = @filemtime(__DIR__ . '/../assets/css/style.css') ?: time();
+?>
+<script src="<?= $bp ?>assets/js/config/config.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/core/csrf.js?v=<?= $jsVer ?>"></script>
 
 <!-- ============================================================
      2. CORE - SERVICIOS BÁSICOS
      ============================================================ -->
-<script src="<?= $bp ?>assets/js/core/Logger.js"></script>
-<script src="<?= $bp ?>assets/js/core/SimpleAPI.js"></script>
-<script src="<?= $bp ?>assets/js/core/alert.js"></script>
-<script src="<?= $bp ?>assets/js/core/utils.js"></script>
+<script src="<?= $bp ?>assets/js/core/Logger.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/core/SimpleAPI.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/core/alert.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/core/utils.js?v=<?= $jsVer ?>"></script>
 
 <!-- ============================================================
      3. MÓDULOS DE LA APLICACIÓN
@@ -29,18 +32,21 @@
 <!-- ============================================================
      4. INICIALIZACIÓN PRINCIPAL
      ============================================================ -->
-<script src="<?= $bp ?>assets/js/modules/inventarioGenerico.js"></script>
-<script src="<?= $bp ?>assets/js/modules/compras.js"></script>
-<script src="<?= $bp ?>assets/js/modules/ventas.js"></script>
-<script src="<?= $bp ?>assets/js/modules/proveedores.js"></script>
-<script src="<?= $bp ?>assets/js/modules/inventarioFormulas.js"></script>
-<script src="<?= $bp ?>assets/js/modules/informeProduccion.js"></script>
-<script src="<?= $bp ?>assets/js/modules/marcas.js"></script>
-<script src="<?= $bp ?>assets/js/modules/bannerPromociones.js"></script>
-<script src="<?= $bp ?>assets/js/modules/descuentos.js"></script>
-<script src="<?= $bp ?>assets/js/modules/configuracion.js"></script>
+<script src="<?= $bp ?>assets/js/modules/inventarioGenerico.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/compras.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/ventas.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/gastos.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/historial.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/balance.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/proveedores.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/inventarioFormulas.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/informeProduccion.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/marcas.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/bannerPromociones.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/descuentos.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/configuracion.js?v=<?= $jsVer ?>"></script>
 
-<script src="<?= $bp ?>assets/js/main.js"></script>
+<script src="<?= $bp ?>assets/js/main.js?v=<?= $jsVer ?>"></script>
 
 <!-- ============================================================
      LOGOUT HANDLER

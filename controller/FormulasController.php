@@ -15,15 +15,16 @@ class FormulasController {
 
     public function registrar(array $request): array {
         try {
-            if (!utils::validateRequiredFields(['nombreFormula', 'cantidadEsencia', 'insumo', 'concentracion'], $request)) {
+            if (!utils::validateRequiredFields(['nombreFormula', 'cantidadEsencia', 'concentracion', 'envaseFormula'], $request)) {
                 return response::error('Todos los campos son obligatorios');
             }
 
             $data = [
-                'nombre_formula'        => utils::sanitizeInput($request['nombreFormula']),
-                'cantidad_esencia'      => utils::sanitizeInput($request['cantidadEsencia']),
-                'id_insumo_formula'     => utils::sanitizeInput($request['insumo']),
-                'id_tipo_concentracion' => utils::sanitizeInput($request['concentracion']),
+                'nombre_formula'         => utils::sanitizeInput($request['nombreFormula']),
+                'cantidad_esencia'       => utils::sanitizeInput($request['cantidadEsencia']),
+                'id_insumo_formula'      => null,
+                'id_tipo_concentracion'  => utils::sanitizeInput($request['concentracion']),
+                'id_presentacion_envase' => (int)utils::sanitizeInput($request['envaseFormula']),
             ];
 
             $result = $this->servicio->registrarFormulas($data);
@@ -90,7 +91,7 @@ class FormulasController {
         try {
             
 
-            if (!utils::validateRequiredFields(['id_formula', 'nombreFormula', 'cantidadEsencia', 'insumo', 'concentracion'], $request)) {
+            if (!utils::validateRequiredFields(['id_formula', 'nombreFormula', 'cantidadEsencia', 'concentracion', 'envaseFormula'], $request)) {
                 return response::error('Todos los campos son obligatorios');
             }
 

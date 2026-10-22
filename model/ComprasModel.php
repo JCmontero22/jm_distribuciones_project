@@ -24,26 +24,45 @@
             return $this->select($query, []);
         }
 
+        /**
+         * Ejecuta $operacion dentro de una transaccion: si algo falla, no queda compra a medias.
+         */
+        public function ejecutarEnTransaccion(callable $operacion): mixed {
+            $this->beginTransaction();
+            try {
+                $resultado = $operacion();
+                $this->commit();
+                return $resultado;
+            } catch (\Throwable $e) {
+                if ($this->inTransaction()) {
+                    $this->rollBack();
+                }
+                throw $e;
+            }
+        }
+
         public function registrarCompra(array $data): mixed {
             $query = "INSERT INTO compras (
                 id_proveedor,
+                id_sede,
                 total_compra,
                 numero_factura_compra
-            ) VALUES (:id_proveedor, :total_compra, :numero_factura_compra)";
+            ) VALUES (:id_proveedor, :id_sede, :total_compra, :numero_factura_compra)";
 
             $params = [
                 ':id_proveedor' => $data['idProveedor'],
+                ':id_sede' => $data['idSede'],
                 ':total_compra' => $data['totalCompra'],
                 ':numero_factura_compra' => $data['numeroFacturaCompra']
             ];
 
             return $this->execute($query, $params);
-        }   
+        }
 
         /**
-         * Registra los detalles de la compra (array de detalles)
+         * Registra los detalles de la compra. $idUsuario queda en el kardex (puede ser null en la edicion).
          */
-        public function registrarDetalleCompra(int $idCompra, array $detalle): mixed {
+        public function registrarDetalleCompra(int $idCompra, array $detalle, ?int $idUsuario = null): mixed {
             $query = "INSERT INTO detalle_compra (
                 id_compra,
                 id_presentacion,
@@ -65,107 +84,143 @@
                 ];
 
                 $this->execute($query, $params);
-                $this->recalculo($item);
+                $this->recalculo($item, $idCompra, $idUsuario);
             }
             return true;
         }
 
-        private function recalculo(array $data){
-            $dataProductoPresentacion = $this->dataProductoPresentacion($data['idProductoPresentacion']);
-            $idSede = $data['idSede'];
+        /**
+         * Egreso de caja por la compra (la compra se paga desde la caja de la sede).
+         */
+        public function registrarEgresoCaja(int $idCompra, int $idSede, float $monto, ?int $idUsuario): void {
+            $this->execute(
+                "INSERT INTO caja_movimientos (
+                    id_sede, tipo_caja, concepto_caja, monto_caja, id_compra, id_usuario, observacion_caja
+                ) VALUES (:id_sede, 'egreso', 'compra', :monto, :id_compra, :id_usuario, :obs)",
+                [
+                    ':id_sede' => $idSede,
+                    ':monto' => $monto,
+                    ':id_compra' => $idCompra,
+                    ':id_usuario' => $idUsuario,
+                    ':obs' => "Compra #{$idCompra}"
+                ]
+            );
+        }
 
-            error_log("[ComprasModel::recalculo] Presentación: " . $dataProductoPresentacion['nombre_presentacion'] .
-                      " | Unidad: " . $dataProductoPresentacion['unidad_medida_productos_presentacion']);
+        private function registrarKardexCompra(int $idSede, int $idPresentacion, string $unidad, float $cantidad, float $saldo, int $idCompra, ?int $idUsuario, ?int $idLote = null): void {
+            $this->execute(
+                "INSERT INTO movimientos_inventario (
+                    id_sede, id_presentacion, id_tipo_movimiento, unidad_movimiento,
+                    cantidad_movimiento, saldo_resultante, id_compra, id_usuario,
+                    observacion_movimiento, id_lote_esencia
+                ) VALUES (
+                    :id_sede, :id_pres,
+                    (SELECT id_tipo_movimiento FROM tipos_movimiento WHERE nombre_movimiento = 'COMPRA' LIMIT 1),
+                    :unidad, :cantidad, :saldo, :id_compra, :id_usuario, :obs, :id_lote
+                )",
+                [
+                    ':id_sede' => $idSede,
+                    ':id_pres' => $idPresentacion,
+                    ':unidad' => $unidad,
+                    ':cantidad' => $cantidad,
+                    ':saldo' => $saldo,
+                    ':id_compra' => $idCompra,
+                    ':id_usuario' => $idUsuario,
+                    ':obs' => "Compra #{$idCompra}",
+                    ':id_lote' => $idLote
+                ]
+            );
+        }
+
+        private function recalculo(array $data, int $idCompra, ?int $idUsuario){
+            $dataProductoPresentacion = $this->dataProductoPresentacion($data['idProductoPresentacion']);
+            $idSede = (int)$data['idSede'];
 
             // Diferenciar por tipo de unidad de medida
             if ($dataProductoPresentacion['unidad_medida_productos_presentacion'] === 'gramo') {
-                error_log("[ComprasModel::recalculo] ES ESENCIA - Llamando recalculoEsencia");
-                $this->recalculoEsencia($data, $dataProductoPresentacion, $idSede);
+                $this->recalculoEsencia($data, $dataProductoPresentacion, $idSede, $idCompra, $idUsuario);
             } else {
-                error_log("[ComprasModel::recalculo] NO ES ESENCIA - Llamando recalculoProductoRegular");
-                $this->recalculoProductoRegular($data, $dataProductoPresentacion, $idSede);
+                $this->recalculoProductoRegular($data, $dataProductoPresentacion, $idSede, $idCompra, $idUsuario);
             }
         }
 
         /**
          * Flujo para ESENCIAS: registra en gramos en inventario_esencias y recalcula fórmulas
          */
-        private function recalculoEsencia(array $data, array $dataPresentacion, int $idSede): void {
-            error_log("[ComprasModel::recalculoEsencia] Iniciando recalculoEsencia");
-            error_log("  - Presentación: " . $dataPresentacion['nombre_presentacion']);
-            error_log("  - Cantidad comprada: " . $data['cantidad']);
-            error_log("  - Precio compra: " . $data['precioCompra']);
-            error_log("  - Sede: " . $idSede);
+        /**
+         * Flujo para ESENCIAS: suma gramos al saldo de la sede, crea un lote con su costo por gramo
+         * (base del FIFO de ventas) y registra el movimiento en el kardex.
+         */
+        private function recalculoEsencia(array $data, array $dataPresentacion, int $idSede, int $idCompra, ?int $idUsuario): void {
+            $idPresentacion = (int)$data['idProductoPresentacion'];
+            $dataStockEsencia = $this->dataStockEsencia($idPresentacion, $idSede);
 
-            $dataStockEsencia = $this->dataStockEsencia($data['idProductoPresentacion'], $idSede);
-
-            // Obtener tamaño de presentación: usar campo o extraer del nombre
-            $tamanioPresentacion = $dataPresentacion['cantidad_gramos_presentacion'];
-            error_log("  - cantidad_gramos_presentacion (BD): " . ($tamanioPresentacion ?? 'NULL'));
-
+            // Tamaño de la presentación en gramos: campo de BD o, si no existe, el número del nombre (ej: "125G" -> 125)
+            $tamanioPresentacion = $dataPresentacion['cantidad_gramos_presentacion'] ?? null;
             if (!$tamanioPresentacion) {
-                // Fallback: extraer gramos del nombre de presentación (ej: "212 MEN - 125G" -> 125)
                 $tamanioPresentacion = $this->extraerGramosDelNombre($dataPresentacion['nombre_presentacion']) ?? 1;
-                error_log("  - cantidad_gramos_presentacion (PARSED): " . $tamanioPresentacion);
             }
 
-            // Cantidad total de gramos = cantidad_comprada × tamaño_presentacion
-            $cantidadGramos = $data['cantidad'] * $tamanioPresentacion;
-            error_log("  - Total gramos a registrar: " . $cantidadGramos);
+            $cantidadGramos = (float)$data['cantidad'] * $tamanioPresentacion;
+            // precioCompra es el costo unitario de UNA presentacion: se divide entre sus gramos, no entre el total comprado
+            $costoPorGramo = (float)$data['precioCompra'] / $tamanioPresentacion;
 
-            // Calcular costo por gramo
-            $costoPorGramo = $data['precioCompra'] / $cantidadGramos;
-
-            // Crear o actualizar inventario en GRAMOS
             if (!$dataStockEsencia) {
-                $registroStockEsencia = [
-                    'id_presentacion' => $data['idProductoPresentacion'],
+                $this->registrarStockEsencia([
+                    'id_presentacion' => $idPresentacion,
                     'id_sede' => $idSede,
                     'cantidad_gramos' => $cantidadGramos,
                     'costo_por_gramo' => $costoPorGramo
-                ];
-                $this->registrarStockEsencia($registroStockEsencia);
+                ]);
+                $saldo = $cantidadGramos;
             } else {
-                $nuevoStock = $dataStockEsencia['cantidad_gramos'] + $cantidadGramos;
-                $this->actualizarStockEsencia(
-                    $data['idProductoPresentacion'],
-                    $idSede,
-                    $nuevoStock,
-                    $costoPorGramo
-                );
+                $saldo = (float)$dataStockEsencia['cantidad_gramos'] + $cantidadGramos;
+                $this->actualizarStockEsencia($idPresentacion, $idSede, $saldo, $costoPorGramo);
             }
 
-            // Actualizar precio de presentación (para referencia)
-            $nuevoPrecioCompra = $data['precioCompra'];
-            $this->actualizarValorCompra($data['idProductoPresentacion'], $nuevoPrecioCompra);
+            $idLote = (int)$this->execute(
+                "INSERT INTO lotes_esencia (
+                    id_sede, id_presentacion, id_compra, fecha_ingreso,
+                    gramos_iniciales, gramos_disponibles, costo_por_gramo
+                ) VALUES (:id_sede, :id_pres, :id_compra, NOW(), :gramos_iniciales, :gramos_disponibles, :costo)",
+                [
+                    ':id_sede' => $idSede,
+                    ':id_pres' => $idPresentacion,
+                    ':id_compra' => $idCompra,
+                    ':gramos_iniciales' => $cantidadGramos,
+                    ':gramos_disponibles' => $cantidadGramos,
+                    ':costo' => $costoPorGramo
+                ]
+            );
+
+            $this->registrarKardexCompra($idSede, $idPresentacion, 'gramo', $cantidadGramos, $saldo, $idCompra, $idUsuario, $idLote);
+
+            $this->actualizarValorCompra($idPresentacion, (float)$data['precioCompra']);
         }
 
         /**
-         * Flujo para PRODUCTOS REGULARES (Relojes, Lociones 1.1, Envases, etc)
+         * Flujo para PRODUCTOS REGULARES (Relojes, Lociones 1.1, Envases, etc): suma unidades al saldo de la sede.
          */
-        private function recalculoProductoRegular(array $data, array $dataPresentacion, int $idSede): void {
-            $dataStockSede = $this->dataStockSede($data['idProductoPresentacion'], $idSede);
+        private function recalculoProductoRegular(array $data, array $dataPresentacion, int $idSede, int $idCompra, ?int $idUsuario): void {
+            $idPresentacion = (int)$data['idProductoPresentacion'];
+            $cantidad = (int)$data['cantidad'];
+            $dataStockSede = $this->dataStockSede($idPresentacion, $idSede);
 
-            // Crear o actualizar inventario en UNIDADES
             if (!$dataStockSede) {
-                $registroStockSede = [
+                $this->registrarStockSede([
                     'id_sede' => $idSede,
-                    'stock_sede' => $data['cantidad'],
-                    'id_presentacion' => $data['idProductoPresentacion']
-                ];
-                $this->registrarStockSede($registroStockSede);
+                    'stock_sede' => $cantidad,
+                    'id_presentacion' => $idPresentacion
+                ]);
+                $saldo = $cantidad;
             } else {
-                $nuevoStock = $dataStockSede['stock_sede'] + $data['cantidad'];
-                $this->actualizarStockSede(
-                    $data['idProductoPresentacion'],
-                    $idSede,
-                    $nuevoStock
-                );
+                $saldo = (int)$dataStockSede['stock_sede'] + $cantidad;
+                $this->actualizarStockSede($idPresentacion, $idSede, $saldo);
             }
 
-            // Actualizar precio de compra
-            $nuevoPrecioCompra = $data['precioCompra'];
-            $this->actualizarValorCompra($data['idProductoPresentacion'], $nuevoPrecioCompra);
+            $this->registrarKardexCompra($idSede, $idPresentacion, 'unidad', (float)$cantidad, (float)$saldo, $idCompra, $idUsuario);
+
+            $this->actualizarValorCompra($idPresentacion, (float)$data['precioCompra']);
         }
 
         private function dataProductoPresentacion(int $idProductoPresentacion) {
@@ -177,6 +232,7 @@
                         productos_presentaciones.nombre_presentacion,
                         productos_presentaciones.precio_compra_presentacion,
                         productos_presentaciones.unidad_medida_productos_presentacion,
+                        productos_presentaciones.cantidad_gramos_presentacion,
                         tipo_producto.id_tipo_producto,
                         tipo_producto.descripcion_tipo_producto,
                         categoria_producto.id_categoria AS id_categoria_producto,
@@ -344,16 +400,92 @@
         public function actualizarCompra(int $idCompra, array $data): mixed {
             $query = "UPDATE compras SET
                         id_proveedor = :id_proveedor,
+                        id_sede = :id_sede,
                         numero_factura_compra = :numero_factura_compra,
                         total_compra = :total_compra
                       WHERE id_compras = :id_compras";
             $params = [
                 ':id_proveedor' => $data['idProveedor'],
+                ':id_sede' => $data['idSede'],
                 ':numero_factura_compra' => $data['numeroFacturaCompra'],
                 ':total_compra' => $data['totalCompra'],
                 ':id_compras' => $idCompra
             ];
             return $this->execute($query, $params);
+        }
+
+        /**
+         * Revierte el stock, lotes, kardex y caja que dejo una compra, para poder editarla o eliminarla.
+         * Valida todo antes de tocar nada: si ya se vendio parte de lo comprado, lanza DomainException.
+         */
+        public function revertirEfectosCompra(int $idCompra): void {
+            $detalles = $this->select(
+                "SELECT id_presentacion, id_sede, cantidad_detalle_compra FROM detalle_compra WHERE id_compra = :id",
+                [':id' => $idCompra]
+            );
+
+            $reversiones = [];
+            foreach ($detalles as $d) {
+                $idPres = (int)$d['id_presentacion'];
+                $idSede = (int)$d['id_sede'];
+                $pres = $this->dataProductoPresentacion($idPres);
+                $nombre = $pres ? "{$pres['nombre_producto']} - {$pres['nombre_presentacion']}" : "#{$idPres}";
+
+                if (($pres['unidad_medida_productos_presentacion'] ?? '') === 'gramo') {
+                    $lotes = $this->select(
+                        "SELECT id_lote, gramos_iniciales, gramos_disponibles FROM lotes_esencia
+                         WHERE id_compra = :id AND id_presentacion = :pres AND id_sede = :sede FOR UPDATE",
+                        [':id' => $idCompra, ':pres' => $idPres, ':sede' => $idSede]
+                    );
+                    $gramos = 0.0;
+                    foreach ($lotes as $l) {
+                        if ((float)$l['gramos_disponibles'] + 0.001 < (float)$l['gramos_iniciales']) {
+                            throw new \DomainException("No se puede modificar esta compra: parte de {$nombre} ya se vendió.");
+                        }
+                        $gramos += (float)$l['gramos_iniciales'];
+                    }
+                    $saldo = $this->select(
+                        "SELECT cantidad_gramos FROM inventario_esencias WHERE id_presentacion = :pres AND id_sede = :sede FOR UPDATE",
+                        [':pres' => $idPres, ':sede' => $idSede]
+                    );
+                    if ((float)($saldo[0]['cantidad_gramos'] ?? 0) + 0.001 < $gramos) {
+                        throw new \DomainException("No se puede modificar esta compra: parte de {$nombre} ya se vendió.");
+                    }
+                    $reversiones[] = ['gramo', $idPres, $idSede, $gramos];
+                } else {
+                    $cantidad = (int)$d['cantidad_detalle_compra'];
+                    $stock = $this->select(
+                        "SELECT stock_sede FROM inventario_sedes WHERE id_presentacion = :pres AND id_sede = :sede FOR UPDATE",
+                        [':pres' => $idPres, ':sede' => $idSede]
+                    );
+                    if ((int)($stock[0]['stock_sede'] ?? 0) < $cantidad) {
+                        throw new \DomainException("No se puede modificar esta compra: ya se vendieron unidades de {$nombre}.");
+                    }
+                    $reversiones[] = ['unidad', $idPres, $idSede, $cantidad];
+                }
+            }
+
+            $this->execute("DELETE FROM movimientos_inventario WHERE id_compra = :id", [':id' => $idCompra]);
+            $this->execute("DELETE FROM caja_movimientos WHERE id_compra = :id", [':id' => $idCompra]);
+
+            foreach ($reversiones as [$tipo, $idPres, $idSede, $cantidad]) {
+                if ($tipo === 'gramo') {
+                    $this->execute(
+                        "DELETE FROM lotes_esencia WHERE id_compra = :id AND id_presentacion = :pres AND id_sede = :sede",
+                        [':id' => $idCompra, ':pres' => $idPres, ':sede' => $idSede]
+                    );
+                    $this->execute(
+                        "UPDATE inventario_esencias SET cantidad_gramos = cantidad_gramos - :c, fecha_actualizacion = NOW()
+                         WHERE id_presentacion = :pres AND id_sede = :sede",
+                        [':c' => $cantidad, ':pres' => $idPres, ':sede' => $idSede]
+                    );
+                } else {
+                    $this->execute(
+                        "UPDATE inventario_sedes SET stock_sede = stock_sede - :c WHERE id_presentacion = :pres AND id_sede = :sede",
+                        [':c' => $cantidad, ':pres' => $idPres, ':sede' => $idSede]
+                    );
+                }
+            }
         }
 
         public function eliminarDetallesCompra(int $idCompra): mixed {
@@ -362,6 +494,7 @@
         }
 
         public function eliminarCompra(int $idCompra): mixed {
+            $this->revertirEfectosCompra($idCompra);
             $this->eliminarDetallesCompra($idCompra);
             $query = "DELETE FROM compras WHERE id_compras = :id_compras";
             return $this->execute($query, [':id_compras' => $idCompra]);

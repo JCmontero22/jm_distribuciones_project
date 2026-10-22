@@ -147,7 +147,8 @@ const ConfiguracionView = {
                 { data: 'id_categoria' },
                 { data: 'nombre_categoria' },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_categoria}"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_categoria}"><i class="fa-regular fa-trash-can"></i></button>`;
@@ -166,7 +167,8 @@ const ConfiguracionView = {
                 { data: 'id_tipo_producto' },
                 { data: 'descripcion_tipo_producto' },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_tipo_producto}"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_tipo_producto}"><i class="fa-regular fa-trash-can"></i></button>`;
@@ -188,7 +190,8 @@ const ConfiguracionView = {
                 { data: 'responsable_sede' },
                 { data: 'telefono_sede' },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_sede}"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_sede}"><i class="fa-regular fa-trash-can"></i></button>`;
@@ -217,7 +220,8 @@ const ConfiguracionView = {
                 { data: 'nombre_permiso' },
                 { data: 'descripcion_permiso' },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_permiso}"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_permiso}"><i class="fa-regular fa-trash-can"></i></button>`;
@@ -237,7 +241,8 @@ const ConfiguracionView = {
                 { data: 'nombre_perfil_usuario' },
                 { data: 'descripcion_perfil_usuario' },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         return `<button class="btn btn-sm btn-warning btnEditar" data-id="${row.id_perfil_usuario}"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-sm btn-danger btnEliminar" data-id="${row.id_perfil_usuario}"><i class="fa-regular fa-trash-can"></i></button>`;
@@ -279,7 +284,8 @@ const ConfiguracionView = {
                     }
                 },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         const isInactive = Number(row.id_estado) === 2;
                         const actionBtn = isInactive
@@ -299,6 +305,7 @@ const ConfiguracionView = {
         $("#nombreUsuario").val(usuario ? usuario.nombre_usuario : '');
         $("#userUsuario").val(usuario ? usuario.user_usuario : '');
         $("#perfilUsuario").val(usuario ? usuario.id_perfil_usuario : '');
+        $("#sedeUsuario").val(usuario && usuario.id_sede ? usuario.id_sede : '');
         $("#estadoUsuario").val(usuario ? usuario.id_estado : '');
         $("#btnRegistrarUsuario").html(usuario ? 'Actualizar' : 'Registrar');
     },
@@ -391,7 +398,8 @@ const ConfiguracionView = {
                 { data: 'permisos_asignados', render: (d) => `<small style="font-size: .9rem">${d || 'Sin permisos asignados'}</small>` },
                 { data: 'cantidad_permisos', render: (d) => `<span class="badge bg-primary">${d || 0}</span>` },
                 {
-                    button: 'Acciones',
+                    data: null,
+                    orderable: false,
                     render(_data, _type, row) {
                         const idPerfil = row.id_perfil_usuario || row.id_perfil || '';
                         return `<button class="btn btn-sm btn-danger btnEliminarPermisos" data-id="${idPerfil}" title="Eliminar todos los permisos"><i class="fa-regular fa-trash-can"></i></button>`;
@@ -1024,10 +1032,25 @@ const ConfiguracionModule = {
         }
     },
 
+    /** Sedes para asignar al usuario. Vacío = administrador. */
+    async poblarSedesUsuario() {
+        try {
+            const sedes = await ConfiguracionAPI.obtenerSedes();
+            const select = document.querySelector('#sedeUsuario');
+            const seleccionada = select.value;
+            select.innerHTML = '<option value="">Administrador (elige la sede al vender)</option>';
+            sedes.forEach(s => select.appendChild(new Option(s.nombre_sede, s.id_sede)));
+            select.value = seleccionada;
+        } catch (error) {
+            console.error('Error al cargar sedes para usuarios:', error);
+        }
+    },
+
     async obtenerPerfilesSelect() {
         try {
             const perfiles = await ConfiguracionAPI.obtenerPerfilUsuario();
             ConfiguracionView.renderSeleccionPerfil(perfiles);
+            await this.poblarSedesUsuario();
         } catch (error) {
             console.error('Error al obtener perfiles de usuario:', error);
             return [];

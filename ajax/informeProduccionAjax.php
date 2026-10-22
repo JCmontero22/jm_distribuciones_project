@@ -16,7 +16,14 @@ $model = new CapacidadProduccionModel();
 switch ($accion) {
     case 'obtenerDatosInforme':
         try {
-            $esencias = $model->obtenerEsenciasParaInforme();
+            // Vendedor: solo ve su sede. Administrador: la que elige.
+            $idSede = Auth::sedeUsuario() ?? (int)($_GET['idSede'] ?? 0);
+            if ($idSede <= 0) {
+                echo json_encode(response::error('Selecciona una sede'));
+                break;
+            }
+
+            $esencias = $model->obtenerEsenciasParaInforme($idSede);
             $formulas = $model->obtenerFormulasConInsumo();
 
             $capacidades = [];
@@ -36,7 +43,8 @@ switch ($accion) {
             echo json_encode(response::success([
                 'esencias'    => $esencias,
                 'formulas'    => $formulas,
-                'capacidades' => $capacidades
+                'capacidades' => $capacidades,
+                'puedeEditarPrecios' => !Auth::sedeUsuario()
             ]));
         } catch (Exception $e) {
             echo json_encode(response::error('Error al obtener datos del informe: ' . $e->getMessage()));

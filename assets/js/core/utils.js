@@ -18,6 +18,41 @@ const FormatUtils = {
 
     obtenerValorLimpio($input) {
         return $input.data("valor-limpio") || $input.val().replace(/\D/g, "");
+    },
+
+    formatearFechaTabla(fechaStr) {
+        if (!fechaStr) return '<span class="text-muted">N/A</span>';
+        const str = String(fechaStr).trim();
+        const partes = str.split(/[\sT]+/);
+        const fechaParte = partes[0] || "";
+        const horaParte = partes[1] || "";
+
+        let fechaFormateada = fechaParte;
+        const matchFecha = fechaParte.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (matchFecha) {
+            fechaFormateada = `${matchFecha[3]}/${matchFecha[2]}/${matchFecha[1]}`;
+        }
+
+        if (!horaParte) {
+            return `<div class="fecha-tabla"><span class="fecha-tabla__dia">${fechaFormateada}</span></div>`;
+        }
+
+        const matchHora = horaParte.match(/^(\d{2}):(\d{2})/);
+        let horaFormateada = horaParte.slice(0, 5);
+        if (matchHora) {
+            let h = parseInt(matchHora[1], 10);
+            const m = matchHora[2];
+            const ampm = h >= 12 ? "PM" : "AM";
+            h = h % 12 || 12;
+            horaFormateada = `${String(h).padStart(2, "0")}:${m} ${ampm}`;
+        }
+
+        return `
+            <div class="fecha-tabla">
+                <span class="fecha-tabla__dia">${fechaFormateada}</span>
+                <span class="fecha-tabla__hora"><i class="fa-regular fa-clock me-1"></i>${horaFormateada}</span>
+            </div>
+        `;
     }
 };
 
@@ -76,7 +111,18 @@ const AppUI = {
             $(selector).DataTable().destroy();
         }
 
+        if (Object.prototype.hasOwnProperty.call(options, "data")) {
+            $(selector).find("tbody").empty();
+        }
+
         return $(selector).DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            autoWidth: false,
             language: this.dataTableLanguage(),
             ...options
         });

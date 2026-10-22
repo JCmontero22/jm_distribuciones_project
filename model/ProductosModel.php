@@ -49,7 +49,8 @@
                             unidad_medida_productos_presentacion,
                             id_genero,
                             favorito_presentacion,
-                            descripcion_presentacion
+                            descripcion_presentacion,
+                            cantidad_gramos_presentacion
                         )
                         VALUES (
                             :id_producto,
@@ -62,7 +63,8 @@
                             :unidad_medida_productos_presentacion,
                             :id_genero,
                             :favoritoPresentacion,
-                            :descripcionPresentacion
+                            :descripcionPresentacion,
+                            :cantidadGramos
                         )";
 
             $params = [
@@ -76,7 +78,8 @@
                 ':unidad_medida_productos_presentacion' => $presentacion['unidadMedidaProductosPresentacion'],
                 ':id_genero' => $presentacion['idGenero'] ?? null,
                 ':favoritoPresentacion' => $presentacion['favoritoPresentacion'] ?? 0,
-                ':descripcionPresentacion' => $presentacion['descripcionPresentacion'] ?? null
+                ':descripcionPresentacion' => $presentacion['descripcionPresentacion'] ?? null,
+                ':cantidadGramos' => $presentacion['cantidadGramosPresentacion'] ?: null
             ];
 
             return $this->execute($query, $params);
@@ -92,7 +95,8 @@
                         unidad_medida_productos_presentacion = :unidad_medida_productos_presentacion,
                         id_genero = :id_genero,
                         favorito_presentacion = :favoritoPresentacion,
-                        descripcion_presentacion = :descripcionPresentacion";
+                        descripcion_presentacion = :descripcionPresentacion,
+                        cantidad_gramos_presentacion = :cantidadGramos";
 
             if (!empty($presentacion['imgPresentacion'])) {
                 $query .= ", img_presentacion = :img_presentacion";
@@ -110,6 +114,7 @@
                 ':id_genero' => $presentacion['idGenero'] ?? null,
                 ':favoritoPresentacion' => $presentacion['favoritoPresentacion'] ?? 0,
                 ':descripcionPresentacion' => $presentacion['descripcionPresentacion'] ?? null,
+                ':cantidadGramos' => $presentacion['cantidadGramosPresentacion'] ?: null,
                 ':idPresentacionExistente' => $presentacion['idPresentacionExistente']
             ];
 
@@ -120,7 +125,10 @@
             return $this->execute($query, $params);
         }
 
-        public function obtenerProductos(string $nombreCategoria, int $limit = null, int $offset = 0): array {
+        /**
+         * Presentaciones de una categoria con su stock en la sede. Las presentaciones sin inventario aparecen con stock 0.
+         */
+        public function obtenerProductos(string $nombreCategoria, int $limit = null, int $offset = 0, int $idSede = 1): array {
             $query = "SELECT
                             p.id_producto,
                             p.nombre_producto,
@@ -147,15 +155,19 @@
                         LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
                         LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
                         LEFT JOIN genero g ON pp.id_genero = g.id_genero
-                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion
-                        LEFT JOIN inventario_sedes iss ON pp.id_presentacion = iss.id_presentacion
-                        WHERE c.nombre_categoria = :categoria AND iss.id_sede = 1 AND p.id_estado = 1 AND pp.id_estado = 1";
+                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion AND ie.id_sede = :id_sede_esencia
+                        LEFT JOIN inventario_sedes iss ON pp.id_presentacion = iss.id_presentacion AND iss.id_sede = :id_sede_stock
+                        WHERE c.nombre_categoria = :categoria AND p.id_estado = 1 AND pp.id_estado = 1";
 
             if ($limit !== null && $limit > 0) {
                 $query .= " LIMIT :limit OFFSET :offset";
             }
 
-            $params = [':categoria' => $nombreCategoria];
+            $params = [
+                ':categoria' => $nombreCategoria,
+                ':id_sede_esencia' => $idSede,
+                ':id_sede_stock' => $idSede
+            ];
             if ($limit !== null && $limit > 0) {
                 $params[':limit'] = $limit;
                 $params[':offset'] = $offset;
@@ -262,7 +274,10 @@
             return $this->execute($query, [':id' => $idPresentacion]);
         }
 
-        public function obtenerEsencias(): array {
+        /**
+         * Todas las esencias activas. Sin stock en la sede aparecen con 0 g.
+         */
+        public function obtenerEsencias(int $idSede = 1): array {
             $query = "SELECT
                             p.id_producto,
                             p.nombre_producto,
@@ -271,22 +286,22 @@
                             p.logo_producto,
                             m.nombre_marca,
                             MAX(pp.img_presentacion) AS img_presentacion,
-                            SUM(COALESCE(ie.cantidad_gramos, 0)) AS cantidad_gramos,
+                            COALESCE(SUM(ie.cantidad_gramos), 0) AS cantidad_gramos,
                             CASE
                                 WHEN SUM(COALESCE(ie.cantidad_gramos, 0)) > 0
                                 THEN SUM(ie.cantidad_gramos * ie.costo_por_gramo) / SUM(ie.cantidad_gramos)
                                 ELSE 0
                             END AS costo_por_gramo
                         FROM productos p
-                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
-                        LEFT JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        INNER JOIN categoria_producto c ON p.id_categoria = c.id_categoria AND c.nombre_categoria = 'Esencias'
                         LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
-                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion
-                        WHERE c.nombre_categoria = 'Esencias' AND p.id_estado = 1 AND ie.id_sede = 1
-                        GROUP BY p.id_producto, p.nombre_producto, p.descripcion_producto, p.logo_producto, m.nombre_marca
+                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto AND pp.id_estado = 1
+                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion AND ie.id_sede = :id_sede
+                        WHERE p.id_estado = 1
+                        GROUP BY p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, p.logo_producto, m.nombre_marca
                         ORDER BY p.nombre_producto";
 
-            return $this->select($query);
+            return $this->select($query, [':id_sede' => $idSede]);
         }
 
         public function obtenerProductosCompra() : array {
@@ -300,11 +315,34 @@
                             pp.precio_compra_presentacion,
                             ct.nombre_categoria
                         FROM productos p
-                        LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
-                        LEFT JOIN categoria_producto ct ON p.id_categoria = ct.id_categoria
-                        WHERE p.id_categoria IN (1, 3, 4, 5) AND p.id_estado = 1";
+                        INNER JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto AND pp.id_estado = 1
+                        INNER JOIN categoria_producto ct ON p.id_categoria = ct.id_categoria AND ct.id_estado = 1
+                        WHERE p.id_estado = 1";
 
             return $this->select($query);
+        }
+
+        /** Esencias activas (productos de la categoria Esencias), con o sin stock. */
+        public function obtenerEsenciasVinculo(): array {
+            return $this->select(
+                "SELECT p.id_producto, p.nombre_producto
+                 FROM productos p
+                 INNER JOIN categoria_producto c ON c.id_categoria = p.id_categoria
+                 WHERE c.nombre_categoria = 'Esencias' AND p.id_estado = 1
+                 ORDER BY p.nombre_producto"
+            );
+        }
+
+        /** Presentaciones de la categoria Insumos que pueden usarse como envase de una formula. */
+        public function obtenerEnvasesVinculo(): array {
+            return $this->select(
+                "SELECT pp.id_presentacion, p.nombre_producto, pp.nombre_presentacion
+                 FROM productos_presentaciones pp
+                 INNER JOIN productos p ON p.id_producto = pp.id_producto
+                 INNER JOIN categoria_producto c ON c.id_categoria = p.id_categoria
+                 WHERE c.nombre_categoria = 'Insumos' AND pp.id_estado = 1 AND p.id_estado = 1
+                 ORDER BY p.nombre_producto, pp.nombre_presentacion"
+            );
         }
 
         public function obtenerIdsPresentacionesPorMarca(int $idMarca): array {

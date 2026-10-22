@@ -152,6 +152,16 @@ class ServiceContainer {
         return self::$instances['loginService'];
     }
 
+    public static function getGastosService(): GastosService {
+        if (!isset(self::$instances['gastosService'])) {
+            require_once(DIR_MODEL . 'GastosModel.php');
+            require_once(DIR_SERVICE . 'GastosService.php');
+
+            self::$instances['gastosService'] = new GastosService(new GastosModel());
+        }
+        return self::$instances['gastosService'];
+    }
+
     public static function getVentasService(): VentasService {
         if (!isset(self::$instances['ventasService'])) {
             require_once(DIR_MODEL . 'VentasModel.php');

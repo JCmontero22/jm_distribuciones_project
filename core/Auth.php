@@ -40,6 +40,18 @@ class Auth {
     /**
      * Obtener ID del usuario
      */
+    /** Sede asignada al usuario (vendedor). Null para administrador. */
+    public static function sedeUsuario(): ?int {
+        // Sesiones creadas antes de guardar la sede no traen el dato: se lee de la base una vez
+        if (isset($_SESSION['usuario']) && !array_key_exists('id_sede', $_SESSION['usuario'])) {
+            require_once(__DIR__ . '/../model/LoginModel.php');
+            $datos = (new LoginModel())->obtenerPorUsuario($_SESSION['usuario']['user_usuario'] ?? '');
+            $_SESSION['usuario']['id_sede'] = $datos['id_sede'] ?? null;
+        }
+        $sede = $_SESSION['usuario']['id_sede'] ?? null;
+        return $sede ? (int)$sede : null;
+    }
+
     public static function userId() {
         return isset($_SESSION['usuario']['id_usuario']) ? $_SESSION['usuario']['id_usuario'] : null;
     }
@@ -107,29 +119,34 @@ class Auth {
         'esencias'           => 'Inventario',
         'insumos'            => 'Inventario',
         'locionesAAA'        => 'Inventario',
-        'locionesPreparadas' => 'Inventario',
         'lociones'           => 'Inventario',
         'compras'            => 'Compras',
         'proveedores'        => 'Compras',
-        'informeProduccion'  => 'Produccion',
+        'informeProduccion'  => 'Informe de produccion',
         'formulas'           => 'Produccion',
         'marcas'             => 'Produccion',
         'bannerPromociones'  => 'Promociones',
         'descuentos'         => 'Promociones',
         'configuracion'      => 'configuraciones',
         'historial'          => 'Historial',
-        'ventas'             => 'Ventas',
+        'ventas'             => 'Registro Ventas',
+        'gastos'             => 'Registro gastos',
+        'historialVentas'    => 'Historial',
+        'balanceMensual'     => 'Historial',
 
         // Endpoints AJAX
         'productosAjax'         => 'Inventario',
         'comprasAjax'           => 'Compras',
         'proveedorAjax'         => 'Compras',
         'formulasAjax'          => 'Produccion',
-        'informeProduccionAjax' => 'Produccion',
+        'informeProduccionAjax' => 'Informe de produccion',
         'promocionesAjax'       => 'Promociones',
         'descuentosAjax'        => 'Promociones',
         'usuariosAjax'          => 'configuraciones',
-        'ventasAjax'            => 'Ventas',
+        'ventasAjax'            => 'Registro Ventas',
+        'gastosAjax'            => 'Registro gastos',
+        'historialAjax'         => 'Historial',
+        'balanceAjax'           => 'Historial',
     );
 
     /**

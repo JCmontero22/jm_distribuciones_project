@@ -7,6 +7,11 @@
             
         </div>
         <div class="col-md-2 text-end d-flex align-items-center justify-content-end gap-2">
+            <?php if (!Auth::sedeUsuario()): ?>
+                <select class="form-select form-select-sm w-auto" id="selectSedeInforme" aria-label="Sede">
+                    <option value="">Sede</option>
+                </select>
+            <?php endif; ?>
             <button class="btn btnRegistro  btn-sm" id="btnRefrescarInforme">
                 <i class="bi bi-arrow-clockwise "></i> Actualizar
             </button>

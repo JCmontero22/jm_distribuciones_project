@@ -2,56 +2,32 @@
 
 require_once(__DIR__ . '/../core/conexion.php');
 
+/**
+ * Modelo de ventas.
+ *
+ * Reglas de consumo y costo (ver db/migrations/003 y 004):
+ *  - Reventa (id_tipo_producto = 1): descuenta unidades de inventario_sedes; costo = precio_compra_presentacion.
+ *  - Locion (esencia + formula): gramos de la esencia por FIFO de lotes_esencia y 1 envase de la formula.
+ *    Costo = consumo real de lotes + envase. Precio por esencia, formula y sede (precios_locion_sede).
+ *  - Las esencias son insumos: no se venden directamente.
+ *
+ * Toda venta, abono o anulacion corre en una transaccion. Las filas de inventario se bloquean
+ * con SELECT ... FOR UPDATE antes de validar stock, en el mismo orden siempre (evita sobreventa y deadlocks).
+ */
 class VentasModel extends conexion {
 
-    private array $tableCache = [];
-    private array $columnCache = [];
+    private const TIPO_REVENTA = 1;
+    /** Categoria virtual de las lociones calculadas (no existe en categoria_producto). */
+    public const ID_CATEGORIA_LOCIONES = 0;
 
-    private function tablaExiste(string $tabla): bool {
-        if (!isset($this->tableCache[$tabla])) {
-            try {
-                $res = $this->select("SHOW TABLES LIKE :tabla", [':tabla' => $tabla]);
-                $this->tableCache[$tabla] = !empty($res);
-            } catch (\Exception $e) {
-                $this->tableCache[$tabla] = false;
-            }
-        }
-        return $this->tableCache[$tabla];
-    }
+    // ============================================================
+    // LECTURAS
+    // ============================================================
 
-    private function columnaExiste(string $tabla, string $columna): bool {
-        $key = "{$tabla}.{$columna}";
-        if (!isset($this->columnCache[$key])) {
-            try {
-                $res = $this->select("SHOW COLUMNS FROM `{$tabla}` LIKE :col", [':col' => $columna]);
-                $this->columnCache[$key] = !empty($res);
-            } catch (\Exception $e) {
-                $this->columnCache[$key] = false;
-            }
-        }
-        return $this->columnCache[$key];
-    }
-
-    public function obtenerVentas(?int $idSede = null, ?string $estado = null): array {
-        if (!$this->tablaExiste('ventas')) {
-            return [];
-        }
-
-        $tienePagosVenta = $this->tablaExiste('pagos_venta');
-        $joinPagos = $tienePagosVenta
-            ? "LEFT JOIN (
-                    SELECT id_venta, SUM(monto_pago) AS total_pagado
-                    FROM pagos_venta
-                    GROUP BY id_venta
-               ) pv ON pv.id_venta = v.id_venta"
-            : "";
-
-        $selectPagado = $tienePagosVenta
-            ? "COALESCE(pv.total_pagado, 0) AS total_pagado,
-               GREATEST(0, v.total_venta - COALESCE(pv.total_pagado, 0)) AS saldo_pendiente,"
-            : "CASE WHEN v.estado_venta = 'pagada' THEN v.total_venta ELSE 0 END AS total_pagado,
-               CASE WHEN v.estado_venta = 'pendiente' THEN v.total_venta ELSE 0 END AS saldo_pendiente,";
-
+    /**
+     * Ventas con filtros opcionales: sede, estado, rango de fechas (Y-m-d) y texto (numero, cliente o vendedor).
+     */
+    public function obtenerVentas(?int $idSede = null, ?string $estado = null, ?string $desde = null, ?string $hasta = null, ?string $texto = null): array {
         $where = ["1 = 1"];
         $params = [];
 
@@ -59,13 +35,24 @@ class VentasModel extends conexion {
             $where[] = "v.id_sede = :id_sede";
             $params[':id_sede'] = $idSede;
         }
-
         if (!empty($estado)) {
             $where[] = "v.estado_venta = :estado";
             $params[':estado'] = $estado;
         }
-
-        $whereSql = implode(' AND ', $where);
+        if (!empty($desde)) {
+            $where[] = "DATE(v.fecha_venta) >= :desde";
+            $params[':desde'] = $desde;
+        }
+        if (!empty($hasta)) {
+            $where[] = "DATE(v.fecha_venta) <= :hasta";
+            $params[':hasta'] = $hasta;
+        }
+        if (!empty($texto)) {
+            $where[] = "(v.numero_venta LIKE :texto1 OR c.nombre_cliente LIKE :texto2 OR u.nombre_usuario LIKE :texto3)";
+            $params[':texto1'] = '%' . $texto . '%';
+            $params[':texto2'] = '%' . $texto . '%';
+            $params[':texto3'] = '%' . $texto . '%';
+        }
 
         $query = "SELECT
                     v.id_venta,
@@ -80,16 +67,21 @@ class VentasModel extends conexion {
                     v.estado_venta,
                     v.fecha_venta,
                     v.observacion_venta,
-                    {$selectPagado}
+                    COALESCE(pv.total_pagado, 0) AS total_pagado,
+                    GREATEST(0, v.total_venta - COALESCE(pv.total_pagado, 0)) AS saldo_pendiente,
                     s.nombre_sede,
                     c.nombre_cliente,
                     u.nombre_usuario
                   FROM ventas v
+                  LEFT JOIN (
+                        SELECT id_venta, SUM(monto_pago) AS total_pagado
+                        FROM pagos_venta
+                        GROUP BY id_venta
+                  ) pv ON pv.id_venta = v.id_venta
                   LEFT JOIN sedes s ON v.id_sede = s.id_sede
                   LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
                   LEFT JOIN usuario u ON v.id_usuario = u.id_usuario
-                  {$joinPagos}
-                  WHERE {$whereSql}
+                  WHERE " . implode(' AND ', $where) . "
                   ORDER BY v.id_venta DESC";
 
         return $this->select($query, $params);
@@ -115,11 +107,11 @@ class VentasModel extends conexion {
                 continue;
             }
 
-            $total = (float)($v['total_venta'] ?? 0);
-            $costo = (float)($v['costo_total_venta'] ?? 0);
-            $pagado = (float)($v['total_pagado'] ?? 0);
+            $total = (float)$v['total_venta'];
+            $costo = (float)$v['costo_total_venta'];
+            $pagado = (float)$v['total_pagado'];
             $saldo = max(0, $total - $pagado);
-            $fecha = substr((string)($v['fecha_venta'] ?? ''), 0, 10);
+            $fecha = substr((string)$v['fecha_venta'], 0, 10);
 
             if ($fecha === $hoy) {
                 $resumen['ventas_hoy'] += $total;
@@ -131,7 +123,7 @@ class VentasModel extends conexion {
             $resumen['costo_total'] += $costo;
             $resumen['ganancia_estimada'] += ($total - $costo);
 
-            if (($v['estado_venta'] ?? '') === 'pendiente' && $saldo > 0) {
+            if ($v['estado_venta'] === 'pendiente' && $saldo > 0) {
                 $resumen['por_cobrar'] += $saldo;
                 $resumen['ventas_pendientes']++;
             }
@@ -141,30 +133,21 @@ class VentasModel extends conexion {
     }
 
     public function obtenerVentaPorId(int $idVenta): ?array {
-        $tienePagosVenta = $this->tablaExiste('pagos_venta');
-        $joinPagos = $tienePagosVenta
-            ? "LEFT JOIN (
-                    SELECT id_venta, SUM(monto_pago) AS total_pagado
-                    FROM pagos_venta
-                    GROUP BY id_venta
-               ) pv ON pv.id_venta = v.id_venta"
-            : "";
-
-        $selectPagado = $tienePagosVenta
-            ? "COALESCE(pv.total_pagado, 0) AS total_pagado"
-            : "CASE WHEN v.estado_venta = 'pagada' THEN v.total_venta ELSE 0 END AS total_pagado";
-
         $query = "SELECT
                     v.*,
-                    {$selectPagado},
+                    COALESCE(pv.total_pagado, 0) AS total_pagado,
                     s.nombre_sede,
                     c.nombre_cliente,
                     u.nombre_usuario
                   FROM ventas v
+                  LEFT JOIN (
+                        SELECT id_venta, SUM(monto_pago) AS total_pagado
+                        FROM pagos_venta
+                        GROUP BY id_venta
+                  ) pv ON pv.id_venta = v.id_venta
                   LEFT JOIN sedes s ON v.id_sede = s.id_sede
                   LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
                   LEFT JOIN usuario u ON v.id_usuario = u.id_usuario
-                  {$joinPagos}
                   WHERE v.id_venta = :id_venta
                   LIMIT 1";
 
@@ -173,15 +156,18 @@ class VentasModel extends conexion {
     }
 
     public function obtenerDetallesVenta(int $idVenta): array {
+        // Reventa: nombre de la presentacion. Locion: esencia + formula.
         $query = "SELECT
                     dv.*,
-                    pp.nombre_presentacion,
-                    p.nombre_producto,
-                    cp.nombre_categoria
+                    COALESCE(pp.nombre_presentacion, f.nombre_formula) AS nombre_presentacion,
+                    COALESCE(p.nombre_producto, pe.nombre_producto) AS nombre_producto,
+                    COALESCE(cp.nombre_categoria, 'Lociones') AS nombre_categoria
                   FROM detalle_venta dv
                   LEFT JOIN productos_presentaciones pp ON dv.id_presentacion = pp.id_presentacion
                   LEFT JOIN productos p ON pp.id_producto = p.id_producto
                   LEFT JOIN categoria_producto cp ON p.id_categoria = cp.id_categoria
+                  LEFT JOIN productos pe ON pe.id_producto = dv.id_producto_esencia
+                  LEFT JOIN formulas f ON f.id_formula = dv.id_formula
                   WHERE dv.id_venta = :id_venta
                   ORDER BY dv.id_detalle_venta ASC";
 
@@ -189,10 +175,6 @@ class VentasModel extends conexion {
     }
 
     public function obtenerPagosVenta(int $idVenta): array {
-        if (!$this->tablaExiste('pagos_venta')) {
-            return [];
-        }
-
         $query = "SELECT
                     pv.id_pago_venta,
                     pv.id_venta,
@@ -211,46 +193,25 @@ class VentasModel extends conexion {
     }
 
     public function generarSiguienteNumeroVenta(int $idSede): string {
-        if (!$this->tablaExiste('ventas')) {
-            return 'VTA-0001';
-        }
-
         $res = $this->select(
             "SELECT COUNT(*) AS total FROM ventas WHERE id_sede = :id_sede",
             [':id_sede' => $idSede]
         );
-        $consecutivo = ((int)($res[0]['total'] ?? 0)) + 1;
+        $consecutivo = ((int)$res[0]['total']) + 1;
         return sprintf('VTA-%04d', $consecutivo);
     }
 
     public function obtenerClientes(): array {
-        if (!$this->tablaExiste('cliente')) {
-            return [];
-        }
-        $colDir = $this->columnaExiste('cliente', 'direccion_cliente') ? 'direccion_cliente' : 'doreccion_cliente';
-        $query = "SELECT
-                    id_cliente,
-                    nombre_cliente,
-                    identificacion_cliente,
-                    telefono_cliente,
-                    {$colDir} AS direccion_cliente
-                  FROM cliente
-                  ORDER BY nombre_cliente ASC";
-        return $this->select($query);
+        return $this->select(
+            "SELECT id_cliente, nombre_cliente, identificacion_cliente, telefono_cliente, direccion_cliente
+             FROM cliente
+             ORDER BY nombre_cliente ASC"
+        );
     }
 
     public function registrarCliente(array $data): int {
-        $colDir = $this->columnaExiste('cliente', 'direccion_cliente') ? 'direccion_cliente' : 'doreccion_cliente';
-        $tieneEstado = $this->columnaExiste('cliente', 'id_estado');
-
-        $campos = "nombre_cliente, identificacion_cliente, telefono_cliente, {$colDir}";
-        $valores = ":nombre, :identificacion, :telefono, :direccion";
-        if ($tieneEstado) {
-            $campos .= ", id_estado";
-            $valores .= ", 1";
-        }
-
-        $query = "INSERT INTO cliente ({$campos}) VALUES ({$valores})";
+        $query = "INSERT INTO cliente (nombre_cliente, identificacion_cliente, telefono_cliente, direccion_cliente)
+                  VALUES (:nombre, :identificacion, :telefono, :direccion)";
         return (int)$this->execute($query, [
             ':nombre' => $data['nombreCliente'],
             ':identificacion' => $data['identificacionCliente'] ?: null,
@@ -260,183 +221,422 @@ class VentasModel extends conexion {
     }
 
     public function obtenerMetodosPago(): array {
-        if (!$this->tablaExiste('metodos_pago')) {
-            return [];
-        }
-        $tieneEstado = $this->columnaExiste('metodos_pago', 'id_estado');
-        $where = $tieneEstado ? "WHERE id_estado = 1" : "";
-        return $this->select("SELECT id_metodo_pago, nombre_metodo_pago FROM metodos_pago {$where} ORDER BY id_metodo_pago ASC");
+        return $this->select(
+            "SELECT id_metodo_pago, nombre_metodo_pago FROM metodos_pago WHERE id_estado = 1 ORDER BY id_metodo_pago ASC"
+        );
     }
 
+    // ============================================================
+    // CATALOGO DE VENTA (disponibilidad y costo por sede)
+    // ============================================================
+
+    /**
+     * Catalogo de venta de la sede. Cada item tiene una clave:
+     *  - P{idPresentacion}: reventa (id_tipo_producto = 1), vendida como presentacion.
+     *  - L{idEsencia}-{idFormula}: locion calculada (esencia + formula). Su stock es lo que alcanza
+     *    con la esencia en lotes y el envase en inventario (mismo calculo del informe de produccion).
+     */
     public function obtenerProductosParaVenta(int $idSede): array {
-        $tienePrecioSede = $this->tablaExiste('precios_presentacion_sede');
-        $joinPrecioSede = $tienePrecioSede
-            ? "LEFT JOIN precios_presentacion_sede pps ON pps.id_presentacion = pp.id_presentacion AND pps.id_sede = :id_sede_precio"
-            : "";
-        $selectPrecioBase = $tienePrecioSede
-            ? "COALESCE(pps.precio_venta, pp.precio_venta_presentacion, 0) AS precio_venta_base,"
-            : "COALESCE(pp.precio_venta_presentacion, 0) AS precio_venta_base,";
+        $productos = [];
 
-        $query = "SELECT
-                    p.id_producto,
-                    p.nombre_producto,
-                    p.id_categoria,
-                    cp.nombre_categoria,
-                    pp.id_presentacion,
-                    pp.nombre_presentacion,
-                    pp.id_tipo_producto,
-                    pp.unidad_medida_productos_presentacion,
+        $reventas = $this->select(
+            "SELECT p.id_producto, p.nombre_producto, p.id_categoria, cp.nombre_categoria,
+                    pp.id_presentacion, pp.nombre_presentacion,
                     COALESCE(pp.precio_compra_presentacion, 0) AS precio_compra_presentacion,
-                    {$selectPrecioBase}
+                    COALESCE(pp.precio_venta_presentacion, 0) AS precio_venta_base,
                     COALESCE(d.porcentaje_descuento, 0) AS porcentaje_descuento,
-                    COALESCE(iss.stock_sede, 0) AS stock_unidades,
-                    COALESCE(ie.cantidad_gramos, 0) AS stock_gramos,
-                    COALESCE(ie.costo_por_gramo, 0) AS costo_por_gramo
-                  FROM productos_presentaciones pp
-                  INNER JOIN productos p ON pp.id_producto = p.id_producto
-                  INNER JOIN categoria_producto cp ON p.id_categoria = cp.id_categoria
-                  LEFT JOIN inventario_sedes iss ON iss.id_presentacion = pp.id_presentacion AND iss.id_sede = :id_sede_stock
-                  LEFT JOIN inventario_esencias ie ON ie.id_presentacion = pp.id_presentacion AND ie.id_sede = :id_sede_esencia
-                  {$joinPrecioSede}
-                  LEFT JOIN descuentos d
-                    ON pp.id_descuento = d.id_descuento
-                    AND d.id_estado = 1
-                    AND CURDATE() BETWEEN d.fecha_inicio_descuento AND d.fecha_fin_descuento
-                  WHERE p.id_estado = 1 AND pp.id_estado = 1
-                  ORDER BY cp.nombre_categoria ASC, p.nombre_producto ASC, pp.nombre_presentacion ASC";
+                    COALESCE(iss.stock_sede, 0) AS stock_unidades
+             FROM productos_presentaciones pp
+             INNER JOIN productos p ON pp.id_producto = p.id_producto
+             INNER JOIN categoria_producto cp ON p.id_categoria = cp.id_categoria
+             LEFT JOIN inventario_sedes iss ON iss.id_presentacion = pp.id_presentacion AND iss.id_sede = :id_sede_stock
+             LEFT JOIN descuentos d
+                ON pp.id_descuento = d.id_descuento AND d.id_estado = 1
+                AND CURDATE() BETWEEN d.fecha_inicio_descuento AND d.fecha_fin_descuento
+             WHERE p.id_estado = 1 AND pp.id_estado = 1 AND pp.id_tipo_producto = :tipo_reventa
+               AND cp.nombre_categoria NOT IN ('Insumos', 'Esencias')
+             ORDER BY cp.nombre_categoria ASC, p.nombre_producto ASC, pp.nombre_presentacion ASC",
+            [':id_sede_stock' => $idSede, ':tipo_reventa' => self::TIPO_REVENTA]
+        );
 
-        $params = [
-            ':id_sede_stock' => $idSede,
-            ':id_sede_esencia' => $idSede
-        ];
-        if ($tienePrecioSede) {
-            $params[':id_sede_precio'] = $idSede;
+        foreach ($reventas as $r) {
+            $base = (float)$r['precio_venta_base'];
+            $desc = (float)$r['porcentaje_descuento'];
+            $productos[] = [
+                'clave' => 'P' . $r['id_presentacion'],
+                'id_presentacion' => (int)$r['id_presentacion'],
+                'id_producto' => (int)$r['id_producto'],
+                'id_categoria' => (int)$r['id_categoria'],
+                'nombre_categoria' => $r['nombre_categoria'],
+                'nombre_producto' => $r['nombre_producto'],
+                'nombre_presentacion' => $r['nombre_presentacion'],
+                'precio_venta_base' => $base,
+                'porcentaje_descuento' => $desc,
+                'precio_venta_final' => $desc > 0 ? round($base * (1 - $desc / 100), 2) : $base,
+                'stock_disponible' => (int)$r['stock_unidades'],
+                'costo_unitario_actual' => (float)$r['precio_compra_presentacion'],
+                'unidad_venta' => 'und',
+                'venta_bloqueada' => false,
+                'motivo_bloqueo' => null
+            ];
         }
 
-        $productos = $this->select($query, $params);
-        $tieneReceta = $this->tablaExiste('receta_presentacion');
+        $lociones = $this->select(
+            "SELECT e.id_producto AS id_producto_esencia, e.nombre_producto AS nombre_esencia, e.id_categoria,
+                    f.id_formula, f.nombre_formula, f.cantidad_esencia, f.id_presentacion_envase,
+                    pl.precio_venta
+             FROM productos e
+             INNER JOIN categoria_producto ce ON ce.id_categoria = e.id_categoria AND ce.nombre_categoria = 'Esencias'
+             CROSS JOIN formulas f
+             LEFT JOIN precios_locion_sede pl
+                ON pl.id_producto_esencia = e.id_producto AND pl.id_formula = f.id_formula AND pl.id_sede = :id_sede
+             WHERE e.id_estado = 1 AND f.id_estado = 1 AND f.id_presentacion_envase IS NOT NULL
+             ORDER BY e.nombre_producto ASC, f.nombre_formula ASC",
+            [':id_sede' => $idSede]
+        );
 
-        foreach ($productos as &$prod) {
-            $idPres = (int)$prod['id_presentacion'];
-            $precioBase = (float)$prod['precio_venta_base'];
-            $desc = (float)$prod['porcentaje_descuento'];
-            $prod['precio_venta_final'] = $desc > 0
-                ? round($precioBase * (1 - ($desc / 100)), 2)
-                : $precioBase;
+        foreach ($lociones as $l) {
+            $cantidadEsencia = (float)$l['cantidad_esencia'];
+            $gramos = $this->obtenerStockGramosProducto((int)$l['id_producto_esencia'], $idSede);
+            $idEnvase = (int)$l['id_presentacion_envase'];
+            $envase = $this->obtenerPresentacionVenta($idEnvase);
+            $stockEnvase = $this->obtenerStockUnidades($idEnvase, $idSede);
 
-            // Evaluar receta si existe para productos preparados (id_tipo_producto = 3 o con receta asociada)
-            if ($tieneReceta) {
-                $receta = $this->obtenerRecetaPresentacion($idPres);
-                if (!empty($receta)) {
-                    $calc = $this->calcularDisponibilidadYCostoPorReceta($receta, $idSede);
-                    $prod['stock_disponible'] = $calc['unidades_disponibles'];
-                    $prod['costo_unitario_actual'] = $calc['costo_unitario'];
-                    $prod['unidad_venta'] = 'und';
-                    $prod['usa_receta'] = true;
-                    continue;
-                }
-            }
+            $precio = $l['precio_venta'] !== null ? (float)$l['precio_venta'] : 0.0;
+            $costo = round($cantidadEsencia * $gramos['costo_promedio'] + (float)($envase['precio_compra_presentacion'] ?? 0), 2);
 
-            $prod['usa_receta'] = false;
-            if (($prod['unidad_medida_productos_presentacion'] ?? '') === 'gramo') {
-                $prod['stock_disponible'] = (float)$prod['stock_gramos'];
-                $prod['costo_unitario_actual'] = (float)$prod['costo_por_gramo'];
-                $prod['unidad_venta'] = 'g';
-            } else {
-                $prod['stock_disponible'] = (int)$prod['stock_unidades'];
-                $prod['costo_unitario_actual'] = (float)$prod['precio_compra_presentacion'];
-                $prod['unidad_venta'] = 'und';
-            }
+            $productos[] = [
+                'clave' => 'L' . $l['id_producto_esencia'] . '-' . $l['id_formula'],
+                'id_presentacion' => null,
+                'id_producto' => (int)$l['id_producto_esencia'],
+                'id_categoria' => self::ID_CATEGORIA_LOCIONES,
+                'nombre_categoria' => 'Lociones',
+                'nombre_producto' => $l['nombre_esencia'],
+                'nombre_presentacion' => $l['nombre_formula'],
+                'precio_venta_base' => $precio,
+                'porcentaje_descuento' => 0,
+                'precio_venta_final' => $precio,
+                'stock_disponible' => (int)min(floor($gramos['gramos'] / $cantidadEsencia), $stockEnvase),
+                'costo_unitario_actual' => $costo,
+                'unidad_venta' => 'und',
+                'venta_bloqueada' => $l['precio_venta'] === null,
+                'motivo_bloqueo' => $l['precio_venta'] === null ? 'Sin precio para esta sede' : null
+            ];
         }
 
         return $productos;
     }
 
-    private function obtenerRecetaPresentacion(int $idPresentacion): array {
-        $query = "SELECT
-                    id_receta,
-                    id_presentacion,
-                    unidad_componente,
-                    id_producto_componente,
-                    id_presentacion_componente,
-                    cantidad_componente
-                  FROM receta_presentacion
-                  WHERE id_presentacion = :id_presentacion";
-        return $this->select($query, [':id_presentacion' => $idPresentacion]);
+    /** Descompone la clave de un item de venta. */
+    private function parsearClave(string $clave): array {
+        if (preg_match('/^P(\d+)$/', $clave, $m)) {
+            return ['tipo' => 'reventa', 'id_presentacion' => (int)$m[1]];
+        }
+        if (preg_match('/^L(\d+)-(\d+)$/', $clave, $m)) {
+            return ['tipo' => 'locion', 'id_producto_esencia' => (int)$m[1], 'id_formula' => (int)$m[2]];
+        }
+        throw new \DomainException('Producto de venta inválido');
     }
 
-    private function calcularDisponibilidadYCostoPorReceta(array $receta, int $idSede): array {
-        $maxUnidades = null;
-        $costoTotalReceta = 0.0;
+    /** Precios de lociones (esencia + formula) de la sede. */
+    public function obtenerPreciosLocion(int $idSede): array {
+        return $this->select(
+            "SELECT id_producto_esencia, id_formula, precio_venta FROM precios_locion_sede WHERE id_sede = :id_sede",
+            [':id_sede' => $idSede]
+        );
+    }
 
-        foreach ($receta as $comp) {
-            $req = (float)$comp['cantidad_componente'];
-            if ($req <= 0) continue;
+    public function guardarPrecioLocion(int $idSede, int $idProductoEsencia, int $idFormula, float $precio): void {
+        $this->execute(
+            "INSERT INTO precios_locion_sede (id_producto_esencia, id_formula, id_sede, precio_venta)
+             VALUES (:esencia, :formula, :sede, :precio)
+             ON DUPLICATE KEY UPDATE precio_venta = VALUES(precio_venta)",
+            [':esencia' => $idProductoEsencia, ':formula' => $idFormula, ':sede' => $idSede, ':precio' => $precio]
+        );
+    }
 
-            if ($comp['unidad_componente'] === 'gramo' && !empty($comp['id_producto_componente'])) {
-                $res = $this->select(
-                    "SELECT
-                        COALESCE(SUM(ie.cantidad_gramos), 0) AS total_gramos,
-                        CASE
-                            WHEN SUM(COALESCE(ie.cantidad_gramos, 0)) > 0
-                            THEN SUM(ie.cantidad_gramos * ie.costo_por_gramo) / SUM(ie.cantidad_gramos)
-                            ELSE 0
-                        END AS costo_gramo
-                     FROM productos_presentaciones pp
-                     LEFT JOIN inventario_esencias ie
-                       ON ie.id_presentacion = pp.id_presentacion
-                       AND ie.id_sede = :id_sede
-                     WHERE pp.id_producto = :id_producto",
-                    [
-                        ':id_sede' => $idSede,
-                        ':id_producto' => (int)$comp['id_producto_componente']
-                    ]
-                );
-                $disponibleGramos = (float)($res[0]['total_gramos'] ?? 0);
-                $costoGramo = (float)($res[0]['costo_gramo'] ?? 0);
-                $posibles = (int)floor($disponibleGramos / $req);
-                $costoTotalReceta += ($req * $costoGramo);
-            } else {
-                $res = $this->select(
-                    "SELECT
-                        COALESCE(iss.stock_sede, 0) AS stock_sede,
-                        COALESCE(pp.precio_compra_presentacion, 0) AS costo_unidad
-                     FROM productos_presentaciones pp
-                     LEFT JOIN inventario_sedes iss
-                       ON iss.id_presentacion = pp.id_presentacion
-                       AND iss.id_sede = :id_sede
-                     WHERE pp.id_presentacion = :id_presentacion
-                     LIMIT 1",
-                    [
-                        ':id_sede' => $idSede,
-                        ':id_presentacion' => (int)$comp['id_presentacion_componente']
-                    ]
-                );
-                $disponibleUnidades = (float)($res[0]['stock_sede'] ?? 0);
-                $costoUnidad = (float)($res[0]['costo_unidad'] ?? 0);
-                $posibles = (int)floor($disponibleUnidades / $req);
-                $costoTotalReceta += ($req * $costoUnidad);
-            }
-
-            $maxUnidades = ($maxUnidades === null) ? $posibles : min($maxUnidades, $posibles);
-        }
-
+    private function obtenerStockGramosProducto(int $idProducto, int $idSede): array {
+        $res = $this->select(
+            "SELECT
+                COALESCE(SUM(l.gramos_disponibles), 0) AS gramos,
+                CASE WHEN SUM(l.gramos_disponibles) > 0
+                     THEN SUM(l.gramos_disponibles * l.costo_por_gramo) / SUM(l.gramos_disponibles)
+                     ELSE 0
+                END AS costo_promedio
+             FROM lotes_esencia l
+             INNER JOIN productos_presentaciones pp ON pp.id_presentacion = l.id_presentacion
+             WHERE pp.id_producto = :id_producto AND l.id_sede = :id_sede",
+            [':id_producto' => $idProducto, ':id_sede' => $idSede]
+        );
         return [
-            'unidades_disponibles' => $maxUnidades ?? 0,
-            'costo_unitario' => round($costoTotalReceta, 2)
+            'gramos' => (float)$res[0]['gramos'],
+            'costo_promedio' => round((float)$res[0]['costo_promedio'], 2)
         ];
     }
 
-    private function obtenerIdTipoMovimiento(string $nombre): ?int {
-        if (!$this->tablaExiste('tipos_movimiento')) {
-            return null;
+    private function obtenerStockUnidades(int $idPresentacion, int $idSede): int {
+        $res = $this->select(
+            "SELECT stock_sede FROM inventario_sedes WHERE id_presentacion = :id_pres AND id_sede = :id_sede",
+            [':id_pres' => $idPresentacion, ':id_sede' => $idSede]
+        );
+        return (int)($res[0]['stock_sede'] ?? 0);
+    }
+
+    /** Stock de unidades leido con bloqueo: base para descontar o devolver dentro de la transaccion. */
+    private function obtenerStockUnidadesBloqueado(int $idPresentacion, int $idSede): int {
+        $res = $this->select(
+            "SELECT stock_sede FROM inventario_sedes WHERE id_presentacion = :id_pres AND id_sede = :id_sede FOR UPDATE",
+            [':id_pres' => $idPresentacion, ':id_sede' => $idSede]
+        );
+        return (int)($res[0]['stock_sede'] ?? 0);
+    }
+
+    private function obtenerPresentacionVenta(int $idPresentacion): ?array {
+        $res = $this->select(
+            "SELECT pp.id_presentacion, pp.id_producto, pp.nombre_presentacion, pp.id_tipo_producto,
+                    pp.unidad_medida_productos_presentacion, p.nombre_producto,
+                    COALESCE(pp.precio_compra_presentacion, 0) AS precio_compra_presentacion
+             FROM productos_presentaciones pp
+             INNER JOIN productos p ON p.id_producto = pp.id_producto
+             WHERE pp.id_presentacion = :id_pres",
+            [':id_pres' => $idPresentacion]
+        );
+        return $res[0] ?? null;
+    }
+
+    // ============================================================
+    // PLANIFICACION Y BLOQUEO DE INVENTARIO
+    // ============================================================
+
+    /**
+     * Consumos de una venta de $cantidad unidades del item (clave).
+     * Reventa: unidades de la presentacion. Locion: gramos de la esencia (formula.cantidad_esencia) y 1 envase de la formula.
+     */
+    private function planificarConsumo(string $clave, int $cantidad): array {
+        $item = $this->parsearClave($clave);
+
+        if ($item['tipo'] === 'reventa') {
+            if (!$this->obtenerPresentacionVenta($item['id_presentacion'])) {
+                throw new \DomainException('El producto seleccionado no existe.');
+            }
+            return [['tipo' => 'unidad', 'id_presentacion' => $item['id_presentacion'], 'cantidad' => $cantidad]];
         }
+
+        $formula = $this->select(
+            "SELECT cantidad_esencia, id_presentacion_envase FROM formulas WHERE id_formula = :f AND id_estado = 1",
+            [':f' => $item['id_formula']]
+        )[0] ?? null;
+        if (!$formula || empty($formula['id_presentacion_envase'])) {
+            throw new \DomainException('La fórmula no existe o no tiene envase asignado.');
+        }
+
+        return [
+            ['tipo' => 'gramo', 'id_producto' => $item['id_producto_esencia'], 'cantidad' => (float)$formula['cantidad_esencia'] * $cantidad],
+            ['tipo' => 'unidad', 'id_presentacion' => (int)$formula['id_presentacion_envase'], 'cantidad' => $cantidad]
+        ];
+    }
+
+    /**
+     * Bloquea las filas de inventario que se van a tocar. Orden fijo: sedes, esencias, lotes.
+     * Debe llamarse dentro de una transaccion.
+     */
+    private function bloquearInventario(int $idSede, array $consumos): void {
+        $unidades = [];
+        $productos = [];
+        foreach ($consumos as $c) {
+            if ($c['tipo'] === 'unidad') {
+                $unidades[$c['id_presentacion']] = true;
+            } else {
+                $productos[$c['id_producto']] = true;
+            }
+        }
+
+        if ($unidades) {
+            $params = [':id_sede' => $idSede];
+            $in = $this->crearParametrosIn(array_keys($unidades), 'u', $params);
+            $this->select(
+                "SELECT id_inventario_sede FROM inventario_sedes
+                 WHERE id_sede = :id_sede AND id_presentacion IN ({$in})
+                 ORDER BY id_presentacion FOR UPDATE",
+                $params
+            );
+        }
+
+        if ($productos) {
+            $params = [':id_sede' => $idSede];
+            $in = $this->crearParametrosIn(array_keys($productos), 'p', $params);
+            $this->select(
+                "SELECT ie.id_inventario_esencia
+                 FROM inventario_esencias ie
+                 INNER JOIN productos_presentaciones pp ON pp.id_presentacion = ie.id_presentacion
+                 WHERE ie.id_sede = :id_sede AND pp.id_producto IN ({$in})
+                 ORDER BY ie.id_presentacion FOR UPDATE",
+                $params
+            );
+
+            $params = [':id_sede' => $idSede];
+            $in = $this->crearParametrosIn(array_keys($productos), 'q', $params);
+            $this->select(
+                "SELECT l.id_lote
+                 FROM lotes_esencia l
+                 INNER JOIN productos_presentaciones pp ON pp.id_presentacion = l.id_presentacion
+                 WHERE l.id_sede = :id_sede AND pp.id_producto IN ({$in})
+                 ORDER BY l.id_lote FOR UPDATE",
+                $params
+            );
+        }
+    }
+
+    private function crearParametrosIn(array $valores, string $prefijo, array &$params): string {
+        $marcadores = [];
+        foreach (array_values($valores) as $i => $valor) {
+            $clave = ":{$prefijo}{$i}";
+            $marcadores[] = $clave;
+            $params[$clave] = $valor;
+        }
+        return implode(', ', $marcadores);
+    }
+
+    // ============================================================
+    // DESCUENTO DE INVENTARIO (requiere filas ya bloqueadas)
+    // ============================================================
+
+    /** Ejecuta los consumos de un item de venta y devuelve su costo real. */
+    private function descontarConsumos(int $idSede, int $idVenta, int $idUsuario, int $idTipoMov, array $consumos, string $obs): float {
+        $costo = 0.0;
+        foreach ($consumos as $c) {
+            $costo += $c['tipo'] === 'gramo'
+                ? $this->descontarGramosFIFO($idSede, $c['id_producto'], $c['cantidad'], $idVenta, $idUsuario, $idTipoMov, $obs)
+                : $this->descontarUnidades($idSede, $c['id_presentacion'], $c['cantidad'], $idVenta, $idUsuario, $idTipoMov, $obs);
+        }
+        return round($costo, 2);
+    }
+
+    /** Consume gramos de los lotes del producto, del mas antiguo al mas nuevo. Devuelve el costo de los lotes consumidos. */
+    private function descontarGramosFIFO(int $idSede, int $idProducto, float $gramos, int $idVenta, int $idUsuario, int $idTipoMov, string $obs): float {
+        $lotes = $this->select(
+            "SELECT l.id_lote, l.id_presentacion, l.gramos_disponibles, l.costo_por_gramo
+             FROM lotes_esencia l
+             INNER JOIN productos_presentaciones pp ON pp.id_presentacion = l.id_presentacion
+             WHERE pp.id_producto = :id_producto AND l.id_sede = :id_sede AND l.gramos_disponibles > 0
+             ORDER BY l.fecha_ingreso ASC, l.id_lote ASC
+             FOR UPDATE",
+            [':id_producto' => $idProducto, ':id_sede' => $idSede]
+        );
+
+        $pendiente = $gramos;
+        $costo = 0.0;
+
+        foreach ($lotes as $lote) {
+            if ($pendiente <= 0.001) {
+                break;
+            }
+
+            $tomar = min((float)$lote['gramos_disponibles'], $pendiente);
+            $idPresLote = (int)$lote['id_presentacion'];
+
+            $this->execute(
+                "UPDATE lotes_esencia SET gramos_disponibles = gramos_disponibles - :tomar WHERE id_lote = :id_lote",
+                [':tomar' => $tomar, ':id_lote' => (int)$lote['id_lote']]
+            );
+            $this->execute(
+                "UPDATE inventario_esencias SET cantidad_gramos = cantidad_gramos - :tomar, fecha_actualizacion = NOW()
+                 WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
+                [':tomar' => $tomar, ':id_sede' => $idSede, ':id_pres' => $idPresLote]
+            );
+
+            $saldo = $this->obtenerSaldoGramos($idSede, $idPresLote);
+            $this->insertarKardex($idSede, $idPresLote, $idTipoMov, 'gramo', -$tomar, $saldo, $idVenta, $idUsuario, $obs, (int)$lote['id_lote']);
+
+            $costo += $tomar * (float)$lote['costo_por_gramo'];
+            $pendiente -= $tomar;
+        }
+
+        if ($pendiente > 0.001) {
+            throw new \DomainException("Stock de esencia insuficiente en la sede. Faltan {$pendiente} g.");
+        }
+
+        return $costo;
+    }
+
+    private function descontarUnidades(int $idSede, int $idPresentacion, int $cantidad, int $idVenta, int $idUsuario, int $idTipoMov, string $obs): float {
+        $actual = $this->obtenerStockUnidadesBloqueado($idPresentacion, $idSede);
+        if ($actual < $cantidad) {
+            $pres = $this->obtenerPresentacionVenta($idPresentacion);
+            $nombre = $pres ? "{$pres['nombre_producto']} - {$pres['nombre_presentacion']}" : "#{$idPresentacion}";
+            throw new \DomainException("Stock insuficiente para {$nombre}. Disponible: {$actual}.");
+        }
+
+        $nuevo = $actual - $cantidad;
+        $this->execute(
+            "UPDATE inventario_sedes SET stock_sede = :nuevo WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
+            [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPresentacion]
+        );
+        $this->insertarKardex($idSede, $idPresentacion, $idTipoMov, 'unidad', -$cantidad, $nuevo, $idVenta, $idUsuario, $obs);
+
+        $pres = $this->obtenerPresentacionVenta($idPresentacion);
+        return $cantidad * (float)($pres['precio_compra_presentacion'] ?? 0);
+    }
+
+    private function obtenerSaldoGramos(int $idSede, int $idPresentacion): float {
+        $res = $this->select(
+            "SELECT cantidad_gramos FROM inventario_esencias WHERE id_sede = :id_sede AND id_presentacion = :id_pres FOR UPDATE",
+            [':id_sede' => $idSede, ':id_pres' => $idPresentacion]
+        );
+        return (float)($res[0]['cantidad_gramos'] ?? 0);
+    }
+
+    private function insertarKardex(
+        int $idSede,
+        int $idPresentacion,
+        int $idTipoMov,
+        string $unidad,
+        float $cantidad,
+        float $saldoResultante,
+        ?int $idVenta,
+        ?int $idUsuario,
+        string $obs,
+        ?int $idLote = null
+    ): void {
+        $this->execute(
+            "INSERT INTO movimientos_inventario (
+                id_sede, id_presentacion, id_tipo_movimiento, unidad_movimiento,
+                cantidad_movimiento, saldo_resultante, id_venta, id_usuario,
+                observacion_movimiento, id_lote_esencia
+            ) VALUES (
+                :id_sede, :id_pres, :id_tipo, :unidad,
+                :cantidad, :saldo, :id_venta, :id_usuario,
+                :obs, :id_lote
+            )",
+            [
+                ':id_sede' => $idSede,
+                ':id_pres' => $idPresentacion,
+                ':id_tipo' => $idTipoMov,
+                ':unidad' => $unidad,
+                ':cantidad' => $cantidad,
+                ':saldo' => $saldoResultante,
+                ':id_venta' => $idVenta,
+                ':id_usuario' => $idUsuario,
+                ':obs' => $obs,
+                ':id_lote' => $idLote
+            ]
+        );
+    }
+
+    private function obtenerIdTipoMovimiento(string $nombre): int {
         $res = $this->select(
             "SELECT id_tipo_movimiento FROM tipos_movimiento WHERE nombre_movimiento = :nombre LIMIT 1",
             [':nombre' => $nombre]
         );
-        return !empty($res) ? (int)$res[0]['id_tipo_movimiento'] : null;
+        if (empty($res)) {
+            throw new \RuntimeException("Falta el tipo de movimiento {$nombre} en tipos_movimiento");
+        }
+        return (int)$res[0]['id_tipo_movimiento'];
     }
+
+    // ============================================================
+    // VENTAS
+    // ============================================================
 
     public function registrarVentaCompleta(array $encabezado, array $detalles, ?array $pagoInicial = null): array {
         $this->beginTransaction();
@@ -444,143 +644,116 @@ class VentasModel extends conexion {
         try {
             $idSede = (int)$encabezado['idSede'];
             $idUsuario = (int)$encabezado['idUsuario'];
-            $subtotalVenta = (float)$encabezado['subtotalVenta'];
-            $descuentoVenta = (float)$encabezado['descuentoVenta'];
             $totalVenta = (float)$encabezado['totalVenta'];
             $montoPagado = $pagoInicial ? (float)$pagoInicial['montoPago'] : 0.0;
-
             $estadoVenta = ($montoPagado >= $totalVenta && $totalVenta > 0) ? 'pagada' : 'pendiente';
 
-            // Mapear catálogo de productos de la sede para validar stock y costos
-            $catalogoSede = [];
-            foreach ($this->obtenerProductosParaVenta($idSede) as $p) {
-                $catalogoSede[(int)$p['id_presentacion']] = $p;
-            }
-
-            $costoTotalVenta = 0.0;
-            $detallesPreparados = [];
-
+            // 1. Planificar consumos y bloquear el inventario antes de validar nada
+            $planes = [];
+            $todosLosConsumos = [];
             foreach ($detalles as $item) {
-                $idPres = (int)$item['idPresentacion'];
-                $cantidad = (int)$item['cantidad'];
-                $precioUnitario = (float)$item['precioUnitario'];
+                $plan = $this->planificarConsumo((string)$item['clave'], (int)$item['cantidad']);
+                $planes[] = $plan;
+                $todosLosConsumos = array_merge($todosLosConsumos, $plan);
+            }
+            $this->bloquearInventario($idSede, $todosLosConsumos);
 
-                if (!isset($catalogoSede[$idPres])) {
+            // 2. Validar contra el catalogo de la sede (ya con las filas bloqueadas)
+            $catalogo = [];
+            foreach ($this->obtenerProductosParaVenta($idSede) as $p) {
+                $catalogo[$p['clave']] = $p;
+            }
+            foreach ($detalles as $item) {
+                $clave = (string)$item['clave'];
+                $cantidad = (int)$item['cantidad'];
+                if (!isset($catalogo[$clave])) {
                     throw new \DomainException("El producto seleccionado no está activo o no existe.");
                 }
-
-                $prodInfo = $catalogoSede[$idPres];
-                if ($cantidad > (float)$prodInfo['stock_disponible']) {
-                    throw new \DomainException("Stock insuficiente para {$prodInfo['nombre_producto']} - {$prodInfo['nombre_presentacion']}. Disponible: {$prodInfo['stock_disponible']}.");
+                $prod = $catalogo[$clave];
+                if ($prod['venta_bloqueada']) {
+                    throw new \DomainException("{$prod['nombre_producto']} - {$prod['nombre_presentacion']}: {$prod['motivo_bloqueo']}.");
                 }
-
-                $costoUnitario = (float)$prodInfo['costo_unitario_actual'];
-                $costoTotalItem = round($costoUnitario * $cantidad, 2);
-                $subtotalItem = round($precioUnitario * $cantidad, 2);
-
-                $costoTotalVenta += $costoTotalItem;
-                $detallesPreparados[] = [
-                    'idPresentacion' => $idPres,
-                    'cantidad' => $cantidad,
-                    'precioUnitario' => $precioUnitario,
-                    'subtotal' => $subtotalItem,
-                    'costoUnitario' => $costoUnitario,
-                    'costoTotal' => $costoTotalItem,
-                    'prodInfo' => $prodInfo
-                ];
+                if ($cantidad > (float)$prod['stock_disponible']) {
+                    throw new \DomainException("Stock insuficiente para {$prod['nombre_producto']} - {$prod['nombre_presentacion']}. Disponible: {$prod['stock_disponible']}.");
+                }
             }
 
-            // 1. Insertar encabezado en ventas
-            $tieneMetodoEnVentas = $this->columnaExiste('ventas', 'id_metodo_pago');
-            if ($tieneMetodoEnVentas) {
-                $idVenta = (int)$this->execute(
-                    "INSERT INTO ventas (
-                        id_sede, numero_venta, id_cliente, id_usuario, id_metodo_pago,
-                        subtotal_venta, descuento_venta, total_venta, costo_total_venta,
-                        estado_venta, observacion_venta
-                    ) VALUES (
-                        :id_sede, :numero_venta, :id_cliente, :id_usuario, :id_metodo_pago,
-                        :subtotal_venta, :descuento_venta, :total_venta, :costo_total_venta,
-                        :estado_venta, :observacion_venta
-                    )",
-                    [
-                        ':id_sede' => $idSede,
-                        ':numero_venta' => $encabezado['numeroVenta'],
-                        ':id_cliente' => !empty($encabezado['idCliente']) ? (int)$encabezado['idCliente'] : null,
-                        ':id_usuario' => $idUsuario,
-                        ':id_metodo_pago' => !empty($pagoInicial['idMetodoPago']) ? (int)$pagoInicial['idMetodoPago'] : 1,
-                        ':subtotal_venta' => $subtotalVenta,
-                        ':descuento_venta' => $descuentoVenta,
-                        ':total_venta' => $totalVenta,
-                        ':costo_total_venta' => $costoTotalVenta,
-                        ':estado_venta' => $estadoVenta,
-                        ':observacion_venta' => $encabezado['observacionVenta'] ?: null
-                    ]
-                );
-            } else {
-                $idVenta = (int)$this->execute(
-                    "INSERT INTO ventas (
-                        id_sede, numero_venta, id_cliente, id_usuario,
-                        subtotal_venta, descuento_venta, total_venta, costo_total_venta,
-                        estado_venta, observacion_venta
-                    ) VALUES (
-                        :id_sede, :numero_venta, :id_cliente, :id_usuario,
-                        :subtotal_venta, :descuento_venta, :total_venta, :costo_total_venta,
-                        :estado_venta, :observacion_venta
-                    )",
-                    [
-                        ':id_sede' => $idSede,
-                        ':numero_venta' => $encabezado['numeroVenta'],
-                        ':id_cliente' => !empty($encabezado['idCliente']) ? (int)$encabezado['idCliente'] : null,
-                        ':id_usuario' => $idUsuario,
-                        ':subtotal_venta' => $subtotalVenta,
-                        ':descuento_venta' => $descuentoVenta,
-                        ':total_venta' => $totalVenta,
-                        ':costo_total_venta' => $costoTotalVenta,
-                        ':estado_venta' => $estadoVenta,
-                        ':observacion_venta' => $encabezado['observacionVenta'] ?: null
-                    ]
-                );
-            }
+            // 3. Encabezado (el costo total se completa al final)
+            $idVenta = (int)$this->execute(
+                "INSERT INTO ventas (
+                    id_sede, numero_venta, id_cliente, id_usuario,
+                    subtotal_venta, descuento_venta, total_venta, costo_total_venta,
+                    estado_venta, observacion_venta
+                ) VALUES (
+                    :id_sede, :numero_venta, :id_cliente, :id_usuario,
+                    :subtotal_venta, :descuento_venta, :total_venta, 0,
+                    :estado_venta, :observacion_venta
+                )",
+                [
+                    ':id_sede' => $idSede,
+                    ':numero_venta' => $encabezado['numeroVenta'],
+                    ':id_cliente' => !empty($encabezado['idCliente']) ? (int)$encabezado['idCliente'] : null,
+                    ':id_usuario' => $idUsuario,
+                    ':subtotal_venta' => (float)$encabezado['subtotalVenta'],
+                    ':descuento_venta' => (float)$encabezado['descuentoVenta'],
+                    ':total_venta' => $totalVenta,
+                    ':estado_venta' => $estadoVenta,
+                    ':observacion_venta' => $encabezado['observacionVenta'] ?: null
+                ]
+            );
 
-            $idTipoMovVenta = $this->obtenerIdTipoMovimiento('VENTA');
+            // 4. Detalles, descuento de inventario y costo real de cada linea
+            $idTipoVenta = $this->obtenerIdTipoMovimiento('VENTA');
+            $costoTotalVenta = 0.0;
 
-            // 2. Insertar detalles y descontar stock + registrar kardex
-            foreach ($detallesPreparados as $det) {
-                $this->execute(
+            foreach ($detalles as $i => $item) {
+                $linea = $this->parsearClave((string)$item['clave']);
+                $cantidad = (int)$item['cantidad'];
+                $precioUnitario = (float)$item['precioUnitario'];
+                $subtotal = round($precioUnitario * $cantidad, 2);
+
+                $idDetalle = (int)$this->execute(
                     "INSERT INTO detalle_venta (
-                        id_venta, id_presentacion, cantidad_detalle_venta,
-                        precio_unitario_detalle_venta, subtotal_detalle_venta,
+                        id_venta, id_presentacion, id_producto_esencia, id_formula,
+                        cantidad_detalle_venta, precio_unitario_detalle_venta, subtotal_detalle_venta,
                         costo_unitario_detalle_venta, costo_total_detalle_venta
-                    ) VALUES (
-                        :id_venta, :id_presentacion, :cantidad,
-                        :precio_unitario, :subtotal,
-                        :costo_unitario, :costo_total
-                    )",
+                    ) VALUES (:id_venta, :id_pres, :id_esencia, :id_formula, :cantidad, :precio, :subtotal, 0, 0)",
                     [
                         ':id_venta' => $idVenta,
-                        ':id_presentacion' => $det['idPresentacion'],
-                        ':cantidad' => $det['cantidad'],
-                        ':precio_unitario' => $det['precioUnitario'],
-                        ':subtotal' => $det['subtotal'],
-                        ':costo_unitario' => $det['costoUnitario'],
-                        ':costo_total' => $det['costoTotal']
+                        ':id_pres' => $linea['id_presentacion'] ?? null,
+                        ':id_esencia' => $linea['id_producto_esencia'] ?? null,
+                        ':id_formula' => $linea['id_formula'] ?? null,
+                        ':cantidad' => $cantidad,
+                        ':precio' => $precioUnitario,
+                        ':subtotal' => $subtotal
                     ]
                 );
 
-                $this->descontarStockItemVenta(
-                    $idSede,
-                    $idVenta,
-                    $idUsuario,
-                    $idTipoMovVenta,
-                    $det['idPresentacion'],
-                    $det['cantidad'],
-                    $det['prodInfo']
+                $costoItem = $this->descontarConsumos(
+                    $idSede, $idVenta, $idUsuario, $idTipoVenta, $planes[$i],
+                    "Venta {$encabezado['numeroVenta']}"
                 );
+
+                $this->execute(
+                    "UPDATE detalle_venta
+                     SET costo_unitario_detalle_venta = :cu, costo_total_detalle_venta = :ct
+                     WHERE id_detalle_venta = :id",
+                    [
+                        ':cu' => round($costoItem / $cantidad, 2),
+                        ':ct' => $costoItem,
+                        ':id' => $idDetalle
+                    ]
+                );
+                $costoTotalVenta += $costoItem;
             }
 
-            // 3. Registrar pago inicial y movimiento de caja si aplica
-            if ($pagoInicial && $montoPagado > 0 && !empty($pagoInicial['idMetodoPago'])) {
+            $this->execute(
+                "UPDATE ventas SET costo_total_venta = :costo WHERE id_venta = :id",
+                [':costo' => round($costoTotalVenta, 2), ':id' => $idVenta]
+            );
+
+            // 5. Pago inicial (contado o primer abono)
+            if ($pagoInicial && $montoPagado > 0) {
                 $this->registrarPagoYCaja(
                     $idVenta,
                     $idSede,
@@ -594,7 +767,7 @@ class VentasModel extends conexion {
             $this->commit();
             return ['id_venta' => $idVenta, 'estado_venta' => $estadoVenta];
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($this->inTransaction()) {
                 $this->rollBack();
             }
@@ -602,194 +775,31 @@ class VentasModel extends conexion {
         }
     }
 
-    private function descontarStockItemVenta(
-        int $idSede,
-        int $idVenta,
-        int $idUsuario,
-        ?int $idTipoMov,
-        int $idPresentacion,
-        int $cantidad,
-        array $prodInfo
-    ): void {
-        if (!empty($prodInfo['usa_receta']) && $this->tablaExiste('receta_presentacion')) {
-            $receta = $this->obtenerRecetaPresentacion($idPresentacion);
-            foreach ($receta as $comp) {
-                $totalRequerido = (float)$comp['cantidad_componente'] * $cantidad;
-                if ($comp['unidad_componente'] === 'gramo' && !empty($comp['id_producto_componente'])) {
-                    $this->descontarGramosPorProductoFIFO(
-                        $idSede,
-                        (int)$comp['id_producto_componente'],
-                        $totalRequerido,
-                        $idVenta,
-                        $idUsuario,
-                        $idTipoMov,
-                        "Consumo receta venta #{$idVenta}"
-                    );
-                } elseif ($comp['unidad_componente'] === 'unidad' && !empty($comp['id_presentacion_componente'])) {
-                    $this->descontarUnidadesPresentacion(
-                        $idSede,
-                        (int)$comp['id_presentacion_componente'],
-                        (int)ceil($totalRequerido),
-                        $idVenta,
-                        $idUsuario,
-                        $idTipoMov,
-                        "Consumo envase receta venta #{$idVenta}"
-                    );
-                }
-            }
-            return;
-        }
-
-        if (($prodInfo['unidad_medida_productos_presentacion'] ?? '') === 'gramo') {
-            $this->descontarGramosPresentacion(
-                $idSede,
-                $idPresentacion,
-                (float)$cantidad,
-                $idVenta,
-                $idUsuario,
-                $idTipoMov,
-                "Venta directa #{$idVenta}"
-            );
-        } else {
-            $this->descontarUnidadesPresentacion(
-                $idSede,
-                $idPresentacion,
-                $cantidad,
-                $idVenta,
-                $idUsuario,
-                $idTipoMov,
-                "Venta directa #{$idVenta}"
-            );
-        }
-    }
-
-    private function descontarUnidadesPresentacion(
-        int $idSede,
-        int $idPresentacion,
-        int $cantidad,
-        int $idVenta,
-        int $idUsuario,
-        ?int $idTipoMov,
-        string $obs
-    ): void {
-        $rows = $this->select(
-            "SELECT stock_sede FROM inventario_sedes WHERE id_sede = :id_sede AND id_presentacion = :id_pres LIMIT 1",
-            [':id_sede' => $idSede, ':id_pres' => $idPresentacion]
+    private function registrarPagoYCaja(int $idVenta, int $idSede, int $idMetodoPago, float $monto, int $idUsuario, string $obs): void {
+        $idPagoVenta = (int)$this->execute(
+            "INSERT INTO pagos_venta (id_venta, id_metodo_pago, monto_pago, id_usuario)
+             VALUES (:id_venta, :id_metodo, :monto, :id_usuario)",
+            [
+                ':id_venta' => $idVenta,
+                ':id_metodo' => $idMetodoPago,
+                ':monto' => $monto,
+                ':id_usuario' => $idUsuario
+            ]
         );
-        $actual = (int)($rows[0]['stock_sede'] ?? 0);
-        if ($actual < $cantidad) {
-            throw new \DomainException("Stock de unidades insuficiente en la sede para la presentación #{$idPresentacion}.");
-        }
-        $nuevo = $actual - $cantidad;
 
         $this->execute(
-            "UPDATE inventario_sedes SET stock_sede = :nuevo WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
-            [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPresentacion]
-        );
-
-        $this->insertarKardex($idSede, $idPresentacion, $idTipoMov, 'unidad', -$cantidad, $nuevo, $idVenta, $idUsuario, $obs);
-    }
-
-    private function descontarGramosPresentacion(
-        int $idSede,
-        int $idPresentacion,
-        float $gramos,
-        int $idVenta,
-        int $idUsuario,
-        ?int $idTipoMov,
-        string $obs
-    ): void {
-        $rows = $this->select(
-            "SELECT cantidad_gramos FROM inventario_esencias WHERE id_sede = :id_sede AND id_presentacion = :id_pres LIMIT 1",
-            [':id_sede' => $idSede, ':id_pres' => $idPresentacion]
-        );
-        $actual = (float)($rows[0]['cantidad_gramos'] ?? 0);
-        if ($actual < $gramos) {
-            throw new \DomainException("Stock de gramos insuficiente en la sede para la esencia #{$idPresentacion}.");
-        }
-        $nuevo = $actual - $gramos;
-
-        $this->execute(
-            "UPDATE inventario_esencias SET cantidad_gramos = :nuevo, fecha_actualizacion = NOW() WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
-            [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPresentacion]
-        );
-
-        $this->insertarKardex($idSede, $idPresentacion, $idTipoMov, 'gramo', -$gramos, $nuevo, $idVenta, $idUsuario, $obs);
-    }
-
-    private function descontarGramosPorProductoFIFO(
-        int $idSede,
-        int $idProducto,
-        float $gramosRequeridos,
-        int $idVenta,
-        int $idUsuario,
-        ?int $idTipoMov,
-        string $obs
-    ): void {
-        $lotes = $this->select(
-            "SELECT ie.id_presentacion, ie.cantidad_gramos
-             FROM inventario_esencias ie
-             INNER JOIN productos_presentaciones pp ON ie.id_presentacion = pp.id_presentacion
-             WHERE pp.id_producto = :id_producto AND ie.id_sede = :id_sede AND ie.cantidad_gramos > 0
-             ORDER BY ie.id_presentacion ASC",
-            [':id_producto' => $idProducto, ':id_sede' => $idSede]
-        );
-
-        $pendiente = $gramosRequeridos;
-        foreach ($lotes as $lote) {
-            if ($pendiente <= 0) break;
-            $disp = (float)$lote['cantidad_gramos'];
-            $tomar = min($disp, $pendiente);
-            $nuevo = $disp - $tomar;
-            $idPresLote = (int)$lote['id_presentacion'];
-
-            $this->execute(
-                "UPDATE inventario_esencias SET cantidad_gramos = :nuevo, fecha_actualizacion = NOW()
-                 WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
-                [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPresLote]
-            );
-
-            $this->insertarKardex($idSede, $idPresLote, $idTipoMov, 'gramo', -$tomar, $nuevo, $idVenta, $idUsuario, $obs);
-            $pendiente -= $tomar;
-        }
-
-        if ($pendiente > 0.001) {
-            throw new \DomainException("No hay suficientes gramos de esencia en la sede para preparar la receta.");
-        }
-    }
-
-    private function insertarKardex(
-        int $idSede,
-        int $idPresentacion,
-        ?int $idTipoMov,
-        string $unidad,
-        float $cantidad,
-        float $saldoResultante,
-        int $idVenta,
-        int $idUsuario,
-        string $obs
-    ): void {
-        if (!$idTipoMov || !$this->tablaExiste('movimientos_inventario')) {
-            return;
-        }
-
-        $this->execute(
-            "INSERT INTO movimientos_inventario (
-                id_sede, id_presentacion, id_tipo_movimiento,
-                unidad_movimiento, cantidad_movimiento, saldo_resultante,
-                id_venta, id_usuario, observacion_movimiento
+            "INSERT INTO caja_movimientos (
+                id_sede, tipo_caja, concepto_caja, monto_caja,
+                id_metodo_pago, id_pago_venta, id_venta, id_usuario, observacion_caja
             ) VALUES (
-                :id_sede, :id_pres, :id_tipo,
-                :unidad, :cantidad, :saldo,
-                :id_venta, :id_usuario, :obs
+                :id_sede, 'ingreso', 'pago_venta', :monto,
+                :id_metodo, :id_pago_venta, :id_venta, :id_usuario, :obs
             )",
             [
                 ':id_sede' => $idSede,
-                ':id_pres' => $idPresentacion,
-                ':id_tipo' => $idTipoMov,
-                ':unidad' => $unidad,
-                ':cantidad' => $cantidad,
-                ':saldo' => $saldoResultante,
+                ':monto' => $monto,
+                ':id_metodo' => $idMetodoPago,
+                ':id_pago_venta' => $idPagoVenta,
                 ':id_venta' => $idVenta,
                 ':id_usuario' => $idUsuario,
                 ':obs' => $obs
@@ -797,76 +807,13 @@ class VentasModel extends conexion {
         );
     }
 
-    private function registrarPagoYCaja(
-        int $idVenta,
-        int $idSede,
-        int $idMetodoPago,
-        float $monto,
-        int $idUsuario,
-        string $obs
-    ): int {
-        $idPagoVenta = 0;
-
-        if ($this->tablaExiste('pagos_venta')) {
-            $idPagoVenta = (int)$this->execute(
-                "INSERT INTO pagos_venta (id_venta, id_metodo_pago, monto_pago, id_usuario)
-                 VALUES (:id_venta, :id_metodo, :monto, :id_usuario)",
-                [
-                    ':id_venta' => $idVenta,
-                    ':id_metodo' => $idMetodoPago,
-                    ':monto' => $monto,
-                    ':id_usuario' => $idUsuario
-                ]
-            );
-        }
-
-        if ($this->tablaExiste('caja_movimientos')) {
-            if ($this->columnaExiste('caja_movimientos', 'id_pago_venta')) {
-                $this->execute(
-                    "INSERT INTO caja_movimientos (
-                        id_sede, tipo_caja, concepto_caja, monto_caja,
-                        id_metodo_pago, id_pago_venta, id_usuario, observacion_caja
-                    ) VALUES (
-                        :id_sede, 'ingreso', 'pago_venta', :monto,
-                        :id_metodo, :id_pago_venta, :id_usuario, :obs
-                    )",
-                    [
-                        ':id_sede' => $idSede,
-                        ':monto' => $monto,
-                        ':id_metodo' => $idMetodoPago,
-                        ':id_pago_venta' => $idPagoVenta ?: null,
-                        ':id_usuario' => $idUsuario,
-                        ':obs' => $obs
-                    ]
-                );
-            } else {
-                $this->execute(
-                    "INSERT INTO caja_movimientos (
-                        id_sede, tipo_caja, concepto_caja, monto_caja,
-                        id_metodo_pago, id_venta, id_usuario, observacion_caja
-                    ) VALUES (
-                        :id_sede, 'ingreso', 'venta', :monto,
-                        :id_metodo, :id_venta, :id_usuario, :obs
-                    )",
-                    [
-                        ':id_sede' => $idSede,
-                        ':monto' => $monto,
-                        ':id_metodo' => $idMetodoPago,
-                        ':id_venta' => $idVenta,
-                        ':id_usuario' => $idUsuario,
-                        ':obs' => $obs
-                    ]
-                );
-            }
-        }
-
-        return $idPagoVenta;
-    }
-
     public function registrarAbonoVenta(int $idVenta, int $idMetodoPago, float $montoPago, int $idUsuario): array {
         $this->beginTransaction();
 
         try {
+            // Bloquea la venta para que dos abonos simultaneos no superen el saldo
+            $this->select("SELECT id_venta FROM ventas WHERE id_venta = :id FOR UPDATE", [':id' => $idVenta]);
+
             $venta = $this->obtenerVentaPorId($idVenta);
             if (!$venta) {
                 throw new \DomainException("La venta no existe.");
@@ -896,19 +843,16 @@ class VentasModel extends conexion {
             );
 
             $nuevoPagado = $pagadoActual + $montoPago;
-            $nuevoEstado = ($nuevoPagado >= $total - 0.01) ? 'pagada' : 'pendiente';
+            $nuevoEstado = $nuevoPagado >= $total - 0.01 ? 'pagada' : 'pendiente';
 
             if ($nuevoEstado === 'pagada') {
-                $this->execute(
-                    "UPDATE ventas SET estado_venta = 'pagada' WHERE id_venta = :id_venta",
-                    [':id_venta' => $idVenta]
-                );
+                $this->execute("UPDATE ventas SET estado_venta = 'pagada' WHERE id_venta = :id", [':id' => $idVenta]);
             }
 
             $this->commit();
             return ['id_venta' => $idVenta, 'estado_venta' => $nuevoEstado];
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($this->inTransaction()) {
                 $this->rollBack();
             }
@@ -920,6 +864,9 @@ class VentasModel extends conexion {
         $this->beginTransaction();
 
         try {
+            // Bloquea la venta para que no se anule dos veces
+            $this->select("SELECT id_venta FROM ventas WHERE id_venta = :id FOR UPDATE", [':id' => $idVenta]);
+
             $venta = $this->obtenerVentaPorId($idVenta);
             if (!$venta) {
                 throw new \DomainException("La venta no existe.");
@@ -929,85 +876,78 @@ class VentasModel extends conexion {
             }
 
             $idSede = (int)$venta['id_sede'];
+            $idTipoVenta = $this->obtenerIdTipoMovimiento('VENTA');
             $idTipoAnulacion = $this->obtenerIdTipoMovimiento('ANULACION_VENTA');
+            $obs = "Anulación venta {$venta['numero_venta']}";
 
-            // Si existen movimientos en kardex para esta venta, revertir exactamente esos movimientos
-            $movimientos = $this->tablaExiste('movimientos_inventario')
-                ? $this->select("SELECT * FROM movimientos_inventario WHERE id_venta = :id_venta", [':id_venta' => $idVenta])
-                : [];
+            // Movimientos originales de la venta: se revierten exactamente
+            $movimientos = $this->select(
+                "SELECT m.id_presentacion, m.unidad_movimiento, m.cantidad_movimiento, m.id_lote_esencia, pp.id_producto
+                 FROM movimientos_inventario m
+                 INNER JOIN productos_presentaciones pp ON pp.id_presentacion = m.id_presentacion
+                 WHERE m.id_venta = :id AND m.id_tipo_movimiento = :tipo
+                 ORDER BY m.id_movimientos_inventario ASC",
+                [':id' => $idVenta, ':tipo' => $idTipoVenta]
+            );
 
-            if (!empty($movimientos)) {
-                foreach ($movimientos as $mov) {
-                    $idPres = (int)$mov['id_presentacion'];
-                    $cantRevertir = abs((float)$mov['cantidad_movimiento']);
+            $consumos = [];
+            foreach ($movimientos as $m) {
+                $consumos[] = $m['unidad_movimiento'] === 'gramo'
+                    ? ['tipo' => 'gramo', 'id_producto' => (int)$m['id_producto'], 'cantidad' => 0]
+                    : ['tipo' => 'unidad', 'id_presentacion' => (int)$m['id_presentacion'], 'cantidad' => 0];
+            }
+            $this->bloquearInventario($idSede, $consumos);
 
-                    if ($mov['unidad_movimiento'] === 'gramo') {
-                        $rows = $this->select(
-                            "SELECT cantidad_gramos FROM inventario_esencias WHERE id_sede = :id_sede AND id_presentacion = :id_pres LIMIT 1",
-                            [':id_sede' => $idSede, ':id_pres' => $idPres]
-                        );
-                        $nuevo = ((float)($rows[0]['cantidad_gramos'] ?? 0)) + $cantRevertir;
+            foreach ($movimientos as $m) {
+                $cantidad = abs((float)$m['cantidad_movimiento']);
+                $idPres = (int)$m['id_presentacion'];
+
+                if ($m['unidad_movimiento'] === 'gramo') {
+                    if (!empty($m['id_lote_esencia'])) {
                         $this->execute(
-                            "UPDATE inventario_esencias SET cantidad_gramos = :nuevo, fecha_actualizacion = NOW()
-                             WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
-                            [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPres]
+                            "UPDATE lotes_esencia SET gramos_disponibles = gramos_disponibles + :c WHERE id_lote = :id",
+                            [':c' => $cantidad, ':id' => (int)$m['id_lote_esencia']]
                         );
-                        $this->insertarKardex($idSede, $idPres, $idTipoAnulacion, 'gramo', $cantRevertir, $nuevo, $idVenta, $idUsuario, "Anulación venta {$venta['numero_venta']}");
-                    } else {
-                        $rows = $this->select(
-                            "SELECT stock_sede FROM inventario_sedes WHERE id_sede = :id_sede AND id_presentacion = :id_pres LIMIT 1",
-                            [':id_sede' => $idSede, ':id_pres' => $idPres]
-                        );
-                        $nuevo = ((int)($rows[0]['stock_sede'] ?? 0)) + (int)$cantRevertir;
-                        $this->execute(
-                            "UPDATE inventario_sedes SET stock_sede = :nuevo WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
-                            [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPres]
-                        );
-                        $this->insertarKardex($idSede, $idPres, $idTipoAnulacion, 'unidad', $cantRevertir, $nuevo, $idVenta, $idUsuario, "Anulación venta {$venta['numero_venta']}");
                     }
-                }
-            } else {
-                // Fallback si no había filas en movimientos_inventario
-                $detalles = $this->obtenerDetallesVenta($idVenta);
-                foreach ($detalles as $det) {
-                    $idPres = (int)$det['id_presentacion'];
-                    $cant = (int)$det['cantidad_detalle_venta'];
                     $this->execute(
-                        "UPDATE inventario_sedes SET stock_sede = stock_sede + :cant WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
-                        [':cant' => $cant, ':id_sede' => $idSede, ':id_pres' => $idPres]
+                        "UPDATE inventario_esencias SET cantidad_gramos = cantidad_gramos + :c, fecha_actualizacion = NOW()
+                         WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
+                        [':c' => $cantidad, ':id_sede' => $idSede, ':id_pres' => $idPres]
                     );
+                    $saldo = $this->obtenerSaldoGramos($idSede, $idPres);
+                    $this->insertarKardex($idSede, $idPres, $idTipoAnulacion, 'gramo', $cantidad, $saldo, $idVenta, $idUsuario, $obs, $m['id_lote_esencia'] ? (int)$m['id_lote_esencia'] : null);
+                } else {
+                    $nuevo = $this->obtenerStockUnidadesBloqueado($idPres, $idSede) + (int)$cantidad;
+                    $this->execute(
+                        "UPDATE inventario_sedes SET stock_sede = :nuevo WHERE id_sede = :id_sede AND id_presentacion = :id_pres",
+                        [':nuevo' => $nuevo, ':id_sede' => $idSede, ':id_pres' => $idPres]
+                    );
+                    $this->insertarKardex($idSede, $idPres, $idTipoAnulacion, 'unidad', $cantidad, $nuevo, $idVenta, $idUsuario, $obs);
                 }
             }
 
-            // Revertir ingreso en caja si hubo pagos registrados
-            $totalPagado = (float)($venta['total_pagado'] ?? 0);
-            if ($totalPagado > 0 && $this->tablaExiste('caja_movimientos')) {
+            // Reversa de caja por lo que se haya cobrado
+            $totalPagado = (float)$venta['total_pagado'];
+            if ($totalPagado > 0) {
                 $this->execute(
-                    "INSERT INTO caja_movimientos (
-                        id_sede, tipo_caja, concepto_caja, monto_caja,
-                        id_usuario, observacion_caja
-                    ) VALUES (
-                        :id_sede, 'egreso', 'anulacion_venta', :monto,
-                        :id_usuario, :obs
-                    )",
+                    "INSERT INTO caja_movimientos (id_sede, tipo_caja, concepto_caja, monto_caja, id_venta, id_usuario, observacion_caja)
+                     VALUES (:id_sede, 'egreso', 'anulacion_venta', :monto, :id_venta, :id_usuario, :obs)",
                     [
                         ':id_sede' => $idSede,
                         ':monto' => $totalPagado,
+                        ':id_venta' => $idVenta,
                         ':id_usuario' => $idUsuario,
                         ':obs' => "Reversión por anulación de venta {$venta['numero_venta']}"
                     ]
                 );
             }
 
-            $this->execute(
-                "UPDATE ventas SET estado_venta = 'anulada' WHERE id_venta = :id_venta",
-                [':id_venta' => $idVenta]
-            );
+            $this->execute("UPDATE ventas SET estado_venta = 'anulada' WHERE id_venta = :id", [':id' => $idVenta]);
 
             $this->commit();
             return true;
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($this->inTransaction()) {
                 $this->rollBack();
             }
@@ -1015,4 +955,3 @@ class VentasModel extends conexion {
         }
     }
 }
-

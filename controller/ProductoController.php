@@ -65,7 +65,8 @@ class ProductoController {
                 return response::error('Debe especificar la categoría');
             }
 
-            $data = $this->servicio->obtenerProductos($categoria, $limit, $offset);
+            $idSede = isset($request['idSede']) ? (int)$request['idSede'] : 1;
+            $data = $this->servicio->obtenerProductos($categoria, $limit, $offset, $idSede);
             return response::success($data);
 
         } catch (\DomainException $e) {
@@ -105,9 +106,23 @@ class ProductoController {
         }
     }
 
-    public function listarEsencias(): array {
+    public function listarCatalogoVinculos(): array {
         try {
-            $data = $this->servicio->obtenerEsencias();
+            $data = $this->servicio->obtenerCatalogoVinculos();
+            return response::success($data, 'Catálogo de vínculos obtenido');
+
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error("Error al obtener catálogo de vínculos", $e);
+            return response::error('Error al obtener el catálogo de vínculos');
+        }
+    }
+
+    public function listarEsencias(array $request = []): array {
+        try {
+            $idSede = isset($request['idSede']) ? (int)$request['idSede'] : 1;
+            $data = $this->servicio->obtenerEsencias($idSede);
             return response::success($data, 'Esencias obtenidas exitosamente');
 
         } catch (\DomainException $e) {

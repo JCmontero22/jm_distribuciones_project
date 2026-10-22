@@ -84,8 +84,8 @@
             return $resultados;
         }
 
-        public function obtenerProductos(string $categoria, int $limit = null, int $offset = 0): array {
-            return $this->modelo->obtenerProductos($categoria, $limit, $offset);
+        public function obtenerProductos(string $categoria, int $limit = null, int $offset = 0, int $idSede = 1): array {
+            return $this->modelo->obtenerProductos($categoria, $limit, $offset, $idSede);
         }
 
         public function obtenerProductosActivos(int $limit = null, int $offset = 0): array {
@@ -96,8 +96,16 @@
             return $this->modelo->obtenerProductosCompra();
         }
 
-        public function obtenerEsencias(): array {
-            return $this->modelo->obtenerEsencias();
+        public function obtenerEsencias(int $idSede = 1): array {
+            return $this->modelo->obtenerEsencias($idSede);
+        }
+
+        /** Esencias y envases disponibles para vincular lociones y formulas. */
+        public function obtenerCatalogoVinculos(): array {
+            return [
+                'esencias' => $this->modelo->obtenerEsenciasVinculo(),
+                'envases' => $this->modelo->obtenerEnvasesVinculo()
+            ];
         }
 
         public function obtenerPresentacionesPorProducto(int $idProducto): array {

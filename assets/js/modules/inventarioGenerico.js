@@ -17,6 +17,23 @@ function crearModuloInventario(config) {
      * CAPA API — Solo responsable de comunicarse con el servidor
      */
     const API = {
+        obtenerCatalogoVinculos() {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/productosAjax.php`,
+                    method: "GET",
+                    data: { accion: "listarCatalogoVinculos" },
+                    success(response) {
+                        const datos = JSON.parse(response);
+                        resolve(datos.data || {});
+                    },
+                    error(error) {
+                        reject(error);
+                    }
+                });
+            });
+        },
+
         listarProductos(categoria = null) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -152,23 +169,6 @@ function crearModuloInventario(config) {
             });
         },
 
-        obtenerFormulas() {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: `${BASE_URL}/ajax/formulasAjax.php`,
-                    method: "GET",
-                    data: { accion: "listarFormulas" },
-                    success(response) {
-                        const datos = JSON.parse(response);
-                        resolve(datos.data || []);
-                    },
-                    error(error) {
-                        reject(error);
-                    }
-                });
-            });
-        },
-
         obtenerPresentacionesPorProducto(idProducto) {
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -264,7 +264,7 @@ function crearModuloInventario(config) {
                             </p>
                         </div>
                         <div class="card-inventory_stock">
-                            <p class="stock-label">Disponible: ${FormatUtils.separaMiles(gramos.toFixed(0))} g</p>
+                            <p class="stock-label">${gramos > 0 ? `Disponible: ${FormatUtils.separaMiles(gramos.toFixed(0))} g` : 'Sin stock'}</p>
                         </div>
                         <div class="card-inventory_op">
                             <button class="btn btn-info btn-ver-presentaciones" data-id="${producto.id_producto}" data-nombre="${producto.nombre_producto}" title="Ver presentaciones">
@@ -312,7 +312,7 @@ function crearModuloInventario(config) {
                         </p>
                     </div>
                     <div class="card-inventory_stock">
-                        <p class="stock-label">Stock: ${producto.stock_total || 0}</p>
+                        <p class="stock-label">${parseInt(producto.stock_total) > 0 ? `Stock: ${producto.stock_total}` : 'Sin stock'}</p>
                     </div>
                     <div class="card-inventory_op">
                         <button class="btn btn-info btn-ver-presentaciones" data-id="${producto.id_producto}" data-nombre="${producto.nombre_producto}" title="Ver presentaciones">
@@ -633,8 +633,7 @@ function crearModuloInventario(config) {
                     this.cargarCategorias(),
                     this.cargarMarcas(),
                     this.cargarGeneros(),
-                    this.cargarTiposProductos(),
-                    this.cargarFormulas()
+                    this.cargarTiposProductos()
                 ];
                 
                 await Promise.all(promises);
@@ -706,15 +705,6 @@ function crearModuloInventario(config) {
             }
         },
 
-        async cargarFormulas() {
-            try {
-                const formulas = await API.obtenerFormulas();
-                View.poblarSelect("#formula", formulas, 'id_formula', 'nombre_formula');
-            } catch (error) {
-                console.error("Error al cargar fórmulas:", error);
-            }
-        },
-
         async registrarProducto(e) {
             e.preventDefault();
             const resultado = await Alerts.confirmation(
@@ -773,10 +763,6 @@ function crearModuloInventario(config) {
                 return;
             }
 
-            if (config.tieneFormula && !idFormula) {
-                Alerts.error("Campos incompletos", "Por favor selecciona una fórmula");
-                return;
-            }
 
             const presentacion = {
                 id: this.presentacionEditandoId || Date.now(),
@@ -1026,7 +1012,7 @@ function crearModuloInventario(config) {
                                 <td>${p.codigo_presentacion}</td>
                                 <td class="text-center">${p.cantidad_gramos_presentacion ? p.cantidad_gramos_presentacion + ' g' : '-'}</td>
                                 <td class="text-center fw-bold ${parseFloat(p.stock_gramos) > 0 ? 'text-success' : 'text-danger'}">
-                                    ${FormatUtils.separaMiles(parseFloat(p.stock_gramos).toFixed(0))} g
+                                    ${parseFloat(p.stock_gramos) > 0 ? FormatUtils.separaMiles(parseFloat(p.stock_gramos).toFixed(0)) + ' g' : 'Sin stock'}
                                 </td>
                                 <td class="text-center">${parseFloat(p.costo_por_gramo) > 0 ? '$ ' + FormatUtils.separaMiles(parseFloat(p.costo_por_gramo).toFixed(0)) : '-'}</td>
                                 <td class="text-center">
@@ -1045,7 +1031,7 @@ function crearModuloInventario(config) {
                                 <td>${p.codigo_presentacion}</td>
                                 <td class="text-center">${p.precio_compra_presentacion ? '$ ' + FormatUtils.separaMiles(p.precio_compra_presentacion) : '-'}</td>
                                 <td class="text-center fw-bold ${parseInt(p.stock_total) > 0 ? 'text-success' : 'text-danger'}">
-                                    ${p.stock_total || 0}
+                                    ${parseInt(p.stock_total) > 0 ? p.stock_total : 'Sin stock'}
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-warning btn-edit-pres-modal me-2" data-id="${p.id_presentacion}" data-nombre="${p.nombre_presentacion}">
@@ -1222,8 +1208,8 @@ function crearModuloInventario(config) {
 
                 const filas = presentaciones.map(p => {
                     const stock = config.esEsencia
-                        ? `${FormatUtils.separaMiles(parseFloat(p.stock_gramos).toFixed(0))} g`
-                        : `${p.stock_total || 0}`;
+                        ? (parseFloat(p.stock_gramos) > 0 ? `${FormatUtils.separaMiles(parseFloat(p.stock_gramos).toFixed(0))} g` : 'Sin stock')
+                        : (parseInt(p.stock_total) > 0 ? `${p.stock_total}` : 'Sin stock');
                     const precio = p.precio_compra_presentacion
                         ? `$ ${FormatUtils.separaMiles(p.precio_compra_presentacion)}`
                         : '-';

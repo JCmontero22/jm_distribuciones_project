@@ -67,7 +67,8 @@ class LoginService {
                 'id_perfil_usuario' => $usuarioData['id_perfil_usuario'],
                 'nombre_perfil_usuario' => $usuarioData['nombre_perfil_usuario'],
                 'id_estado' => $usuarioData['id_estado'],
-                'nombre_estado' => $usuarioData['nombre_estado']
+                'nombre_estado' => $usuarioData['nombre_estado'],
+                'id_sede' => $usuarioData['id_sede']
             ];
 
         } catch (Exception $e) {

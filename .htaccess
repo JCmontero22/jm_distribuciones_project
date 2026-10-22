@@ -1,12 +1,41 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/
+# ============================================================
+# PRODUCCIÓN (activo)
+# La entrada del sistema es index.php en la raíz del proyecto.
+# ============================================================
+RewriteEngine On
+RewriteBase /
 
-    # No reescribir endpoints AJAX (deben responder JSON directamente)
-    RewriteRule ^ajax/ - [L,NC]
+# Carpetas internas: no accesibles desde el navegador
+RewriteRule ^(\.git|\.agents|\.codex|config|db|scripts|logs)(/|$) - [F,L]
 
-    # No reescribir assets u otros archivos reales
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
-</IfModule>
+# Endpoints AJAX responden directamente (JSON)
+RewriteRule ^ajax/ - [L,NC]
+
+# Archivos y carpetas reales se sirven tal cual; el resto va a index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+DirectoryIndex index.php
+
+# Proteger archivos sensibles
+<FilesMatch "\.(env|sql|log|ini|sh|bat|inc|bak|config|php~)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ============================================================
+# LOCAL (comentado; se conserva para desarrollo en XAMPP)
+# ============================================================
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteBase /PROYECTO_JM-ML/distribuciones_jm/jm_distribuciones_project/
+#
+#     # No reescribir endpoints AJAX (deben responder JSON directamente)
+#     RewriteRule ^ajax/ - [L,NC]
+#
+#     # No reescribir assets u otros archivos reales
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteRule ^(.*)$ index.php [QSA,L]
+# </IfModule>

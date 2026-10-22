@@ -154,7 +154,10 @@ const ComprasView = {
                 },
                 {
                     data: "fecha_compra",
-                    defaultContent: "N/A"
+                    render: (val, type) => {
+                        if (type === "sort" || type === "type") return val || "";
+                        return FormatUtils.formatearFechaTabla(val);
+                    }
                 },
                 {
                     data: null,
@@ -162,15 +165,17 @@ const ComprasView = {
                     render(data, type, row) {
                         const id = row.id_compras;
                         return `
-                            <button class="btn btn-sm btn-primary btn-ver-detalles" data-id="${id}">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-secondary btn-editar-compra" data-id="${id}">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-eliminar-compra" data-id="${id}">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+                            <div class="acciones-tabla">
+                                <button class="btn btn-sm btn-primary btn-ver-detalles" data-id="${id}">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-secondary btn-editar-compra" data-id="${id}">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-eliminar-compra" data-id="${id}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         `;
                     }
                 }

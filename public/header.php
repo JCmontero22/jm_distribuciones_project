@@ -17,8 +17,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
     <!-- Custom CSS -->
-    <?php $bp = defined('BASE_PATH') ? BASE_PATH : '/'; ?>
-    <link rel="stylesheet" href="<?= $bp ?>assets/css/style.css">
+    <?php
+        $bp = defined('BASE_PATH') ? BASE_PATH : '/';
+        $cssVer = @filemtime(__DIR__ . '/../assets/css/style.css') ?: time();
+    ?>
+    <link rel="stylesheet" href="<?= $bp ?>assets/css/style.css?v=<?= $cssVer ?>">
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.css" />

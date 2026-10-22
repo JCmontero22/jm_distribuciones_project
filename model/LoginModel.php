@@ -19,6 +19,7 @@ class LoginModel extends conexion {
                     u.pass_usuario,
                     u.id_perfil,
                     u.id_estado,
+                    u.id_sede,
                     pu.nombre_perfil_usuario,
                     pu.id_perfil_usuario,
                     e.nombre_estado

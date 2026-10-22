@@ -5,6 +5,11 @@ const VentasAPI = {
     ventasClient: new SimpleAPI(CONFIG.AJAX.VENTAS),
     catalogoClient: new SimpleAPI(CONFIG.AJAX.CATALOGO),
 
+    async obtenerSedes() {
+        const response = await this.catalogoClient.get({ accion: "listadoSedes" });
+        return response.data || [];
+    },
+
     async obtenerVentas(filtros = {}) {
         const response = await this.ventasClient.get({
             accion: "listarVentas",
@@ -13,7 +18,7 @@ const VentasAPI = {
         return response.data || { ventas: [], resumen: {} };
     },
 
-    async obtenerCatalogosVenta(idSede = 1) {
+    async obtenerCatalogosVenta(idSede = 0) {
         const response = await this.ventasClient.get({
             accion: "catalogosVenta",
             idSede
@@ -132,7 +137,10 @@ const VentasView = {
                 },
                 {
                     data: "fecha_venta",
-                    defaultContent: "N/A"
+                    render: (val, type) => {
+                        if (type === "sort" || type === "type") return val || "";
+                        return FormatUtils.formatearFechaTabla(val);
+                    }
                 },
                 {
                     data: null,
@@ -143,14 +151,14 @@ const VentasView = {
                         const esAnulada = row.estado_venta === "anulada";
 
                         let botones = `
-                            <button class="btn btn-sm btn-primary btn-ver-venta me-1" data-id="${id}" title="Ver detalle">
+                            <button class="btn btn-sm btn-primary btn-ver-venta" data-id="${id}" title="Ver detalle">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
                         `;
 
                         if (esPendiente) {
                             botones += `
-                                <button class="btn btn-sm btn-success btn-abonar-venta me-1" data-id="${id}" title="Registrar abono">
+                                <button class="btn btn-sm btn-success btn-abonar-venta" data-id="${id}" title="Registrar abono">
                                     <i class="fa-solid fa-hand-holding-dollar"></i>
                                 </button>
                             `;
@@ -164,7 +172,7 @@ const VentasView = {
                             `;
                         }
 
-                        return botones;
+                        return `<div class="acciones-tabla">${botones}</div>`;
                     }
                 }
             ],
@@ -179,6 +187,25 @@ const VentasView = {
 
     poblarCategorias(categorias = []) {
         AppUI.fillSelect("#selectCategoriaVenta", categorias, "id_categoria", "nombre_categoria");
+        if (categorias.length > 0) {
+            $("#selectCategoriaVenta").append(new Option("Lociones", "0"));
+        }
+    },
+
+    /** Sin sede no hay categorias ni productos: el usuario no puede vender nada hasta elegir sede. */
+    limpiarCatalogoSede() {
+        this.poblarCategorias([]);
+        this.poblarProductosVenta([]);
+        $("#numeroVenta").val("");
+        this.mostrarIndicadorProducto(null);
+    },
+
+    aplicarCatalogoSede(data) {
+        this.poblarCategorias(data.categorias || []);
+        this.poblarProductosVenta(data.productos || []);
+        if (data.siguienteNumero) {
+            $("#numeroVenta").val(data.siguienteNumero);
+        }
     },
 
     poblarClientes(clientes = [], idSeleccionar = null) {
@@ -210,12 +237,15 @@ const VentasView = {
             ? productos.filter((p) => String(p.id_categoria) === String(categoriaSeleccionada))
             : productos;
 
+
         filtrados.forEach((p) => {
             const stock = parseFloat(p.stock_disponible || 0);
             const unidad = p.unidad_venta || "und";
             const precioFinal = Math.round(parseFloat(p.precio_venta_final || p.precio_venta_base || 0));
-            const sinStock = stock <= 0 ? " [SIN STOCK]" : ` [Stock: ${stock} ${unidad}]`;
-            html += `<option value="${p.id_presentacion}">${p.nombre_categoria} / ${p.nombre_producto} - ${p.nombre_presentacion} ($ ${FormatUtils.separaMiles(precioFinal)})${sinStock}</option>`;
+            const etiqueta = p.venta_bloqueada
+                ? ` [${p.motivo_bloqueo}]`
+                : stock <= 0 ? " [SIN STOCK]" : ` [Stock: ${stock} ${unidad}]`;
+            html += `<option value="${p.clave}">${p.nombre_categoria} / ${p.nombre_producto} - ${p.nombre_presentacion} ($ ${FormatUtils.separaMiles(precioFinal)})${etiqueta}</option>`;
         });
 
         $select.html(html);
@@ -235,7 +265,11 @@ const VentasView = {
         const unidad = producto.unidad_venta || "unidades";
         $container.show();
 
-        if (stock > 0) {
+        if (producto.venta_bloqueada) {
+            $badgeStock
+                .addClass("stock-pill-danger")
+                .html(`<i class="fa-solid fa-triangle-exclamation me-1"></i>${producto.motivo_bloqueo}`);
+        } else if (stock > 0) {
             $badgeStock
                 .removeClass("stock-pill-danger")
                 .html(`<i class="fa-solid fa-boxes-stacked me-1"></i>Disponible: ${stock} ${unidad}`);
@@ -393,6 +427,9 @@ const ventasModule = {
             const idSede = $(e.target).val();
             if (idSede) {
                 this.cambiarSedeEnModal(idSede);
+            } else {
+                this.productosDisponibles = [];
+                VentasView.limpiarCatalogoSede();
             }
         });
 
@@ -458,22 +495,47 @@ const ventasModule = {
 
     async cargarCatalogosIniciales() {
         try {
-            const data = await VentasAPI.obtenerCatalogosVenta(1);
+            const data = await VentasAPI.obtenerCatalogosVenta(0);
             VentasView.poblarSedes(data.sedes || []);
-            VentasView.poblarCategorias(data.categorias || []);
             VentasView.poblarClientes(data.clientes || []);
             VentasView.poblarMetodosPago(data.metodosPago || []);
-            this.productosDisponibles = data.productos || [];
 
-            if (data.sedes && data.sedes.length > 0) {
-                $("#selectSedeVenta").val(data.sedes[0].id_sede);
+            if (data.sedeFija) {
+                // Vendedor: su sede es fija
+                // La sede viene de la sesion: el usuario no la elige, se oculta el selector
+                this.sedeFija = data.sedeFija;
+                $("#selectSedeVenta").val(data.sedeFija);
+                $("#wrapperSedeVenta, #wrapperFiltroSedeVentas").hide();
+                $("#wrapperFiltroEstadoVentas").removeClass("col-md-4 col-md-5").addClass("col-md-9");
+                $("#wrapperBtnRefrescarVentas").removeClass("col-md-4 col-md-2").addClass("col-md-3");
+                $("#wrapperNumeroVenta").removeClass("col-md-3").addClass("col-md-4");
+                $("#wrapperClienteVenta").removeClass("col-md-4").addClass("col-md-5");
+                $("#wrapperModalidadVenta").removeClass("col-md-2").addClass("col-md-3");
+                this.productosDisponibles = data.productos || [];
+                VentasView.aplicarCatalogoSede(data);
+            } else {
+                // Administrador: debe elegir la sede antes de ver categorias o productos
+                $("#wrapperSedeVenta, #wrapperFiltroSedeVentas").show();
+                $("#wrapperFiltroEstadoVentas").removeClass("col-md-9").addClass("col-md-5");
+                $("#wrapperBtnRefrescarVentas").removeClass("col-md-3").addClass("col-md-2");
+                $("#wrapperNumeroVenta").removeClass("col-md-4").addClass("col-md-3");
+                $("#wrapperClienteVenta").removeClass("col-md-5").addClass("col-md-4");
+                $("#wrapperModalidadVenta").removeClass("col-md-3").addClass("col-md-2");
+                $("#selectSedeVenta").val("").prop("disabled", false);
+                this.productosDisponibles = [];
+                VentasView.limpiarCatalogoSede();
             }
-            if (data.siguienteNumero) {
-                $("#numeroVenta").val(data.siguienteNumero);
-            }
-            VentasView.poblarProductosVenta(this.productosDisponibles);
         } catch (error) {
             Logger.error("Error al cargar catálogos de ventas", error);
+        }
+    },
+
+    async cargarSedes() {
+        try {
+            const sedes = await VentasAPI.obtenerSedes();
+            VentasView.poblarSedes(sedes);
+        } catch (error) {
+            Logger.error("Error al cargar sedes", error);
         }
     },
 
@@ -502,19 +564,20 @@ const ventasModule = {
         $("#precioUnitarioVenta").val("");
         $("#selectCategoriaVenta").val("");
 
-        const idSede = $("#selectSedeVenta").val() || 1;
-        await this.cambiarSedeEnModal(idSede);
+        const idSede = this.sedeFija || $("#selectSedeVenta").val();
+        if (idSede) {
+            await this.cambiarSedeEnModal(idSede);
+        } else {
+            this.productosDisponibles = [];
+            VentasView.limpiarCatalogoSede();
+        }
     },
 
     async cambiarSedeEnModal(idSede) {
         try {
-            const data = await VentasAPI.obtenerProductosPorSede(idSede);
+            const data = await VentasAPI.obtenerCatalogosVenta(idSede);
             this.productosDisponibles = data.productos || [];
-            if (data.siguienteNumero) {
-                $("#numeroVenta").val(data.siguienteNumero);
-            }
-            const idCategoria = $("#selectCategoriaVenta").val();
-            VentasView.poblarProductosVenta(this.productosDisponibles, idCategoria);
+            VentasView.aplicarCatalogoSede(data);
             VentasView.mostrarIndicadorProducto(null);
         } catch (error) {
             Logger.error("Error al actualizar productos de la sede", error);
@@ -522,7 +585,7 @@ const ventasModule = {
     },
 
     seleccionarProducto(idPresentacion) {
-        const prod = this.productosDisponibles.find((p) => String(p.id_presentacion) === String(idPresentacion));
+        const prod = this.productosDisponibles.find((p) => p.clave === String(idPresentacion));
         VentasView.mostrarIndicadorProducto(prod || null);
 
         if (prod) {
@@ -550,11 +613,11 @@ const ventasModule = {
             return;
         }
 
-        const prod = this.productosDisponibles.find((p) => String(p.id_presentacion) === String(idPresentacion));
+        const prod = this.productosDisponibles.find((p) => p.clave === String(idPresentacion));
         if (!prod) return;
 
-        // Verificar cantidad total acumulada en el carrito para esta presentación
-        const existente = this.itemsCarrito.find((i) => String(i.idPresentacion) === String(idPresentacion));
+        // Verificar cantidad total acumulada en el carrito para este producto
+        const existente = this.itemsCarrito.find((i) => i.clave === String(idPresentacion));
         const cantidadEnCarrito = existente ? existente.cantidad : 0;
         const stockDisponible = parseFloat(prod.stock_disponible || 0);
 
@@ -573,7 +636,7 @@ const ventasModule = {
         } else {
             this.itemsCarrito.push({
                 id: Date.now(),
-                idPresentacion: parseInt(idPresentacion, 10),
+                clave: String(idPresentacion),
                 nombreCompleto: `${prod.nombre_categoria} / ${prod.nombre_producto} - ${prod.nombre_presentacion}`,
                 cantidad,
                 precioUnitario,
