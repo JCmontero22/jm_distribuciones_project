@@ -50,6 +50,23 @@
         </div>
     </div>
 
+    <!-- NOTIFICACIÓN DE STOCK BAJO (se muestra solo si hay productos bajos) -->
+    <div id="homeAlertaStock" class="dashboard-stock-alert d-none mb-5" role="alert">
+        <div class="dashboard-stock-alert__header">
+            <div class="d-flex align-items-center gap-3">
+                <span class="dashboard-stock-alert__icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </span>
+                <div>
+                    <h4 class="dashboard-stock-alert__title mb-1">Alerta de Stock Bajo</h4>
+                    <p class="dashboard-stock-alert__subtitle mb-0" id="homeAlertaStockResumen"></p>
+                </div>
+            </div>
+            <button type="button" class="btn-close" id="homeAlertaStockCerrar" aria-label="Cerrar"></button>
+        </div>
+        <ul class="dashboard-stock-alert__list mb-0" id="homeAlertaStockLista"></ul>
+    </div>
+
     <!-- INDICADORES OPERATIVOS DEL DÍA (COMÚN PARA VENDEDOR Y ADMIN) -->
     <div class="row g-4 mb-5 align-items-stretch">
         <div class="col-sm-6 col-xl-3">

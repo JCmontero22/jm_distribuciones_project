@@ -161,6 +161,40 @@ class VentasService {
         return $this->ventasModel->obtenerPreciosLocion($idSede);
     }
 
+    public function obtenerPreciosFormula(int $idSede): array {
+        if ($idSede <= 0) {
+            throw new \DomainException('Sede inválida');
+        }
+        return $this->ventasModel->obtenerPreciosFormula($idSede);
+    }
+
+    public function guardarPrecioFormula(int $idSede, int $idFormula, float $precio): void {
+        if ($idSede <= 0 || $idFormula <= 0) {
+            throw new \DomainException('Datos de precio inválidos');
+        }
+        if ($precio <= 0) {
+            throw new \DomainException('El precio debe ser mayor a 0');
+        }
+        $this->ventasModel->guardarPrecioFormula($idSede, $idFormula, $precio);
+    }
+
+    public function obtenerEsenciasPrecioFormula(int $idSede, int $idFormula): array {
+        if ($idSede <= 0 || $idFormula <= 0) {
+            throw new \DomainException('Datos inválidos');
+        }
+        return $this->ventasModel->obtenerEsenciasPrecioFormula($idSede, $idFormula);
+    }
+
+    public function aplicarPrecioFormulaATodas(int $idSede, int $idFormula, float $precio): void {
+        if ($idSede <= 0 || $idFormula <= 0) {
+            throw new \DomainException('Datos de precio inválidos');
+        }
+        if ($precio <= 0) {
+            throw new \DomainException('El precio debe ser mayor a 0');
+        }
+        $this->ventasModel->aplicarPrecioFormulaATodas($idSede, $idFormula, $precio);
+    }
+
     public function guardarPrecioLocion(int $idSede, int $idProductoEsencia, int $idFormula, float $precio): void {
         if ($idSede <= 0 || $idProductoEsencia <= 0 || $idFormula <= 0) {
             throw new \DomainException('Datos de precio inválidos');

@@ -55,6 +55,22 @@ switch ($accion) {
         echo json_encode($ventasController->guardarPrecioLocion($_POST));
         break;
 
+    case 'preciosFormula':
+        echo json_encode($ventasController->preciosFormula($_GET));
+        break;
+
+    case 'guardarPrecioFormula':
+        echo json_encode($ventasController->guardarPrecioFormula($_POST));
+        break;
+
+    case 'esenciasPrecioFormula':
+        echo json_encode($ventasController->esenciasPrecioFormula($_GET));
+        break;
+
+    case 'aplicarPrecioFormulaATodas':
+        echo json_encode($ventasController->aplicarPrecioFormulaATodas($_POST));
+        break;
+
     case 'registrarCliente':
         $resultado = $ventasController->registrarCliente($_POST);
         echo json_encode($resultado);

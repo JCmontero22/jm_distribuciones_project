@@ -12,7 +12,11 @@
      ============================================================ -->
 <?php
     $bp = defined('BASE_PATH') ? BASE_PATH : '/';
-    $jsVer = @filemtime(__DIR__ . '/../assets/css/style.css') ?: time();
+    $jsVer = max(
+        @filemtime(__DIR__ . '/../assets/css/style.css') ?: 0,
+        @filemtime(__DIR__ . '/../assets/js/core/alert.js') ?: 0,
+        @filemtime(__DIR__ . '/../assets/js/main.js') ?: 0
+    ) ?: time();
 ?>
 <script src="<?= $bp ?>assets/js/config/config.js?v=<?= $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/core/csrf.js?v=<?= $jsVer ?>"></script>
@@ -32,7 +36,7 @@
 <!-- ============================================================
      4. INICIALIZACIÓN PRINCIPAL
      ============================================================ -->
-<script src="<?= $bp ?>assets/js/modules/inventarioGenerico.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/inventarioGenerico.js?v=<?= @filemtime(__DIR__ . '/../assets/js/modules/inventarioGenerico.js') ?: $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/modules/compras.js?v=<?= $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/modules/ventas.js?v=<?= $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/modules/gastos.js?v=<?= $jsVer ?>"></script>
@@ -45,6 +49,7 @@
 <script src="<?= $bp ?>assets/js/modules/bannerPromociones.js?v=<?= $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/modules/descuentos.js?v=<?= $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/modules/configuracion.js?v=<?= $jsVer ?>"></script>
+<script src="<?= $bp ?>assets/js/modules/homeDashboard.js?v=<?= @filemtime(__DIR__ . '/../assets/js/modules/homeDashboard.js') ?: $jsVer ?>"></script>
 
 <script src="<?= $bp ?>assets/js/main.js?v=<?= $jsVer ?>"></script>
 

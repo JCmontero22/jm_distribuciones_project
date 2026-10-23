@@ -284,15 +284,17 @@ class VentasModel extends conexion {
         $lociones = $this->select(
             "SELECT e.id_producto AS id_producto_esencia, e.nombre_producto AS nombre_esencia, e.id_categoria,
                     f.id_formula, f.nombre_formula, f.cantidad_esencia, f.id_presentacion_envase,
-                    pl.precio_venta
+                    COALESCE(pl.precio_venta, pf.precio_venta) AS precio_venta
              FROM productos e
              INNER JOIN categoria_producto ce ON ce.id_categoria = e.id_categoria AND ce.nombre_categoria = 'Esencias'
              CROSS JOIN formulas f
              LEFT JOIN precios_locion_sede pl
                 ON pl.id_producto_esencia = e.id_producto AND pl.id_formula = f.id_formula AND pl.id_sede = :id_sede
+             LEFT JOIN precios_formula_sede pf
+                ON pf.id_formula = f.id_formula AND pf.id_sede = :id_sede_formula
              WHERE e.id_estado = 1 AND f.id_estado = 1 AND f.id_presentacion_envase IS NOT NULL
              ORDER BY e.nombre_producto ASC, f.nombre_formula ASC",
-            [':id_sede' => $idSede]
+            [':id_sede' => $idSede, ':id_sede_formula' => $idSede]
         );
 
         foreach ($lociones as $l) {
@@ -304,6 +306,27 @@ class VentasModel extends conexion {
 
             $precio = $l['precio_venta'] !== null ? (float)$l['precio_venta'] : 0.0;
             $costo = round($cantidadEsencia * $gramos['costo_promedio'] + (float)($envase['precio_compra_presentacion'] ?? 0), 2);
+            $stockLocion = (int)min(floor($gramos['gramos'] / $cantidadEsencia), $stockEnvase);
+
+            // Motivo concreto para mostrar en ventas cuando no hay stock
+            $motivoSinStock = null;
+            if ($stockLocion <= 0) {
+                $sinFrasco = $stockEnvase <= 0;
+                $sinEsencia = $gramos['gramos'] < $cantidadEsencia;
+                $nombreFrasco = $envase['nombre_presentacion'] ?? 'del envase';
+                $nombreEsencia = $l['nombre_esencia'];
+
+                if ($sinFrasco && $sinEsencia) {
+                    $motivoSinStock = "Sin frasco de {$nombreFrasco} y sin esencia {$nombreEsencia} en esta sede";
+                } elseif ($sinFrasco) {
+                    $motivoSinStock = "Sin frasco de {$nombreFrasco} en esta sede";
+                } elseif ($gramos['gramos'] <= 0) {
+                    $motivoSinStock = "Sin esencia {$nombreEsencia} en esta sede";
+                } else {
+                    $motivoSinStock = "Esencia {$nombreEsencia} insuficiente: quedan " . floor($gramos['gramos'])
+                        . " g y cada loción usa {$cantidadEsencia} g";
+                }
+            }
 
             $productos[] = [
                 'clave' => 'L' . $l['id_producto_esencia'] . '-' . $l['id_formula'],
@@ -316,7 +339,8 @@ class VentasModel extends conexion {
                 'precio_venta_base' => $precio,
                 'porcentaje_descuento' => 0,
                 'precio_venta_final' => $precio,
-                'stock_disponible' => (int)min(floor($gramos['gramos'] / $cantidadEsencia), $stockEnvase),
+                'stock_disponible' => $stockLocion,
+                'motivo_sin_stock' => $motivoSinStock,
                 'costo_unitario_actual' => $costo,
                 'unidad_venta' => 'und',
                 'venta_bloqueada' => $l['precio_venta'] === null,
@@ -343,6 +367,50 @@ class VentasModel extends conexion {
         return $this->select(
             "SELECT id_producto_esencia, id_formula, precio_venta FROM precios_locion_sede WHERE id_sede = :id_sede",
             [':id_sede' => $idSede]
+        );
+    }
+
+    /** Precio por formula de la sede (aplica a las esencias sin precio propio). */
+    public function obtenerPreciosFormula(int $idSede): array {
+        return $this->select(
+            "SELECT id_formula, precio_venta FROM precios_formula_sede WHERE id_sede = :id_sede",
+            [':id_sede' => $idSede]
+        );
+    }
+
+    public function guardarPrecioFormula(int $idSede, int $idFormula, float $precio): void {
+        $this->execute(
+            "INSERT INTO precios_formula_sede (id_formula, id_sede, precio_venta)
+             VALUES (:formula, :sede, :precio)
+             ON DUPLICATE KEY UPDATE precio_venta = VALUES(precio_venta)",
+            [':formula' => $idFormula, ':sede' => $idSede, ':precio' => $precio]
+        );
+    }
+
+    /** Esencias activas con su precio propio para la formula en la sede (precio_propio null = sin precio propio). */
+    public function obtenerEsenciasPrecioFormula(int $idSede, int $idFormula): array {
+        return $this->select(
+            "SELECT e.id_producto, e.nombre_producto, pl.precio_venta AS precio_propio
+             FROM productos e
+             INNER JOIN categoria_producto ce ON ce.id_categoria = e.id_categoria AND ce.nombre_categoria = 'Esencias'
+             LEFT JOIN precios_locion_sede pl
+                ON pl.id_producto_esencia = e.id_producto AND pl.id_formula = :formula AND pl.id_sede = :sede
+             WHERE e.id_estado = 1
+             ORDER BY e.nombre_producto ASC",
+            [':formula' => $idFormula, ':sede' => $idSede]
+        );
+    }
+
+    /** Pone el precio de la formula en todas las esencias activas de la sede (reemplaza los precios propios). */
+    public function aplicarPrecioFormulaATodas(int $idSede, int $idFormula, float $precio): void {
+        $this->execute(
+            "INSERT INTO precios_locion_sede (id_producto_esencia, id_formula, id_sede, precio_venta)
+             SELECT e.id_producto, :formula, :sede, :precio
+             FROM productos e
+             INNER JOIN categoria_producto ce ON ce.id_categoria = e.id_categoria AND ce.nombre_categoria = 'Esencias'
+             WHERE e.id_estado = 1
+             ON DUPLICATE KEY UPDATE precio_venta = VALUES(precio_venta)",
+            [':formula' => $idFormula, ':sede' => $idSede, ':precio' => $precio]
         );
     }
 

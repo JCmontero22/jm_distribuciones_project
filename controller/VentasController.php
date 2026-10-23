@@ -187,6 +187,77 @@ class VentasController {
         }
     }
 
+    public function preciosFormula(array $request): array {
+        try {
+            $data = $this->servicio->obtenerPreciosFormula($this->sedeEfectiva($request));
+            return response::success($data, 'Precios por fórmula obtenidos');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error('Error al obtener precios por fórmula', $e, $request);
+            return response::error('Error al obtener los precios');
+        }
+    }
+
+    public function esenciasPrecioFormula(array $request): array {
+        try {
+            if (!utils::validateRequiredFields(['idSede', 'idFormula'], $request)) {
+                return response::error('Sede y fórmula son obligatorios');
+            }
+            $data = $this->servicio->obtenerEsenciasPrecioFormula((int)$request['idSede'], (int)$request['idFormula']);
+            return response::success($data, 'Esencias obtenidas');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error('Error al obtener esencias por precio de fórmula', $e, $request);
+            return response::error('Error al obtener las esencias');
+        }
+    }
+
+    public function aplicarPrecioFormulaATodas(array $request): array {
+        try {
+            if (Auth::sedeUsuario()) {
+                return response::error('Solo el administrador puede cambiar los precios');
+            }
+            if (!utils::validateRequiredFields(['idSede', 'idFormula', 'precio'], $request)) {
+                return response::error('Sede, fórmula y precio son obligatorios');
+            }
+            $this->servicio->aplicarPrecioFormulaATodas(
+                (int)$request['idSede'],
+                (int)$request['idFormula'],
+                (float)$request['precio']
+            );
+            return response::success(null, 'Precio aplicado a todas las esencias de la sede');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error('Error al aplicar precio a todas las esencias', $e, $request);
+            return response::error('Error al aplicar el precio');
+        }
+    }
+
+    public function guardarPrecioFormula(array $request): array {
+        try {
+            if (Auth::sedeUsuario()) {
+                return response::error('Solo el administrador puede cambiar los precios');
+            }
+            if (!utils::validateRequiredFields(['idSede', 'idFormula', 'precio'], $request)) {
+                return response::error('Sede, fórmula y precio son obligatorios');
+            }
+            $this->servicio->guardarPrecioFormula(
+                (int)$request['idSede'],
+                (int)$request['idFormula'],
+                (float)$request['precio']
+            );
+            return response::success(null, 'Precio guardado');
+        } catch (\DomainException $e) {
+            return response::error($e->getMessage());
+        } catch (\Exception $e) {
+            Logger::error('Error al guardar precio por fórmula', $e, $request);
+            return response::error('Error al guardar el precio');
+        }
+    }
+
     public function guardarPrecioLocion(array $request): array {
         try {
             if (Auth::sedeUsuario()) {

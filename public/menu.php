@@ -43,16 +43,16 @@
     </section>
 
     <section class="menu-content">
-        <ul class="ul-list">
+        <ul class="ul-list" id="sidebarMenuAccordion">
 
 
             <?php if ($puede('home')): ?>
-            <li class="ul-list__item" onclick="redirect('home')"><a href="#">  <i class="fa-solid fa-gauge-high"></i> Resumen</a></li>
+            <li class="ul-list__item" onclick="redirect('home')"><a href="#"><i class="fa-solid fa-gauge-high"></i> Resumen</a></li>
             <?php endif; ?>
 
             <?php if ($algunoPuede($grupoVentas)): ?>
-            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#sales" aria-expanded="false" aria-controls="sales"><i class="fa-solid fa-cart-shopping"></i> Ventas</a></li>
-            <div id="sales" class="collapse">
+            <li class="ul-list__item" data-bs-toggle="collapse" data-bs-target="#sales" aria-expanded="false" aria-controls="sales"><a href="#" onclick="event.preventDefault()"><i class="fa-solid fa-cart-shopping"></i> Ventas</a></li>
+            <div id="sales" class="collapse" data-bs-parent="#sidebarMenuAccordion">
                 <ul class="ul-list">
                     <?php if ($puede('ventas')): ?>
                     <li class="ul-list__item" onclick="redirect('ventas')"><a href="#"><i class="fa-solid fa-cash-register"></i> Ventas</a></li>
@@ -72,8 +72,8 @@
             <?php endif; ?>
 
             <?php if ($algunoPuede($grupoInventario)): ?>
-            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#inventory" aria-expanded="false" aria-controls="inventory"><i class="fa-solid fa-cart-flatbed"></i> Inventario</a></li>
-            <div id="inventory" class="collapse">
+            <li class="ul-list__item" data-bs-toggle="collapse" data-bs-target="#inventory" aria-expanded="false" aria-controls="inventory"><a href="#" onclick="event.preventDefault()"><i class="fa-solid fa-cart-flatbed"></i> Inventario</a></li>
+            <div id="inventory" class="collapse" data-bs-parent="#sidebarMenuAccordion">
                 <ul class="ul-list">
                     <?php if ($puede('relojes')): ?>
                     <li class="ul-list__item" onclick="redirect('relojes')"><a href="#"><i class="fa-solid fa-stopwatch-20"></i> Relojes</a></li>
@@ -93,8 +93,8 @@
             <?php endif; ?>
 
             <?php if ($algunoPuede($grupoCompras)): ?>
-            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa-solid fa-cart-plus"></i> Compras</a></li>
-            <div id="collapseExample" class="collapse">
+            <li class="ul-list__item" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><a href="#" onclick="event.preventDefault()"><i class="fa-solid fa-cart-plus"></i> Compras</a></li>
+            <div id="collapseExample" class="collapse" data-bs-parent="#sidebarMenuAccordion">
                 <ul class="ul-list">
                     <?php if ($puede('compras')): ?>
                     <li class="ul-list__item" onclick="redirect('compras')"><a href="#"><i class="fa-solid fa-cash-register"></i> Compras</a></li>
@@ -107,8 +107,8 @@
             <?php endif; ?>
 
             <?php if ($algunoPuede($grupoProduccion)): ?>
-            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#produccion" aria-expanded="false" aria-controls="produccion"><i class="fa-solid fa-pump-soap"></i> Produccion</a></li>
-            <div id="produccion" class="collapse">
+            <li class="ul-list__item" data-bs-toggle="collapse" data-bs-target="#produccion" aria-expanded="false" aria-controls="produccion"><a href="#" onclick="event.preventDefault()"><i class="fa-solid fa-pump-soap"></i> Produccion</a></li>
+            <div id="produccion" class="collapse" data-bs-parent="#sidebarMenuAccordion">
                 <ul class="ul-list">
                     <?php if ($puede('informeProduccion')): ?>
                     <li class="ul-list__item" onclick="redirect('informeProduccion')"><a href="#"><i class="fa-solid fa-cash-register"></i> Informe de producción</a></li>
@@ -124,8 +124,8 @@
             <?php endif; ?>
 
             <?php if ($algunoPuede($grupoPromociones)): ?>
-            <li class="ul-list__item" ><a type="button" data-bs-toggle="collapse" data-bs-target="#promocion" aria-expanded="false" aria-controls="promocion"><i class="fa-solid fa-hand-holding-dollar"></i> Promociones</a></li>
-            <div id="promocion" class="collapse">
+            <li class="ul-list__item" data-bs-toggle="collapse" data-bs-target="#promocion" aria-expanded="false" aria-controls="promocion"><a href="#" onclick="event.preventDefault()"><i class="fa-solid fa-hand-holding-dollar"></i> Promociones</a></li>
+            <div id="promocion" class="collapse" data-bs-parent="#sidebarMenuAccordion">
                 <ul class="ul-list">
                     <?php if ($puede('bannerPromociones')): ?>
                     <li class="ul-list__item" onclick="redirect('bannerPromociones')"><a href="#"><i class="fa-regular fa-file-image"></i> Banner Promociones</a></li>

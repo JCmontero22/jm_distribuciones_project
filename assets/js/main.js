@@ -77,7 +77,8 @@ function initializeModules() {
         { id: 'informeProduccionModule', name: 'InformeProduccionModule' },
         { id: 'marcasModule', name: 'marcasModule' },
         { id: 'bannerPromocionesModule', name: 'bannerPromocionesModule' },
-        { id: 'ConfiguracionModule', name: 'ConfiguracionModule' }
+        { id: 'ConfiguracionModule', name: 'ConfiguracionModule' },
+        { id: 'dashboardHomeModule', name: 'homeDashboardModule' }
     ];
 
     modules.forEach(({ id, name }) => {
@@ -108,6 +109,18 @@ function setupUI() {
     setActiveMenu();
     setupMenuHamburguer();
     setupGlobalErrorHandling();
+
+    // Limpiar cualquier backdrop huérfano cuando se cierra o se abre un modal Bootstrap
+    document.addEventListener('hidden.bs.modal', () => {
+        if (typeof window.limpiarFondosModales === 'function') {
+            window.limpiarFondosModales();
+        }
+    });
+    document.addEventListener('shown.bs.modal', () => {
+        if (typeof window.limpiarFondosModales === 'function') {
+            window.limpiarFondosModales();
+        }
+    });
 }
 
 /**
@@ -125,8 +138,24 @@ function setActiveMenu() {
             const collapse = item.closest('.collapse');
             if (collapse) {
                 collapse.classList.add('show');
+                const trigger = document.querySelector(`[data-bs-target="#${collapse.id}"]`);
+                if (trigger) {
+                    trigger.setAttribute('aria-expanded', 'true');
+                }
             }
         }
+    });
+
+    // Cerrar cualquier otro submenú abierto cuando se abre uno nuevo
+    const collapses = document.querySelectorAll('#sidebarMenuAccordion > .collapse');
+    collapses.forEach(col => {
+        col.addEventListener('show.bs.collapse', function () {
+            collapses.forEach(other => {
+                if (other !== col && other.classList.contains('show')) {
+                    bootstrap.Collapse.getOrCreateInstance(other, { toggle: false }).hide();
+                }
+            });
+        });
     });
 }
 

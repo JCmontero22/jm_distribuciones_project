@@ -152,7 +152,7 @@ class Auth {
     /**
      * Rutas y endpoints que solo requieren sesión iniciada (sin sección de permiso)
      */
-    private static $soloAutenticado = array('home', 'catalogoAjax');
+    private static $soloAutenticado = array('home', 'catalogoAjax', 'homeAjax');
 
     /**
      * Permisos cargados de BD una sola vez por petición

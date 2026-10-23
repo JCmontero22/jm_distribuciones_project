@@ -28,6 +28,9 @@
         
     </div>
 
+    <!-- Precio por fórmula (aplica a todas las esencias que no tengan precio propio) -->
+    <div id="contenedorPrecioFormula" class="mb-4 container"></div>
+
     <!-- Acordeones de esencias  -->
     <div id="contenedorEsencias" class="mb-5 container">
         <div class="text-muted fst-italic text-center py-4" style="background-color: red;">Cargando...</div>

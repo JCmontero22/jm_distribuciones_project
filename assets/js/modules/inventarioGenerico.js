@@ -273,7 +273,7 @@ function crearModuloInventario(config) {
                             <button class="btn btn-success btn-add-presentacion" data-id="${producto.id_producto}" type="button" data-bs-toggle="modal" data-bs-target="${config.idModalPresentacion}">
                                 <i class="fa-solid fa-file-circle-plus"></i>
                             </button>
-                            <button class="btn btn-warning "
+                            <button class="btn btn-warning btn-editar-producto"
                                 data-id="${producto.id_producto}"
                                 title="Editar producto">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -494,8 +494,10 @@ function crearModuloInventario(config) {
         cargando: false,
 
         init() {
-            this.modalProducto = new bootstrap.Modal(document.getElementById('modalRegistroProducto'));
-            this.modalPresentacion = new bootstrap.Modal(document.getElementById('modalRegistroPresentacion'));
+            const elModalProducto = document.getElementById('modalRegistroProducto');
+            const elModalPresentacion = document.getElementById('modalRegistroPresentacion');
+            this.modalProducto = elModalProducto ? bootstrap.Modal.getOrCreateInstance(elModalProducto) : null;
+            this.modalPresentacion = elModalPresentacion ? bootstrap.Modal.getOrCreateInstance(elModalPresentacion) : null;
 
             // Establecer como módulo activo para funciones globales
             moduloActivo = this;

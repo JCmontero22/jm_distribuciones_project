@@ -85,6 +85,9 @@ if (!defined('APP_ENVIRONMENT')) {
     define('APP_ENVIRONMENT', 'production');
 }
 define('APP_DEBUG', APP_ENVIRONMENT === 'development');
+// Zona horaria del negocio. Debe coincidir con la zona horaria de MySQL (las fechas de venta
+// se guardan con NOW()), para que "hoy" sea el mismo día en PHP y en la base de datos.
+date_default_timezone_set('America/Bogota');
 
 // ============================================================
 // 7. VALIDACIÓN Y SEGURIDAD

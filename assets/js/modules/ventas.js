@@ -276,7 +276,7 @@ const VentasView = {
         } else {
             $badgeStock
                 .addClass("stock-pill-danger")
-                .html(`<i class="fa-solid fa-triangle-exclamation me-1"></i>Sin stock disponible en esta sede`);
+                .html(`<i class="fa-solid fa-triangle-exclamation me-1"></i>${producto.motivo_sin_stock || "Sin stock disponible en esta sede"}`);
         }
 
         const desc = parseFloat(producto.porcentaje_descuento || 0);
