@@ -137,18 +137,8 @@ const HistorialView = {
         $("#resPorCobrarHistorial").text(this.money(suma("saldo_pendiente")));
     },
 
-    renderizarDetalle(venta, detalles, pagos) {
+    renderizarDetalle(venta, detalles = [], pagos = []) {
         $("#tituloDetalleHistorial").text(`Venta ${venta.numero_venta}`);
-
-        const lineas = detalles.map(d => `
-            <tr>
-                <td class="text-start">${this.escapar(d.nombre_categoria)} / ${this.escapar(d.nombre_producto)} - ${this.escapar(d.nombre_presentacion)}</td>
-                <td>${d.cantidad_detalle_venta}</td>
-                <td>${this.money(d.precio_unitario_detalle_venta)}</td>
-                <td>${this.money(d.subtotal_detalle_venta)}</td>
-                <td>${this.money(d.costo_total_detalle_venta)}</td>
-                <td class="fw-bold text-success">${this.money(parseFloat(d.subtotal_detalle_venta) - parseFloat(d.costo_total_detalle_venta))}</td>
-            </tr>`).join("");
 
         const pagosHtml = pagos.length
             ? pagos.map(p => `<li>${this.escapar(String(p.fecha_pago).slice(0, 16))} · <strong>${this.escapar(p.nombre_metodo_pago || "-")}</strong> · <span class="text-success fw-bold">${this.money(p.monto_pago)}</span> <span class="subtitulo-seccion">(${this.escapar(p.nombre_usuario)})</span></li>`).join("")
@@ -160,14 +150,48 @@ const HistorialView = {
                 <p class="mb-0"><strong>Fecha:</strong> ${this.escapar(String(venta.fecha_venta).slice(0, 16))} · <strong>Estado:</strong> <span class="text-warning fw-bold text-uppercase">${this.escapar(venta.estado_venta)}</span></p>
             </div>
             <div class="table-responsive">
-                <table class="table table-dark table-striped table-bordered table-sm custom-table text-center align-middle">
-                    <thead><tr><th class="text-start">Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th><th>Costo</th><th>Ganancia</th></tr></thead>
-                    <tbody>${lineas}</tbody>
+                <table id="tablaDetalleHistorialItems" class="table table-dark table-striped table-bordered table-sm custom-table text-center align-middle">
+                    <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th><th>Subtotal</th><th>Costo</th><th>Ganancia</th></tr></thead>
+                    <tbody></tbody>
                 </table>
             </div>
             <h5 class="mt-4 mb-2">Pagos registrados</h5>
             <ul class="lista-explicacion-balance mb-0">${pagosHtml}</ul>
         `);
+
+        AppUI.initDataTable("#tablaDetalleHistorialItems", {
+            data: detalles,
+            pageLength: 5,
+            lengthMenu: [5, 10, 25],
+            columns: [
+                {
+                    data: null,
+                    render: (_data, _type, d) =>
+                        `${this.escapar(d.nombre_categoria)} / ${this.escapar(d.nombre_producto)} - ${this.escapar(d.nombre_presentacion)}`
+                },
+                { data: "cantidad_detalle_venta" },
+                {
+                    data: "precio_unitario_detalle_venta",
+                    render: (val) => this.money(val)
+                },
+                {
+                    data: "subtotal_detalle_venta",
+                    render: (val) => `<span class="fw-bold">${this.money(val)}</span>`
+                },
+                {
+                    data: "costo_total_detalle_venta",
+                    render: (val) => this.money(val)
+                },
+                {
+                    data: null,
+                    render: (_data, _type, d) => {
+                        const ganancia = parseFloat(d.subtotal_detalle_venta || 0) - parseFloat(d.costo_total_detalle_venta || 0);
+                        return `<span class="fw-bold text-success">${this.money(ganancia)}</span>`;
+                    }
+                }
+            ],
+            order: [[0, "asc"]]
+        });
     }
 };
 

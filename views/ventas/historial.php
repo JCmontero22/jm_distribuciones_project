@@ -128,7 +128,7 @@
 </section>
 
 <div class="modal fade" id="modalDetalleHistorial" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="modal-cabecera">

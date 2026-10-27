@@ -34,18 +34,41 @@ function crearModuloInventario(config) {
             });
         },
 
-        listarProductos(categoria = null) {
+        obtenerSedes() {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `${BASE_URL}/ajax/catalogoAjax.php`,
+                    method: "GET",
+                    data: { accion: "listadoSedes" },
+                    success(response) {
+                        const datos = JSON.parse(response);
+                        resolve(datos.data || []);
+                    },
+                    error(error) { reject(error); }
+                });
+            });
+        },
+
+        listarProductos({ limit, offset, buscar = "", idSede }) {
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: `${BASE_URL}/ajax/productosAjax.php`,
                     method: "GET",
                     data: {
                         accion: config.accionListar,
-                        categoria: categoria || config.categoria
+                        categoria: config.categoria,
+                        limit,
+                        offset,
+                        buscar,
+                        idSede
                     },
                     success(response) {
                         const datos = JSON.parse(response);
-                        resolve(datos.data || []);
+                        if (!datos.success) {
+                            reject(new Error(datos.message));
+                            return;
+                        }
+                        resolve({ items: datos.data || [], total: datos.total || 0 });
                     },
                     error(error) {
                         reject(error);
@@ -169,12 +192,12 @@ function crearModuloInventario(config) {
             });
         },
 
-        obtenerPresentacionesPorProducto(idProducto) {
+        obtenerPresentacionesPorProducto(idProducto, idSede) {
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: `${BASE_URL}/ajax/productosAjax.php`,
                     method: "GET",
-                    data: { accion: "listarPresentacionesPorProducto", idProducto },
+                    data: { accion: "listarPresentacionesPorProducto", idProducto, idSede },
                     success(response) {
                         const datos = JSON.parse(response);
                         resolve(datos.data || []);
@@ -340,9 +363,42 @@ function crearModuloInventario(config) {
         mostrarInventario(productos) {
             const contenedor = $(config.contenedorSelector);
             contenedor.empty();
+            if (!productos.length) {
+                contenedor.append('<p class="text-muted text-center mt-4">No se encontraron productos</p>');
+                return;
+            }
             productos.forEach(producto => {
                 contenedor.append(this.renderizarTarjetaProducto(producto));
             });
+        },
+
+        renderizarPaginacion(paginaActual, totalPaginas) {
+            const contenedor = $(config.contenedorSelector);
+            let nav = contenedor.next(".inventario-paginacion");
+            if (!nav.length) {
+                nav = $('<nav class="inventario-paginacion" aria-label="Paginación de inventario"></nav>');
+                contenedor.after(nav);
+            }
+
+            if (totalPaginas <= 1) {
+                nav.empty();
+                return;
+            }
+
+            const boton = (pagina, etiqueta, deshabilitado = false, activo = false) => `
+                <li class="page-item ${activo ? "active" : ""} ${deshabilitado ? "disabled" : ""}">
+                    <button class="page-link" type="button" data-pagina="${pagina}" ${deshabilitado ? "disabled" : ""}>${etiqueta}</button>
+                </li>`;
+
+            const desde = Math.max(1, paginaActual - 2);
+            const hasta = Math.min(totalPaginas, paginaActual + 2);
+            let html = boton(paginaActual - 1, "&laquo;", paginaActual === 1);
+            for (let pagina = desde; pagina <= hasta; pagina++) {
+                html += boton(pagina, pagina, false, pagina === paginaActual);
+            }
+            html += boton(paginaActual + 1, "&raquo;", paginaActual === totalPaginas);
+
+            nav.html(`<ul class="pagination justify-content-center">${html}</ul>`);
         },
 
         poblarSelect(selectId, items, valueKey, textKey) {
@@ -488,10 +544,12 @@ function crearModuloInventario(config) {
         presentacionExistenteEditando: null,
         modalProducto: null,
         modalPresentacion: null,
-        todosLosProductos: [],
-        productosMostrados: 0,
+        idSede: 0,
+        paginaActual: 1,
         productosPorCarga: 20,
-        cargando: false,
+        busqueda: "",
+        ultimaSolicitud: 0,
+        temporizadorBusqueda: null,
 
         init() {
             const elModalProducto = document.getElementById('modalRegistroProducto');
@@ -580,9 +638,26 @@ function crearModuloInventario(config) {
 
             $("[data-format-miles]").on("input", (e) => FormatUtils.formatearMiles(e));
 
+            $("#selectSedeInventario").on("change", (e) => {
+                this.idSede = Number(e.target.value);
+                this.paginaActual = 1;
+                this.cargarProductos();
+            });
+
             $("#buscar").on("input", (e) => {
-                const query = e.target.value.trim();
-                this.buscadorProductos(query);
+                const valor = e.target.value.trim();
+                clearTimeout(this.temporizadorBusqueda);
+                this.temporizadorBusqueda = setTimeout(() => {
+                    this.busqueda = valor;
+                    this.paginaActual = 1;
+                    this.cargarProductos();
+                }, 300);
+            });
+
+            $(document).on("click", ".inventario-paginacion [data-pagina]", (e) => {
+                this.paginaActual = Number($(e.currentTarget).data("pagina"));
+                $(config.contenedorSelector).scrollTop(0);
+                this.cargarProductos();
             });
 
             $(document).on("click", ".btn-eliminar-presentacion", (e) => {
@@ -596,14 +671,6 @@ function crearModuloInventario(config) {
                 const id = $(e.currentTarget).data("id");
                 console.log('🖊️ Editando presentación:', id);
                 this.editarPresentacionAcumulada(id);
-            });
-
-            $(window).on('scroll', () => {
-                if (this.cargando) return;
-                const bottom = $(window).scrollTop() + $(window).height() >= $(document).height() - 100;
-                if (bottom && this.productosMostrados < this.todosLosProductos.length && !$("#buscar").val()) {
-                    this.cargarMasProductos();
-                }
             });
 
             $("#nombreProducto").on("input", (e) => {
@@ -628,7 +695,22 @@ function crearModuloInventario(config) {
         },
 
 
+        /**
+         * Llena el selector de sede. Sin sede elegida no hay stock que mostrar, así que se toma la primera.
+         * Un vendedor no ve el selector: el servidor le devuelve siempre su sede.
+         */
+        async cargarSedes() {
+            try {
+                const sedes = await API.obtenerSedes();
+                View.poblarSelect("#selectSedeInventario", sedes, "id_sede", "nombre_sede");
+                this.idSede = sedes.length ? Number(sedes[0].id_sede) : 0;
+            } catch (error) {
+                console.error("Error al cargar sedes:", error);
+            }
+        },
+
         async cargarDatos() {
+            await this.cargarSedes();
             try {
                 const promises = [
                     this.cargarProductos(),
@@ -646,29 +728,31 @@ function crearModuloInventario(config) {
         },
 
         async cargarProductos() {
+            const solicitud = ++this.ultimaSolicitud;
             try {
-                const productos = await API.listarProductos();
-                this.todosLosProductos = productos;
-                this.productosMostrados = 0;
-                const cantidad = productos.length;
-                $(config.cantidadId).text(cantidad);
-                $(config.contenedorSelector).empty();
-                this.cargarMasProductos();
+                const { items, total } = await API.listarProductos({
+                    limit: this.productosPorCarga,
+                    offset: (this.paginaActual - 1) * this.productosPorCarga,
+                    buscar: this.busqueda,
+                    idSede: this.idSede
+                });
+
+                // Ignora respuestas de búsquedas o páginas anteriores que llegaron tarde
+                if (solicitud !== this.ultimaSolicitud) return;
+
+                // Si la página ya no existe (ej. se eliminó el último registro), vuelve a la última página
+                const totalPaginas = Math.max(1, Math.ceil(total / this.productosPorCarga));
+                if (this.paginaActual > totalPaginas) {
+                    this.paginaActual = totalPaginas;
+                    return this.cargarProductos();
+                }
+
+                $(config.cantidadId).text(total);
+                View.mostrarInventario(items);
+                View.renderizarPaginacion(this.paginaActual, totalPaginas);
             } catch (error) {
                 console.error("Error al cargar productos:", error);
             }
-        },
-
-        cargarMasProductos() {
-            this.cargando = true;
-            const inicio = this.productosMostrados;
-            const fin = Math.min(inicio + this.productosPorCarga, this.todosLosProductos.length);
-            const productosParaMostrar = this.todosLosProductos.slice(inicio, fin);
-            productosParaMostrar.forEach(producto => {
-                $(config.contenedorSelector).append(View.renderizarTarjetaProducto(producto));
-            });
-            this.productosMostrados = fin;
-            this.cargando = false;
         },
 
         async cargarCategorias() {
@@ -964,32 +1048,6 @@ function crearModuloInventario(config) {
             }
         },
 
-        async buscadorProductos(query) {
-            try {
-                if (!this.todosLosProductos.length) {
-                    this.todosLosProductos = await API.listarProductos();
-                }
-                if (!query) {
-                    $(config.contenedorSelector).empty();
-                    this.productosMostrados = 0;
-                    this.cargarMasProductos();
-                    return;
-                }
-
-                console.log(this.todosLosProductos);
-                
-
-                const resultados = this.todosLosProductos.filter(p =>
-                    p.nombre_producto.toLowerCase().includes(query.toLowerCase()) ||
-                    p.codigo_producto.toLowerCase().includes(query.toLowerCase()) || 
-                    p.nombre_presentacion.toLowerCase().includes(query.toLowerCase())
-                );
-                View.mostrarInventario(resultados);
-            } catch (error) {
-                console.error("Error en el buscador:", error);
-            }
-        },
-
         limpiarAcumulador() {
             this.presentacionesAcumuladas = [];
             const tabla = $("#tablaPresentaciones");
@@ -1002,7 +1060,7 @@ function crearModuloInventario(config) {
 
         async verPresentaciones(idProducto, nombreProducto) {
             try {
-                const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto);
+                const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto, this.idSede);
 
                 let filas;
                 if (config.esEsencia) {
@@ -1197,7 +1255,7 @@ function crearModuloInventario(config) {
                 this.idProducto = idProducto;
                 this.idRegistro = this.idRegistro || idProducto;
 
-                const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto);
+                const presentaciones = await API.obtenerPresentacionesPorProducto(idProducto, this.idSede);
                 const seccion = $("#seccionPresentacionesExistentes");
                 const tbody = $("#tablaExistentesBody");
 

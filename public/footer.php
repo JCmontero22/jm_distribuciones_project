@@ -12,11 +12,12 @@
      ============================================================ -->
 <?php
     $bp = defined('BASE_PATH') ? BASE_PATH : '/';
-    $jsVer = max(
-        @filemtime(__DIR__ . '/../assets/css/style.css') ?: 0,
-        @filemtime(__DIR__ . '/../assets/js/core/alert.js') ?: 0,
-        @filemtime(__DIR__ . '/../assets/js/main.js') ?: 0
-    ) ?: time();
+    $archivosVersion = array_merge(
+        [__DIR__ . '/../assets/css/style.css', __DIR__ . '/../assets/js/main.js'],
+        glob(__DIR__ . '/../assets/js/core/*.js') ?: [],
+        glob(__DIR__ . '/../assets/js/modules/*.js') ?: []
+    );
+    $jsVer = max(array_map(fn($f) => @filemtime($f) ?: 0, $archivosVersion)) ?: time();
 ?>
 <script src="<?= $bp ?>assets/js/config/config.js?v=<?= $jsVer ?>"></script>
 <script src="<?= $bp ?>assets/js/core/csrf.js?v=<?= $jsVer ?>"></script>

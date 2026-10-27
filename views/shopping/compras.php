@@ -19,6 +19,8 @@
                     <th>ID</th>
                     <th>Factura</th>
                     <th>Proveedor</th>
+                    <th>Sede</th>
+                    <th>Registrada por</th>
                     <th>Total</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
@@ -57,7 +59,7 @@
 
                 <h5 class="mb-3">Ítems de la compra</h5>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-sm table-bordered custom-table table-dark">
+                    <table id="tablaDetalleCompraTable" class="table table-striped table-hover table-sm table-bordered custom-table table-dark text-center">
                         <thead class="table-dark text-center">
                             <tr>
                                 <th>#</th>

@@ -95,26 +95,38 @@ const ComprasView = {
         });
     },
 
-    renderizarDetalleCompra(compra, detalles) {
+    renderizarDetalleCompra(compra, detalles = []) {
         $("#detalleProveedor").text(compra.nombre_proveedor || "N/A");
         $("#detalleFactura").text(compra.numero_factura_compra || "N/A");
         $("#detalleTotal").text(`$ ${FormatUtils.separaMiles(compra.total_compra || 0)}`);
 
-        if (!detalles || detalles.length === 0) {
-            $("#tablaDetalleCompra").html(`<tr><td colspan="6" class="text-center text-muted">Sin ítems</td></tr>`);
-            return;
-        }
-        const rows = detalles.map((d, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${d.nombre_sede || "N/A"}</td>
-                <td>${d.nombre_categoria || ""} / ${d.nombre_producto || ""} - ${d.nombre_presentacion || ""}</td>
-                <td class="text-center">${d.cantidad_detalle_compra}</td>
-                <td class="text-end">$ ${FormatUtils.separaMiles(d.costo_unitario_detalle_compra || 0)}</td>
-                <td class="text-end">$ ${FormatUtils.separaMiles(d.subtotal_detalle_compra || 0)}</td>
-            </tr>
-        `).join("");
-        $("#tablaDetalleCompra").html(rows);
+        const datos = (detalles || []).map((d, i) => ({
+            ...d,
+            indice: i + 1
+        }));
+
+        AppUI.initDataTable("#tablaDetalleCompraTable", {
+            data: datos,
+            columns: [
+                { data: "indice" },
+                { data: "nombre_sede", defaultContent: "N/A" },
+                {
+                    data: null,
+                    render: (_data, _type, row) =>
+                        `${row.nombre_categoria || ""} / ${row.nombre_producto || ""} - ${row.nombre_presentacion || ""}`
+                },
+                { data: "cantidad_detalle_compra" },
+                {
+                    data: "costo_unitario_detalle_compra",
+                    render: (val) => `$ ${FormatUtils.separaMiles(val || 0)}`
+                },
+                {
+                    data: "subtotal_detalle_compra",
+                    render: (val) => `<span class="fw-bold text-warning">$ ${FormatUtils.separaMiles(val || 0)}</span>`
+                }
+            ],
+            order: [[0, "asc"]]
+        });
     },
 
     renderizarTablaEdicion(detalles) {
@@ -148,6 +160,8 @@ const ComprasView = {
                 { data: "id_compras" },
                 { data: "numero_factura_compra", defaultContent: "N/A" },
                 { data: "nombre_proveedor", defaultContent: "N/A" },
+                { data: "nombre_sede", defaultContent: "N/A" },
+                { data: "registrada_por", defaultContent: "N/A" },
                 {
                     data: "total_compra",
                     render: val => `$ ${FormatUtils.separaMiles(val || 0)}`

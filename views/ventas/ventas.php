@@ -369,7 +369,7 @@
                 <!-- PRODUCTOS DE LA VENTA -->
                 <h5 class="mb-3"><i class="fa-solid fa-boxes-stacked me-2 text-warning"></i>Productos Vendidos</h5>
                 <div class="table-responsive mb-4">
-                    <table class="table table-striped table-hover table-sm table-bordered custom-table table-dark">
+                    <table id="tablaDetalleItemsVentaTable" class="table table-striped table-hover table-sm table-bordered custom-table table-dark text-center">
                         <thead class="table-dark text-center">
                             <tr>
                                 <th>#</th>
@@ -388,7 +388,7 @@
                     <h5 class="m-0"><i class="fa-solid fa-money-Check-dollar me-2 text-warning"></i>Historial de Pagos / Abonos</h5>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-sm table-bordered custom-table table-dark">
+                    <table id="tablaDetallePagosVentaTable" class="table table-striped table-hover table-sm table-bordered custom-table table-dark text-center">
                         <thead class="table-dark text-center">
                             <tr>
                                 <th>#</th>

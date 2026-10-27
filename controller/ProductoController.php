@@ -55,6 +55,22 @@ class ProductoController {
         }
     }
 
+    /**
+     * Un vendedor usa siempre su sede; un administrador usa la que elige en el inventario. 0 si no hay ninguna.
+     */
+    private function sedeEfectiva(array $request): int {
+        return Auth::sedeUsuario() ?? (int)($request['idSede'] ?? 0);
+    }
+
+    /**
+     * Respuesta estandar con el total de registros (sin paginar) para que el cliente calcule las paginas.
+     */
+    private function respuestaPaginada(array $data, int $total, string $mensaje = 'Operación exitosa'): array {
+        $respuesta = response::success($data, $mensaje);
+        $respuesta['total'] = $total;
+        return $respuesta;
+    }
+
     public function listar(array $request): array {
         try {
             $categoria = $request['categoria'] ?? null;
@@ -65,9 +81,15 @@ class ProductoController {
                 return response::error('Debe especificar la categoría');
             }
 
-            $idSede = isset($request['idSede']) ? (int)$request['idSede'] : 1;
-            $data = $this->servicio->obtenerProductos($categoria, $limit, $offset, $idSede);
-            return response::success($data);
+            $idSede = $this->sedeEfectiva($request);
+            if ($idSede <= 0) {
+                return response::error('Debe seleccionar una sede');
+            }
+            $busqueda = $request['buscar'] ?? null;
+
+            $data = $this->servicio->obtenerProductos($categoria, $limit, $offset, $idSede, $busqueda);
+            $total = $this->servicio->contarProductos($categoria, $busqueda);
+            return $this->respuestaPaginada($data, $total);
 
         } catch (\DomainException $e) {
             return response::error($e->getMessage());
@@ -121,9 +143,17 @@ class ProductoController {
 
     public function listarEsencias(array $request = []): array {
         try {
-            $idSede = isset($request['idSede']) ? (int)$request['idSede'] : 1;
-            $data = $this->servicio->obtenerEsencias($idSede);
-            return response::success($data, 'Esencias obtenidas exitosamente');
+            $idSede = $this->sedeEfectiva($request);
+            if ($idSede <= 0) {
+                return response::error('Debe seleccionar una sede');
+            }
+            $limit = isset($request['limit']) ? (int)$request['limit'] : null;
+            $offset = isset($request['offset']) ? (int)$request['offset'] : 0;
+            $busqueda = $request['buscar'] ?? null;
+
+            $data = $this->servicio->obtenerEsencias($idSede, $limit, $offset, $busqueda);
+            $total = $this->servicio->contarEsencias($busqueda);
+            return $this->respuestaPaginada($data, $total, 'Esencias obtenidas exitosamente');
 
         } catch (\DomainException $e) {
             return response::error($e->getMessage());
@@ -139,7 +169,11 @@ class ProductoController {
             if (!$idProducto) {
                 return response::error('ID de producto requerido');
             }
-            $data = $this->servicio->obtenerPresentacionesPorProducto($idProducto);
+            $idSede = $this->sedeEfectiva($request);
+            if ($idSede <= 0) {
+                return response::error('Debe seleccionar una sede');
+            }
+            $data = $this->servicio->obtenerPresentacionesPorProducto($idProducto, $idSede);
             return response::success($data, 'Presentaciones obtenidas exitosamente');
 
         } catch (\DomainException $e) {

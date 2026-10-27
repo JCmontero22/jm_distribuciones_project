@@ -128,7 +128,14 @@
         /**
          * Presentaciones de una categoria con su stock en la sede. Las presentaciones sin inventario aparecen con stock 0.
          */
-        public function obtenerProductos(string $nombreCategoria, int $limit = null, int $offset = 0, int $idSede = 1): array {
+        public function obtenerProductos(string $nombreCategoria, int $limit = null, int $offset = 0, int $idSede = 1, ?string $busqueda = null): array {
+            $params = [
+                ':categoria' => $nombreCategoria,
+                ':id_sede_esencia' => $idSede,
+                ':id_sede_stock' => $idSede
+            ];
+            $filtro = $this->condicionBusqueda($busqueda, $params, ['p.nombre_producto', 'p.codigo_producto', 'pp.nombre_presentacion']);
+
             $query = "SELECT
                             p.id_producto,
                             p.nombre_producto,
@@ -157,23 +164,52 @@
                         LEFT JOIN genero g ON pp.id_genero = g.id_genero
                         LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion AND ie.id_sede = :id_sede_esencia
                         LEFT JOIN inventario_sedes iss ON pp.id_presentacion = iss.id_presentacion AND iss.id_sede = :id_sede_stock
-                        WHERE c.nombre_categoria = :categoria AND p.id_estado = 1 AND pp.id_estado = 1";
+                        WHERE c.nombre_categoria = :categoria AND p.id_estado = 1 AND pp.id_estado = 1" . $filtro . "
+                        ORDER BY p.nombre_producto, pp.nombre_presentacion, pp.id_presentacion";
 
+            // LIMIT/OFFSET van interpolados (no como placeholder) porque PDO sin emulación envía enteros como string
             if ($limit !== null && $limit > 0) {
-                $query .= " LIMIT :limit OFFSET :offset";
-            }
-
-            $params = [
-                ':categoria' => $nombreCategoria,
-                ':id_sede_esencia' => $idSede,
-                ':id_sede_stock' => $idSede
-            ];
-            if ($limit !== null && $limit > 0) {
-                $params[':limit'] = $limit;
-                $params[':offset'] = $offset;
+                $query .= " LIMIT " . (int)$limit . " OFFSET " . max(0, (int)$offset);
             }
 
             return $this->select($query, $params);
+        }
+
+        /**
+         * Total de presentaciones de una categoria que cumplen la busqueda (para la paginacion).
+         */
+        public function contarProductos(string $nombreCategoria, ?string $busqueda = null): int {
+            $params = [':categoria' => $nombreCategoria];
+            $filtro = $this->condicionBusqueda($busqueda, $params, ['p.nombre_producto', 'p.codigo_producto', 'pp.nombre_presentacion']);
+
+            $query = "SELECT COUNT(*) AS total
+                        FROM productos p
+                        INNER JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto
+                        INNER JOIN categoria_producto c ON p.id_categoria = c.id_categoria
+                        WHERE c.nombre_categoria = :categoria AND p.id_estado = 1 AND pp.id_estado = 1" . $filtro;
+
+            $resultado = $this->select($query, $params);
+            return (int)($resultado[0]['total'] ?? 0);
+        }
+
+        /**
+         * Agrega un filtro LIKE sobre las columnas indicadas. Devuelve el fragmento SQL (vacio si no hay busqueda).
+         */
+        private function condicionBusqueda(?string $busqueda, array &$params, array $columnas): string {
+            $busqueda = trim((string)$busqueda);
+            if ($busqueda === '') {
+                return '';
+            }
+
+            $termino = '%' . addcslashes($busqueda, '%_\\') . '%';
+            $condiciones = [];
+            foreach ($columnas as $indice => $columna) {
+                $placeholder = ":buscar{$indice}";
+                $condiciones[] = "{$columna} LIKE {$placeholder}";
+                $params[$placeholder] = $termino;
+            }
+
+            return " AND (" . implode(' OR ', $condiciones) . ")";
         }
 
         public function obtenerProductosActivos(int $limit = null, int $offset = 0): array {
@@ -216,7 +252,7 @@
             return $this->select($query, $params);
         }
 
-        public function obtenerPresentacionesPorProducto(int $idProducto): array {
+        public function obtenerPresentacionesPorProducto(int $idProducto, int $idSede): array {
             $query = "SELECT
                             pp.id_producto,
                             pp.id_presentacion,
@@ -229,12 +265,16 @@
                             COALESCE(ie.costo_por_gramo, 0) AS costo_por_gramo,
                             COALESCE(iss.stock_sede, 0) AS stock_total
                         FROM productos_presentaciones pp
-                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion
-                        LEFT JOIN inventario_sedes iss ON pp.id_presentacion = iss.id_presentacion AND iss.id_sede = 1
+                        LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion AND ie.id_sede = :id_sede_esencia
+                        LEFT JOIN inventario_sedes iss ON pp.id_presentacion = iss.id_presentacion AND iss.id_sede = :id_sede_stock
                         WHERE pp.id_producto = :id_producto AND pp.id_estado = 1
                         ORDER BY pp.nombre_presentacion ";
 
-            return $this->select($query, [':id_producto' => $idProducto]);
+            return $this->select($query, [
+                ':id_producto' => $idProducto,
+                ':id_sede_esencia' => $idSede,
+                ':id_sede_stock' => $idSede
+            ]);
         }
 
         public function obtenerProductoPorId(int $id): array {
@@ -277,7 +317,11 @@
         /**
          * Todas las esencias activas. Sin stock en la sede aparecen con 0 g.
          */
-        public function obtenerEsencias(int $idSede = 1): array {
+        public function obtenerEsencias(int $idSede = 1, ?int $limit = null, int $offset = 0, ?string $busqueda = null): array {
+            $params = [':id_sede' => $idSede];
+            // Solo nombre y codigo del producto: filtrar por presentacion alteraría los SUM del GROUP BY
+            $filtro = $this->condicionBusqueda($busqueda, $params, ['p.nombre_producto', 'p.codigo_producto']);
+
             $query = "SELECT
                             p.id_producto,
                             p.nombre_producto,
@@ -297,11 +341,31 @@
                         LEFT JOIN marca_producto m ON p.id_marca = m.id_marca
                         LEFT JOIN productos_presentaciones pp ON p.id_producto = pp.id_producto AND pp.id_estado = 1
                         LEFT JOIN inventario_esencias ie ON pp.id_presentacion = ie.id_presentacion AND ie.id_sede = :id_sede
-                        WHERE p.id_estado = 1
+                        WHERE p.id_estado = 1" . $filtro . "
                         GROUP BY p.id_producto, p.nombre_producto, p.codigo_producto, p.descripcion_producto, p.logo_producto, m.nombre_marca
-                        ORDER BY p.nombre_producto";
+                        ORDER BY p.nombre_producto, p.id_producto";
 
-            return $this->select($query, [':id_sede' => $idSede]);
+            if ($limit !== null && $limit > 0) {
+                $query .= " LIMIT " . (int)$limit . " OFFSET " . max(0, (int)$offset);
+            }
+
+            return $this->select($query, $params);
+        }
+
+        /**
+         * Total de esencias activas que cumplen la busqueda (para la paginacion).
+         */
+        public function contarEsencias(?string $busqueda = null): int {
+            $params = [];
+            $filtro = $this->condicionBusqueda($busqueda, $params, ['p.nombre_producto', 'p.codigo_producto']);
+
+            $query = "SELECT COUNT(*) AS total
+                        FROM productos p
+                        INNER JOIN categoria_producto c ON p.id_categoria = c.id_categoria AND c.nombre_categoria = 'Esencias'
+                        WHERE p.id_estado = 1" . $filtro;
+
+            $resultado = $this->select($query, $params);
+            return (int)($resultado[0]['total'] ?? 0);
         }
 
         public function obtenerProductosCompra() : array {

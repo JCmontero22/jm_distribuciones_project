@@ -15,7 +15,10 @@
 <section>
     <div class="content-buscador-inventory">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4" id="wrapperSedeInventario" <?= !empty(Auth::sedeUsuario()) ? 'style="display: none;"' : '' ?>>
+                <select class="form-select" id="selectSedeInventario" aria-label="Sede"></select>
+            </div>
+            <div class="col-md-8">
                 <input type="text" name="buscar" id="buscar" class="form-control" placeholder="Buscar por nombre o código...">
             </div>
         </div>

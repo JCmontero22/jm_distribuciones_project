@@ -1075,6 +1075,36 @@ td .text-info,
     margin: 0 auto;
 }
 
+/* El scroll vive en la lista de tarjetas de cada inventario, no en toda la página */
+.content-inventory,
+.content-inventory-esencias,
+.content-inventory-insumos {
+    max-height: 65vh;
+    overflow-y: auto;
+    padding-right: .5rem;
+}
+
+.inventario-paginacion {
+    margin-top: 1.5rem;
+}
+
+.inventario-paginacion .page-link {
+    background-color: var(--color-fondo-tarjeta);
+    border-color: var(--color-borde);
+    color: var(--texto-principal);
+}
+
+.inventario-paginacion .page-item.active .page-link {
+    background-color: var(--texto-principal);
+    border-color: var(--texto-principal);
+    color: var(--color-fondo-tarjeta);
+}
+
+.inventario-paginacion .page-item.disabled .page-link {
+    background-color: var(--color-fondo-tarjeta);
+    color: var(--texto-secundario);
+}
+
 .card-inventory_description{
     border: solid 1px var(--color-borde);
     padding: 1rem;

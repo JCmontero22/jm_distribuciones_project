@@ -346,45 +346,62 @@ const VentasView = {
             $("#contenedorDetalleObservacion").hide();
         }
 
-        if (!detalles.length) {
-            $("#tablaDetalleItemsVenta").html(`<tr><td colspan="5" class="text-center text-muted">Sin productos registrados</td></tr>`);
-        } else {
-            $("#tablaDetalleItemsVenta").html(
-                detalles
-                    .map(
-                        (d, idx) => `
-                <tr>
-                    <td>${idx + 1}</td>
-                    <td class="text-start">${d.nombre_categoria || ""} / ${d.nombre_producto || ""} - ${d.nombre_presentacion || ""}</td>
-                    <td>${d.cantidad_detalle_venta}</td>
-                    <td>$ ${FormatUtils.separaMiles(Math.round(parseFloat(d.precio_unitario_detalle_venta || 0)))}</td>
-                    <td class="fw-bold">$ ${FormatUtils.separaMiles(Math.round(parseFloat(d.subtotal_detalle_venta || 0)))}</td>
-                </tr>
-            `
-                    )
-                    .join("")
-            );
-        }
+        const datosItems = (detalles || []).map((d, idx) => ({
+            ...d,
+            indice: idx + 1
+        }));
 
-        if (!pagos.length) {
-            $("#tablaDetallePagosVenta").html(`<tr><td colspan="5" class="text-center text-muted">Sin pagos o abonos registrados</td></tr>`);
-        } else {
-            $("#tablaDetallePagosVenta").html(
-                pagos
-                    .map(
-                        (p, idx) => `
-                <tr>
-                    <td>${idx + 1}</td>
-                    <td>${p.nombre_metodo_pago || "N/A"}</td>
-                    <td class="text-success fw-bold">$ ${FormatUtils.separaMiles(Math.round(parseFloat(p.monto_pago || 0)))}</td>
-                    <td>${p.nombre_usuario || "N/A"}</td>
-                    <td>${p.fecha_pago || "N/A"}</td>
-                </tr>
-            `
-                    )
-                    .join("")
-            );
-        }
+        AppUI.initDataTable("#tablaDetalleItemsVentaTable", {
+            data: datosItems,
+            pageLength: 5,
+            lengthMenu: [5, 10, 25],
+            columns: [
+                { data: "indice" },
+                {
+                    data: null,
+                    render: (_data, _type, row) =>
+                        `${row.nombre_categoria || ""} / ${row.nombre_producto || ""} - ${row.nombre_presentacion || ""}`
+                },
+                { data: "cantidad_detalle_venta" },
+                {
+                    data: "precio_unitario_detalle_venta",
+                    render: (val) => `$ ${FormatUtils.separaMiles(Math.round(parseFloat(val || 0)))}`
+                },
+                {
+                    data: "subtotal_detalle_venta",
+                    render: (val) => `<span class="fw-bold text-warning">$ ${FormatUtils.separaMiles(Math.round(parseFloat(val || 0)))}</span>`
+                }
+            ],
+            order: [[0, "asc"]]
+        });
+
+        const datosPagos = (pagos || []).map((p, idx) => ({
+            ...p,
+            indice: idx + 1
+        }));
+
+        AppUI.initDataTable("#tablaDetallePagosVentaTable", {
+            data: datosPagos,
+            pageLength: 5,
+            lengthMenu: [5, 10, 25],
+            columns: [
+                { data: "indice" },
+                { data: "nombre_metodo_pago", defaultContent: "N/A" },
+                {
+                    data: "monto_pago",
+                    render: (val) => `<span class="text-success fw-bold">$ ${FormatUtils.separaMiles(Math.round(parseFloat(val || 0)))}</span>`
+                },
+                { data: "nombre_usuario", defaultContent: "N/A" },
+                {
+                    data: "fecha_pago",
+                    render: (val, type) => {
+                        if (type === "sort" || type === "type") return val || "";
+                        return FormatUtils.formatearFechaTabla(val);
+                    }
+                }
+            ],
+            order: [[0, "asc"]]
+        });
     }
 };
 

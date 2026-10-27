@@ -13,12 +13,16 @@
                         c.fecha_compra,
                         COUNT(dc.id_detalle_compra) as cantidad_detalles,
                         p.nombre_proveedor,
+                        s.nombre_sede,
+                        u.nombre_usuario AS registrada_por,
                         GROUP_CONCAT(DISTINCT pp.nombre_presentacion SEPARATOR ', ') as presentaciones
                     FROM compras c
                     LEFT JOIN detalle_compra dc ON c.id_compras = dc.id_compra
                     LEFT JOIN productos_presentaciones pp ON dc.id_presentacion = pp.id_presentacion
                     LEFT JOIN proveedor p ON c.id_proveedor = p.id_proveedor
-                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra, c.fecha_compra, p.nombre_proveedor
+                    LEFT JOIN sedes s ON c.id_sede = s.id_sede
+                    LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
+                    GROUP BY c.id_compras, c.numero_factura_compra, c.total_compra, c.fecha_compra, p.nombre_proveedor, s.nombre_sede, u.nombre_usuario
                     ORDER BY c.id_compras DESC";
 
             return $this->select($query, []);
@@ -45,11 +49,13 @@
             $query = "INSERT INTO compras (
                 id_proveedor,
                 id_sede,
+                id_usuario,
                 total_compra,
                 numero_factura_compra
-            ) VALUES (:id_proveedor, :id_sede, :total_compra, :numero_factura_compra)";
+            ) VALUES (:id_proveedor, :id_sede, :id_usuario, :total_compra, :numero_factura_compra)";
 
             $params = [
+                ':id_usuario' => $data['idUsuario'] ?? null,
                 ':id_proveedor' => $data['idProveedor'],
                 ':id_sede' => $data['idSede'],
                 ':total_compra' => $data['totalCompra'],
